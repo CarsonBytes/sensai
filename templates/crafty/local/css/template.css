@@ -12380,9 +12380,42 @@ body:lang(ja-jp) {
   text-transform: none;
   background: none !important;
 }
-.t3-header .navbar-default .navbar-nav > li > a:hover,
-.t3-header .navbar-default .navbar-nav > li > a:focus {
+.t3-header .navbar-default .navbar-nav > li > a :hover,
+.t3-header .navbar-default .navbar-nav > li > a :focus {
   background-color: #fff !important;
+}
+.t3-breadcrumbs .breadcrumbs {
+  padding-left: 0;
+}
+.t3-breadcrumbs .breadcrumbs .breadcrumb {
+  background: none;
+  padding: 10px 0;
+}
+.t3-breadcrumbs .breadcrumbs .breadcrumb > li + li:before {
+  display: none;
+}
+.t3-breadcrumbs .breadcrumbs .breadcrumb li {
+  display: inline-block;
+  font-weight: normal;
+}
+.t3-breadcrumbs .breadcrumbs .breadcrumb li .divider {
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 7px;
+  color: #949494;
+  position: relative;
+  top: -2px;
+}
+.t3-breadcrumbs .breadcrumbs .breadcrumb li .divider.icon-location {
+  padding: 0;
+}
+.t3-breadcrumbs .breadcrumbs .breadcrumb li a {
+  color: #767676;
+  font-size: 12px;
+}
+.t3-breadcrumbs .breadcrumbs .breadcrumb li a :hover {
+  color: #c45500;
+  text-decoration: underline;
 }
 .logo {
   display: none;

@@ -69,8 +69,8 @@ body:lang(ja-jp) {
                     text-transform: none;
                     background    : none !important;
 
-                    &:hover,
-                    &:focus {
+                    :hover,
+                    :focus {
                         background-color: #fff !important;
                     }
 
@@ -80,6 +80,53 @@ body:lang(ja-jp) {
             }
         }
     }
+}
+
+.t3-breadcrumbs {
+    .breadcrumbs {
+
+        padding-left: 0;
+
+        .breadcrumb {
+            background: none;
+            padding   : 10px 0;
+
+            >li+li:before {
+                display: none;
+            }
+
+            li {
+                display    : inline-block;
+                font-weight: normal;
+
+                .divider {
+                    display  : inline-block;
+                    padding  : 0 5px;
+                    font-size: 7px;
+                    color    : #949494;
+                    position : relative;
+                    top      : -2px;
+
+                    &.icon-location {
+                        padding: 0;
+                    }
+
+                }
+
+                a {
+                    color    : #767676;
+                    font-size: 12px;
+
+                    :hover {
+
+                        color          : #c45500;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 .logo {
