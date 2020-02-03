@@ -18,7 +18,8 @@
 /.htaccess
 /web.config
 /.php_cs.cache
-/media/plg_jchoptimize/cache
+/media/plg_jchoptimize/cache/css
+/media/plg_jchoptimize/cache/js
 /error_log
 /t3-assets/css
 
