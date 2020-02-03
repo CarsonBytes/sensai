@@ -18,6 +18,8 @@
 /.htaccess
 /web.config
 /.php_cs.cache
+/media/plg_jchoptimize/cache
+error_log
 
 # Test Related Files #
 /phpunit.xml
