@@ -1,0 +1,18 @@
+
+
+/*===============================
+/plugins/system/t3/base-bs3/css/thememagic.css
+================================================================================*/
+body{visibility:hidden;cursor:pointer}body.ready{visibility:visible;cursor:auto}
+
+
+/*===============================
+/templates/crafty/html/mod_j2products/Bootstrap3/assets/mod_j2products.css
+================================================================================*/
+.j2store-module-product .product-qty input{width:40%}.j2store-module-product .j2store-add-to-cart{}.j2store-module-product .product-qty{display:inline-block}.j2store-module-product .j2store-cart-button{display:inline-block}
+
+
+/*===============================
+/media/mod_falang/css/template.css
+================================================================================*/
+div.mod-languages ul{margin:0;padding:0;list-style:none}div.mod-languages li{margin-left:0px;margin-right:4px}div.mod-languages ul.lang-inline li{display:inline}div.mod-languages ul.lang-block li{display:block}div.mod-languages img{border:none}div.mod-languages a{text-decoration:none} div.advanced-dropdown{position:relative}div.mod-languages.advanced-dropdown ul{background:#ccc;position:absolute;z-index:100;list-style-type:none;left:0;padding:5px 10px 5px 4px;border-radius:0 0 2px 2px}div.advanced-dropdown a.langChoose:link,div.advanced-dropdown a.langChoose:visited{background-color:#ccc;border-radius:2px;width:38px;margin-top:3px;padding:3px;line-height:0;-webkit-transition:all 0.75s}div.advanced-dropdown a.langChoose img{border:1px solid white}div.advanced-dropdown span.caret{display:inline-block;width:0px;height:0px;vertical-align:middle;border-top:4px solid #fff;border-right:4px solid transparent;border-left:4px solid transparent;content:"";margin-left:1px}div.advanced-dropdown a{white-space:nowrap}

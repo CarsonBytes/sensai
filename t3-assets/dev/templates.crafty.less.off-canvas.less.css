@@ -1,0 +1,89 @@
+.off-canvas-toggle {
+  border-radius: 0;
+  border: 0;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  margin-right: 15px;
+}
+.off-canvas-toggle:focus {
+  outline: none;
+}
+.t3-off-canvas {
+  background: #ffffff;
+  color: #333333;
+}
+.t3-off-canvas .t3-off-canvas-header {
+  background: #eeeeee;
+  color: #333333;
+  padding: 0 0 0 12px;
+  height: 35px;
+}
+.t3-off-canvas .t3-off-canvas-header h2 {
+  margin: 0;
+  line-height: 35px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.t3-off-canvas .close {
+  margin: 0;
+  height: 35px;
+  line-height: 35px;
+  width: 35px;
+  background: #bbbbbb;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.t3-off-canvas .t3-off-canvas-body {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0px;
+}
+.t3-off-canvas .t3-off-canvas-body a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.t3-off-canvas .t3-off-canvas-body a:hover,
+.t3-off-canvas .t3-off-canvas-body a:focus {
+  color: #478203;
+  text-decoration: none;
+}
+.t3-off-canvas .t3-off-canvas-body a:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.t3-off-canvas .t3-off-canvas-body .menu {
+  margin-top: 5px;
+}
+.t3-off-canvas .t3-off-canvas-body .menu .deeper .nav-child {
+  list-style: none;
+}
+.t3-off-canvas .t3-off-canvas-body .menu .deeper .nav-child li {
+  padding: 10px 0px;
+}
+.t3-off-canvas .t3-off-canvas-body .menu .deeper .nav-child .deeper .separator {
+  color: #eee;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.t3-off-canvas .t3-off-canvas-body .menu .deeper .nav-child .deeper .nav-child {
+  padding-left: 0px;
+  padding-top: 5px;
+}
+.t3-off-canvas .t3-off-canvas-body .menu .deeper .nav-child .deeper .nav-child li {
+  padding: 10px 0px;
+}
+.t3-off-canvas .t3-off-canvas-body .dropdown-menu .active a {
+  background: transparent;
+}
+.t3-off-canvas .t3-off-canvas-body .t3-module {
+  margin-bottom: 20px;
+}
+.t3-off-canvas .t3-off-canvas-body .module-title {
+  margin-bottom: 10px;
+}

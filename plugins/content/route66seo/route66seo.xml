@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension group="content" method="upgrade" type="plugin" version="3.5">
+	<name>plg_content_route66seo</name>
+	<author>Lefteris Kavadas</author>
+	<creationDate>October 2019</creationDate>
+	<copyright>Lefteris Kavadas / firecoders.com</copyright>
+	<license>GNU General Public License version 3 or later</license>
+	<authorEmail>info@firecoders.com</authorEmail>
+	<authorUrl>www.firecoders.com</authorUrl>
+	<version>1.7.1</version>
+	<description>PLG_CONTENT_ROUTE66SEO_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="route66seo">route66seo.php</filename>
+		<folder>language</folder>
+	</files>
+	<config></config>
+</extension>

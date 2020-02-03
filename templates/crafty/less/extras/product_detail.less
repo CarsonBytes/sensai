@@ -1,0 +1,720 @@
+.j2store-view-back-button {
+    display: none;
+}
+
+.modal-backdrop.in {
+    z-index: auto;
+}
+
+h1.product-title,
+h1.product-title:hover {
+    font-size     : 19px;
+    line-height   : 1.3 !important;
+    font-weight   : 400;
+    color         : #111;
+    text-transform: none;
+    margin-top    : 0;
+}
+
+h3 {
+    font-weight   : 700;
+    font-size     : 1.8rem;
+    line-height   : 1.25;
+    margin-top    : 1.7rem;
+    color         : black;
+    margin-bottom : 1.3rem;
+    padding-bottom: .4rem;
+}
+
+.image-map-container {
+    position: relative;
+    display : inline-block;
+
+    img {
+        display  : block;
+        max-width: 100%;
+        height   : auto;
+    }
+
+    .map-selector {
+        left                      : 0;
+        top                       : 0;
+        right                     : 0;
+        bottom                    : 0;
+        color                     : #546E7A00;
+        transition-duration       : .3s;
+        transition-timing-function: ease-out;
+        transition-property       : top, left, right, bottom, color;
+
+        &.hover {
+            color: #546E7A80;
+        }
+
+        &:after {
+            content                   : '';
+            position                  : absolute;
+            background                : currentColor;
+            top                       : inherit;
+            right                     : inherit;
+            bottom                    : inherit;
+            left                      : inherit;
+            background                : currentColor;
+            transition-duration       : .3s;
+            transition-timing-function: ease-out;
+            transition-property       : top, left, right, bottom, background;
+            pointer-events            : none;
+        }
+    }
+}
+
+ul.col_source {
+    margin : 0;
+    padding: 0;
+    display: inline-block;
+
+    li {
+        display: block;
+    }
+
+    &:before {
+        content    : "\e080";
+        font-family: 'Glyphicons Halflings';
+        font-size  : 9px;
+        float      : left;
+        margin-top : 4px;
+        margin-left: -17px;
+        color      : #CCCCCC;
+    }
+}
+
+.tabulator-col-title {
+    text-align: center;
+    padding   : 0;
+}
+
+body.modal-open,
+#productGallery {
+    position             : fixed;
+    overscroll-behavior-y: none;
+    overflow             : hidden;
+}
+
+//modal
+#productGallery {
+
+    .modal-dialog {
+        margin  : 0;
+        width   : 100%;
+        overflow: hidden;
+
+        .modal-content {
+            border    : 0;
+            box-shadow: none;
+            border-radius: 0;
+
+            .modal-body {
+                padding: 0;
+
+                .back_btn_wrapper {
+                    position     : absolute;
+                    left         : 13px;
+                    margin-top   : 13px;
+                    border       : 1px solid rgba(0, 0, 0, .17);
+                    background   : rgba(255, 255, 255, .5);
+                    z-index      : 1;
+                    box-shadow   : 0 0.1rem 0 rgba(255, 255, 255, .6) inset;
+                    border-radius: .2rem;
+
+                    .btn.back {
+                        position        : absolute;
+                        background-color: transparent;
+                        color           : transparent;
+                        border          : 0;
+                        cursor          : pointer;
+                        height          : 100%;
+                        width           : 100%;
+                        left            : 0rem;
+                        top             : 0rem;
+                        opacity         : .01;
+                        outline         : 0;
+                        overflow        : visible;
+                        z-index         : 20;
+                    }
+
+                    .back_btn_text {
+                        font-size       : 100%;
+                        color           : #4b4b4b;
+                        background-color: transparent;
+                        border          : 0;
+                        font-size       : 1.6rem;
+                        line-height     : 1.35;
+                        margin          : 0;
+                        outline         : 0;
+                        padding         : 1.2rem 1.6rem 1.2rem 1.7rem;
+                        text-align      : center;
+                        font-weight     : 700;
+                    }
+                }
+
+                //carousal
+                .my-slider2 {
+                    display: table;
+
+                    >.tns-item {
+
+                        vertical-align: middle;
+                        display       : table-cell;
+                        text-align    : center;
+
+                        >img {
+                            max-width : 100%;
+                            max-height: 100%;
+                            width     : auto;
+                            height    : auto;
+                        }
+                    }
+                }
+
+                //carousal thumbnails
+                .thumbnails {
+                    margin         : 0;
+                    padding        : 0;
+                    list-style-type: none;
+                    height         : 100%;
+                    white-space    : nowrap;
+                    overflow-x     : visible;
+                    color          : #111;
+                    letter-spacing : -4px;
+
+                    li {
+                        display   : inline-block;
+                        cursor    : pointer;
+                        border    : 2px solid #fff;
+                        width     : 46px;
+                        box-sizing: content-box;
+
+                        &.tns-nav-active {
+                            border: 2px solid orange;
+                        }
+
+                        .image-wrapper {
+
+                            display: table;
+                            width  : 100%;
+                            height : 100%;
+                            padding: 0 0;
+
+                            .a-image-wrapper {
+                                width         : 46px;
+                                height        : 46px;
+                                display       : table-cell;
+                                vertical-align: middle;
+
+                                img {
+                                    /*  vertical-align: bottom;
+                                    height            : auto;
+                                    max-height        : 50px;
+                                    width             : 100%; */
+                                    vertical-align    : top;
+                                    max-height        : 46px;
+                                    max-width         : 100%;
+                                }
+                            }
+                        }
+                    }
+
+                    .tns-nav-active {
+                        background  : none;
+                        border-color: #000;
+                    }
+
+                }
+
+            }
+        }
+    }
+}
+
+
+//carousal
+#tns1.my-slider1>.tns-item img {
+    max-width : 100%;
+    max-height: 350px;
+    width     : auto;
+    height    : auto;
+}
+
+/* carousal nav */
+.tns-nav {
+    text-align: center;
+    margin    : 10px 0;
+
+    >[aria-controls] {
+        border-radius   : 2rem;
+        background-color: #f3f3f3;
+        border          : .1rem solid #949494;
+        display         : inline-block;
+        float           : none;
+        height          : .9rem;
+        margin          : 0 .3rem;
+        padding         : 0;
+        width           : .9rem;
+
+        &.tns-nav-active {
+            background-color: #949494;
+            border          : .1rem solid #949494;
+        }
+    }
+}
+
+.price_inside_buybox {
+    font-size  : 17px;
+    line-height: 1.255;
+    color      : #B12704;
+}
+
+.a-text-bold {
+    font-weight: bold;
+}
+
+.btn_to_amazon {
+    display        : block;
+    position       : relative;
+    overflow       : hidden;
+    height         : 100%;
+    border-radius  : .2rem;
+    box-shadow     : 0 0.1rem 0 rgba(255, 255, 255, .4);
+    border-radius  : .3rem;
+    border-color   : #a88734 #9c7e31 #846a29;
+    border-style   : solid;
+    border-width   : .1rem;
+    color          : #111;
+    cursor         : pointer;
+    padding        : 0;
+    text-align     : center;
+    text-decoration: none !important;
+    margin-bottom  : 12px !important;
+
+    .a-button-inner {
+        display : block;
+        position: relative;
+        overflow: hidden;
+        height  : 29px;
+
+        .a-icon {
+            background-image : url(/images/AmazonUIIcon-sprite_1x-003a05344e6a5263c945684c66748394b4cbb9a2._V2_.png);
+            background-size  : 400px 900px;
+            background-repeat: no-repeat;
+            display          : inline-block;
+            vertical-align   : top;
+            position         : absolute;
+
+            &.a-icon-buynow {
+                top                : 2px;
+                left               : 2px;
+                width              : 25px;
+                height             : 25px;
+                background-position: -35px -60px;
+            }
+        }
+    }
+
+    &.to_single {
+        background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+
+        &.touched {
+            border-color: #a88734 #9c7e31 #9c7e31;
+            background  : #f0c14b;
+            box-shadow  : 0 0.1rem 0.3rem rgba(0, 0, 0, .2) inset;
+        }
+    }
+
+    &.to_bundle_categories {
+        background: linear-gradient(to bottom, #f6c88f, #ed9220);
+
+        &.touched {
+            border-color: #ca7c1b #be751a #be751a;
+            background  : #ed9220;
+            box-shadow  : 0 0.1rem 0.3rem rgba(0, 0, 0, .2) inset;
+        }
+    }
+
+    input {
+        cursor          : pointer;
+        position        : absolute;
+        background-color: transparent;
+        color           : transparent;
+        border          : 0;
+        height          : 100%;
+        width           : 100%;
+        left            : 0rem;
+        top             : 0rem;
+        opacity         : .01;
+        outline         : 0;
+        overflow        : visible;
+        z-index         : 20;
+
+    }
+
+    .a-button-text {
+        color           : #111;
+        background-color: transparent;
+        border          : 0;
+        display         : block;
+        background-color: transparent;
+        border          : 0;
+        display         : block;
+        font-size       : 13px;
+        line-height     : 29px;
+        margin          : 0;
+        outline         : 0;
+        padding         : 0 10px 0 11px;
+        text-align      : center;
+        white-space     : nowrap;
+        padding-left    : 35px;
+        position        : relative;
+
+    }
+}
+
+.buy_box {
+    width: 100%
+}
+
+.magnifier_lens,
+.image_zoom_preview {
+    display: none;
+}
+
+@media (min-width: @screen-md-min) {
+    .buy_box {
+        width      : 284px;
+        margin-left: 30px;
+
+        .buy_box_inner {
+            position     : relative;
+            padding      : 14px 18px;
+            border-radius: 4px;
+            border       : 1px #ddd solid;
+        }
+    }
+
+    .t3-breadcrumbs,
+    .t3-mainbody {
+        width: 100%;
+    }
+
+    .product-ldesc {
+        margin-top: 15px;
+    }
+
+    .main_content {
+        overflow: hidden;
+    }
+
+    //md view carousal thumbnails
+    .slider_md_whole_wrapper {
+        padding-left: 40px;
+
+        .slider_md_thumbnails_wrapper {
+            width      : 40px;
+            margin-left: -40px;
+            float      : left;
+            position   : relative;
+            overflow   : visible;
+            zoom       : 1;
+            min-height : 1px;
+
+            #slider_md_thumbnails {
+                margin         : 0;
+                padding        : 0;
+                list-style-type: none;
+                height         : 100%;
+                white-space    : nowrap;
+                overflow-x     : visible;
+                color          : #111;
+                letter-spacing : -4px;
+                width          : 100%;
+
+                li {
+                    cursor       : pointer;
+                    border       : 1px solid #a2a6ac;
+                    width        : 42px;
+                    box-sizing   : border-box;
+                    list-style   : none;
+                    margin-bottom: 10px;
+                    display      : list-item;
+                    border-radius: 2px;
+                    overflow     : visible;
+
+                    &.tns-nav-active {
+
+                        border-color: #e77600;
+                        box-shadow  : 0 0 3px 2px rgba(228, 121, 17, .5);
+                    }
+
+                    .image-wrapper {
+
+                        display: table;
+                        width  : 100%;
+                        height : 100%;
+                        padding: 0 0;
+
+                        .a-image-wrapper {
+                            width         : 40px;
+                            height        : 40px;
+                            display       : table-cell;
+                            vertical-align: middle;
+                            text-align    : center;
+
+                            img {
+                                max-height: 40px;
+                                max-width : 40px;
+                            }
+                        }
+                    }
+                }
+
+                .tns-nav-active {
+                    background  : none;
+                    border-color: #000;
+                }
+
+            }
+        }
+
+        .slider_md_wrapper {
+            padding-left: 1%;
+            float       : left;
+            width       : 100%;
+            position    : relative;
+            overflow    : visible;
+            zoom        : 1;
+            min-height  : 1px;
+
+            .image_canvas_caption {
+                width     : 100%;
+                text-align: center;
+
+                .image_canvas_caption_wrapper {
+                    width       : 100%;
+                    margin-right: 0;
+                    float       : left;
+                    min-height  : 1px;
+                    overflow    : visible;
+                    box-sizing  : border-box;
+
+                    span {
+                        display    : block;
+                        min-height : 20px;
+                        color      : #555;
+                        font-size  : 13px;
+                        line-height: 19px;
+                    }
+                }
+            }
+
+            .tns-item {
+
+                text-align: left;
+                position  : relative;
+
+                .magnifier_lens {
+                    background: url(https://images-na.ssl-images-amazon.com/images/G/09/apparel/rcxgs/tile._CB458089086_.gif);
+                    cursor    : pointer;
+                    position  : absolute;
+                    display   : block;
+                }
+
+                img {
+                    max-width : 100%;
+                    max-height: 100%;
+                    width     : auto;
+                    height    : auto;
+                }
+            }
+        }
+    }
+
+    #productGallery_m {
+
+        padding: 0;
+
+        .vertical_alignment_helper {
+            display       : table;
+            height        : 100%;
+            width         : 100%;
+            pointer-events: none;
+            /* This makes sure that we can still click outside of the modal to close it */
+
+            .modal-dialog {
+                /* To center vertically */
+                display       : table-cell;
+                vertical-align: middle;
+                pointer-events: none;
+
+                .modal-content {
+                    width : 95%;
+                    height: 85%;
+
+                    /* To center horizontally */
+                    margin        : 0 auto;
+                    pointer-events: all;
+
+                    .close_btn_wrapper {
+                        display     : block;
+                        border-color: transparent;
+                        position    : absolute;
+                        top         : 7px;
+                        right       : 7px;
+                        z-index     : 1000;
+                        user-select : none;
+
+                        .close {
+                            opacity      : .64;
+                            display      : inline-block;
+                            background   : none;
+                            color        : black;
+                            border       : 0;
+                            border       : 1px solid white;
+                            border-radius: 3px;
+                            padding      : 6px 8px;
+
+                            &:focus {
+                                background-color: transparent;
+                                box-shadow      : 0 0 3px 2px rgba(228, 121, 17, .5);
+                                outline         : 0;
+                                border          : 1px solid #e77600;
+                            }
+
+                            &:hover {
+                                opacity: .8;
+                                cursor : pointer;
+                            }
+
+                            i {
+                                font-size: 13px;
+                                display  : block;
+                            }
+                        }
+                    }
+
+                    .modal-body {
+
+                        height: 100%;
+
+                        .thumbnails_column {
+                            float: right;
+                            width: 280px;
+
+                            .title {
+                                color        : #111;
+                                text-align   : left;
+                                margin-top   : 30px;
+                                font-size    : 17px;
+                                word-wrap    : break-word;
+                                width        : 280px;
+                                padding-right: 15px;
+                            }
+
+                            .thumbnails_wrapper {
+                                width         : 280px;
+                                height        : 290px;
+                                padding-top   : 15px;
+                                padding-bottom: 15px;
+                                overflow-y    : auto;
+                                margin-bottom : 15px;
+                                position      : relative;
+                                top           : 0;
+                                left          : 0;
+
+                                .thumbnails_row_wrapper {
+
+                                    .image_wrapper {
+                                        border: 2px solid #D5DBDB;
+                                        float : left;
+                                        margin: 0 15px 15px 0;
+                                        cursor: pointer;
+
+                                        &.selected {
+                                            border : 2px solid #FF8F00;
+                                            padding: 0;
+                                        }
+
+                                        &:hover {
+                                            border : 2px solid #004B91;
+                                            padding: 0;
+                                        }
+
+                                        .thumbnail_image {
+                                            float   : left;
+                                            position: relative;
+                                            width   : 50px;
+                                            height  : 50px;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+                        .main_wrapper {
+                            height          : 100%;
+                            background-color: #fff;
+                            padding         : 14px 18px;
+                            text-align      : left;
+                            overflow-x      : hidden;
+                            overflow-y      : auto;
+                            padding-bottom  : 15px;
+
+                            .enlarged_image_wrapper {
+                                height       : 100%;
+                                padding-right: 15px;
+                                overflow     : hidden;
+                                text-align   : center;
+
+                                .table_wrapper {
+                                    height : 100%;
+                                    width  : 100%;
+                                    display: table;
+
+                                    .enlarged_image {
+                                        display       : table-cell;
+                                        vertical-align: middle;
+                                        text-align    : center;
+
+                                        img {
+                                            &.zoomable, &.zoomImg{
+                                                cursor: zoom-in;
+                                            }
+                                            display   : none;
+                                            width     : auto;
+                                            height    : auto;
+                                            max-width : 100%;
+                                            max-height: 100%;
+                                        }
+                                    }
+                                }
+
+
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    .image_zoom_preview {
+        display   : block;
+        position  : absolute;
+        left      : 0;
+        top       : 0;
+        box-shadow: 0 2px 10px #d7d7d7;
+        border    : 0;
+    }
+}

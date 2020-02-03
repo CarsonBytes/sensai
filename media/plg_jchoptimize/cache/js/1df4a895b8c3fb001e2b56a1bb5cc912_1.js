@@ -1,0 +1,1 @@
+try{jQuery(document).ready(function($){$(window).load(function(){});$("div").filter(function(){return $(this).text()==="FaLang translation system by Faboba";}).css("display","none");});}catch(e){console.error('Error in file:/js/script.js; Error:'+e.message);};

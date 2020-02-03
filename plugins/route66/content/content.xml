@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension group="route66" method="upgrade" type="plugin" version="3.5">
+	<name>plg_route66_content</name>
+	<author>Lefteris Kavadas</author>
+	<creationDate>October 2019</creationDate>
+	<copyright>Lefteris Kavadas / firecoders.com</copyright>
+	<license>GNU General Public License version 3 or later</license>
+	<authorEmail>info@firecoders.com</authorEmail>
+	<authorUrl>www.firecoders.com</authorUrl>
+	<version>1.7.1</version>
+	<description>PLG_ROUTE66_CONTENT_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="content">content.php</filename>
+		<folder>forms</folder>
+		<folder>helpers</folder>
+		<folder>language</folder>
+		<folder>models</folder>
+		<folder>rules</folder>
+	</files>
+	<config>
+		<fields name="params" addrulepath="plugins/system/route66/lib/form/rules" addfieldpath="plugins/system/route66/lib/form/fields">
+			<fieldset name="basic">
+				<field
+					label="PLG_ROUTE66_CONTENT_ARTICLE_URL_PATTERN"
+					name="article"
+					type="route66pattern"
+					class="input-xxlarge"
+					validate="route66pattern"
+					identifiers="articleId,articleAlias"
+					tokens="articleYear,articleMonth,articleDay,articleDate,articleAuthor,categoryAlias,categoryPath"/>
+				<field label="PLG_ROUTE66_CONTENT_CATEGORY_URL_PATTERN" name="category" type="route66pattern" class="input-xxlarge" validate="route66pattern" identifiers="categoryId,categoryAlias,categoryPath"/>
+				<field type="note" description="PLG_ROUTE66_CONTENT_HELP" class="muted"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

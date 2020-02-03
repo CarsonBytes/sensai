@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension group="system" method="upgrade" type="plugin" version="3.5">
+	<name>plg_system_route66pagespeed</name>
+	<author>Lefteris Kavadas</author>
+	<creationDate>October 2019</creationDate>
+	<copyright>Lefteris Kavadas / firecoders.com</copyright>
+	<license>GNU General Public License version 3 or later</license>
+	<authorEmail>info@firecoders.com</authorEmail>
+	<authorUrl>www.firecoders.com</authorUrl>
+	<version>1.7.1</version>
+	<description>PLG_SYSTEM_ROUTE66PAGESPEED_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="route66pagespeed">route66pagespeed.php</filename>
+		<folder>language</folder>
+		<folder>lib</folder>
+	</files>
+	<config></config>
+</extension>

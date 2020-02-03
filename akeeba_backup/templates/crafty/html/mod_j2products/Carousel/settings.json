@@ -1,0 +1,7 @@
+{ 
+	"settings":{
+				"slider_pagination":"true",
+				"slider_navigation":"true",
+				"slider_autoplay":"true"
+				}
+}	

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="id" type="hidden" default="0" label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC"/>
+		<field name="title" type="text" label="JGLOBAL_TITLE" hint="JGLOBAL_TITLE" required="true"/>
+		<field name="state" type="radio" label="JPUBLISHED" description="JFIELD_PUBLISHED_DESC" class="btn-group btn-group-yesno" filter="intval" size="1" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+	<fields name="sources"></fields>
+	<fields name="settings">
+		<field name="type" type="list" label="COM_ROUTE66_SITEMAP_TYPE" description="COM_ROUTE66_SITEMAP_TYPE_DESC" default="standard">
+			<option value="standard">COM_ROUTE66_SITEMAP_TYPE_STANDARD</option>
+			<option value="news">COM_ROUTE66_SITEMAP_TYPE_NEWS</option>
+		</field>
+		<field name="images" type="radio" showon="type:standard" label="COM_ROUTE66_SITEMAP_IMAGES" description="COM_ROUTE66_SITEMAP_IMAGES_DESC" class="btn-group btn-group-yesno" filter="intval" size="1" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="videos" type="radio" showon="type:standard" label="COM_ROUTE66_SITEMAP_VIDEOS" description="COM_ROUTE66_SITEMAP_VIDEOS_DESC" class="btn-group btn-group-yesno" filter="intval" size="1" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fields>
+</form>
