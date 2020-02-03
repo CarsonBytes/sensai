@@ -12490,6 +12490,10 @@ body:lang(ja-jp) {
 .modal-backdrop.in {
   z-index: auto;
 }
+.t3-mainbody,
+.t3-content {
+  padding-top: 0;
+}
 h1.product-title,
 h1.product-title:hover {
   font-size: 19px;

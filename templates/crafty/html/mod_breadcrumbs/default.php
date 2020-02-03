@@ -42,6 +42,12 @@ JHtml::_('bootstrap.tooltip');
 	// Make a link if not the last item in the breadcrumbs
 	$show_last = $params->get('showLast', 1);
 
+	// fix menu item and category are duplicated
+	if ($list[$penult_item_key]->name == $list[$penult_item_key-1]->name){
+		unset($list[$penult_item_key]);
+		$penult_item_key--;
+	}
+
 	// Generate the trail
 	foreach ($list as $key => $item) :
 		if ($key != $last_item_key) :
