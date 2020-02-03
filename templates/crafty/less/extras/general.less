@@ -1,27 +1,89 @@
 /* Custom CSS */
-body{
-    font-size: 1.5em;
+body {
+    font-size  : 1.5em;
     line-height: 1.35;
-    color: #111;
+    color      : #111;
 }
 
 body:lang(ja-jp) {
     font-family: 'Hiragino Kaku Gothic Pro W3', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-    font-size: 13px;
+    font-size  : 13px;
     line-height: 19px;
-    color: #111;
+    color      : #111;
 }
 
-#t3-topbar{
+#t3-topbar {
     background-color: #232f3e;
+
     /* fix language switcher position */
     >div>div>div.col-md-6.col-sm-6.col-xs-12.right-topbar>div>ul.nav.menu {
         display    : inline-block;
         line-height: 1;
     }
+
     >div>div>div.col-md-6.col-sm-6.col-xs-12.right-topbar>div>div {
         display: inline-block;
     }
+
+    .top_logo {
+        padding-top  : 5px;
+        padding-right: 4px;
+
+        a {
+            &:hover {
+                outline       : 1px solid #fff;
+                outline-offset: 0;
+            }
+
+            img {
+                height: 60px;
+                width : auto;
+            }
+        }
+    }
+}
+
+.t3-header {
+    padding      : 0;
+    border-top   : 1px solid rgba(0, 0, 0, .17);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    white-space  : nowrap;
+    height       : 33px;
+    background   : #fafafa;
+
+    .navbar-default {
+
+        background: none;
+        border    : 0;
+        min-height: auto;
+
+        .navbar-nav {
+            >li {
+                &.active>a {
+                    color        : #e47911;
+                    border-bottom: 2px solid #f90;
+                }
+
+                >a {
+                    padding       : 5px 15px;
+                    text-transform: none;
+                    background    : none !important;
+
+                    &:hover,
+                    &:focus {
+                        background-color: #fff !important;
+                    }
+
+
+                }
+
+            }
+        }
+    }
+}
+
+.logo {
+    display: none;
 }
 
 //fix footer to be on the bottom, when middle content is too short
