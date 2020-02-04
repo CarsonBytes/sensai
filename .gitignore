@@ -21,6 +21,7 @@ error_log
 /.php_cs.cache
 /media/plg_jchoptimize/cache
 /t3-assets/css
+/templates/crafty/local/css
 
 # Test Related Files #
 /phpunit.xml

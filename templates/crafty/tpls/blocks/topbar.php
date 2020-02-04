@@ -12,11 +12,20 @@ defined('_JEXEC') or die;
 
 <!-- HEADER -->
 <nav id="t3-topbar" class="t3-topbar">
-	<div class="container">
+	<div class="">
 		<div class="row">
 			<div class="col-md-6 col-sm-6 col-xs-12 text-left <?php $this->_c('topbar-left') ?>">
-				<div class="top_logo">
-					<a href="/ref=nav_logo" class="nav-logo-link" aria-label="Amazon" tabindex="6">
+				<?php if ($this->countModules('off-canvas')) : ?>
+					<div class="off_canvas pull-left">
+						<div class="off_canvas_wrapper">
+							<?php if ($this->getParam('addon_offcanvas_enable')) : ?>
+								<?php $this->loadBlock('off-canvas') ?>
+							<?php endif ?>
+						</div>
+					</div>
+				<?php endif ?>
+				<div class="top_logo pull-left">
+					<a href="/" class="nav-logo-link" aria-label="Amazon" tabindex="6">
 						<img src="/images/logo.jpg" alt="精彩本屋" />
 					</a>
 				</div>

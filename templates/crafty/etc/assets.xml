@@ -5,8 +5,8 @@
 	</scripts>
 	
 	<stylesheets>
-		<file>fonts/font-awesome/css/font-awesome.min.css</file>
-			<file>https://fonts.googleapis.com/css?family=Montserrat</file>
-		
+		<file>https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css</file>
+		<!-- <file>fonts/font-awesome/css/font-awesome.min.css</file>
+			<file>https://fonts.googleapis.com/css?family=Montserrat</file> -->
 	</stylesheets>	
 </assets>

@@ -12346,15 +12346,48 @@ body:lang(ja-jp) {
 #t3-topbar > div > div > div.col-md-6.col-sm-6.col-xs-12.right-topbar > div > div {
   display: inline-block;
 }
-#t3-topbar .top_logo {
+#t3-topbar .row {
+  margin: 0;
+}
+#t3-topbar .row .off_canvas {
+  display: inline-block;
+}
+#t3-topbar .row .off_canvas button.off-canvas-toggle {
+  float: left;
+  width: 38px;
+  color: #fff;
+  border-radius: 3px;
+  border: 1px solid #666;
+  height: 40px;
+  margin: 10px 7px 10px 0;
+  padding: 10px 8px 10px 8px;
+  background: none;
+  line-height: 1em;
+  position: relative;
+}
+#t3-topbar .row .off_canvas button.off-canvas-toggle :hover {
+  border-color: #fff;
+}
+#t3-topbar .row .off_canvas button.off-canvas-toggle i {
+  background-image: url(https://images-fe.ssl-images-amazon.com/images/G/09/gno/sprites/nav-sprite-global_bluebeacon-1x_optimized_layout1._CB468502041_.png);
+  background-repeat: repeat-x;
+  background-position: -136px -255px;
+  width: 20px;
+  height: 18px;
+  position: absolute;
+  top: 10px;
+  left: 8px;
+}
+.top_logo {
+  display: inline-block;
   padding-top: 5px;
   padding-right: 4px;
 }
-#t3-topbar .top_logo a:hover {
+.top_logo a:hover {
   outline: 1px solid #fff;
   outline-offset: 0;
 }
-#t3-topbar .top_logo a img {
+.top_logo a img {
   height: 60px;
   width: auto;
 }
@@ -12365,6 +12398,7 @@ body:lang(ja-jp) {
   white-space: nowrap;
   height: 33px;
   background: #fafafa;
+  margin-bottom: 10px;
 }
 .t3-header .navbar-default {
   background: none;
@@ -12389,7 +12423,8 @@ body:lang(ja-jp) {
 }
 .t3-breadcrumbs .breadcrumbs .breadcrumb {
   background: none;
-  padding: 10px 0;
+  padding: 0;
+  padding-bottom: 10px;
 }
 .t3-breadcrumbs .breadcrumbs .breadcrumb > li + li:before {
   display: none;

@@ -14,9 +14,9 @@ $document = JFactory::getDocument();
 
 //$document->addStyleSheet('https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css');
 //$document->addStyleSheet('https://www.wasaike.com/tabulator/dist/css/tabulator.min.css');
-$document->addStyleSheet('https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.4.3/css/tabulator.min.css');
-$document->addStyleSheet('/css/all.min.css');
-$document->addStyleSheet('/css/tiny-slider.css');
+//$document->addStyleSheet('https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.4.3/css/tabulator.min.css');
+$document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css');
+$document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
 //$document->addStyleSheet('/css/prod_detail.css');
 
 //$document->addScript('https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js');

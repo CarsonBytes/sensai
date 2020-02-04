@@ -61,13 +61,13 @@ if ($headright = $this->countModules('head-search or languageswitcherload or off
 					<div class="t3-nav-btn pull-right">
 						
 						<!-- OFFCANVAS -->
-						<?php if ($this->countModules('off-canvas')) : ?>
+						<?php /* if ($this->countModules('off-canvas')) : ?>
 							<div class="pull-right">
 							<?php if ($this->getParam('addon_offcanvas_enable')) : ?>
 								<?php $this->loadBlock ('off-canvas') ?>
 							<?php endif ?>
 							</div>
-						<?php endif ?>
+						<?php endif */ ?>
 						<!-- //OFFCANVAS -->
 				
 						<!-- Brand and toggle get grouped for better mobile display -->
