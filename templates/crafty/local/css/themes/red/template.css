@@ -12364,6 +12364,7 @@ body:lang(ja-jp) {
   background: none;
   line-height: 1em;
   position: relative;
+  z-index: 1;
 }
 #t3-topbar .row .off_canvas button.off-canvas-toggle :hover {
   border-color: #fff;
