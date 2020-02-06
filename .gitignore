@@ -5,6 +5,9 @@
 .DS_Store
 .idea
 .vscode
+*.min.js
+*.min.css
+*.css
 
 # Local System Files (i.e. cache, logs, etc.) #
 /templates/crafty/local/css
@@ -21,7 +24,7 @@
 /web.config
 /.php_cs.cache
 /media/plg_jchoptimize/cache
-/t3-assets/css
+/t3-assets
 
 # Test Related Files #
 /phpunit.xml
