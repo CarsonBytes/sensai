@@ -25,6 +25,7 @@
 /.php_cs.cache
 /media/plg_jchoptimize/cache
 /t3-assets
+/akeeba_backup
 
 # Test Related Files #
 /phpunit.xml
