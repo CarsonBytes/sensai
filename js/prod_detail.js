@@ -274,11 +274,11 @@ jQuery(function ($) {
         $(this).removeClass('zoomable');
         
 
-         console.log($(this).get(0).naturalWidth)
+        /*  console.log($(this).get(0).naturalWidth)
         console.log($('#productGallery_m .table_wrapper').get(0).offsetWidth)
         
         console.log($(this).get(0).naturalHeight)
-        console.log($('#productGallery_m .table_wrapper').get(0).offsetHeight) 
+        console.log($('#productGallery_m .table_wrapper').get(0).offsetHeight)  */
 
         if (($(this).get(0).naturalWidth >
             $('#productGallery_m .table_wrapper').get(0).offsetWidth)

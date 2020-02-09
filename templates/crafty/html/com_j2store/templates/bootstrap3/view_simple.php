@@ -29,7 +29,9 @@ $document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm
 
 $document->addScript('/js/prod_detail.js');
 ?>
-<?php //echo '<pre>';var_dump($this->product);echo '</pre>'; 
+<?php //echo '<pre>';var_dump($this->product->cross_sells);echo '</pre>'; 
+
+//echo '<pre>';var_dump($this->product);echo '</pre>'; 
 ?>
 <?php /*echo '<pre>';
 var_dump($this->product->main_tag);
@@ -109,8 +111,7 @@ echo '</pre>';*/ ?>
 							<div class="a-image-wrapper"><img data-id="main" <?php /*class="tns-lazy-img"  data-src="<?php echo 'https://sensaihonya.jp/' . $this->product->main_image ?>" data-zoom-image="/<?php echo $this->product->main_image ?>" */ ?> src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 						</div>
 
-						<?php $additional_images = json_decode($this->product->additional_images);
-						$additional_images_alts = (array) json_decode($this->product->additional_images_alt);
+						<?php 
 						$i = 0;
 						foreach ($additional_images as $additional_image) { ?>
 							<div class="image-wrapper">

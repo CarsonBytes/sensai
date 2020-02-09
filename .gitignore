@@ -26,6 +26,7 @@
 /media/plg_jchoptimize/cache
 /t3-assets
 /akeeba_backup
+error_log
 
 # Test Related Files #
 /phpunit.xml

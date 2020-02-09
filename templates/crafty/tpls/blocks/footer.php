@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
  
 	<div id="back-to-top" data-spy="affix" data-offset-top="300" class="back-to-top hidden-xs hidden-sm affix-top">
 	 
-		<button class="btn btn-primary" title="Back to Top"><i class="fa fa-long-arrow-up"></i></button>
+		<button class="btn btn-primary" title="Back to Top"><i class="fas fa-long-arrow-alt-up"></i></button>
 	 
 	</div>
 	 

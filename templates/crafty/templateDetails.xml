@@ -55,9 +55,9 @@
 
 	<positions>
 		<position>topbar-left</position>
-		<position>skype</position>
+		<!-- <position>skype</position>
 		<position>email</position>
-		<position>phone</position>
+		<position>phone</position> -->
 		<position>topbar-right</position>
 		<position>languageswitcherload</position>
 		<position>head-search</position>
