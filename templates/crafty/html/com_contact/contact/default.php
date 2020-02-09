@@ -59,12 +59,13 @@ jimport('joomla.html.html.bootstrap');
 	<div class="row <?php echo $this->params->get('presentation_style') ?>-style">
 		
 		<!-- Show form contact -->
-		<div class="col-md-8 col-sm-7 contact-left">
-			<?php  echo '<h3>'. JText::_('COM_CONTACT_EMAIL_FORM').'</h3>';  ?>
+		<?php // <div class="col-md-8 col-sm-7 contact-left"> ?>
+		<div class="col-md-12 col-sm-12">
 			<?php  echo $this->loadTemplate('form');  ?>
 		</div>
 		<!-- End Show form contact -->	
 		
+		<?php /*
 		<!-- Show Other information -->
 		<div class="col-md-4 col-sm-5 contact-information">
 			<div class="inner">
@@ -133,6 +134,7 @@ jimport('joomla.html.html.bootstrap');
 			</div>
 		</div>
 		<!-- End Show -->
+		*/ ?>
 	</div>
 	<?php endif;?>
 	<!-- End Override -->
