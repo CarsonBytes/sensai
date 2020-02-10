@@ -1,6 +1,7 @@
 /* Custom CSS */
 //html.itemid-256 {
-.article-info, .pagenav {
+.article-info,
+.pagenav {
     display: none;
 }
 
@@ -108,9 +109,19 @@ body:lang(ja-jp) {
         border    : 0;
         min-height: auto;
 
-        .t3-megamenu .dropdown-menu .mega-nav>li a {
+        .t3-megamenu {
+            text-align: center;
 
-            font-size: 12px;
+            ul {
+                float  : none;
+                display: inline-block;
+
+                .dropdown-menu .mega-nav>li a {
+
+                    font-size: 12px;
+                }
+            }
+
         }
 
         .navbar-nav {

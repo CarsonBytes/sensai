@@ -56,7 +56,7 @@ if ($headright = $this->countModules('head-search or languageswitcherload or off
 			<!-- //LOGO -->
 			
 			<!-- MAIN NAVIGATION -->
-			<nav id="t3-mainnav" class="<?php echo $mainnavsize; ?>">
+			<nav id="t3-mainnav" class="<?php /* echo $mainnavsize; */ ?>">
 				<?php if ($headright): ?>
 					<div class="t3-nav-btn pull-right">
 						
@@ -83,7 +83,7 @@ if ($headright = $this->countModules('head-search or languageswitcherload or off
 					</div>
 				<?php endif ?>
 				
-				<div class="navbar navbar-default t3-mainnav hidden-sm hidden-xs pull-right">
+				<div class="navbar navbar-default t3-mainnav hidden-xs">
 			
 					<?php if ($this->getParam('navigation_collapse_enable')) : ?>
 						<div class="t3-navbar-collapse navbar-collapse collapse"></div>
