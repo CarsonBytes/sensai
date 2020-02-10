@@ -27,6 +27,7 @@
 /t3-assets
 /akeeba_backup
 error_log
+/images/jch-optimize
 
 # Test Related Files #
 /phpunit.xml
