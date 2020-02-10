@@ -149,32 +149,27 @@ array_push($freebies, $freebie2);
                     <div class="buy_box pull-right">
                         <div class="buy_box_inner">
                             <div class="price_delivery_intro">
-                                <p class="price_inside_buybox">￥2,800</p>
-                                <p><span class="a-text-bold">通常配送無料</span> <a href="https://www.amazon.co.jp/gp/help/customer/display.html?ie=UTF8&amp;pop-up=1&amp;nodeId=642982" target="AmazonHelp" onclick="return amz_js_PopWin(this.href,'AmazonHelp','width=550,height=550,resizable=1,scrollbars=1,toolbar=0,status=0');">詳細</a></p>
-                                <p id="ddmDeliveryMessage" class="a-section a-spacing-mini">注文確定時に<span class="a-text-bold">通常配送</span> を選択した場合、最短で<span class="a-text-bold">1月24日 明日 ~ 1月25日 土曜日</span>にお届け予定です。</p>
+                                <p class="price_inside_buybox">無料</p>
+                                <p>ご注文を検討している方を対象に、無料でサンプルを提供いたします。</p>
+                                <p id="ddmDeliveryMessage" class="a-section a-spacing-mini">このサンプルは、印刷物以外の電子データです。</p>
                             </div>
-                            <div class="btn_to_amazon to_single">
-                                <span class="a-button-inner">
-                                    <i class="a-icon a-icon-buynow"></i>
-                                    <input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-                                    <span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
-                                        アマゾンでこれを買う
+                            <form name="info_request<?php echo $j; ?>" class="info_request" data-id="<?php echo $j; ?>">
+                                <div class="email_input_wrapper">
+                                    <input type="text" class="email" name="email" placeholder="メールアドレス" />
+                                </div>
+                                <div class="btn_to_amazon to_single">
+                                    <span class="a-button-inner">
+                                        <i class="a-icon a-icon-buynow"></i>
+                                        <input title="無料サンプル請求" class="a-button-input" type="submit" aria-labelledby="a-autoid-1-announce">
+                                        <span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
+                                            無料サンプル請求
+                                        </span>
                                     </span>
-                                </span>
-                            </div>
+                                </div>
+                            </form>
 
-                            <div class="btn_to_amazon to_bundle_categories">
-                                <span class="a-button-inner">
-                                    <i class="a-icon a-icon-buynow"></i>
-                                    <input title="カートに入れる" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-                                    <span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
-                                        アマゾンでバンドルを買う
-                                    </span>
-                                </span>
-                            </div>
                             <div class="product_delivery_intro">
-                                <p>この商品は、<a href="#">精彩本屋</a>が販売し、Amazon.co.jp が発送します。</p>
-                                <p style="margin-bottom: 0;">この出品商品にはコンビニ・ATM・ネットバンキング・電子マネー払いが利用できます。</p>
+                                <p style="margin-bottom: 0;">このサンプルのダウンロードリンクは、こちらが<span class="a-text-bold">メール</span>でお送りいただきます。</p>
                             </div>
                         </div>
                     </div>
@@ -206,7 +201,7 @@ array_push($freebies, $freebie2);
                                 </div>
                             </div>
 
-                            <div class="productGallery_slider" data-id="<?php echo $j ?>" >
+                            <div class="productGallery_slider" data-id="<?php echo $j ?>">
                                 <div><img src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
 
                                 <?php

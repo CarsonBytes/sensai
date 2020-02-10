@@ -211,7 +211,7 @@ jQuery(function ($) {
             var img_id = $(this).parents('.a-image-wrapper').find('img').data('id');
             var img_src = $(this).parents('.a-image-wrapper').find('img').prop('src');
             main_scrollY = $(window).scrollTop();
-            
+
             console.log(current_md_slider_id);
             console.log('.productGallery_m[data-id=' + current_md_slider_id + ']');
 
@@ -253,7 +253,7 @@ jQuery(function ($) {
         $('.productGallery_m[data-id=' + current_md_slider_id + '] .enlarged_image img').fadeIn();
         $('.productGallery_m[data-id=' + current_md_slider_id + '] .enlarged_image').trigger('zoom.destroy');
         $('.productGallery_m[data-id=' + current_md_slider_id + '] .enlarged_image img.zoomImg').remove();
-        $(this).removeClass('zoomable');    
+        $(this).removeClass('zoomable');
 
         if (($(this).get(0).naturalWidth >
             $('.productGallery_m[data-id=' + current_md_slider_id + '] .table_wrapper').get(0).offsetWidth)
@@ -302,5 +302,21 @@ jQuery(function ($) {
     }).on("hidden", function () {
         $("body").removeClass("modal-open")
     });
+
+    $('form.info_request').on('submit', function (e) {
+        //console.log($(this))
+        if (!$(this).find('input[name=email]').is(':visible')) {
+            //console.log('showing now')
+            $(this).find('input[name=email]').show().focus();
+            return false
+        }
+
+        //code to store email in db, and send email with the redirect link to client
+
+        // the link must be trackable with his email.
+
+        return false;
+    })
+
 
 })

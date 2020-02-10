@@ -18,7 +18,6 @@ $(window).load(function(){
 });
 
 $("div").filter(function () {
-	return $(this).text() === "FaLang translation system by Faboba";
-}).css("display", "none");
-
+	return ($(this).text() === "FaLang translation system by Faboba" || $(this).text() === "Powered by BreezingForms");
+}).remove();
 });
