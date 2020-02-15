@@ -25,7 +25,10 @@ if (isset($this->error)) : ?>
 <?php endif; ?>
 
 <div class="contact-form">
-	<?php echo '<h3>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h3>';  ?>
+	<div class="page-header">
+		<?php echo '<h2>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h2>';
+		?>
+	</div>
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal">
 		<fieldset>
 			<legend><?php echo JText::_('COM_CONTACT_FORM_LABEL'); ?></legend>

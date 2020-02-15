@@ -1,33 +1,53 @@
-.contact-form {
-    max-width: 500px;
-    margin   : 0 auto;
+.com_contact {
 
-    .contact_msg {
-        padding: 0;
+    .t3-wrapper .t3-mainbody .t3-content .contact-form {
+        max-width: 500px;
+        margin   : 0 auto;
 
-        textarea {
-            /* margin-right: 14px; */
-            box-sizing: border-box;
+        .page-header {
+            padding-bottom: 9px;
+            margin        : 0 0 20px;
+            border-bottom : 1px solid #eee;
+
+            h2 {
+                font-size     : 18px;
+                text-transform: uppercase;
+                text-align    : center;
+                font-weight   : bold;
+                color         : #478203;
+                margin-top    : 5px;
+                margin-bottom : 10px;
+            }
+        }
+
+
+        .contact_msg {
             padding: 0;
+
+            textarea {
+                /* margin-right: 14px; */
+                box-sizing     : border-box;
+                padding        : 0;
+            }
+        }
+
+        .control-btn {
+
+            button {
+                float: right;
+            }
+        }
+
+        input[type="checkbox"] {
+            top   : 13px;
+            margin: 0;
         }
     }
 
-    .control-btn {
-
-        button {
-            float: right;
+    @media (max-width: @screen-sm-min) {
+        .contact_msg {
+            padding-right: 30px;
         }
-    }
 
-    input[type="checkbox"] {
-        top   : 13px;
-        margin: 0;
     }
-}
-
-@media (max-width: @screen-sm-min) {
-    .contact_msg {
-        padding-right: 30px;
-    }
-
 }

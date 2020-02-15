@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <nav id="t3-topbar" class="t3-topbar">
 	<div class="">
 		<div class="row">
-			<div class="col-md-6 col-sm-6 col-xs-12 text-left <?php $this->_c('topbar-left') ?>">
+			<div class="col-md-6 col-sm-6 col-xs-6 text-left <?php $this->_c('topbar-left') ?>">
 				<?php if ($this->countModules('off-canvas')) : ?>
 					<div class="off_canvas pull-left">
 						<div class="off_canvas_wrapper">
@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
 					<jdoc:include type="modules" name="<?php $this->_p('phone') ?>" />
 				</div> */ ?>
 			</div>
-			<div class="col-md-6 col-sm-6 col-xs-12 right-topbar">
+			<div class="col-md-6 col-sm-6 col-xs-6 right-topbar">
 				<div class="pull-right">
 					<jdoc:include type="modules" name="<?php $this->_p('topbar-right') ?>" />
 				</div>

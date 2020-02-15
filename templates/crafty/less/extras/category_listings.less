@@ -1,0 +1,232 @@
+html.itemid-110 {
+
+    #t3-mainbody {
+        margin: 0;
+        width : 100%;
+
+        .page-header {
+            display: none;
+        }
+
+        .articlebody {
+            margin-top: 0;
+            padding   : 0;
+
+            .whole_content {
+
+                padding-left: 200px;
+
+                @media screen and (max-width: @screen-sm-min) {
+                    padding: 0;
+                }
+
+                .right_listings_wrapper {
+                    width: 100%;
+                    float: right;
+
+                    h1 {
+                        font-weight: 700;
+                        font-size  : 28px;
+                        line-height: 1.2;
+                        margin     : 0;
+                    }
+
+                    .right_listings {
+                        display    : flex;
+                        flex-wrap  : wrap;
+                        align-items: stretch;
+
+                        @media screen and (min-width: screen-xs-min) {
+                            margin-left: -15px;
+                        }
+
+                        .list_item_wrapper {
+                            flex         : 0 0 20%;
+                            margin-bottom: 1.7rem;
+
+                            @media screen and (min-width: 1500px) {
+                                max-width: 250px;
+                            }
+
+                            @media screen and (max-width: @screen-lg-min) {
+                                flex: 0 0 25%;
+                            }
+
+                            @media screen and (max-width: @screen-lg-min) {
+                                flex: 0 0 25%;
+                            }
+
+                            @media screen and (max-width: @screen-md-min) {
+                                flex: 0 0 33.3%;
+                            }
+
+                            @media screen and (max-width: @screen-sm-min) {
+                                flex: 0 0 50%;
+                            }
+
+                            @media screen and (max-width: @screen-xs-min) {
+                                flex         : 0 0 100%;
+                                border-bottom: 2px solid #ddd;
+                                margin-bottom: 0;
+                            }
+
+
+                            .list_item {
+
+                                margin: 15px;
+
+                                @media screen and (max-width: @screen-xs-min) {
+                                    display       : flex;
+                                    flex-direction: row;
+                                    flex-wrap     : wrap;
+                                    align-content : flex-start;
+                                    margin        : 15px 0;
+                                }
+
+                                a.img_link {
+
+                                    @media screen and (max-width: @screen-xs-min) {
+                                        width: calc(~".33333 * (100vw - 30px)");
+                                    }
+
+                                    .img_wrapper {
+                                        @media screen and (max-width: @screen-xs-min) {
+                                            margin-right: 8px;
+                                        }
+
+                                        img {
+                                            width : 100%;
+                                            height: auto;
+                                        }
+                                    }
+                                }
+
+                                .title_wrapper {
+
+                                    @media screen and (max-width: @screen-xs-min) {
+                                        width: calc(~".66666 * (100vw - 30px)");
+                                    }
+
+                                    a.title {
+                                        margin-top        : 10px;
+                                        -webkit-line-clamp: 4;
+                                        max-height        : 85.34px;
+                                        overflow          : hidden;
+                                        text-overflow     : ellipsis;
+                                        display           : -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        color             : #111;
+                                        font-weight       : 400;
+                                        font-style        : normal;
+                                        text-transform    : none;
+                                        text-decoration   : none;
+                                        font-size         : 15px;
+                                        line-height       : 1.4;
+
+                                        :hover {
+                                            color  : #c45500;
+                                            outline: 0;
+                                        }
+
+                                        @media screen and (max-width: @screen-xs-min) {
+                                            margin     : 0;
+                                            font-size  : 1.5rem;
+                                            line-height: 1.35;
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                .left_nav_wrapper {
+                    width      : 200px;
+                    margin-left: -200px;
+
+                    @media screen and (max-width: @screen-sm-min) {
+                        width : 100%;
+                        margin: 0;
+                    }
+
+
+                    .left_nav {
+                        a {
+                            &.category_btn {
+                                cursor       : pointer;
+                                height       : 32px;
+                                border       : .1rem solid #ddd;
+                                border-radius: 7px;
+                                display      : inline-block;
+                                padding      : 7px;
+                                margin-bottom: 10px;
+                                color        : #111;
+
+                                span {}
+
+                                .fas {
+                                    &.fa-caret-right {}
+
+                                    &.fa-caret-down {
+                                        display: none;
+                                    }
+
+                                }
+                            }
+
+                            h3 {
+                                font-size  : 13px;
+                                padding    : 0;
+                                color      : #000;
+                                font-weight: 700;
+                                line-height: 1.255;
+                                margin     : 0;
+                            }
+                        }
+
+                        .categories_list {
+
+                            a:hover {
+                                text-decoration : none;
+                                background-color: transparent;
+                                color           : #e47911;
+                            }
+
+                            @media screen and (max-width: @screen-sm-min) {
+                                display: none;
+                            }
+
+                            ul {
+                                margin : 0 0 10px 10px;
+                                padding: 0px;
+                                color  : #949494;
+
+                                li {
+                                    list-style-type: none;
+                                    line-height    : 17px;
+                                    word-wrap      : break-word;
+                                    margin         : 0;
+
+                                    a {
+                                        color          : #333;
+                                        font-size      : 12px;
+                                        margin-left    : 0;
+                                        text-decoration: none;
+
+                                        :hover {
+                                            text-decoration : none;
+                                            background-color: transparent;
+                                            color           : #e47911;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

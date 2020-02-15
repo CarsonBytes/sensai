@@ -1,7 +1,9 @@
 /* Custom CSS */
 //html.itemid-256 {
 .article-info,
-.pagenav {
+.pagenav,
+.com_contact #t3-breadcrumbs,
+.com_content #t3-breadcrumbs {
     display: none;
 }
 
@@ -91,6 +93,21 @@ body:lang(ja-jp) {
             height: 60px;
             width : auto;
         }
+    }
+}
+
+.mod-languages {
+    @media screen and (max-width: @screen-sm-min) {
+        position: absolute;
+        top     : 15px;
+        right   : 15px;
+    }
+}
+
+.com_content,
+.com_content {
+    .articlebody {
+        box-shadow: none !important;
     }
 }
 
