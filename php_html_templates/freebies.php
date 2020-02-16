@@ -1,3 +1,7 @@
+<?php
+// No direct access
+defined('_JEXEC') or die;
+?>
 <div id="myCarousel_h" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">

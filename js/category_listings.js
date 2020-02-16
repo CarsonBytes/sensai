@@ -1,6 +1,7 @@
 jQuery(function ($) {
 
     $('body').on('click', '.category_btn', function (e) {
+        e.preventDefault()
         if ($('.fa-caret-down').is(':visible')) {
             $('.categories_list').hide();
             $('.fa-caret-down').hide();
@@ -10,6 +11,7 @@ jQuery(function ($) {
             $('.fa-caret-down').show();
             $('.fa-caret-right').hide();
         }
+        return false;
     })
 
 

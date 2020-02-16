@@ -1,3 +1,7 @@
+<?php 
+// No direct access
+defined('_JEXEC') or die;
+?>
 <div class="faq_list">
     <div class="faq_list_wrapper">
         <h5 class="title">A.【ご利用にあたってのご質問】</h5>

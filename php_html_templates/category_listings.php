@@ -1,4 +1,6 @@
 <?php 
+// No direct access
+defined('_JEXEC') or die;
 /* 
 $query = "SELECT * from h1232_bundle_single;";
 
@@ -10,7 +12,25 @@ echo '<pre>';
 
 var_dump($result);
 
-echo '</pre>'; */
+echo '</pre>';  */
+/* 
+$id=16;
+//echo  \Joomla\CMS\Router\Route::_('index.php?option=com_j2store&view=products&id='.$id).'<br />';
+echo JRoute::link('site', 'index.php?option=com_j2store&task=view&view=products&Itemid=227&id='.$id). '<br />'; */
+
+ /* 
+
+ 
+$articleId= 21;
+echo JRoute::_(ContentHelperRoute::getArticleRoute($articleId, $articleLink[$articleId])) . '<br />';
+ 
+ 
+
+$catid = 18;
+echo rtrim(JUri::base(), '/') . JRoute::_(ContentHelperRoute::getArticleRoute( $articleId, $catid )) . '<br />';
+ 
+echo JRoute::_(JUri::root() . 'index.php?option=com_content&view=article&id=' . $articleId); */
+
 ?>
 <div class="whole_content row">
 
