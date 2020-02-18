@@ -56,7 +56,22 @@ var_dump($this->product->additional_images_alt);
 echo '</pre>';  
 echo '<pre>';
 var_dump($this->product->additional_images_alt);
-echo '</pre>';*/ ?>
+echo '</pre>';*/ 
+
+/* $query = "SELECT * from h1232_bundle_single;";
+
+$db = JFactory::getDbo();
+$db->setQuery($query);
+
+$result = $db->loadAssocList();
+*/
+/*  echo '<pre>';
+
+ var_dump($this->product->product_source_id);
+ var_dump($this->product->j2store_product_id);
+
+echo '</pre>';  */
+?>
 <div itemscope itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
 	<div class="row">
 		<div class="col-sm-12 hidden-md hidden-lg">
