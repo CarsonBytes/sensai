@@ -35,19 +35,6 @@ var_dump($this->active_menu->title);
 
 echo '</pre>'; */
 /* 
-$query = "SELECT * from h1232_bundle_single;";
-
-$database->setQuery($query);
-
-$result = $database->loadAssocList();
-
-SELECT b.id, a.main_tag, b.catid, b.title, b.introtext, b.fulltext, d.title as tag_title FROM `h1232_j2store_products` a 
-INNER JOIN `h1232_content` b ON a.product_source_id = b.id
-LEFT JOIN `h1232_contentitem_tag_map` c ON a.product_source_id = c.content_item_id
-LEFT JOIN `h1232_tags` d ON c.tag_id = d.id
-WHERE (a.main_tag = 'image' or a.main_tag = 'deco' or a.main_tag = 'bundle')
-ORDER BY a.`j2store_product_id`  DESC
-
 echo '<pre>';
 
 var_dump($result);
@@ -73,7 +60,7 @@ $active_menu_route = $this->active_menu->route;
 								</div>
 							</a>
 							<div class="title_wrapper">
-								<a class="title" href="#"><?php echo $item['title'] ?></a>
+								<a class="title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $item['j2store_product_id']); ?>"><?php echo $item['title'] ?></a>
 							</div>
 						</div>
 					</div>
