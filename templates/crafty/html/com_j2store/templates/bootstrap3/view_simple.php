@@ -11,66 +11,54 @@
 defined('_JEXEC') or die;
 
 $document = JFactory::getDocument();
-
-//$document->addStyleSheet('https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css');
-//$document->addStyleSheet('https://www.wasaike.com/tabulator/dist/css/tabulator.min.css');
-//$document->addStyleSheet('https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.4.3/css/tabulator.min.css');
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css');
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
-//$document->addStyleSheet('/css/prod_detail.css');
-
-//$document->addScript('https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js');
-//$document->addScript('https://www.wasaike.com/tabulator/dist/js/tabulator.min.js');
-//$document->addScript('https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.4.3/js/tabulator.min.js');
-//$document->addScript('/js/tiny-slider.js');
-//$document->addScript('https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js');
-//$document->addScript('/js/imageMapResizer.min.js');
 $document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21');
-
 $document->addScript('/js/prod_detail.js');
-?>
-<?php //echo '<pre>';var_dump($this->product->cross_sells);echo '</pre>'; 
 
-//echo '<pre>';var_dump($this->product);echo '</pre>'; 
-?>
-<?php /*echo '<pre>';
-var_dump($this->product->main_tag);
-echo '</pre>'; ?>
-<?php echo '<pre>';
-var_dump($this->product->main_image);
-echo '</pre>'; ?>
-<?php echo '<pre>';
-var_dump($this->product->main_image_alt);
-echo '</pre>'; ?>
-<?php echo '<pre>';
-var_dump($this->product->thumb_image);
-echo '</pre>'; ?>
-<?php echo '<pre>';
-var_dump($this->product->thumb_image_alt);
-echo '</pre>'; ?>
-<?php echo '<pre>';
-var_dump(json_decode($this->product->additional_images));
-echo '</pre>'; ?>
-<?php echo '<pre>';
-var_dump($this->product->additional_images_alt);
-echo '</pre>';  
-echo '<pre>';
-var_dump($this->product->additional_images_alt);
-echo '</pre>';*/ 
+$query = "SELECT note FROM `h1232_content` b WHERE b.id = " . $this->product->product_source_id;
 
-/* $query = "SELECT * from h1232_bundle_single;";
+$database = JFactory::getDbo();
+$database->setQuery($query);
+//$result = $database->loadAssocList();
+$product_type = $database->loadResult();
 
-$db = JFactory::getDbo();
-$db->setQuery($query);
+// echo '<pre>';
+//var_dump($this->product->product_source_id);
+//var_dump($this->product->j2store_product_id);
 
-$result = $db->loadAssocList();
-*/
-/*  echo '<pre>';
+if ($product_type == 'bundle') {
+	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext, e.thumb_image FROM `h1232_j2store_products` a 
+	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
+	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
+	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
+	WHERE bs.bundle_id = " . $this->product->product_source_id . "
+	ORDER by bs.id";
+} else {
+	// deco or image posters
+	$query2 = "SELECT b.id, b.title, b.introtext, e.thumb_image FROM `h1232_j2store_products` a 
+	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
+	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
+	WHERE b.id in (SELECT bundle_id FROM sensaiho_nya.bundle_single where single_id = " . $this->product->product_source_id . ")
+	ORDER by b.id";
+	$database->setQuery($query2);
+	$bundles = $database->loadAssocList();
+	// var_dump($bundles);
 
- var_dump($this->product->product_source_id);
- var_dump($this->product->j2store_product_id);
+	$query = "SELECT bs.bundle_id, bs.single_id, b.title, e.thumb_image FROM `h1232_j2store_products` a 
+	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
+	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
+	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
+	WHERE bs.bundle_id in (SELECT bundle_id FROM sensaiho_nya.bundle_single where single_id = " . $this->product->product_source_id . ")
+	ORDER by bs.id";
+}
 
-echo '</pre>';  */
+$database->setQuery($query);
+$product_thumbs = $database->loadAssocList();
+// var_dump($product_thumbs);
+
+// echo '</pre>';
+
 ?>
 <div itemscope itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
 	<div class="row">
@@ -126,7 +114,7 @@ echo '</pre>';  */
 							<div class="a-image-wrapper"><img data-id="main" <?php /*class="tns-lazy-img"  data-src="<?php echo 'https://sensaihonya.jp/' . $this->product->main_image ?>" data-zoom-image="/<?php echo $this->product->main_image ?>" */ ?> src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 						</div>
 
-						<?php 
+						<?php
 						$i = 0;
 						foreach ($additional_images as $additional_image) { ?>
 							<div class="image-wrapper">
@@ -192,13 +180,45 @@ echo '</pre>';  */
 			</div>
 			<div class="image_zoom_preview"></div>
 		</div>
+
+		<?php if ($product_type == 'bundle') { ?>
+
+			<div class="col-xs-12 singles_wrapper">
+
+				<div class="singles">
+					<?php  $i=1;
+					foreach ($product_thumbs as $product_thumb) { ?>
+						<div class="single_wrapper">
+							<div class="single">
+								<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>">
+									<div class="img_wrapper">
+										<img src="<?php echo $product_thumb['thumb_image']; ?>" />
+									</div>
+								</a>
+								<div class="list_content">
+									<a class="title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>"><?php echo $product_thumb['title']; ?></a>
+									<?php echo $product_thumb['introtext']; ?>
+								</div>
+
+							</div>
+						</div>
+						<?php echo ($i % 2 == 0 ?  '<div class="clearfix"></div>' : '');
+					$i++;
+				} ?>
+				</div>
+
+			</div>
+		<?php } ?>
+
 	</div>
 
-	<?php if ($this->params->get('item_use_tabs', 1)) : ?>
-		<?php echo $this->loadTemplate('tabs'); ?>
-	<?php else : ?>
-		<?php echo $this->loadTemplate('notabs'); ?>
-	<?php endif; ?>
+	<?php if ($product_type == 'image') { ?>
+		<?php if ($this->params->get('item_use_tabs', 1)) : ?>
+			<?php echo $this->loadTemplate('tabs'); ?>
+		<?php else : ?>
+			<?php echo $this->loadTemplate('notabs'); ?>
+		<?php endif; ?>
+	<?php } ?>
 
 	<?php if (isset($this->product->source->event->afterDisplayContent)) : ?>
 		<?php echo $this->product->source->event->afterDisplayContent; ?>
