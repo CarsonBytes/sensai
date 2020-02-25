@@ -15,6 +15,7 @@ $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/di
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
 $document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21');
 $document->addScript('/js/prod_detail.js');
+$document->addScript('/js/sm_slider.js');
 
 $query = "SELECT note FROM `h1232_content` b WHERE b.id = " . $this->product->product_source_id;
 
@@ -36,7 +37,9 @@ if ($product_type == 'bundle') {
 	ORDER by bs.id";
 } else {
 	// deco or image posters
-	$query2 = "SELECT b.id, b.title, b.introtext, e.thumb_image FROM `h1232_j2store_products` a 
+
+	//bundles query
+	$query2 = "SELECT b.id, a.j2store_product_id, b.title, b.introtext, e.thumb_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	WHERE b.id in (SELECT bundle_id FROM sensaiho_nya.bundle_single where single_id = " . $this->product->product_source_id . ")
@@ -45,7 +48,8 @@ if ($product_type == 'bundle') {
 	$bundles = $database->loadAssocList();
 	// var_dump($bundles);
 
-	$query = "SELECT bs.bundle_id, bs.single_id, b.title, e.thumb_image FROM `h1232_j2store_products` a 
+	//bundle products query
+	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, e.thumb_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
@@ -180,13 +184,14 @@ $product_thumbs = $database->loadAssocList();
 			</div>
 			<div class="image_zoom_preview"></div>
 		</div>
+	</div>
+	<?php if ($product_type == 'bundle') { ?>
 
-		<?php if ($product_type == 'bundle') { ?>
-
+		<div class="row">
 			<div class="col-xs-12 singles_wrapper">
 
 				<div class="singles">
-					<?php  $i=1;
+					<?php $i = 1;
 					foreach ($product_thumbs as $product_thumb) { ?>
 						<div class="single_wrapper">
 							<div class="single">
@@ -202,15 +207,150 @@ $product_thumbs = $database->loadAssocList();
 
 							</div>
 						</div>
-						<?php echo ($i % 2 == 0 ?  '<div class="clearfix"></div>' : '');
-					$i++;
-				} ?>
+					<?php echo ($i % 2 == 0 ?  '<div class="clearfix"></div>' : '');
+						$i++;
+					} ?>
 				</div>
 
 			</div>
-		<?php } ?>
+		</div>
+	<?php } ?>
 
-	</div>
+
+	<?php if ($product_type == 'deco') { ?>
+
+		<div class="row">
+			<div class="col-xs-12 deco_bundles_wrapper">
+				<div class="deco_bundles">
+					<h2>関連バンドル</h2>
+					<?php $j = 0;
+					foreach ($bundles as $bundle) { ?>
+						<div class="deco_bundle_wrapper">
+							<a class="bundle_title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
+								<?php echo $bundle['title']; ?>
+							</a>
+
+							<div class="slider_sm_wrapper hidden-md hidden-lg">
+								<div class="sm_slider" data-id="<?php echo $j ?>">
+
+									<div><img src="<?php echo $bundle['thumb_image'] ?>" /></div>
+
+									<?php
+									$bundle_id = $bundle['id'];
+									$this_bundle_decos = array_filter($product_thumbs, function ($var) use ($bundle_id) {
+										return ($var['bundle_id'] == $bundle_id);
+									});
+									foreach ($this_bundle_decos as $this_bundle_deco) { ?>
+										<div><img src="<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
+									<?php } ?>
+								</div>
+
+								<div class="btn_to_amazon to_single">
+									<span class="a-button-inner">
+										<i class="a-icon a-icon-buynow"></i>
+										<input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
+										<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
+											アマゾンでこれを買う
+										</span>
+									</span>
+								</div>
+							</div>
+
+							<div class="deco_bundle hidden-sm hidden-xs" data-id="<?php echo $bundle['id']; ?>">
+								<div class="bundle_thumb">
+									<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
+										<div class="img_wrapper">
+											<img src="<?php echo $bundle['thumb_image']; ?>" />
+										</div>
+									</a>
+									<div class="btn_to_amazon to_single">
+										<span class="a-button-inner">
+											<i class="a-icon a-icon-buynow"></i>
+											<input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
+											<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
+												アマゾンでこれを買う
+											</span>
+										</span>
+									</div>
+								</div>
+								<div class="col_2 hidden-sm hidden-xs">
+									<div class="deco_thumbs">
+										<?php
+										/* $bundle_id = $bundle['id'];
+										$this_bundle_decos = array_filter($product_thumbs, function ($var) use ($bundle_id) {
+											return ($var['bundle_id'] == $bundle_id);
+										}); */
+
+										foreach ($this_bundle_decos as $this_bundle_deco) {
+										?>
+											<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $this_bundle_deco['j2store_product_id']); ?>">
+												<div class="img_wrapper">
+													<img src="<?php echo $this_bundle_deco['thumb_image']; ?>" />
+												</div>
+											</a>
+										<?php
+										} ?>
+									</div>
+									<div class="clearfix"></div>
+									<div class="bundle_desc_wrapper">
+										<div class="bundle_desc">
+											<?php echo $bundle['introtext']; ?>
+										</div>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+
+						<!-- Modal -->
+						<div class="modal productGallery" data-id="<?php echo $j ?>" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-body">
+										<div class="back_btn_wrapper">
+											<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
+											<div class="back_btn_text">
+												<span>戻る</span>
+											</div>
+										</div>
+
+										<div class="productGallery_slider" data-id="<?php echo $j ?>">
+											<div><img src="<?php echo $bundle['thumb_image'] ?>" /></div>
+
+											<?php foreach ($this_bundle_decos as $this_bundle_deco) { ?>
+												<div><img src="<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
+											<?php } ?>
+										</div>
+										<ul class="thumbnails slider_sm_thumbnails" data-id="<?php echo $j ?>">
+											<li>
+												<div class="image-wrapper">
+													<div class="a-image-wrapper"><img src="<?php echo $bundle['thumb_image'] ?>" /></div>
+												</div>
+											</li>
+
+											<?php 
+											foreach ($this_bundle_decos as $this_bundle_deco) { ?>
+												<li>
+													<div class="image-wrapper">
+														<div class="a-image-wrapper"><img src="<?php echo $this_bundle_deco['thumb_image'] ?>"  /></div>
+													</div>
+												</li>
+											<?php
+											} ?>
+											<div class="clearfix"></div>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php $j++;
+					} ?>
+				</div>
+			</div>
+
+		</div>
+	<?php } ?>
 
 	<?php if ($product_type == 'image') { ?>
 		<?php if ($this->params->get('item_use_tabs', 1)) : ?>
@@ -223,100 +363,100 @@ $product_thumbs = $database->loadAssocList();
 	<?php if (isset($this->product->source->event->afterDisplayContent)) : ?>
 		<?php echo $this->product->source->event->afterDisplayContent; ?>
 	<?php endif; ?>
-</div>
 
-<!-- Modal -->
-<div class="modal" id="productGallery" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<!-- <div class="modal-header">
+	<!-- Modal -->
+	<div class="modal" id="productGallery" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<!-- <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
         <h4 class="modal-title" id="productGalleryLabel"></h4>
       </div>-->
-			<div class="modal-body">
-				<div class="back_btn_wrapper">
-					<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
-					<div class="back_btn_text">
-						<span>戻る</span>
-					</div>
-				</div>
-
-				<div class="my-slider2">
-					<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
-
-					<?php
-					$i = 0;
-					foreach ($additional_images as $additional_image) { ?>
-						<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
-					<?php
-						$i++;
-					} ?>
-				</div>
-				<ul class="thumbnails" id="customize-thumbnails">
-					<li>
-						<div class="image-wrapper">
-							<div class="a-image-wrapper"><img src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+				<div class="modal-body">
+					<div class="back_btn_wrapper">
+						<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
+						<div class="back_btn_text">
+							<span>戻る</span>
 						</div>
-					</li>
+					</div>
 
-					<?php
-					$i = 0;
-					foreach ($additional_images as $additional_image) { ?>
+					<div class="my-slider2">
+						<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+
+						<?php
+						$i = 0;
+						foreach ($additional_images as $additional_image) { ?>
+							<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+						<?php
+							$i++;
+						} ?>
+					</div>
+					<ul class="thumbnails" id="customize-thumbnails">
 						<li>
 							<div class="image-wrapper">
-								<div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+								<div class="a-image-wrapper"><img src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 							</div>
 						</li>
-					<?php
-						$i++;
-					} ?>
-				</ul>
-			</div>
-			<!-- <div class="modal-footer">
+
+						<?php
+						$i = 0;
+						foreach ($additional_images as $additional_image) { ?>
+							<li>
+								<div class="image-wrapper">
+									<div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+								</div>
+							</li>
+						<?php
+							$i++;
+						} ?>
+					</ul>
+				</div>
+				<!-- <div class="modal-footer">
       </div> -->
+			</div>
 		</div>
 	</div>
-</div>
 
-<!-- Modal -->
-<div class="modal" id="productGallery_m" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel_m">
-	<div class="vertical_alignment_helper">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="close_btn_wrapper">
-					<button type="button" class="btn btn-default close" data-dismiss="modal"><i class="fas fa-times"></i></button>
-				</div>
-				<div class="modal-body">
-					<div class="main_wrapper">
-						<div class="thumbnails_column">
-							<div class="title"><?php echo $this->loadTemplate('title'); ?></div>
-							<div class="thumbnails_wrapper">
-								<div class="thumbnails_row_wrapper">
-									<div class="image_wrapper">
-										<img data-id="main" class="thumbnail_image" src="<?php echo $this->product->main_image ?>" title="<?php echo $this->product->main_image_alt ?>" />
-									</div>
-									<?php
-									$i = 0;
-									//$additional_images->{2}=$additional_images->{3};
-									foreach ($additional_images as $additional_image) { ?>
+	<!-- Modal -->
+	<div class="modal" id="productGallery_m" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel_m">
+		<div class="vertical_alignment_helper">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="close_btn_wrapper">
+						<button type="button" class="btn btn-default close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+					</div>
+					<div class="modal-body">
+						<div class="main_wrapper">
+							<div class="thumbnails_column">
+								<div class="title"><?php echo $this->loadTemplate('title'); ?></div>
+								<div class="thumbnails_wrapper">
+									<div class="thumbnails_row_wrapper">
 										<div class="image_wrapper">
-											<img data-id="additional-<?php echo $i ?>" class="thumbnail_image" src="<?php echo $additional_image ?>" title="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" />
+											<img data-id="main" class="thumbnail_image" src="<?php echo $this->product->main_image ?>" title="<?php echo $this->product->main_image_alt ?>" />
 										</div>
-										<?php if (($i == 2) && count($additional_images) > 3) { ?>
-								</div>
-								<div class="thumbnails_row_wrapper">
-								<?php } ?>
+										<?php
+										$i = 0;
+										//$additional_images->{2}=$additional_images->{3};
+										foreach ($additional_images as $additional_image) { ?>
+											<div class="image_wrapper">
+												<img data-id="additional-<?php echo $i ?>" class="thumbnail_image" src="<?php echo $additional_image ?>" title="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" />
+											</div>
+											<?php if (($i == 2) && count($additional_images) > 3) { ?>
+									</div>
+									<div class="thumbnails_row_wrapper">
+									<?php } ?>
 
-							<?php $i++;
-									} ?>
+								<?php $i++;
+										} ?>
+									</div>
 								</div>
+								<div class="clearfix"></div>
 							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="enlarged_image_wrapper">
-							<div class="table_wrapper">
-								<div class="enlarged_image">
-									<img src="<?php echo $this->product->main_image ?>" />
+							<div class="enlarged_image_wrapper">
+								<div class="table_wrapper">
+									<div class="enlarged_image">
+										<img src="<?php echo $this->product->main_image ?>" />
+									</div>
 								</div>
 							</div>
 						</div>
@@ -325,4 +465,3 @@ $product_thumbs = $database->loadAssocList();
 			</div>
 		</div>
 	</div>
-</div>

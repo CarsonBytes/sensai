@@ -164,7 +164,7 @@ array_push($freebies, $freebie2);
                                 <div class="btn_to_amazon to_single">
                                     <span class="a-button-inner">
                                         <i class="a-icon a-icon-buynow"></i>
-                                        <input title="無料サンプル請求" class="a-button-input" type="submit" aria-labelledby="a-autoid-1-announce">
+                                        <input title="無料サンプル請求" class="a-button-input" type="submit" value="Submit" aria-labelledby="a-autoid-1-announce">
                                         <span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
                                             無料サンプル請求
                                         </span>

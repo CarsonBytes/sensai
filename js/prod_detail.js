@@ -293,10 +293,10 @@ jQuery(function ($) {
 
     $(".btn_to_amazon")
         .on('mousedown touchstart', function (event) {
-            $(this).addClass('touched');
+            $(this).addClass('focus');
         })
         .on('mouseup mouseout touchend', function (event) {
-            $(this).removeClass('touched');
+            $(this).removeClass('focus');
         })
 
 
