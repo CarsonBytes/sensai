@@ -75,6 +75,7 @@ h3 {
 .main_content ul,
 .bundle_desc ul {
     padding-left: 20px;
+    margin      : 0;
 }
 
 ul.col_source {
@@ -475,6 +476,29 @@ body.modal-open,
         .productGallery .modal-dialog .modal-content .modal-body .thumbnails li {
             float: left;
         }
+
+        .deco_bundle_wrapper {
+
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+
+            .bundle_title,
+            .bundle_title:active,
+            .bundle_title:link,
+            .bundle_title:visited {
+                color          : #111;
+                font-weight    : 400;
+                font-style     : normal;
+                text-transform : none;
+                text-decoration: none;
+                font-size      : 15px;
+
+                :hover {
+                    color : #c45500;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }
 
@@ -865,41 +889,29 @@ body.modal-open,
             }
 
             .deco_bundle_wrapper {
-
-                .bundle_title,
-                .bundle_title:active,
-                .bundle_title:link,
-                .bundle_title:visited {
-                    color          : #111;
-                    font-weight    : 400;
-                    font-style     : normal;
-                    text-transform : none;
-                    text-decoration: none;
-                    font-size      : 15px;
-
-                    :hover {
-                        color : #c45500;
-                        cursor: pointer;
-                    }
-                }
+                margin-bottom: 0;
+                border       : none;
 
                 .deco_bundle {
                     padding-left  : 200px;
                     padding-bottom: 15px;
                     margin-bottom : 15px;
                     border-bottom : 2px solid #ddd;
+                    margin-top    : 5px;
+                    position      : relative;
 
                     .bundle_thumb {
-                        width      : 200px;
-                        margin-left: -200px;
-                        float      : left;
+                        width        : 200px;
+                        margin-left  : -200px;
+                        float        : left;
+                        padding-right: 15px;
 
                         a.img_link {
                             .img_wrapper {
                                 margin-bottom: 10px;
 
                                 img {
-                                    width        : 200px;
+                                    width        : 100%;
                                     height       : auto;
                                     border       : 1px solid #a2a6ac;
                                     border-radius: 2px;
@@ -912,6 +924,14 @@ body.modal-open,
                                 }
                             }
                         }
+                    }
+
+                    .vertical_line {
+                        width     : 2px;
+                        background: #ddd;
+                        display   : block;
+                        position  : absolute;
+                        height    : 97%;
                     }
 
                     .col_2 {

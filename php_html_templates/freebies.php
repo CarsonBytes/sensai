@@ -49,7 +49,7 @@ $freebie2 = array(
     'additional_images' =>
     array('/images/sensaihonya/poster1.jpg', '/images/sensaihonya/poster4.jpg'),
     'additional_images_alt' =>
-    array('poster 2.jpg', 'poster 4.jpg'),
+    array('poster 1.jpg', 'poster 4.jpg'),
     'introtext' =>
     '<ul class="a-unordered-list a-vertical a-spacing-none">
         <li><span class="a-list-item">【テーブルサイズ】幅60奥行40×高さ28cm、重量2.6kg、耐荷重：40kg</span></li>
@@ -63,6 +63,24 @@ array_push($freebies, $freebie1);
 array_push($freebies, $freebie2);
 array_push($freebies, $freebie1);
 array_push($freebies, $freebie2);
+
+function has_next(array $_array)
+{
+    return next($_array) !== false ?: key($_array) !== null;
+}
+
+function getImageAlt(&$images_alts, $i)
+{
+    if ($images_alts != null) {
+        if ($i == 0) {
+            return reset($images_alts);
+        } else if (has_next($images_alts)) {
+            return next($images_alts);
+        }
+    }
+    return '';
+}
+
 ?>
 <div class="promotional_banner col-xs-12 col-sm-12 col-md-12 col-lg-2 pull-right">
     <div class="promotional_banner_wrapper">
@@ -88,8 +106,12 @@ array_push($freebies, $freebie2);
 
                             <?php
                             $i = 0;
-                            foreach ($freebie['additional_images'] as $additional_image) { ?>
-                                <div><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($freebie['additional_images_alts']) : next($freebie['additional_images_alts']); ?>" /></div>
+                            foreach ($freebie['additional_images'] as $additional_image) {
+
+                                $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
+
+                            ?>
+                                <div><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                             <?php
                                 $i++;
                             } ?>
@@ -107,10 +129,12 @@ array_push($freebies, $freebie2);
                                 </li>
 
                                 <?php $i = 0;
-                                foreach ($freebie['additional_images'] as $additional_image) { ?>
+                                foreach ($freebie['additional_images'] as $additional_image) {
+                                    $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
+                                ?>
                                     <li>
                                         <div class="image-wrapper">
-                                            <div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($freebie['additional_images_alts']) : next($freebie['additional_images_alts']); ?>" /></div>
+                                            <div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                                         </div>
                                     </li>
                                 <?php
@@ -130,9 +154,11 @@ array_push($freebies, $freebie2);
 
                                 <?php
                                 $i = 0;
-                                foreach ($freebie['additional_images'] as $additional_image) { ?>
+                                foreach ($freebie['additional_images'] as $additional_image) {
+                                    $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
+                                ?>
                                     <div class="image-wrapper">
-                                        <div class="a-image-wrapper"><img data-id="additional-<?php echo $i ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($freebie['additional_images_alts']) : next($freebie['additional_images_alts']); ?>" /></div>
+                                        <div class="a-image-wrapper"><img data-id="additional-<?php echo $i ?>" src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                                     </div>
                                 <?php
                                     $i++;
@@ -210,8 +236,12 @@ array_push($freebies, $freebie2);
 
                                 <?php
                                 $i = 0;
-                                foreach ($freebie['additional_images'] as $additional_image) { ?>
-                                    <div><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+                                foreach ($freebie['additional_images'] as $additional_image) {
+
+                                    $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
+
+                                ?>
+                                    <div><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                                 <?php
                                     $i++;
                                 } ?>
@@ -225,10 +255,13 @@ array_push($freebies, $freebie2);
 
                                 <?php
                                 $i = 0;
-                                foreach ($freebie['additional_images'] as $additional_image) { ?>
+                                foreach ($freebie['additional_images'] as $additional_image) {
+
+                                    $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
+                                ?>
                                     <li>
                                         <div class="image-wrapper">
-                                            <div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+                                            <div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                                         </div>
                                     </li>
                                 <?php
@@ -259,9 +292,10 @@ array_push($freebies, $freebie2);
                                                 </div>
                                                 <?php
                                                 $i = 0;
-                                                foreach ($freebie['additional_images'] as $additional_image) { ?>
+                                                foreach ($freebie['additional_images'] as $additional_image) {
+                                                    $image_alt = getImageAlt($freebie['additional_images_alt'], $i); ?>
                                                     <div class="image_wrapper">
-                                                        <img data-id="additional-<?php echo $i ?>" class="thumbnail_image" src="<?php echo $additional_image ?>" title="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" />
+                                                        <img data-id="additional-<?php echo $i ?>" class="thumbnail_image" src="<?php echo $additional_image ?>" title="<?php echo $image_alt; ?>" />
                                                     </div>
                                                     <?php if (($i == 2) && count($freebie['additional_images']) > 3) { ?>
                                             </div>

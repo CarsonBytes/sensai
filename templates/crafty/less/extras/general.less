@@ -111,6 +111,18 @@ body:lang(ja-jp) {
     }
 }
 
+.t3-off-canvas {
+    li.active>a {
+        color: #e47911;
+    }
+
+    ul.nav-child {
+        ul.nav-child {
+            margin-left: 10px;
+        }
+    }
+}
+
 .t3-header {
     padding      : 0;
     border-top   : 1px solid rgba(0, 0, 0, .17);
@@ -129,14 +141,49 @@ body:lang(ja-jp) {
         .t3-megamenu {
             text-align: center;
 
+            .mega>.mega-dropdown-menu {
+                min-width: 104px;
+            }
+
+            .mega-nav,
+            .dropdown-menu .mega-nav {
+                width: 100%;
+            }
+
             ul {
                 float  : none;
                 display: inline-block;
 
-                .dropdown-menu .mega-nav>li a {
+                .dropdown-menu .mega-nav {
+                    >li {
+                        a {
 
-                    font-size: 12px;
+                            font-size: 12px;
+
+                            span {
+                                padding-right: 5px;
+                            }
+
+                            ::after {
+                                /* display   : none; */
+                                display      : inline-block;
+                                float        : none;
+                                position     : absolute;
+                                right        : 5px;
+                                top          : 6px;
+                            }
+                        }
+
+                        &.active>a {
+                            color: #e47911;
+
+                            :hover {
+                                color: #478203;
+                            }
+                        }
+                    }
                 }
+
             }
 
         }
@@ -236,7 +283,7 @@ body:lang(ja-jp) {
 }
 
 .right-topbar .pull-right {
-    height     : 45px;
+    height     : 65px;
     display    : flex;
     align-items: center;
 
