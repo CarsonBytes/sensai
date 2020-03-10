@@ -25,7 +25,7 @@ class J2Html {
 	 * @result return html
 	 */
 	public static function label($text, $name='', $options=array()){
-		$options['class'] = isset($options['label_class']) ? $options['label_class'] : isset($options['class']) ? $options['class'] : "" ;
+		$options['class'] = isset($options['label_class']) ? $options['label_class'] : (isset($options['class']) ? $options['class'] : "") ;
 		$options['for'] = isset($options['for']) ? $options['for'] : $name;
 		$attribs = JArrayHelper::toString($options);
 		$html ='<label '.$attribs .'>'. $text.'</label>';
