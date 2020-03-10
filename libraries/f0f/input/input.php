@@ -98,8 +98,9 @@ class F0FInput extends JInput
 		}
 
 		// Magic quotes GPC handling (something JInput simply can't handle at all)
-
-		if (($hash == 'REQUEST') && get_magic_quotes_gpc() && class_exists('JRequest', true))
+		// deprecated fix for php 7.4
+		//if (($hash == 'REQUEST') && get_magic_quotes_gpc() && class_exists('JRequest', true))
+		if (($hash == 'REQUEST') && class_exists('JRequest', true))
 		{
 			$source = JRequest::get('REQUEST', 2);
 		}

@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         19.9.10668
+ * @version         20.2.15050
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -71,23 +71,31 @@ class Html
 		// Force string to UTF-8
 		$html = StringHelper::convertToUtf8($html);
 
-		$html_split = explode('<body', $html, 2);
-		$pre        = $html_split[0];
-		$body       = '<body' . $html_split[1];
-		$body_split = explode('</body>', $body);
-		$post       = array_pop($body_split);
-		$body       = implode('</body>', $body_split) . '</body>';
+		$split = explode('<body', $html, 2);
+		$pre   = $split[0];
+
+		$split      = explode('>', $split[1], 2);
+		$body_start = '<body' . $split[0] . '>';
+		$body_end   = '</body>';
+
+		$split = explode('</body>', $split[1]);
+		$post  = array_pop($split);
+		$body  = implode('</body>', $split);
 
 		if ( ! $include_body_tag)
 		{
-			RegEx::match('^(<body[^>]*>\s*)(.*?)(\s*</body>)$', $body, $match);
-
-			$pre  = $pre . $match[1];
-			$body = $match[2];
-			$post = $match[3] . $post;
+			return [
+				$pre . $body_start,
+				$body,
+				$body_end . $post,
+			];
 		}
 
-		return [$pre, $body, $post];
+		return [
+			$pre,
+			$body_start . $body . $body_end,
+			$post,
+		];
 	}
 
 	/**
@@ -304,17 +312,26 @@ class Html
 
 		list($pre, $body, $post) = Html::getBody($string, false);
 
-		// Add temporary surrounding div
-		$body = '<div>' . $body . '</div>';
+		// Add temporary document structures
+		$body = '<html><body><div>' . $body . '</div></body></html>';
 
 		@$doc->loadHTML($body);
+
 		$body = $doc->saveHTML();
 
-		// Remove html document structures
-		$body = RegEx::replace('^<[^>]*>(.*?)<html>.*?(?:<head>(.*)</head>.*?)?<body>(.*)</body>.*?$', '\1\2\3', $body);
+		if (strpos($doc->documentElement->textContent, 'Ã') !== false)
+		{
+			// Need to do this utf8 workaround to deal with special characters
+			// DOMDocument doesn't seem to deal with them very well
+			// See: https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly/47396055#47396055
+			$body = utf8_decode($doc->saveHTML($doc->documentElement));
+		}
 
-		// Remove temporary surrounding div
-		$body = RegEx::replace('^\s*<div>(.*)</div>\s*$', '\1', $body);
+		// Remove temporary document structures and surrounding div
+		$body = RegEx::replace('^.*?<html>.*?(?:<head>(.*)</head>.*?)?<body>\s*<div>(.*)</div>\s*</body>.*?$', '\1\2', $body);
+
+		// Remove leading/trailing empty paragraph
+		$body = RegEx::replace('(^\s*<div>\s*</div>|<div>\s*</div>\s*$)', '', $body);
 
 		// Remove leading/trailing empty paragraph
 		$body = RegEx::replace('(^\s*<div>\s*</div>|<div>\s*</div>\s*$)', '', $body);

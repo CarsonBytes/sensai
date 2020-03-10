@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         19.9.10668
+ * @version         20.2.15050
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -13,8 +13,8 @@ namespace RegularLabs\Library;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\File as JFile;
 use Joomla\CMS\Component\ComponentHelper as JComponentHelper;
+use Joomla\CMS\Filesystem\File as JFile;
 use Joomla\CMS\Plugin\PluginHelper as JPluginHelper;
 
 jimport('joomla.filesystem.file');
@@ -288,7 +288,7 @@ class Parameters
 				$field['attributes']['DEFAULT'] = $field['attributes'][$default];
 			}
 
-			if (!isset($field['attributes']['DEFAULT']))
+			if ( ! isset($field['attributes']['DEFAULT']))
 			{
 				$field['attributes']['DEFAULT'] = '';
 			}

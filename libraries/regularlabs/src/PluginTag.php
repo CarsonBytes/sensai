@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         19.9.10668
+ * @version         20.2.15050
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -71,7 +71,7 @@ class PluginTag
 		$string = RegEx::replace('((?:^|")\s*)&nbsp;(\s*(?:[a-z]|$))', '\1 \2', $string);
 
 		// Only one value, so return simple key/value object
-		if (strpos($string, '|') == false && ! RegEx::match('=\s*"', $string))
+		if (strpos($string, '|') == false && ! RegEx::match('=\s*["\']', $string))
 		{
 			self::unprotectSpecialChars($string, $keep_escaped_chars);
 
@@ -79,7 +79,7 @@ class PluginTag
 		}
 
 		// No foo="bar" syntax found, so assume old syntax
-		if ( ! RegEx::match('=\s*"', $string))
+		if ( ! RegEx::match('=\s*["\']', $string))
 		{
 			self::unprotectSpecialChars($string, $keep_escaped_chars);
 
@@ -90,7 +90,7 @@ class PluginTag
 		}
 
 		// Cannot find right syntax, so return simple key/value object
-		if ( ! RegEx::matchAll('(?:^|\s)(?<key>[a-z0-9-_]+)\s*(?<not>\!?)=\s*"(?<value>.*?)"', $string, $matches))
+		if ( ! RegEx::matchAll('(?:^|\s)(?<key>[a-z0-9-_\:]+)\s*(?<not>\!?)=\s*(["\'])(?<value>.*?)\3', $string, $matches))
 		{
 			self::unprotectSpecialChars($string, $keep_escaped_chars);
 

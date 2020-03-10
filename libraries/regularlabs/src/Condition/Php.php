@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         19.9.10668
+ * @version         20.2.15050
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -13,8 +13,8 @@ namespace RegularLabs\Library\Condition;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\File as JFile;
 use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\Filesystem\File as JFile;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel as JModel;
 use RegularLabs\Library\RegEx;
 
@@ -139,7 +139,7 @@ class Php
 		include_once $temp_file;
 
 		// Delete file
-		if ( ! defined('JDEBUG') || ! JDEBUG)
+		if ( ! JFactory::getApplication()->get('debug'))
 		{
 			@chmod($temp_file, 0777);
 			@unlink($temp_file);

@@ -1,4 +1,13 @@
 <?php
+/**
+ * @package         Cache Cleaner
+ * @version         7.2.2
+ * 
+ * @author          Peter van Westen <info@regularlabs.com>
+ * @link            http://www.regularlabs.com
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
+ * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
 
 /*
  * Library for the KeyCDN API
@@ -7,6 +16,9 @@
  * @version 0.1
  *
  */
+
+use Joomla\CMS\Factory as JFactory;
+use RegularLabs\Plugin\System\CacheCleaner\Cache;
 
 class CDN77
 {
@@ -48,6 +60,19 @@ class CDN77
 		// set curl timeout
 		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 
+		// Proxy configuration
+		$config = JFactory::getConfig();
+
+		if ($config->get('proxy_enable'))
+		{
+			curl_setopt($ch, CURLOPT_PROXY, $config->get('proxy_host') . ':' . $config->get('proxy_port'));
+
+			if ($user = $config->get('proxy_user'))
+			{
+				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user . ':' . $config->get('proxy_pass'));
+			}
+		}
+
 		// make the request
 		$result     = curl_exec($ch);
 		$headers    = curl_getinfo($ch);
@@ -61,6 +86,8 @@ class CDN77
 		// error catching
 		if ( ! empty($curl_error) || empty($json_output))
 		{
+			Cache::writeToLog('cdn77', 'Error: ' . $curl_error . ', Output: ' . $json_output);
+
 			return 'CDN77-Error: ' . $curl_error . ', Output: ' . $json_output;
 		}
 

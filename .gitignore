@@ -26,6 +26,7 @@
 /media/plg_jchoptimize/cache
 /t3-assets
 /akeeba_backup
+/administrator/components/com_akeeba/backup
 error_log
 /images/jch-optimize
 

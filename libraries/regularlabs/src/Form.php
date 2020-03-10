@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         19.9.10668
+ * @version         20.2.15050
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -123,13 +123,31 @@ class Form
 				{
 					continue;
 				}
-				$repeat       = ($option->level - $first_level > 0) ? $option->level - $first_level : 0;
-				$option->text = str_repeat(' - ', $repeat) . $option->text;
+				$repeat = ($option->level - $first_level > 0) ? $option->level - $first_level : 0;
+				if ( ! $repeat)
+				{
+					continue;
+				}
+				//$option->text = str_repeat(' - ', $repeat) . $option->text;
+				$option->text = '[[:padding-left: ' . (5 + ($repeat * 15)) . 'px;:]]' . $option->text;
 			}
 		}
 
 		if ( ! $multiple)
 		{
+			if (is_array(reset($options)) && isset(reset($options)['items']))
+			{
+				return JHtml::_(
+					'select.groupedlist', $options, $name,
+					[
+						'id'          => $id,
+						'group.id'    => 'id',
+						'list.attr'   => 'class="inputbox"',
+						'list.select' => $value,
+					]
+				);
+			}
+
 			$html = JHtml::_('select.genericlist', $options, $name, 'class="inputbox"', 'value', 'text', $value, $id);
 
 			return self::handlePreparedStyles($html);
@@ -144,6 +162,19 @@ class Form
 			if (substr($name, -2) !== '[]')
 			{
 				$name .= '[]';
+			}
+
+			if (is_array(reset($options)) && isset(reset($options)['items']))
+			{
+				return JHtml::_(
+					'select.groupedlist', $options, $name,
+					[
+						'id'          => $id,
+						'group.id'    => 'id',
+						'list.attr'   => trim($attr),
+						'list.select' => $value,
+					]
+				);
 			}
 
 			$html = JHtml::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
@@ -472,6 +503,11 @@ class Form
 		// Doing following replacement in 3 steps to prevent the Regular Expressions engine from exploding
 
 		// Replace style tags right after the html tags
+		$string = RegEx::replace(
+			';?:\]\]\s*\[\[:',
+			';',
+			$string
+		);
 		$string = RegEx::replace(
 			'>\s*\[\[\:(.*?)\:\]\]',
 			' style="\1">',

@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Cache Cleaner
- * @version         7.1.0
+ * @version         7.2.2
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -272,5 +272,28 @@ class Cache
 	{
 		self::$error .= self::$error ? '<br>' : '';
 		self::$error .= $error;
+	}
+
+	public static function writeToLog($file_name, $error)
+	{
+		$params = Params::get();
+
+		// Write current time to text file
+
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
+
+		$file_path = str_replace('//', '/', JPATH_SITE . '/' . str_replace('\\', '/', $params->log_path . '/'));
+
+		if ( ! JFolder::exists($file_path))
+		{
+			$file_path = JPATH_PLUGINS . '/system/cachecleaner/';
+		}
+
+		$time = time();
+		JFile::append(
+			$file_path . 'cachecleaner_' . $file_name . '.log',
+			'[' . date('Y-m-d H:i:s') . '] ' . $error
+		);
 	}
 }

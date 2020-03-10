@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Cache Cleaner
- * @version         7.1.0
+ * @version         7.2.2
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -47,8 +47,8 @@ class ModCacheCleaner
 			var cachecleaner_msg_failure = '" . addslashes(RL_String::html_entity_decoder(JText::_('CC_CACHE_COULD_NOT_BE_CLEANED'))) . "';";
 		RL_Document::scriptDeclaration($script);
 
-		RL_Document::script('cachecleaner/script.min.js', '7.1.0');
-		RL_Document::stylesheet('cachecleaner/style.min.css', '7.1.0');
+		RL_Document::script('cachecleaner/script.min.js', '7.2.2');
+		RL_Document::stylesheet('cachecleaner/style.min.css', '7.2.2');
 
 		$text_ini = strtoupper(str_replace(' ', '_', $this->params->icon_text));
 		$text     = JText::_($text_ini);

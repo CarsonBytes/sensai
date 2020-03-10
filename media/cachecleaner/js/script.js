@@ -1,10 +1,10 @@
 /**
  * @package         Cache Cleaner
- * @version         7.1.0
+ * @version         7.2.2
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -26,7 +26,7 @@ var cleanCache         = null;
 			id   : 'cachecleaner_msg',
 			css  : {'opacity': 0},
 			click: function() {
-				cachecleaner_show_end()
+				cachecleaner_show_end();
 			}
 		}).appendTo('body');
 

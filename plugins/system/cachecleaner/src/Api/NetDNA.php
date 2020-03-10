@@ -1,4 +1,16 @@
 <?php
+/**
+ * @package         Cache Cleaner
+ * @version         7.2.2
+ * 
+ * @author          Peter van Westen <info@regularlabs.com>
+ * @link            http://www.regularlabs.com
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
+ * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
+
+use Joomla\CMS\Factory as JFactory;
+use RegularLabs\Plugin\System\CacheCleaner\Cache;
 
 /**
  * NetDNA REST Client Library
@@ -98,6 +110,19 @@ class NetDNA
 		//set user agent
 		curl_setopt($ch, CURLOPT_USERAGENT, 'PHP NetDNA API Client');
 
+		// Proxy configuration
+		$config = JFactory::getConfig();
+
+		if ($config->get('proxy_enable'))
+		{
+			curl_setopt($ch, CURLOPT_PROXY, $config->get('proxy_host') . ':' . $config->get('proxy_port'));
+
+			if ($user = $config->get('proxy_user'))
+			{
+				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user . ':' . $config->get('proxy_pass'));
+			}
+		}
+
 		// make call
 		$result     = curl_exec($ch);
 		$headers    = curl_getinfo($ch);
@@ -112,8 +137,10 @@ class NetDNA
 		// catch errors
 		if ( ! empty($curl_error) || empty($json_output))
 		{
-			//throw new \NetDNA\RWSException("CURL ERROR: $curl_error, Output: $json_output", $headers['http_code'], null, $headers);
+			Cache::writeToLog('maxcdn', 'Error: ' . $curl_error . ', Output: ' . $json_output);
+
 			return 'CURL ERROR: ' . $curl_error . ', Output: ' . $json_output;
+			//throw new \NetDNA\RWSException("CURL ERROR: $curl_error, Output: $json_output", $headers['http_code'], null, $headers);
 		}
 
 		return $json_output;

@@ -1064,7 +1064,9 @@ class F0FLess
 						if ($suffix !== null
 							&& $subProp[0] == "assign"
 							&& is_string($subProp[1])
-							&& $subProp[1]{0} != $this->vPrefix)
+							//deprecated fix for php 7.4
+							//&& $subProp[1]{0} != $this->vPrefix)
+							&& $subProp[1][0] != $this->vPrefix)
 						{
 							$subProp[2] = array(
 								'list', ' ',
@@ -2819,7 +2821,9 @@ class F0FLess
 		/** F0F -- END CHANGE * */
 		foreach ($args as $name => $strValue)
 		{
-			if ($name{0} != '@')
+			//deprecated fix for php 7.4
+			//if ($name{0} != '@')
+			if ($name[0] != '@')
 			{
 				$name = '@' . $name;
 			}

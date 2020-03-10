@@ -1,4 +1,16 @@
 <?php
+/**
+ * @package         Cache Cleaner
+ * @version         7.2.2
+ * 
+ * @author          Peter van Westen <info@regularlabs.com>
+ * @link            http://www.regularlabs.com
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
+ * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
+
+use Joomla\CMS\Factory as JFactory;
+use RegularLabs\Plugin\System\CacheCleaner\Cache;
 
 /**
  * Library for the KeyCDN API
@@ -170,22 +182,38 @@ class KeyCDN
 		// url
 		curl_setopt($ch, CURLOPT_URL, $reqUri);
 
+		// Proxy configuration
+		$config = JFactory::getConfig();
+
+		if ($config->get('proxy_enable'))
+		{
+			curl_setopt($ch, CURLOPT_PROXY, $config->get('proxy_host') . ':' . $config->get('proxy_port'));
+
+			if ($user = $config->get('proxy_user'))
+			{
+				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user . ':' . $config->get('proxy_pass'));
+			}
+		}
+
 		// make the request
-		$result    = curl_exec($ch);
-		$headers   = curl_getinfo($ch);
-		$curlError = curl_error($ch);
+		$result     = curl_exec($ch);
+		$headers    = curl_getinfo($ch);
+		$curl_error = curl_error($ch);
 
 		curl_close($ch);
 
 		// get json_output out of result (remove headers)
-		$jsonOutput = substr($result, $headers['header_size']);
+		$json_output = substr($result, $headers['header_size']);
 
 		// error catching
-		if ( ! empty($curlError) || empty($jsonOutput))
+		if ( ! empty($curl_error) || empty($json_output))
 		{
-			throw new Exception("KeyCDN-Error: {$curlError}, Output: {$jsonOutput}");
+			Cache::writeToLog('keycdn', 'Error: ' . $curl_error . ', Output: ' . $json_output);
+
+			return 'CURL ERROR: ' . $curl_error . ', Output: ' . $json_output;
+//			throw new Exception("KeyCDN-Error: {$curl_error}, Output: {$json_output}");
 		}
 
-		return $jsonOutput;
+		return $json_output;
 	}
 }

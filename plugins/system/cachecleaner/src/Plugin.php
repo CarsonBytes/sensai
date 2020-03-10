@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Cache Cleaner
- * @version         7.1.0
+ * @version         7.2.2
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -341,8 +341,8 @@ class Plugin extends JPlugin
 			return;
 		}
 
-		if (version_compare($plugin['version'], '19.7.21312', '<')
-			|| version_compare($library['version'], '19.7.21312', '<'))
+		if (version_compare($plugin['version'], '20.2.15050', '<')
+			|| version_compare($library['version'], '20.2.15050', '<'))
 		{
 			define('REGULAR_LABS_LIBRARY_INSTALLED', 'outdated');
 

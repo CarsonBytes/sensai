@@ -1,11 +1,11 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         19.9.10668
+ * @version         20.2.15050
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
- * @copyright       Copyright © 2019 Regular Labs All Rights Reserved
+ * @copyright       Copyright © 2020 Regular Labs All Rights Reserved
  * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
@@ -268,7 +268,7 @@ class Document
 	 * @param string $file
 	 * @param string $version
 	 */
-	public static function script($file, $version = '')
+	public static function script($file, $version = '', $options = [], $attribs = [])
 	{
 		if ( ! $url = File::getMediaFile('js', $file))
 		{
@@ -277,11 +277,13 @@ class Document
 
 		JHtml::_('jquery.framework');
 
-		if (strpos($file, 'regularlabs/') !== false)
+		if (strpos($file, 'regularlabs/') !== false
+			&& strpos($file, 'regular.') === false
+		)
 		{
 			JHtml::_('behavior.core');
 			JHtml::_('script', 'jui/cms.js', ['version' => 'auto', 'relative' => true]);
-			$version = '19.9.10668';
+			$version = '20.2.15050';
 		}
 
 		if ( ! empty($version))
@@ -289,7 +291,7 @@ class Document
 			$url .= '?v=' . $version;
 		}
 
-		JFactory::getDocument()->addScript($url);
+		JFactory::getDocument()->addScript($url, $options, $attribs);
 	}
 
 	/**
@@ -302,7 +304,7 @@ class Document
 	{
 		if (strpos($file, 'regularlabs/') === 0)
 		{
-			$version = '19.9.10668';
+			$version = '20.2.15050';
 		}
 
 		if ( ! $file = File::getMediaFile('css', $file))

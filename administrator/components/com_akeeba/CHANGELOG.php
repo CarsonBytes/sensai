@@ -1,4 +1,23 @@
 <?php die();?>
+Akeeba Backup 7.0.2
+================================================================================
+~ Log the full path to the computed site's root, without <root> replacement
+~ Use Chosen in the Control Panel's profile selection page
+# [HIGH] Core (free of charge) version only: the PayPal donation link included a tracking pixel. Changed to donation link, without tracking.
+# [HIGH] Core (free of charge) version only: the system/akeebaupdatecheck plugin would always throw an error
+# [HIGH] Restoration will fail if a table's name is a superset of another table's name e.g. foo_example_2020 being a superset of foo_example_2.
+# [MEDIUM] WebDav post-processing engine: first backup archive was always uploaded on the remote root, ignoring any directory settings
+
+Akeeba Backup 7.0.1
+================================================================================
+- pCloud: removing download to browser (cannot work properly due to undocumented API restrictions)
+# [HIGH] An error about not being able to open a file with an empty name occurs when taking a SQL-only backup but there's a row over 1MB big
+# [LOW] Schedule Automatic Backups shown in the Configuration page of the Core version
+# [LOW] A secret work would not be proposed when one was not set or set to something insecure
+# [LOW] The akeeba-altbackup.php and akeeba-altcheck-failed.php CRON scripts falsely report front-end backup is not enabled
+# [LOW] Dark Mode: modal close icon was invisible both in the backup software and during restoration
+# [LOW] Fixed automatically filling DropBox tokens after OAuth authentication
+
 Akeeba Backup 7.0.0
 ================================================================================
 + Custom description for backups taken with the Backup on Update plugin
