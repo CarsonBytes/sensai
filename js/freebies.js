@@ -304,19 +304,57 @@ jQuery(function ($) {
     });
 
     $('form.info_request').on('submit', function (e) {
-        //console.log($(this))
-        if (!$(this).find('input[name=email]').is(':visible')) {
-            //console.log('showing now')
-            $(this).find('input[name=email]').show().focus();
-            return false
+        var name = $(this).find('input[name=name]');
+        var email = $(this).find('input[name=email]');
+        var success = $(this).find('.success');
+        var fail = $(this).find('.fail');
+        var btn_to_amazon = $(this).find('.btn_to_amazon');
+
+        if (!name.is(':visible')) {
+            name.show().focus();
+            email.show();
+            return false;
         }
 
-        //code to store email in db, and send email with the redirect link to client
+        if (name.val() == '') {
+            name.focus();
+            return false;
+        }
+        if (!validateEmail(email.val())) {
+            email.focus();
+            return false;
+        }
 
-        // the link must be trackable with his email.
+        var data = {
+            name: name.val(),
+            email: email.val(),
+            file: $(this).find('input[name=file]').val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax/email_downloadable_hash.php",
+            data: data,
+            success: function (result) {
+                //console.log(result);
+                if (result) {
+                    name.hide();
+                    email.hide(); 
+                    btn_to_amazon.hide(); 
+                    success.show();
+                } else {
+                    fail.show();
+                }
+            }
+        });
+
 
         return false;
     })
 
 
 })
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}

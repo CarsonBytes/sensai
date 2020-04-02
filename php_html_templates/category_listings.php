@@ -2,7 +2,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-$query = "SELECT b.id, a.j2store_product_id, /*a.main_tag, */b.catid, b.title, /*, b.introtext, b.fulltext,*/ d.title as tag_title, e.thumb_image FROM `h1232_j2store_products` a 
+$query = "SELECT b.id, a.j2store_product_id, b.catid, b.title, d.title as tag_title, e.thumb_image FROM `h1232_j2store_products` a 
 INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 LEFT JOIN `h1232_contentitem_tag_map` c ON a.product_source_id = c.content_item_id
 LEFT JOIN `h1232_tags` d ON c.tag_id = d.id

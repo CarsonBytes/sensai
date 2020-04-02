@@ -56,6 +56,8 @@ html.itemid-256 {
         font-weight: bold;
     }
 
+
+
     .btn_to_amazon {
         display        : block;
         position       : relative;
@@ -203,14 +205,27 @@ html.itemid-256 {
 
     }
 
-    .email_input_wrapper {
-        margin-bottom: 10px;
+    .info_request {
+        .success {
+            font-weight  : bold;
+            color        : #B12704;
+            margin-bottom: 10px;
+        }
 
-        input {
-            width  : 100%;
-            display: none;
+        .email_input_wrapper {
+            margin-bottom: 10px;
+
+            input {
+                width  : 100%;
+                display: none;
+
+                &.email {
+                    margin-top: 10px;
+                }
+            }
         }
     }
+
 
     @media (min-width: @screen-md-min) {
 

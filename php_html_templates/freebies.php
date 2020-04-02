@@ -185,7 +185,15 @@ function getImageAlt(&$images_alts, $i)
                             </div>
                             <form name="info_request<?php echo $j; ?>" class="info_request" data-id="<?php echo $j; ?>">
                                 <div class="email_input_wrapper">
-                                    <input type="text" class="email" name="email" placeholder="メールアドレス" />
+                                    <input type="hidden" name="file" value="download.png,robots.txt" />
+                                    <input type="text" class="form_name" name="name" placeholder="お名前" />
+                                    <input type="email" pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" class="email" name="email" placeholder="メールアドレス" />
+                                </div>
+                                <div class="success" style="display:none;">
+                                    Thank you for your interest. A download link will be sent to your specified email address.
+                                </div>
+                                <div class="fail" style="display:none;">
+                                    Errors occured. Please try again later.
                                 </div>
                                 <div class="btn_to_amazon to_single">
                                     <span class="a-button-inner">
