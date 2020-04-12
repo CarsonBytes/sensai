@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
 $sitename  = $this->params->get('sitename');
 $slogan    = $this->params->get('slogan', '');
 $logotype  = $this->params->get('logotype', 'text');
-$logoimgsm = ($logotype == 'image' && $this->params->get('enable_logoimage_sm', 0)) ? $this->params->get('logoimage_sm', T3Path::getUrl('images/logo-sm.png', '', true)) : false;
+$logoimgsm = ($logotype == 'image' && $this->params->get('enable_logoimage_sm', 0)) ? $this->params->get('logoimage_sm', T3Path::getUrl('images/page/common/header/logo.png', '', true)) /* $this->params->get('logoimage_sm', T3Path::getUrl('images/logo-sm.png', '', true))  */: false;
 
 //$logoimage = $logotype == 'image' ? $this->params->get('logoimage', T3Path::getUrl('images/logo.png', '', true)) : '';
-$logoimage = 'images/logo.jpg';
+$logoimage = $this->params->get('logoimage', T3Path::getUrl('images/page/common/header/logo.png', '', true));
 
 if (!$sitename) {
 	$sitename = JFactory::getConfig()->get('sitename');

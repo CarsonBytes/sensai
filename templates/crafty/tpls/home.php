@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 </head>
 
 <body>
-	<div id="preloader"></div>
+<?php /* <div id="preloader"></div> */ ?>
 	
 <div class="t3-wrapper"> <!-- Need this wrapper for off-canvas menu. Remove if you don't use of-canvas -->
 

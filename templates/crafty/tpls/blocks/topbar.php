@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <nav id="t3-topbar" class="t3-topbar">
 	<div class="">
 		<div class="row">
-			<div class="col-md-6 col-sm-6 col-xs-6 text-left <?php $this->_c('topbar-left') ?>">
+			<div class="col-lg-7 col-md-6 col-sm-9 col-xs-9 text-left <?php $this->_c('topbar-left') ?>">
 				<?php if ($this->countModules('off-canvas')) : ?>
 					<div class="off_canvas pull-left">
 						<div class="off_canvas_wrapper">
@@ -26,8 +26,11 @@ defined('_JEXEC') or die;
 				<?php endif ?>
 				<div class="top_logo pull-left">
 					<a href="/" class="nav-logo-link" aria-label="Amazon" tabindex="6">
-						<img src="/images/logo.jpg" alt="精彩本屋" />
+						<img src="/images/page/common/header/logo.png" alt="精彩本屋" />
 					</a>
+				</div>
+				<div class="top_banner_wrapper">
+					<div class="top_banner">This is a top banner. Height : 65px</div>
 				</div>
 				<?php /*<div class="pull-left skype">
 					<jdoc:include type="modules" name="<?php $this->_p('skype') ?>" />
@@ -39,8 +42,13 @@ defined('_JEXEC') or die;
 					<jdoc:include type="modules" name="<?php $this->_p('phone') ?>" />
 				</div> */ ?>
 			</div>
-			<div class="col-md-6 col-sm-6 col-xs-6 right-topbar">
+			<div class="col-lg-5 col-md-6 col-sm-3 col-xs-3 right-topbar">
 				<div class="pull-right">
+					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo1-quality.png" /></a>
+					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo2_paper.png" /></a>
+					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo3_printing.png" /></a>
+					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo4_satisfaction.png" /></a>
+					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo5_freebie.png" /></a>
 					<jdoc:include type="modules" name="<?php $this->_p('topbar-right') ?>" />
 				</div>
 			</div>

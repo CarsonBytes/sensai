@@ -74,41 +74,96 @@ body:lang(ja-jp) {
                 }
             }
         }
-    }
 
-}
+        .text-left {
+            .top_logo {
+                display      : inline-block;
+                padding-right: 4px;
 
-.top_logo {
-    display      : inline-block;
-    padding-top  : 5px;
-    padding-right: 4px;
+                a {
+                    &:hover {
+                        outline       : 1px solid #fff;
+                        outline-offset: 0;
+                    }
 
-    a {
-        &:hover {
-            outline       : 1px solid #fff;
-            outline-offset: 0;
+                    img {
+                        height: 65px;
+                        width : auto;
+                    }
+                }
+            }
+
+            .top_banner_wrapper {
+                /* background-color: #e21e26; */
+                height             : 65px;
+                line-height        : 65px;
+                text-align         : center;
+
+                .top_banner {
+                    height: 100%;
+                    margin-left: 110px;
+                    background-color   : black;
+                    @media screen and (min-width: @screen-desktop) {
+                        margin-left: 0;
+                    }
+                }
+            }
         }
 
-        img {
-            height: 60px;
-            width : auto;
+        .right-topbar {
+            .pull-right {
+
+                height     : 65px;
+                display    : flex;
+                align-items: center;
+
+                .nav li.item-120 a {
+                    //login button padding remove
+                    padding-right: 10px;
+                }
+
+                #j2store_currency {
+                    margin-right: 4px;
+                    line-height : 32px;
+
+                    a {
+                        //default
+                        border         : 1px solid #ccc;
+                        display        : inline-block;
+                        margin-right   : 2px;
+                        padding        : 2px 4px;
+                        text-decoration: none;
+                        cursor         : pointer;
+
+                        margin-bottom : 0;
+                        margin-top    : 0;
+                        padding-top   : 0;
+                        padding-bottom: 0;
+                    }
+                }
+
+                .promo_logo {
+                    display     : none;
+                    margin-right: 15px;
+                    height      : 65px;
+                    width       : auto;
+
+                    @media screen and (min-width: @screen-desktop) {
+                        display: block;
+                    }
+                }
+
+                .mod-languages {
+                    @media screen and (max-width: @screen-sm-min) {
+                        position: absolute;
+                        top     : 15px;
+                        right   : 15px;
+                    }
+                }
+            }
         }
     }
-}
 
-.mod-languages {
-    @media screen and (max-width: @screen-sm-min) {
-        position: absolute;
-        top     : 15px;
-        right   : 15px;
-    }
-}
-
-.com_content,
-.com_content {
-    .articlebody {
-        box-shadow: none !important;
-    }
 }
 
 .t3-off-canvas {
@@ -131,6 +186,10 @@ body:lang(ja-jp) {
     height       : 33px;
     background   : #fafafa;
     margin-bottom: 10px;
+
+    .logo {
+        display: none;
+    }
 
     .navbar-default {
 
@@ -261,57 +320,13 @@ body:lang(ja-jp) {
 
 }
 
-.logo {
-    display: none;
-}
-
-//fix footer to be on the bottom, when middle content is too short
-@media screen and (min-width: @screen-desktop) and (min-height: 660px) {
-    .footer_to_bottom {
-        .t3-wrapper {
-            position  : relative;
-            min-height: 100%;
-
-            #t3-footer {
-                position: absolute;
-                bottom  : 0;
-                left    : 0;
-                right   : 0;
-            }
-        }
+.com_content,
+.com_content {
+    .articlebody {
+        box-shadow: none !important;
     }
 }
 
-.right-topbar .pull-right {
-    height     : 65px;
-    display    : flex;
-    align-items: center;
-
-    .nav li.item-120 a {
-        //login button padding remove
-        padding-right: 10px;
-    }
-
-    #j2store_currency {
-        margin-right: 4px;
-        line-height : 32px;
-
-        a {
-            //default
-            border         : 1px solid #ccc;
-            display        : inline-block;
-            margin-right   : 2px;
-            padding        : 2px 4px;
-            text-decoration: none;
-            cursor         : pointer;
-
-            margin-bottom : 0;
-            margin-top    : 0;
-            padding-top   : 0;
-            padding-bottom: 0;
-        }
-    }
-}
 
 //carousal
 #tns1>.tns-item {
@@ -348,5 +363,27 @@ body:lang(ja-jp) {
         max-width: 100%;
         height   : 350px;
         width    : auto;
+    }
+}
+
+.slider_sm_wrapper,
+.slider_md_whole_wrapper {
+    display: none;
+}
+
+//fix footer to be on the bottom, when middle content is too short
+@media screen and (min-width: @screen-desktop) and (min-height: 660px) {
+    .footer_to_bottom {
+        .t3-wrapper {
+            position  : relative;
+            min-height: 100%;
+
+            #t3-footer {
+                position: absolute;
+                bottom  : 0;
+                left    : 0;
+                right   : 0;
+            }
+        }
     }
 }

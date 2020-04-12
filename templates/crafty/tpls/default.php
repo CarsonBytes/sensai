@@ -1,4 +1,5 @@
 <?php
+
 /** 
  *------------------------------------------------------------------------------
  * @package       T3 Framework for Joomla!
@@ -17,38 +18,38 @@ defined('_JEXEC') or die;
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"
-	  class='<jdoc:include type="pageclass" />'>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" class='<jdoc:include type="pageclass" />'>
 
 <head>
-	<jdoc:include type="head" />
-	<?php $this->loadBlock('head') ?>
+  <jdoc:include type="head" />
+  <?php $this->loadBlock('head') ?>
 </head>
 
 <body>
-	
-<div id="preloader"></div>
 
-<div class="t3-wrapper"> <!-- Need this wrapper for off-canvas menu. Remove if you don't use of-canvas -->
+  <?php /* <div id="preloader"></div> */ ?>
 
-  <?php $this->loadBlock('topbar') ?>
-  
-  <?php $this->loadBlock('header') ?>
-  
-  <?php $this->loadBlock('slider') ?>
-  
-  <?php $this->loadBlock('breadcrumbs') ?>
-  
-  <?php $this->loadBlock('navhelper') ?>
-  
-  <?php $this->loadBlock('mainbody') ?>
+  <div class="t3-wrapper">
+    <!-- Need this wrapper for off-canvas menu. Remove if you don't use of-canvas -->
 
-  <?php $this->loadBlock('spotlight-2') ?>
+    <?php $this->loadBlock('topbar') ?>
+
+    <?php $this->loadBlock('header') ?>
+
+    <?php $this->loadBlock('slider') ?>
+
+    <?php $this->loadBlock('breadcrumbs') ?>
+
+    <?php $this->loadBlock('navhelper') ?>
+
+    <?php $this->loadBlock('mainbody') ?>
+
+    <?php $this->loadBlock('spotlight-2') ?>
 
 
-  <?php $this->loadBlock('footer') ?>
+    <?php $this->loadBlock('footer') ?>
 
-</div>
+  </div>
 
 </body>
 
