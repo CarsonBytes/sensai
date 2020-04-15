@@ -111,11 +111,13 @@ body:lang(ja-jp) {
         }
 
         .right-topbar {
-            .pull-right {
+            .right-topbar_inner {
 
-                height     : 65px;
-                display    : flex;
+                height: 65px;
+                display: flex;
                 align-items: center;
+                justify-content: space-between;
+                position: relative;
 
                 .nav li.item-120 a {
                     //login button padding remove
@@ -154,10 +156,10 @@ body:lang(ja-jp) {
                 }
 
                 .mod-languages {
-                    @media screen and (max-width: @screen-sm-min) {
+                    @media screen and (max-width: @screen-desktop) {
                         position: absolute;
                         top     : 15px;
-                        right   : 15px;
+                        right   : 0;
                     }
                 }
             }

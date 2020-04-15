@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 				</div> */ ?>
 			</div>
 			<div class="col-lg-5 col-md-6 col-sm-3 col-xs-3 right-topbar">
-				<div class="pull-right">
+				<div class="right-topbar_inner">
 					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo1-quality.png" /></a>
 					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo2_paper.png" /></a>
 					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo3_printing.png" /></a>
