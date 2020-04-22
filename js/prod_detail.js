@@ -56,40 +56,90 @@ var slider2_info = null;
 var slider_md_info = null;
 var main_scrollY = 0;
 
+function getImgSizeUrl(url, width) {
+    //width : XL, L, M, S, XS
+    var all_sizes = ['_2000', '_1500', '_762', '_277', '_50'];
 
-var cx, cy;
-function imageZoom() {
+    var regexp = new RegExp(all_sizes.join('|'), 'g');
+
+    switch (width) {
+        case 'XL':
+            return url.replace(regexp, '_2000');
+            break;
+        case 'L':
+            return url.replace(regexp, '_1500');
+            break;
+        case 'M':
+            return url.replace(regexp, '_762');
+            break;
+        case 'S':
+            return url.replace(regexp, '_277');
+            break;
+        case 'XS':
+            return url.replace(regexp, '_50');
+            break;
+    }
+    return false;
+}
+
+function imageZoom(img_element) {
+    var cx, cy;
     var img, lens, result;
+    var x_diff, y_diff;
+    var natural_width_L, natural_height_L;
 
-    //img = document.getElementById(imgID);
-    img = jQuery('.slider_md_wrapper .tns-slide-active img').get(0);
-    //result = document.getElementById(resultID);
-    result = jQuery('.image_zoom_preview').get(0);
+    //check which edge is longer, and calculate the ratio of M : L size image
+    if (img_element.get(0).naturalWidth > img_element.get(0).naturalHeight) {
+        natural_width_L = 1500; // L size longest edge is 1500
+        cy = cx = natural_width_L / img_element.width();
+        natural_height_L = img_element.height() * cy;
+    } else {
+        natural_height_L = 1500; // L size longest edge is 1500
+        cy = cx = natural_height_L / img_element.height();
+        natural_width_L = img_element.width() * cy;
+    }
+
+    //check whether zoom preview div is too big, ensure the zoom preview could cover the whole image area
+    x_diff = natural_width_L - jQuery('.image_zoom_preview').width();
+    y_diff = natural_height_L - jQuery('.image_zoom_preview').height();
+
+    if ((x_diff < 0) && (x_diff < y_diff)) {
+        cy = cx = jQuery('.image_zoom_preview').width() / img_element.width()
+    } else if ((y_diff < 0) && (y_diff < x_diff)) {
+        cy = cx = jQuery('.image_zoom_preview').height() / img_element.height()
+    }
+
+    // hide all previews first
+    jQuery('.large_preview_bg').hide();
+
+    if (!jQuery('.image_zoom_preview > [data-id=' + img_element.data('id') + ']').length) {
+        jQuery('.image_zoom_preview').append('<div class="large_preview_bg" data-id="' + img_element.data('id') + '" style="position:absolute;width:100%;height:100%;background-image: url(' + getImgSizeUrl(img_element.get(0).src, 'L') + ')"></div>');
+    }
+
+    // show the active preview
+    jQuery('.image_zoom_preview > [data-id=' + img_element.data('id') + ']').show();
+    result = jQuery('.image_zoom_preview > [data-id=' + img_element.data('id') + ']').get(0);
 
     /*create lens:*/
     lens = document.createElement("div");
     lens.setAttribute("class", "magnifier_lens");
+    
     /*insert lens:*/
-    img.parentElement.insertBefore(lens, img);
-    /*calculate the ratio between result DIV and lens:*/
+    img_element.get(0).parentElement.insertBefore(lens, img);
 
+    /*calculate the ratio between result DIV and lens:*/
     jQuery('.magnifier_lens')
         .css('width', result.offsetWidth / cx)
         .css('height', result.offsetHeight / cy)
 
-    /*
-    cx = result.offsetWidth / lens.offsetWidth;
-    cy = result.offsetHeight / lens.offsetHeight;
-    */
     /*set background properties for the result DIV:*/
-    result.style.backgroundImage = "url('" + img.src + "')";
-    result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+    result.style.backgroundSize = (img_element.width() * cx) + "px " + (img_element.height() * cy) + "px";
     /*execute a function when someone moves the cursor over the image, or the lens:*/
     lens.addEventListener("mousemove", moveLens);
-    img.addEventListener("mousemove", moveLens);
+    img_element.get(0).addEventListener("mousemove", moveLens);
     /*and also for touch screens:*/
     lens.addEventListener("touchmove", moveLens);
-    img.addEventListener("touchmove", moveLens);
+    img_element.get(0).addEventListener("touchmove", moveLens);
     function moveLens(e) {
         var pos, x, y;
         /*prevent any other actions that may occur when moving over the image:*/
@@ -100,9 +150,9 @@ function imageZoom() {
         x = pos.x - (lens.offsetWidth / 2);
         y = pos.y - (lens.offsetHeight / 2);
         /*prevent the lens from being positioned outside the image:*/
-        if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
+        if (x > img_element.width() - lens.offsetWidth) { x = img_element.width() - lens.offsetWidth; }
         if (x < 0) { x = 0; }
-        if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
+        if (y > img_element.height() - lens.offsetHeight) { y = img_element.height() - lens.offsetHeight; }
         if (y < 0) { y = 0; }
         /*set the position of the lens:*/
         lens.style.left = x + "px";
@@ -114,7 +164,7 @@ function imageZoom() {
         var a, x = 0, y = 0;
         e = e || window.event;
         /*get the x and y positions of the image:*/
-        a = img.getBoundingClientRect();
+        a = img_element.get(0).getBoundingClientRect();
         /*calculate the cursor's x and y coordinates, relative to the image:*/
         x = e.pageX - a.left;
         y = e.pageY - a.top;
@@ -124,8 +174,9 @@ function imageZoom() {
         return { x: x, y: y };
     }
 }
-
 jQuery(function ($) {
+
+    lazySizes.init();
 
     slider1 = tns({
         container: '.my-slider1',
@@ -207,21 +258,7 @@ jQuery(function ($) {
                 .css('width', $('.main_content').outerWidth() + 30)
                 .css('height', $('.simple-product > .row').outerHeight());
 
-
-            cx = $(this).find('img').get(0).naturalWidth / $(this).find('img').width();
-            cy = $(this).find('img').get(0).naturalHeight / $(this).find('img').height();
-
-            //check whether zoom preview div is too big, ensure the zoom preview could cover the whole image area
-            var x_diff, y_diff;
-            x_diff = $(this).find('img').get(0).naturalWidth - $('.image_zoom_preview').width();
-            y_diff = $(this).find('img').get(0).naturalHeight - $('.image_zoom_preview').height();
-
-            if ((x_diff < 0) && (x_diff < y_diff)) {
-                cy = cx = $('.image_zoom_preview').width() / $(this).find('img').width()
-            } else if ((y_diff < 0) && (y_diff < x_diff)) {
-                cy = cx = $('.image_zoom_preview').height() / $(this).find('img').height()
-            }
-            imageZoom();
+            imageZoom($(this).find('img'));
         })
         .on('mouseleave', '.slider_md_wrapper .tns-slide-active', function (e) {
             //hide image zoom
@@ -232,8 +269,7 @@ jQuery(function ($) {
             main_scrollY = $(window).scrollTop();
 
             var img_id = $(this).parents('.a-image-wrapper').find('img').data('id');
-            var img_src = $(this).parents('.a-image-wrapper').find('img').prop('src');
-
+            var img_src = getImgSizeUrl($(this).parents('.a-image-wrapper').find('img').prop('src'), 'L');
 
             $('#productGallery_m .image_wrapper').removeClass('selected');
             $('#productGallery_m .image_wrapper img[data-id=' + img_id + ']').parents('.image_wrapper')
@@ -258,7 +294,7 @@ jQuery(function ($) {
             $('#productGallery_m .enlarged_image img')
                 .hide()
                 .css('max-height', $('#productGallery_m .modal-content').height() - 68)
-                .prop('src', $(this).find('img').prop('src'))
+                .prop('src', getImgSizeUrl($(this).find('img').prop('src'), 'L'))
         })
 
     $('#productGallery_m, #productGallery').on('hidden.bs.modal', function (e) {
@@ -266,13 +302,13 @@ jQuery(function ($) {
         $(window).scrollTop(main_scrollY);
     })
 
-    $("#productGallery_m .enlarged_image img").on("load change", function() {
+    $("#productGallery_m .enlarged_image img").on("load change", function () {
         $('#productGallery_m .enlarged_image img').fadeIn();
 
         $('#productGallery_m .enlarged_image').trigger('zoom.destroy');
         $('#productGallery_m .enlarged_image img.zoomImg').remove();
         $(this).removeClass('zoomable');
-        
+
 
         /*  console.log($(this).get(0).naturalWidth)
         console.log($('#productGallery_m .table_wrapper').get(0).offsetWidth)
@@ -286,8 +322,8 @@ jQuery(function ($) {
             ($(this).get(0).naturalHeight >
                 $('#productGallery_m .table_wrapper').get(0).offsetHeight)
         ) {
-            $('#productGallery_m .enlarged_image').zoom({ on: 'click', url: $(this).prop('src') });
-            $(this).addClass('zoomable')    
+            $('#productGallery_m .enlarged_image').zoom({ on: 'click', url: getImgSizeUrl($(this).prop('src'), 'L') });
+            $(this).addClass('zoomable')
         }
     })
 
@@ -314,7 +350,7 @@ jQuery(function ($) {
         if ($(window).width() <= 970) {
             $('#productGallery_m').modal('hide');
             $('#productGallery_m .enlarged_image img')
-                .prop('src','');
+                .prop('src', '');
         }
 
         $('#productGallery_m .enlarged_image img')

@@ -100,9 +100,10 @@ body:lang(ja-jp) {
                 text-align         : center;
 
                 .top_banner {
-                    height: 100%;
-                    margin-left: 110px;
-                    background-color   : black;
+                    height          : 100%;
+                    margin-left     : 110px;
+                    background-color: black;
+
                     @media screen and (min-width: @screen-desktop) {
                         margin-left: 0;
                     }
@@ -113,11 +114,11 @@ body:lang(ja-jp) {
         .right-topbar {
             .right-topbar_inner {
 
-                height: 65px;
-                display: flex;
-                align-items: center;
+                height         : 65px;
+                display        : flex;
+                align-items    : center;
                 justify-content: space-between;
-                position: relative;
+                position       : relative;
 
                 .nav li.item-120 a {
                     //login button padding remove
@@ -203,7 +204,12 @@ body:lang(ja-jp) {
             text-align: center;
 
             .mega>.mega-dropdown-menu {
-                min-width: 104px;
+                min-width: 120px;
+            }
+
+            .mega>.mega-dropdown-menu .mega-dropdown-menu {
+
+                min-width: 130px;
             }
 
             .mega-nav,
@@ -226,12 +232,11 @@ body:lang(ja-jp) {
                             }
 
                             ::after {
-                                /* display   : none; */
-                                display      : inline-block;
-                                float        : none;
-                                position     : absolute;
-                                right        : 5px;
-                                top          : 6px;
+                                display : inline-block;
+                                float   : none;
+                                position: absolute;
+                                right   : 5px;
+                                top     : 6px;
                             }
                         }
 
@@ -372,6 +377,7 @@ body:lang(ja-jp) {
 .slider_md_whole_wrapper {
     display: none;
 }
+
 
 //fix footer to be on the bottom, when middle content is too short
 @media screen and (min-width: @screen-desktop) and (min-height: 660px) {

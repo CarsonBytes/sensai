@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $document = JFactory::getDocument();
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css');
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
-$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21');
+$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21,npm/lazysizes@5.2.0,npm/lazysizes@5.2.0/plugins/attrchange/ls.attrchange.min.js');
 $document->addScript('/js/prod_detail.js');
 $document->addScript('/js/sm_slider.js');
 
@@ -63,6 +63,31 @@ $product_thumbs = $database->loadAssocList();
 
 // echo '</pre>';
 
+function getImgSizeUrl($url, $width = 'L')
+{
+	//width : XL, L, M, S, XS
+	$all_sizes = array('_2000', '_1500', '_762', '_277', '_50');
+
+	switch ($width) {
+		case 'XL':
+			return str_replace($all_sizes, '_2000', $url);
+			break;
+		case 'L':
+			return str_replace($all_sizes, '_1500', $url);
+			break;
+		case 'M':
+			return str_replace($all_sizes, '_762', $url);
+			break;
+		case 'S':
+			return str_replace($all_sizes, '_277', $url);
+			break;
+		case 'XS':
+			return str_replace($all_sizes, '_50', $url);
+			break;
+	}
+	return false;
+}
+
 ?>
 <div itemscope itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
 	<div class="row">
@@ -75,13 +100,14 @@ $product_thumbs = $database->loadAssocList();
 			<div class="slider_sm_wrapper hidden-md hidden-lg">
 				<div class="my-slider1">
 
-					<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+					<div><img data-src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 
-					<?php $additional_images = json_decode($this->product->additional_images);
+					<?php
+					$additional_images = json_decode($this->product->additional_images);
 					$additional_images_alts = (array) json_decode($this->product->additional_images_alt);
 					$i = 0;
 					foreach ($additional_images as $additional_image) { ?>
-						<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+						<div><img data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
 					<?php
 						$i++;
 					} ?>
@@ -94,7 +120,7 @@ $product_thumbs = $database->loadAssocList();
 					<ul class="thumbnails" id="slider_md_thumbnails">
 						<li>
 							<div class="image-wrapper">
-								<div class="a-image-wrapper"><img src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+								<div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($this->product->main_image, 'XS') ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 							</div>
 						</li>
 
@@ -102,7 +128,7 @@ $product_thumbs = $database->loadAssocList();
 						foreach ($additional_images as $additional_image) { ?>
 							<li>
 								<div class="image-wrapper">
-									<div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+									<div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($additional_image, 'XS') ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
 								</div>
 							</li>
 						<?php
@@ -115,14 +141,14 @@ $product_thumbs = $database->loadAssocList();
 					<div class="my-slider-md">
 
 						<div class="image-wrapper">
-							<div class="a-image-wrapper"><img data-id="main" <?php /*class="tns-lazy-img"  data-src="<?php echo 'https://sensaihonya.jp/' . $this->product->main_image ?>" data-zoom-image="/<?php echo $this->product->main_image ?>" */ ?> src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+							<div class="a-image-wrapper"><img data-id="main" src="<?php echo getImgSizeUrl($this->product->main_image, 'M') ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 						</div>
 
 						<?php
 						$i = 0;
 						foreach ($additional_images as $additional_image) { ?>
 							<div class="image-wrapper">
-								<div class="a-image-wrapper"><img data-id="additional-<?php echo $i ?>" <?php /*class="tns-lazy-img" data-src="<?php echo 'https://sensaihonya.jp/' . $additional_image ?>" data-zoom-image="/<?php echo $additional_image ?>" */ ?> src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+								<div class="a-image-wrapper"><img data-id="additional-<?php echo $i ?>" src="/<?php echo getImgSizeUrl($additional_image, 'M') ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
 							</div>
 						<?php
 							$i++;
@@ -183,6 +209,14 @@ $product_thumbs = $database->loadAssocList();
 				<?php echo $this->product->source->introtext; ?>
 			</div>
 			<div class="image_zoom_preview"></div>
+			<div class="big_img" style="display:none;">
+				<img class="lazyload" data-src="/<?php echo getImgSizeUrl($this->product->main_image, 'L') ?>" />
+				<?php
+				$i = 0;
+				foreach ($additional_images as $additional_image) { ?>
+					<img class="lazyload" data-src="/<?php echo getImgSizeUrl($additional_image, 'L') ?>" />
+				<? } ?>
+			</div>
 		</div>
 	</div>
 	<?php if ($product_type == 'bundle') { ?>
@@ -352,112 +386,112 @@ $product_thumbs = $database->loadAssocList();
 			</div>
 		<?php } ?>
 	<?php } ?>
+</div>
 
-	<?php if ($product_type == 'image') { ?>
-		<?php if ($this->params->get('item_use_tabs', 1)) : ?>
-			<?php echo $this->loadTemplate('tabs'); ?>
-		<?php else : ?>
-			<?php echo $this->loadTemplate('notabs'); ?>
-		<?php endif; ?>
-	<?php } ?>
-
-	<?php if (isset($this->product->source->event->afterDisplayContent)) : ?>
-		<?php echo $this->product->source->event->afterDisplayContent; ?>
+<?php if ($product_type == 'image') { ?>
+	<?php if ($this->params->get('item_use_tabs', 1)) : ?>
+		<?php echo $this->loadTemplate('tabs'); ?>
+	<?php else : ?>
+		<?php echo $this->loadTemplate('notabs'); ?>
 	<?php endif; ?>
+<?php } ?>
 
-	<!-- Modal -->
-	<div class="modal" id="productGallery" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<!-- <div class="modal-header">
+<?php if (isset($this->product->source->event->afterDisplayContent)) : ?>
+	<?php echo $this->product->source->event->afterDisplayContent; ?>
+<?php endif; ?>
+
+<!-- Modal -->
+<div class="modal" id="productGallery" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
         <h4 class="modal-title" id="productGalleryLabel"></h4>
       </div>-->
-				<div class="modal-body">
-					<div class="back_btn_wrapper">
-						<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
-						<div class="back_btn_text">
-							<span>戻る</span>
+			<div class="modal-body">
+				<div class="back_btn_wrapper">
+					<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
+					<div class="back_btn_text">
+						<span>戻る</span>
+					</div>
+				</div>
+
+				<div class="my-slider2">
+					<div><img <?php /*class="tns-lazy-img" */ ?> src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+
+					<?php
+					$i = 0;
+					foreach ($additional_images as $additional_image) { ?>
+						<div><img class="lazyload" data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+					<?php
+						$i++;
+					} ?>
+				</div>
+				<ul class="thumbnails" id="customize-thumbnails">
+					<li>
+						<div class="image-wrapper">
+							<div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($this->product->main_image, 'XS') ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 						</div>
-					</div>
+					</li>
 
-					<div class="my-slider2">
-						<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
-
-						<?php
-						$i = 0;
-						foreach ($additional_images as $additional_image) { ?>
-							<div><img <?php /*class="tns-lazy-img" */ ?> data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
-						<?php
-							$i++;
-						} ?>
-					</div>
-					<ul class="thumbnails" id="customize-thumbnails">
+					<?php
+					$i = 0;
+					foreach ($additional_images as $additional_image) { ?>
 						<li>
 							<div class="image-wrapper">
-								<div class="a-image-wrapper"><img src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+								<div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($additional_image, 'XS') ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
 							</div>
 						</li>
-
-						<?php
-						$i = 0;
-						foreach ($additional_images as $additional_image) { ?>
-							<li>
-								<div class="image-wrapper">
-									<div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
-								</div>
-							</li>
-						<?php
-							$i++;
-						} ?>
-					</ul>
-				</div>
-				<!-- <div class="modal-footer">
-      </div> -->
+					<?php
+						$i++;
+					} ?>
+				</ul>
 			</div>
+			<!-- <div class="modal-footer">
+      </div> -->
 		</div>
 	</div>
+</div>
 
-	<!-- Modal -->
-	<div class="modal" id="productGallery_m" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel_m">
-		<div class="vertical_alignment_helper">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="close_btn_wrapper">
-						<button type="button" class="btn btn-default close" data-dismiss="modal"><i class="fas fa-times"></i></button>
-					</div>
-					<div class="modal-body">
-						<div class="main_wrapper">
-							<div class="thumbnails_column">
-								<div class="title"><?php echo $this->loadTemplate('title'); ?></div>
-								<div class="thumbnails_wrapper">
-									<div class="thumbnails_row_wrapper">
+<!-- Modal -->
+<div class="modal" id="productGallery_m" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel_m">
+	<div class="vertical_alignment_helper">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="close_btn_wrapper">
+					<button type="button" class="btn btn-default close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+				</div>
+				<div class="modal-body">
+					<div class="main_wrapper">
+						<div class="thumbnails_column">
+							<div class="title"><?php echo $this->loadTemplate('title'); ?></div>
+							<div class="thumbnails_wrapper">
+								<div class="thumbnails_row_wrapper">
+									<div class="image_wrapper">
+										<img data-id="main" class="thumbnail_image" src="<?php echo getImgSizeUrl($this->product->main_image, 'XS') ?>" title="<?php echo $this->product->main_image_alt ?>" />
+									</div>
+									<?php
+									$i = 0;
+									//$additional_images->{2}=$additional_images->{3};
+									foreach ($additional_images as $additional_image) { ?>
 										<div class="image_wrapper">
-											<img data-id="main" class="thumbnail_image" src="<?php echo $this->product->main_image ?>" title="<?php echo $this->product->main_image_alt ?>" />
+											<img data-id="additional-<?php echo $i ?>" class="thumbnail_image" src="<?php echo getImgSizeUrl($additional_image, 'XS') ?>" title="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" />
 										</div>
-										<?php
-										$i = 0;
-										//$additional_images->{2}=$additional_images->{3};
-										foreach ($additional_images as $additional_image) { ?>
-											<div class="image_wrapper">
-												<img data-id="additional-<?php echo $i ?>" class="thumbnail_image" src="<?php echo $additional_image ?>" title="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" />
-											</div>
-											<?php if (($i == 2) && count($additional_images) > 3) { ?>
-									</div>
-									<div class="thumbnails_row_wrapper">
-									<?php } ?>
-
-								<?php $i++;
-										} ?>
-									</div>
+										<?php if (($i == 2) && count($additional_images) > 3) { ?>
 								</div>
-								<div class="clearfix"></div>
+								<div class="thumbnails_row_wrapper">
+								<?php } ?>
+
+							<?php $i++;
+									} ?>
+								</div>
 							</div>
-							<div class="enlarged_image_wrapper">
-								<div class="table_wrapper">
-									<div class="enlarged_image">
-										<img src="<?php echo $this->product->main_image ?>" />
-									</div>
+							<div class="clearfix"></div>
+						</div>
+						<div class="enlarged_image_wrapper">
+							<div class="table_wrapper">
+								<div class="enlarged_image">
+									<img class="lazyload" data-src="/<?php echo getImgSizeUrl($this->product->main_image, 'M') ?>" />
 								</div>
 							</div>
 						</div>
@@ -466,3 +500,4 @@ $product_thumbs = $database->loadAssocList();
 			</div>
 		</div>
 	</div>
+</div>
