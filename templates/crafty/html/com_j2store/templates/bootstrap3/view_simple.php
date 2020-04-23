@@ -100,14 +100,14 @@ function getImgSizeUrl($url, $width = 'L')
 			<div class="slider_sm_wrapper hidden-md hidden-lg">
 				<div class="my-slider1">
 
-					<div><img data-src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+					<div><img src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 
 					<?php
 					$additional_images = json_decode($this->product->additional_images);
 					$additional_images_alts = (array) json_decode($this->product->additional_images_alt);
 					$i = 0;
 					foreach ($additional_images as $additional_image) { ?>
-						<div><img data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+						<div><img src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
 					<?php
 						$i++;
 					} ?>
@@ -209,14 +209,6 @@ function getImgSizeUrl($url, $width = 'L')
 				<?php echo $this->product->source->introtext; ?>
 			</div>
 			<div class="image_zoom_preview"></div>
-			<div class="big_img" style="display:none;">
-				<img class="lazyload" data-src="/<?php echo getImgSizeUrl($this->product->main_image, 'L') ?>" />
-				<?php
-				$i = 0;
-				foreach ($additional_images as $additional_image) { ?>
-					<img class="lazyload" data-src="/<?php echo getImgSizeUrl($additional_image, 'L') ?>" />
-				<? } ?>
-			</div>
 		</div>
 	</div>
 	<?php if ($product_type == 'bundle') { ?>
@@ -417,12 +409,12 @@ function getImgSizeUrl($url, $width = 'L')
 				</div>
 
 				<div class="my-slider2">
-					<div><img <?php /*class="tns-lazy-img" */ ?> src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
+					<div><img src="<?php echo $this->baseurl . $this->product->main_image ?>" src="<?php echo $this->product->main_image ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
 
 					<?php
 					$i = 0;
 					foreach ($additional_images as $additional_image) { ?>
-						<div><img class="lazyload" data-src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+						<div><img src="<?php echo $this->baseurl . $additional_image ?>" src="<?php echo $additional_image ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
 					<?php
 						$i++;
 					} ?>
@@ -491,7 +483,6 @@ function getImgSizeUrl($url, $width = 'L')
 						<div class="enlarged_image_wrapper">
 							<div class="table_wrapper">
 								<div class="enlarged_image">
-									<img class="lazyload" data-src="/<?php echo getImgSizeUrl($this->product->main_image, 'M') ?>" />
 								</div>
 							</div>
 						</div>

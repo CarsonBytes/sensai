@@ -123,7 +123,7 @@ function imageZoom(img_element) {
     /*create lens:*/
     lens = document.createElement("div");
     lens.setAttribute("class", "magnifier_lens");
-    
+
     /*insert lens:*/
     img_element.get(0).parentElement.insertBefore(lens, img);
 
@@ -174,7 +174,61 @@ function imageZoom(img_element) {
         return { x: x, y: y };
     }
 }
+
 jQuery(function ($) {
+
+    function showGalleryImg(img_id, img_src) {
+        //select active thumbnail
+        $('#productGallery_m .image_wrapper').removeClass('selected');
+        $('#productGallery_m .image_wrapper img[data-id=' + img_id + ']').parents('.image_wrapper')
+            .addClass('selected');
+
+        // hide all slides and stop animation first
+        $('#productGallery_m .enlarged_image img')
+            .clearQueue().finish()
+            .removeClass('active').hide();
+
+        if (!$('#productGallery_m .enlarged_image img[data-id=' + img_id + ']').length) {
+            $('#productGallery_m .enlarged_image').append('<div data-id="' + img_id + '" style="width:100%;height:100%;"><img src="' + img_src + '" data-id="' + img_id + '" /></div>');
+        }
+
+        // show the active slide
+        $('#productGallery_m .enlarged_image img[data-id=' + img_id + ']')
+            .css('max-height', $(window).height() * 0.85 - 68)
+            .addClass('active')
+            .fadeIn();
+
+        var active_img = $('#productGallery_m .enlarged_image img.active');
+
+        $('#productGallery_m .enlarged_image').trigger('zoom.destroy');
+
+        $('#productGallery_m .enlarged_image > div').hide();
+
+        $('#productGallery_m .enlarged_image img').removeClass('zoomable');
+
+        //check zoom image is already created before or not, if not, then create 1, if so, then just use it without reloading
+        if (!$('#productGallery_m .enlarged_image div[data-id=' + img_id + '] img.zoomImg').length) {
+            // as the 1500w is most likely larger than a light box in a normal screen, we do the zooming anyways, 
+            // and also the image being loaded returns inaccurate dimensions...
+            /* if ((active_img.get(0).naturalWidth > active_img.get(0).offsetWidth)
+                ||
+                (active_img.get(0).naturalHeight > active_img.get(0).offsetHeight)
+            ) { */
+            $('#productGallery_m .enlarged_image div[data-id=' + img_id + ']').zoom(
+                {
+                    on: 'click',
+                    url: getImgSizeUrl(active_img.prop('src'), 'L'),
+                    callback: function () {
+                        active_img
+                            .addClass('zoomable')
+                            .css('cursor', 'zoom-in');
+                    }
+                }
+            );
+            /* } */
+        }
+        $('#productGallery_m .enlarged_image div[data-id=' + img_id + ']').fadeIn();
+    }
 
     lazySizes.init();
 
@@ -269,18 +323,9 @@ jQuery(function ($) {
             main_scrollY = $(window).scrollTop();
 
             var img_id = $(this).parents('.a-image-wrapper').find('img').data('id');
-            var img_src = getImgSizeUrl($(this).parents('.a-image-wrapper').find('img').prop('src'), 'L');
+            var img_src = getImgSizeUrl($(this).parents('.a-image-wrapper').find('img').prop('src'), 'M');
 
-            $('#productGallery_m .image_wrapper').removeClass('selected');
-            $('#productGallery_m .image_wrapper img[data-id=' + img_id + ']').parents('.image_wrapper')
-                .addClass('selected');
-
-            $('#productGallery_m .enlarged_image img').clearQueue().finish();
-
-            $('#productGallery_m .enlarged_image img')
-                .hide()
-                .css('max-height', $(window).height() * 0.85 - 68)
-                .prop('src', img_src)
+            showGalleryImg(img_id, img_src);
 
             $('#productGallery_m').modal();
 
@@ -289,12 +334,10 @@ jQuery(function ($) {
             $('#productGallery_m .image_wrapper').removeClass('selected');
             $(this).addClass('selected');
 
-            $('#productGallery_m .enlarged_image img').clearQueue().finish();
+            var img_id = $(this).find('img').data('id');
+            var img_src = getImgSizeUrl($(this).find('img').prop('src'), 'M')
 
-            $('#productGallery_m .enlarged_image img')
-                .hide()
-                .css('max-height', $('#productGallery_m .modal-content').height() - 68)
-                .prop('src', getImgSizeUrl($(this).find('img').prop('src'), 'L'))
+            showGalleryImg(img_id, img_src);
         })
 
     $('#productGallery_m, #productGallery').on('hidden.bs.modal', function (e) {
@@ -303,28 +346,6 @@ jQuery(function ($) {
     })
 
     $("#productGallery_m .enlarged_image img").on("load change", function () {
-        $('#productGallery_m .enlarged_image img').fadeIn();
-
-        $('#productGallery_m .enlarged_image').trigger('zoom.destroy');
-        $('#productGallery_m .enlarged_image img.zoomImg').remove();
-        $(this).removeClass('zoomable');
-
-
-        /*  console.log($(this).get(0).naturalWidth)
-        console.log($('#productGallery_m .table_wrapper').get(0).offsetWidth)
-        
-        console.log($(this).get(0).naturalHeight)
-        console.log($('#productGallery_m .table_wrapper').get(0).offsetHeight)  */
-
-        if (($(this).get(0).naturalWidth >
-            $('#productGallery_m .table_wrapper').get(0).offsetWidth)
-            ||
-            ($(this).get(0).naturalHeight >
-                $('#productGallery_m .table_wrapper').get(0).offsetHeight)
-        ) {
-            $('#productGallery_m .enlarged_image').zoom({ on: 'click', url: getImgSizeUrl($(this).prop('src'), 'L') });
-            $(this).addClass('zoomable')
-        }
     })
 
     $(".btn_to_amazon")
@@ -349,8 +370,7 @@ jQuery(function ($) {
 
         if ($(window).width() <= 970) {
             $('#productGallery_m').modal('hide');
-            $('#productGallery_m .enlarged_image img')
-                .prop('src', '');
+            $('#productGallery_m .enlarged_image img').hide();
         }
 
         $('#productGallery_m .enlarged_image img')
@@ -453,16 +473,3 @@ jQuery(function ($) {
     }
 
 })
-
-/*console.log($(this).attr('coords'))
-console.log(coords )
-console.log(width )
-console.log(height )
-console.log(coords[0]+'px')
-console.log(coords[1]+'px')
-console.log(width - coords[2] + 'px')
-console.log(height - coords[3] + 'px')*/
-
-/* function scroll_to_row(kind) {
-    table.scrollToRow(document.getElementById("row-id").value, kind, true);
-} */
