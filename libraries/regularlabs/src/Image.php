@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         20.2.15050
+ * @version         20.3.22179
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
@@ -14,8 +14,8 @@ namespace RegularLabs\Library;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Folder as JFolder;
-use Joomla\Image\Image as JImage;
 use Joomla\CMS\Uri\Uri as JUri;
+use Joomla\Image\Image as JImage;
 
 class Image
 {
@@ -210,10 +210,11 @@ class Image
 			return $source;
 		}
 
-		try {
+		try
+		{
 			$image = new JImage($source_path);
 		}
-		catch(\InvalidArgumentException $e)
+		catch (\InvalidArgumentException $e)
 		{
 			return $source;
 		}
@@ -260,10 +261,11 @@ class Image
 			return false;
 		}
 
-		try {
+		try
+		{
 			$image = new JImage($source_path);
 		}
-		catch(\InvalidArgumentException $e)
+		catch (\InvalidArgumentException $e)
 		{
 			return false;
 		}
@@ -327,10 +329,11 @@ class Image
 			];
 		}
 
-		try {
+		try
+		{
 			$image = new JImage(JPATH_SITE . '/' . $source);
 		}
-		catch(\InvalidArgumentException $e)
+		catch (\InvalidArgumentException $e)
 		{
 			return (object) [
 				'width'  => 0,

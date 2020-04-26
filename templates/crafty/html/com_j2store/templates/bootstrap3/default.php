@@ -21,7 +21,7 @@ INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 LEFT JOIN `h1232_contentitem_tag_map` c ON a.product_source_id = c.content_item_id
 LEFT JOIN `h1232_tags` d ON c.tag_id = d.id
 LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
-WHERE (b.note = 'deco' OR b.note = 'image') AND d.alias = '" . $this->active_menu->alias . "'
+WHERE (b.note = 'deco' OR b.note = 'image' OR b.note = 'painting') AND d.alias = '" . $this->active_menu->alias . "' AND b.state = 1
 ORDER BY a.`j2store_product_id` DESC";
 
 $database = JFactory::getDbo();

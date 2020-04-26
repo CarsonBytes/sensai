@@ -1,6 +1,6 @@
 /**
  * @package         Regular Labs Library
- * @version         20.2.15050
+ * @version         20.3.22179
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
@@ -12,11 +12,11 @@
 
 if (typeof window.RegularLabsCodeMirror === 'undefined'
 	|| typeof RegularLabsCodeMirror.version === 'undefined'
-	|| RegularLabsCodeMirror.version < '20.2.15050') {
+	|| RegularLabsCodeMirror.version < '20.3.22179') {
 
 	(function($) {
 		window.RegularLabsCodeMirror = {
-			version: '20.2.15050',
+			version: '20.3.22179',
 
 			init: function(id) {
 				if (!$(`#rl_codemirror_${id} .CodeMirror`).length) {

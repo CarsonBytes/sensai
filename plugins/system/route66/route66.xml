@@ -2,12 +2,12 @@
 <extension group="system" method="upgrade" type="plugin" version="3.5">
 	<name>plg_system_route66</name>
 	<author>Lefteris Kavadas</author>
-	<creationDate>October 2019</creationDate>
+	<creationDate>April 2020</creationDate>
 	<copyright>Lefteris Kavadas / firecoders.com</copyright>
 	<license>GNU General Public License version 3 or later</license>
 	<authorEmail>info@firecoders.com</authorEmail>
 	<authorUrl>www.firecoders.com</authorUrl>
-	<version>1.7.1</version>
+	<version>1.7.2</version>
 	<description>PLG_SYSTEM_ROUTE66_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="route66">route66.php</filename>

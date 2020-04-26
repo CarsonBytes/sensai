@@ -1,7 +1,7 @@
 <?php
 /**
  * @author      Lefteris Kavadas
- * @copyright   Copyright (c) 2016 - 2019 Lefteris Kavadas / firecoders.com
+ * @copyright   Copyright (c) 2016 - 2020 Lefteris Kavadas / firecoders.com
  * @license     GNU General Public License version 3 or later
  */
 
@@ -84,7 +84,12 @@ class Route66Css
 				{
 					continue;
 				}
-				$buffer = str_replace($url, $this->relativeToAbsolute($url, $basepath), $buffer);
+				$replace = $this->relativeToAbsolute($url, $basepath);
+
+				if ($replace)
+				{
+					$buffer = str_replace($url, $replace, $buffer);
+				}
 			}
 		}
 		$this->parts[] = $buffer;

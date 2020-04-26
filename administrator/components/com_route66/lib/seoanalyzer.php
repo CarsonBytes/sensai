@@ -1,7 +1,7 @@
 <?php
 /**
  * @author      Lefteris Kavadas
- * @copyright   Copyright (c) 2016 - 2019 Lefteris Kavadas / firecoders.com
+ * @copyright   Copyright (c) 2016 - 2020 Lefteris Kavadas / firecoders.com
  * @license     GNU General Public License version 3 or later
  */
 defined('_JEXEC') or die;
@@ -113,6 +113,7 @@ class Route66SeoAnalyzer
 		$this->options['keywordValue'] = isset($this->data['keyword']) ? $this->data['keyword'] : '';
 		$this->options['scoreValue'] = isset($this->data['score']) ? $this->data['score'] : 0;
 		$this->options['i18n'] = $this->i18n;
+		$this->options['worker'] = JUri::root(false).'media/route66/js/seo/worker.min.js';
 	}
 
 	private function setMenu()
@@ -204,9 +205,8 @@ class Route66SeoAnalyzer
 		JHtml::_('jquery.framework');
 		$document = JFactory::getDocument();
 		$document->addStyleSheet(JUri::root(true) . '/media/route66/css/route66seo.css', array('version' => $version));
-		$document->addScript(JUri::root(true) . '/media/route66/js/circle-progress.min.js', array('version' => $version));
-		$document->addScriptOptions('Route66SeoOptions', $this->options);
-		$document->addScript(JUri::root(true) . '/media/route66/js/yoast.min.js', array('version' => $version));
+		$document->addScriptOptions('Route66SeoAnalyzerOptions', $this->options);
+		$document->addScript(JUri::root(true).'/media/route66/js/seo/main.min.js', array('version' => $version));
 		$document->addScript(JUri::root(true) . '/media/route66/js/route66seo.js', array('version' => $version));
 	}
 

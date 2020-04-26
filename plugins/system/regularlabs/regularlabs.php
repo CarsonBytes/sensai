@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Regular Labs Library
- * @version         20.2.15050
+ * @version         20.3.22179
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
@@ -193,7 +193,7 @@ class PlgSystemRegularLabs extends JPlugin
 
 		if ( ! file_exists($file))
 		{
-			return false;
+			return $this->getFieldClass($field, $field);
 		}
 
 		require_once $file;

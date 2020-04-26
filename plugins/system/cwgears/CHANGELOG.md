@@ -1,5 +1,13 @@
 ## Change Log
 
+### Version 0.6.0 April 2020
+- **(C)** Improved text cleaning to remove page builder tags
+- **(C)** Code updates and improvements
+
+### Version 0.5.9 March 2020
+- **(C)** Improved error catching in Version Check form field
+- **(L)** New and updated language strings
+
 ### Version 0.5.8 February 2020
 - **(C)** Minimum Joomla version now 3.9.0+
 - **(C)** Minimum PHP version now 5.6+

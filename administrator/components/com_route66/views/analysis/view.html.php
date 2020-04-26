@@ -1,7 +1,7 @@
 <?php
 /**
  * @author      Lefteris Kavadas
- * @copyright   Copyright (c) 2016 - 2019 Lefteris Kavadas / firecoders.com
+ * @copyright   Copyright (c) 2016 - 2020 Lefteris Kavadas / firecoders.com
  * @license     GNU General Public License version 3 or later
  */
 defined('_JEXEC') or die;
@@ -28,9 +28,8 @@ class Route66ViewAnalysis extends JViewLegacy
 			JHtml::_('behavior.formvalidation');
 			$document = JFactory::getDocument();
 			$document->addStyleSheet(JUri::root(true) . '/media/route66/css/route66seo.css', array('version' => $version));
-			$document->addScript(JUri::root(true) . '/media/route66/js/circle-progress.min.js', array('version' => $version));
 			$this->loadLanguage();
-			$document->addScript(JUri::root(true) . '/media/route66/js/yoast.min.js', array('version' => $version));
+			$document->addScript(JUri::root(true).'/media/route66/js/seo/main.min.js', array('version' => $version));
 			$document->addScript(JUri::root(true) . '/plugins/k2/route66seo/media/js/route66analyzer.js', array('version' => $version));
 			JText::script('ERROR');
 			JText::script('COM_ROUTE66_YOU_CAN_USE_ONLY_INTERNAL_URLS');
@@ -79,6 +78,6 @@ class Route66ViewAnalysis extends JViewLegacy
 		}
 
 		$document = JFactory::getDocument();
-		$document->addScriptOptions('Route66AnalyzerOptions', array('i18n' => $i18n));
+		$document->addScriptOptions('Route66UrlAnalyzerOptions', array('i18n' => $i18n, 'worker' => JUri::root(false).'media/route66/js/seo/worker.min.js', 'site' => JUri::root(false)));
 	}
 }

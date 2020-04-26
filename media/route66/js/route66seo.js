@@ -1,53 +1,16 @@
-Route66Seo = window.Route66Seo || {};
+Route66SeoAnalyzer = window.Route66SeoAnalyzer || {};
 
-(function(Route66Seo, $) {
+(function(Route66SeoAnalyzer, $) {
   'use strict';
 
-  Route66Seo.start = function() {
+  Route66SeoAnalyzer.start = function() {
 
     // Options
-    this.options = Joomla.getOptions('Route66SeoOptions');
+    this.options = Joomla.getOptions('Route66SeoAnalyzerOptions');
 
-    // i18n
-    var i18n = this.options.i18n || {
-      domain: 'js-text-analysis',
-      locale_data: {
-        'js-text-analysis': {
-          '': {}
-        }
-      }
-    };
+    // Analyzer
+    this.analyzer = new Route66Seo(this.options);
 
-    // PHP versions older than 7 could not decode an empty string
-    if(i18n.locale_data['js-text-analysis']._empty_) {
-      i18n.locale_data['js-text-analysis'][''] = i18n.locale_data['js-text-analysis']._empty_;
-    }
-
-    var Route66i18n = new Route66Jed(i18n);
-
-    // SEO analyzer
-    this.seoAssessor = new Route66SEOAssessor(Route66i18n);
-    for (var name in Route66SEOAssessments) {
-      if (Route66SEOAssessments[name].identifier) {
-        this.seoAssessor.addAssessment(name, Route66SEOAssessments[name]);
-      } else {
-        var constructor = Route66SEOAssessments[name];
-        var assesment = new constructor();
-        this.seoAssessor.addAssessment(name, assesment);
-      }
-    }
-
-    // Results
-    this.results = [];
-    this.score = 0;
-    this.previousScore = 0;
-
-    // Elements
-    this.$results = $('#route66-seo-analysis');
-    this.$scoreCircle = $('#route66-seo-score');
-    this.$scoreText = $('#route66-seo-score-text');
-    this.$scoreBadge = $('#route66-seo-score-badge');
-    this.$preview = $('#route66-seo-preview');
 
     this.$keywordField = $(this.options.fields.keyword);
     this.$titleField = $(this.options.fields.title);
@@ -100,9 +63,6 @@ Route66Seo = window.Route66Seo || {};
       this.$contentField = $(this.options.fields.text);
     }
 
-    // Measure element
-    this.createMeasureElement();
-
     // Add events
     this.addEvents();
 
@@ -110,7 +70,7 @@ Route66Seo = window.Route66Seo || {};
     this.analyze();
   };
 
-  Route66Seo.addEvents = function() {
+  Route66SeoAnalyzer.addEvents = function() {
     this.$keywordField.on('change', $.proxy(this.analyze, this));
     this.$titleField.on('change', $.proxy(this.analyze, this));
     if (this.$pageTitleField) {
@@ -125,7 +85,6 @@ Route66Seo = window.Route66Seo || {};
     } else {
       this.$contentField.on('change', $.proxy(this.analyze, this));
     }
-
 
     if (this.options.option === 'com_k2') {
       this.$deleteImageCheckbox.on('change', $.proxy(this.analyze, this));
@@ -143,86 +102,19 @@ Route66Seo = window.Route66Seo || {};
 
   };
 
-  Route66Seo.analyze = function() {
-    this.paper = new Route66Paper(this.getPaperText(), this.getPaperAttributes());
-    this.seoAssessor.assess(this.paper);
-    this.previousScore = this.score;
-    this.score = Math.max(0, this.seoAssessor.calculateOverallScore());
-    this.results = this.seoAssessor.getValidResults();
-    this.results.sort(function(a, b) {
-      return a.score - b.score;
-    });
-    this.render();
-
-    if (this.clones) {
-      this.clones.$keywordField.val(this.$keywordField.val());
-    }
-  };
-
-  Route66Seo.render = function() {
-    this.renderPreview();
-    this.renderScore();
-    this.renderAnalysis();
-  };
-
-  Route66Seo.renderAnalysis = function() {
-    var buffer = '';
-    $.each(this.results, $.proxy(function(index, result) {
-      result.rating = this.scoreToRating(result.score);
-      var icon;
-      if (result.rating === 'good') {
-        icon = 'icon-ok';
-      } else if (result.rating === 'ok') {
-        icon = 'icon-warning';
-      } else {
-        icon = 'icon-not-ok';
+  Route66SeoAnalyzer.analyze = function() {
+    var self = this;
+    this.analyzer.analyze(this.getPaperText(), this.getPaperAttributes()).then(function() {
+      var score = self.analyzer.score;
+      self.$scoreField.val(score);
+      if (self.clones) {
+        self.clones.$scoreField.val(score);
+        self.clones.$keywordField.val(self.$keywordField.val());
       }
-      buffer += '<div class="route66-seo-analysis-score route66-seo-analysis-score-' + result.rating + '"><span class="route66-seo-analysis-icon ' + icon + '"></span><span class="route66-seo-analysis-text">' + result.text + '</span></div>';
-    }, this));
-    this.$results.html(buffer);
+    });
   };
 
-  Route66Seo.renderPreview = function() {
-    var title = this.paper.getTitle();
-    var description = this.paper.getDescription();
-    if (!description) {
-      description = Route66StripHTML(this.paper.getText());
-    }
-    description = description.substr(0, 320);
-    var buffer = '<h4 class="route66-seo-preview-title">' + title + '</h4><div class="route66-seo-preview-url">' + this.getUrl() + '</div><div class="route66-seo-preview-description">' + description + '</div>';
-    this.$preview.html(buffer);
-  };
-
-  Route66Seo.renderScore = function() {
-    var color;
-    var badge;
-    if (this.score > 70) {
-      color = '#46a546';
-      badge = 'success';
-    } else if (this.score > 40) {
-      color = '#c67605';
-      badge = 'warning';
-    } else {
-      color = '#bd362f';
-      badge = 'important';
-    }
-    var size = this.options.scoreSize || 50;
-    this.$scoreCircle.circleProgress({
-      size: size,
-      value: this.score / 100,
-      fill: color,
-      animationStartValue: this.previousScore / 100
-    }).on('circle-animation-progress', $.proxy(function(event, progress, stepValue) {
-      this.$scoreText.text(parseInt(stepValue * 100));
-    }, this));
-    this.$scoreField.val(this.score);
-    this.$scoreBadge.text(this.score).removeAttr('class').addClass('badge badge-' + badge);
-    if (this.clones) {
-      this.clones.$scoreField.val(this.score);
-    }
-  };
-
-  Route66Seo.getPaperText = function() {
+  Route66SeoAnalyzer.getPaperText = function() {
     var text = '';
     if (this.options.option === 'com_k2') {
       if (this.$deleteImageCheckbox.length || this.$uploadImageField.val() || this.$existingImageField.val()) {
@@ -248,10 +140,11 @@ Route66Seo = window.Route66Seo || {};
       var parts = text.split(readmore);
       text = parts[1];
     }
+
     return text;
   };
 
-  Route66Seo.getPaperAttributes = function() {
+  Route66SeoAnalyzer.getPaperAttributes = function() {
     var title;
     if (this.$pageTitleField) {
       title = this.options.overrides.title || this.$pageTitleField.val() || this.$titleField.val();
@@ -267,64 +160,29 @@ Route66Seo = window.Route66Seo || {};
       keyword: this.$keywordField.val(),
       description: this.options.overrides.description || this.$descriptionField.val(),
       title: title,
-      titleWidth: 0,
-      url: this.getSlug()
+      url: this.getSlug(),
+      permalink: this.getUrl()
     };
-    attributes.titleWidth = this.measureWidth(attributes.title);
     return attributes;
   };
 
-  Route66Seo.getUrl = function() {
+  Route66SeoAnalyzer.getUrl = function() {
     return this.options.site + this.getSlug();
   };
 
-  Route66Seo.getSlug = function() {
+  Route66SeoAnalyzer.getSlug = function() {
     var url = this.options.url;
     return url.replace(this.options.aliasToken, this.$aliasField.val());
   };
 
-  Route66Seo.scoreToRating = function(score) {
-    var rating;
-    if (score === -1) {
-      rating = 'error';
-    } else if (score === 0) {
-      rating = 'feedback';
-    } else if (score <= 4) {
-      rating = 'bad';
-    } else if (score > 4 && score <= 7) {
-      rating = 'ok';
-    } else if (score > 7) {
-      rating = 'good';
-    }
-    return rating;
-  };
 
-  Route66Seo.createMeasureElement = function() {
-    this.measureElement = document.createElement('div');
-    this.measureElement.id = 'route66-yoast-measurement-element';
-    this.measureElement.style.position = 'absolute';
-    this.measureElement.style.left = '-9999em';
-    this.measureElement.style.top = 0;
-    this.measureElement.style.height = 0;
-    this.measureElement.style.overflow = 'hidden';
-    this.measureElement.style.fontFamily = 'Arial';
-    this.measureElement.style.fontSize = '18px';
-    this.measureElement.style.fontWeight = '400';
-    document.body.appendChild(this.measureElement);
-  };
-
-  Route66Seo.measureWidth = function(text) {
-    this.measureElement.innerHTML = text;
-    return this.measureElement.offsetWidth;
-  };
-
-}(Route66Seo, jQuery));
+}(Route66SeoAnalyzer, jQuery));
 
 
 jQuery(window).load(function() {
   // Delay for JCE...
   window.setTimeout(function() {
-    Route66Seo.start();
+    Route66SeoAnalyzer.start();
   }, 700);
 });
 
@@ -339,7 +197,7 @@ jQuery(document).ready(function() {
     body.removeClass('route66-seo-dropdown-opened');
   });
   jQuery(document).keypress(function(event) {
-    if(event.which == 13 && body.hasClass('route66-seo-dropdown-opened')) {
+    if (event.which == 13 && body.hasClass('route66-seo-dropdown-opened')) {
       event.preventDefault();
       body.removeClass('route66-seo-dropdown-opened');
     }

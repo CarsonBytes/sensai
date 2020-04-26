@@ -9,7 +9,7 @@
                size="30"
                label="COM_FALANG_CONFIG_BASIC_DOWNLOADID_LABEL"
                description ="COM_FALANG_CONFIG_BASIC_DOWNLOADID_DESC" />
-        <!-- >>> [FREE] >>> -->
+        <!-- >>> [FREE_1] >>> -->
         <field
                 name="@notice_frontEndEdition"
                 type="plaintext"
@@ -36,7 +36,7 @@
                 description="COM_FALANG_FIELD_ADVANCED_ROUTER_DESC"
                 default="COM_FALANG_ONLY_PAID"/>
 
-        <!-- <<< [FREE] <<< -->
+        <!-- <<< [FREE_1] <<< -->
         
         <field
                 name="show_list"
@@ -158,6 +158,20 @@
                label="COM_FALANG_CONFIG_TRANSLATOR_YANDEX_KEY"
                description="COM_FALANG_CONFIG_TRANSLATOR_YANDEX_KEY_DESC"
         />
+    </fieldset>
+    <fieldset name="import_export"
+              label="COM_FALANG_CONFIG_IE"
+              description="COM_FALANG_CONFIG_IE_DESC"
+        >
+        <!-- >>> [FREE_2] >>> -->
+        <field
+                name="@ie_list"
+                type="plaintext"
+                label="COM_FALANG_IE_TABLE_LIST_LABEL"
+                description="COM_FALANG_IE_TABLE_LIST_DESC"
+                default="COM_FALANG_ONLY_PAID"/>
+        <!-- <<< [FREE_2] <<< -->
+        
     </fieldset>
     <fieldset name="debug"
 		label="COM_FALANG_CONFIG_DEBUG_LABEL"
