@@ -178,6 +178,24 @@ function imageZoom(img_element) {
 }
 
 jQuery(function ($) {
+    var isSlider2Init = false;
+    var isSliderMDInit = false;
+
+    slider1 = tns({
+        container: '.my-slider1',
+        items: 1,
+        controls: false,
+        navPosition: 'bottom',
+        center: true,
+        autoHeight: true,
+        preventScrollOnTouch: 'auto',
+        gutter: 30
+        , loop: false
+        , lazyload: true
+    });
+    $('.my-slider1').find('img').on('load', function () {
+        slider1.updateSliderHeight();
+    });
     function initScreen() {
         //console.log('sized')
         $('#productGallery .my-slider2, #productGallery .my-slider2 > .tns-item')
@@ -186,25 +204,7 @@ jQuery(function ($) {
         if ($(window).width() <= 970) {
             $('#productGallery_m').modal('hide');
             $('#productGallery_m .enlarged_image img').hide();
-            if (!isSlider1Init) {
-                slider1 = tns({
-                    container: '.my-slider1',
-                    items: 1,
-                    controls: false,
-                    navPosition: 'bottom',
-                    center: true,
-                    autoHeight: true,
-                    preventScrollOnTouch: 'auto',
-                    gutter: 30
-                    , lazyload: true
-                });
-                isSlider1Init = true;
-            }
 
-            $('.my-slider1').find('img').on('load', function () {
-                slider1.rebuild()
-                slider1.updateSliderHeight();
-            });
         } else {
             if (!isSliderMDInit) {
                 slider_md = tns({
@@ -291,9 +291,6 @@ jQuery(function ($) {
 
     initScreen();
 
-    var isSlider1Init = false;
-    var isSlider2Init = false;
-    var isSliderMDInit = false;
     $('body').on('click', '.my-slider1 .tns-slide-active img', function (e) {
 
         main_scrollY = $(window).scrollTop();
@@ -324,11 +321,12 @@ jQuery(function ($) {
             });
             isSlider2Init = true;
         }
-        slider2.goTo(slider1_info.index - 1);
+        slider2.goTo(slider1_info.index);
 
         // bind function to event
         slider2.events.on('indexChanged', function () {
             slider2_info = slider2.getInfo();
+
             slider1.goTo(slider2_info.index);
         });
 
@@ -389,15 +387,15 @@ jQuery(function ($) {
             $(this).removeClass('focus');
         })
 
-
-    window.addEventListener("orientationchange", function () {
-        //console.log('orientation')
+    $(window).on('orientationchange', function () {
         $('#productGallery .my-slider2, #productGallery .my-slider2 > .tns-item')
             .css('height', $(window).height() - 50);
-    }, false);
+        $(window).one('resize', function () {
+            slider1.updateSliderHeight();
+        });
+    })
 
     $(window).on('resize', function () {
-        console.log('initScreen')
         initScreen();
     });
 
