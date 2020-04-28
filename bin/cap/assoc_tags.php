@@ -96,6 +96,8 @@ if (file_exists(dirname(__FILE__) . DS . $filename)) {
                 $contentTable->note = "image";
             } else if (strpos($line[$i][$tag_index], 'painting') !== false) {
                 $contentTable->note = "painting";
+            } else if (strpos($line[$i][$tag_index], 'bundle') !== false) {
+                $contentTable->note = "bundle";
             }
             echo '<pre>';
             var_dump('$contentTable->note' );

@@ -29,17 +29,17 @@ $product_type = $database->loadResult();
 //var_dump($this->product->j2store_product_id);
 
 if ($product_type == 'bundle') {
-	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext, e.thumb_image FROM `h1232_j2store_products` a 
+	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
 	WHERE bs.bundle_id = " . $this->product->product_source_id . "
-	ORDER by bs.id";
+	ORDER by bs.created_on";
 } else {
 	// deco or image posters
 
 	//bundles query
-	$query2 = "SELECT b.id, a.j2store_product_id, b.title, b.introtext, e.thumb_image FROM `h1232_j2store_products` a 
+	$query2 = "SELECT b.id, a.j2store_product_id, b.title, b.introtext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	WHERE b.id in (SELECT bundle_id FROM bundle_single where single_id = " . $this->product->product_source_id . ")
@@ -49,7 +49,7 @@ if ($product_type == 'bundle') {
 	// var_dump($bundles);
 
 	//bundle products query
-	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, e.thumb_image FROM `h1232_j2store_products` a 
+	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
@@ -64,9 +64,6 @@ echo '</pre>';  */
 
 $database->setQuery($query);
 $product_thumbs = $database->loadAssocList();
-// var_dump($product_thumbs);
-
-// echo '</pre>';
 
 function getImgSizeUrl($url, $width = 'L')
 {
@@ -232,13 +229,16 @@ function getImgSizeUrl($url, $width = 'L')
 			<div class="col-xs-12 singles_wrapper">
 
 				<div class="singles">
-					<?php $i = 1;
+					<?php $i = 1;/* 
+echo '<pre>';
+ var_dump($product_thumbs);
+ echo '</pre>'; */
 					foreach ($product_thumbs as $product_thumb) { ?>
 						<div class="single_wrapper">
 							<div class="single">
 								<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>">
 									<div class="img_wrapper">
-										<img src="<?php echo $product_thumb['thumb_image']; ?>" />
+										<img class="lazyload" data-src="/<?php echo $product_thumb['main_image']; ?>" />
 									</div>
 								</a>
 								<div class="list_content">
