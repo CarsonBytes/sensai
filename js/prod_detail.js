@@ -178,6 +178,7 @@ function imageZoom(img_element) {
 }
 
 jQuery(function ($) {
+
     var isSlider2Init = false;
     var isSliderMDInit = false;
 

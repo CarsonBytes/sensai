@@ -15,6 +15,8 @@ jQuery(function ($) {
             autoHeight: true,
             preventScrollOnTouch: 'auto',
             gutter: 30
+            , loop: false
+            , lazyload: true
         });
     });
 

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $document = JFactory::getDocument();
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css');
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
-$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21'); // ,npm/lazysizes@5.2.0,npm/lazysizes@5.2.0/plugins/respimg/ls.respimg.min.js
+$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21,npm/lazysizes@5.2.0,npm/lazysizes@5.2.0/plugins/respimg/ls.respimg.min.js'); 
 $document->addScript('/js/prod_detail.js');
 $document->addScript('/js/sm_slider.js');
 
@@ -42,7 +42,7 @@ if ($product_type == 'bundle') {
 	$query2 = "SELECT b.id, a.j2store_product_id, b.title, b.introtext, e.thumb_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
-	WHERE b.id in (SELECT bundle_id FROM sensaiho_nya.bundle_single where single_id = " . $this->product->product_source_id . ")
+	WHERE b.id in (SELECT bundle_id FROM bundle_single where single_id = " . $this->product->product_source_id . ")
 	ORDER by b.id";
 	$database->setQuery($query2);
 	$bundles = $database->loadAssocList();
@@ -53,9 +53,14 @@ if ($product_type == 'bundle') {
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
-	WHERE bs.bundle_id in (SELECT bundle_id FROM sensaiho_nya.bundle_single where single_id = " . $this->product->product_source_id . ")
-	ORDER by bs.id";
+	WHERE bs.bundle_id in (SELECT bundle_id FROM bundle_single where single_id = " . $this->product->product_source_id . ")
+	ORDER by bs.created_on";
 }
+/* echo '<pre>';
+var_dump($product_type);
+var_dump($query2);
+var_dump($query);
+echo '</pre>';  */
 
 $database->setQuery($query);
 $product_thumbs = $database->loadAssocList();
@@ -253,9 +258,9 @@ function getImgSizeUrl($url, $width = 'L')
 	<?php } ?>
 
 
-	<?php if ($product_type == 'deco') { ?>
+	<?php if ($product_type != 'bundle') { ?>
 		<?php if (count($bundles) > 0) { ?>
-			<div class="row">
+			<div class="row bundles">
 				<div class="col-xs-12 deco_bundles_wrapper">
 					<div class="deco_bundles">
 						<h2>関連バンドル</h2>
@@ -269,7 +274,7 @@ function getImgSizeUrl($url, $width = 'L')
 								<div class="slider_sm_wrapper hidden-md hidden-lg">
 									<div class="sm_slider" data-id="<?php echo $j ?>">
 
-										<div><img src="<?php echo $bundle['thumb_image'] ?>" /></div>
+										<div><img class="tns-lazy-img" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
 
 										<?php
 										$bundle_id = $bundle['id'];
@@ -277,7 +282,7 @@ function getImgSizeUrl($url, $width = 'L')
 											return ($var['bundle_id'] == $bundle_id);
 										});
 										foreach ($this_bundle_decos as $this_bundle_deco) { ?>
-											<div><img src="<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
+											<div><img class="tns-lazy-img" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
 										<?php } ?>
 									</div>
 
@@ -296,7 +301,7 @@ function getImgSizeUrl($url, $width = 'L')
 									<div class="bundle_thumb">
 										<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
 											<div class="img_wrapper">
-												<img src="<?php echo $bundle['thumb_image']; ?>" />
+												<img class="lazyload" src="https://placehold.it/183x205/FFFFFF/FFFFFF" data-src="/<?php echo $bundle['thumb_image']; ?>" />
 											</div>
 										</a>
 										<div class="btn_to_amazon to_single">
@@ -322,7 +327,7 @@ function getImgSizeUrl($url, $width = 'L')
 											?>
 												<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $this_bundle_deco['j2store_product_id']); ?>">
 													<div class="img_wrapper">
-														<img src="<?php echo $this_bundle_deco['thumb_image']; ?>" />
+														<img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image']; ?>" />
 													</div>
 												</a>
 											<?php
@@ -353,16 +358,16 @@ function getImgSizeUrl($url, $width = 'L')
 											</div>
 
 											<div class="productGallery_slider" data-id="<?php echo $j ?>">
-												<div><img src="<?php echo $bundle['thumb_image'] ?>" /></div>
+												<div><img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
 
 												<?php foreach ($this_bundle_decos as $this_bundle_deco) { ?>
-													<div><img src="<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
+													<div><img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
 												<?php } ?>
 											</div>
 											<ul class="thumbnails slider_sm_thumbnails" data-id="<?php echo $j ?>">
 												<li>
 													<div class="image-wrapper">
-														<div class="a-image-wrapper"><img src="<?php echo $bundle['thumb_image'] ?>" /></div>
+														<div class="a-image-wrapper"><img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
 													</div>
 												</li>
 
@@ -370,7 +375,7 @@ function getImgSizeUrl($url, $width = 'L')
 												foreach ($this_bundle_decos as $this_bundle_deco) { ?>
 													<li>
 														<div class="image-wrapper">
-															<div class="a-image-wrapper"><img src="<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
+															<div class="a-image-wrapper"><img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
 														</div>
 													</li>
 												<?php

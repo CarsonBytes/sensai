@@ -34,12 +34,12 @@ echo '<pre>';
 var_dump($this->active_menu->title);
 
 echo '</pre>'; */
-/* 
-echo '<pre>';
 
-var_dump($result);
+/* echo '<pre>';
 
-echo '</pre>';  */
+var_dump($this->active_menu->alias);
+
+echo '</pre>'; */
 
 $active_menu_route = $this->active_menu->route;
 ?>
@@ -48,7 +48,12 @@ $active_menu_route = $this->active_menu->route;
 	<?php include JPATH_SITE . '/php_html_templates/category.php'; ?>
 
 	<div class="right_listings_wrapper col-sm-12">
-		<h1><?php echo $this->active_menu->title ?></h1>
+		<h1><?php $img_path = "/images/page/common/list/category/" . $this->active_menu->alias . "_50.jpg";
+			if (file_exists(JPATH_SITE . $img_path)) { ?>
+				<img src="<?= $img_path ?>" />
+			<?php } ?>
+			<?php echo $this->active_menu->title ?>
+		</h1>
 		<div class="right_listings">
 			<?php foreach ($result as $item) { ?>
 				<div class="list_item_wrapper" data-id="<?php echo $item['j2store_product_id']; ?>" data-source="<?php echo $item['id']; ?>">
