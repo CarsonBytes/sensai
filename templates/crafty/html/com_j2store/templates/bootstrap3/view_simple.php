@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $document = JFactory::getDocument();
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css');
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
-$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21,npm/lazysizes@5.2.0,npm/lazysizes@5.2.0/plugins/respimg/ls.respimg.min.js'); 
+$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21,npm/lazysizes@5.2.0,npm/lazysizes@5.2.0/plugins/respimg/ls.respimg.min.js');
 $document->addScript('/js/prod_detail.js');
 $document->addScript('/js/sm_slider.js');
 
@@ -23,13 +23,14 @@ $database = JFactory::getDbo();
 $database->setQuery($query);
 //$result = $database->loadAssocList();
 $product_type = $database->loadResult();
-
-// echo '<pre>';
+/* 
+ echo '<pre>';
 //var_dump($this->product->product_source_id);
-//var_dump($this->product->j2store_product_id);
+var_dump($this->product->variants->sku);
+ echo '</pre>'; */
 
 if ($product_type == 'bundle') {
-	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
+	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext,  b.fulltext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
@@ -39,7 +40,7 @@ if ($product_type == 'bundle') {
 	// deco or image posters
 
 	//bundles query
-	$query2 = "SELECT b.id, a.j2store_product_id, b.title, b.introtext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
+	$query2 = "SELECT b.id, a.j2store_product_id, b.title, b.introtext, b.fulltext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	WHERE b.id in (SELECT bundle_id FROM bundle_single where single_id = " . $this->product->product_source_id . ")
@@ -91,7 +92,7 @@ function getImgSizeUrl($url, $width = 'L')
 }
 
 ?>
-<div itemscope itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
+<div itemscope data-sku="<?= $this->product->variants->sku ?>" itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
 	<div class="row">
 		<div class="col-sm-12 hidden-md hidden-lg">
 			<?php echo $this->loadTemplate('title'); ?>
@@ -223,69 +224,100 @@ function getImgSizeUrl($url, $width = 'L')
 			</div>
 		</div>
 	</div>
-	<?php if ($product_type == 'bundle') { ?>
 
-		<div class="row">
-			<div class="col-xs-12 singles_wrapper">
+	<div class="row">
+		<?php if ($this->product->product_long_desc != '') : ?>
+			<div class="col-xs-12 col-md-12 product-ldesc">
+				<?php echo $this->product->product_long_desc; ?>
+			</div>
+		<?php endif; ?>
 
-				<div class="singles">
-					<?php $i = 1;/* 
+		<?php if (isset($this->product->source->event->afterDisplayContent)) : ?>
+			<?php echo $this->product->source->event->afterDisplayContent; ?>
+		<?php endif; ?>
+	</div>
+</div>
+<?php if ($product_type == 'bundle') { ?>
+
+	<div class="row">
+		<div class="col-xs-12 singles_wrapper">
+
+			<div class="singles">
+				<?php $i = 1;/* 
 echo '<pre>';
  var_dump($product_thumbs);
  echo '</pre>'; */
-					foreach ($product_thumbs as $product_thumb) { ?>
-						<div class="single_wrapper">
-							<div class="single">
-								<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>">
-									<div class="img_wrapper">
-										<img class="lazyload" data-src="/<?php echo $product_thumb['main_image']; ?>" />
-									</div>
-								</a>
-								<div class="list_content">
-									<a class="title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>"><?php echo $product_thumb['title']; ?></a>
-									<?php echo $product_thumb['introtext']; ?>
+				foreach ($product_thumbs as $product_thumb) { ?>
+					<div class="single_wrapper">
+						<div class="single">
+							<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>">
+								<div class="img_wrapper">
+									<img class="lazyload" data-src="/<?php echo $product_thumb['main_image']; ?>" />
+								</div>
+							</a>
+							<div class="list_content">
+								<a class="title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>"><?php echo $product_thumb['title']; ?></a>
+								<?php echo $product_thumb['introtext']; ?>
+							</div>
+
+						</div>
+					</div>
+				<?php echo ($i % 2 == 0 ?  '<div class="clearfix"></div>' : '');
+					$i++;
+				} ?>
+			</div>
+
+		</div>
+	</div>
+<?php } ?>
+
+
+<?php if ($product_type != 'bundle') { ?>
+	<?php if (count($bundles) > 0) { ?>
+		<div class="row bundles">
+			<div class="col-xs-12 deco_bundles_wrapper">
+				<div class="deco_bundles">
+					<h2>関連バンドル</h2>
+					<?php $j = 0;
+					foreach ($bundles as $bundle) { ?>
+						<div class="deco_bundle_wrapper">
+							<a class="bundle_title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
+								<?php echo $bundle['title']; ?>
+							</a>
+
+							<div class="slider_sm_wrapper hidden-md hidden-lg">
+								<div class="sm_slider" data-id="<?php echo $j ?>">
+
+									<div><img class="tns-lazy-img" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
+
+									<?php
+									$bundle_id = $bundle['id'];
+									$this_bundle_decos = array_filter($product_thumbs, function ($var) use ($bundle_id) {
+										return ($var['bundle_id'] == $bundle_id);
+									});
+									foreach ($this_bundle_decos as $this_bundle_deco) { ?>
+										<div><img class="tns-lazy-img" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
+									<?php } ?>
 								</div>
 
+								<div class="btn_to_amazon to_single">
+									<span class="a-button-inner">
+										<i class="a-icon a-icon-buynow"></i>
+										<input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
+										<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
+											アマゾンでこれを買う
+										</span>
+									</span>
+								</div>
 							</div>
-						</div>
-					<?php echo ($i % 2 == 0 ?  '<div class="clearfix"></div>' : '');
-						$i++;
-					} ?>
-				</div>
 
-			</div>
-		</div>
-	<?php } ?>
-
-
-	<?php if ($product_type != 'bundle') { ?>
-		<?php if (count($bundles) > 0) { ?>
-			<div class="row bundles">
-				<div class="col-xs-12 deco_bundles_wrapper">
-					<div class="deco_bundles">
-						<h2>関連バンドル</h2>
-						<?php $j = 0;
-						foreach ($bundles as $bundle) { ?>
-							<div class="deco_bundle_wrapper">
-								<a class="bundle_title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
-									<?php echo $bundle['title']; ?>
-								</a>
-
-								<div class="slider_sm_wrapper hidden-md hidden-lg">
-									<div class="sm_slider" data-id="<?php echo $j ?>">
-
-										<div><img class="tns-lazy-img" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
-
-										<?php
-										$bundle_id = $bundle['id'];
-										$this_bundle_decos = array_filter($product_thumbs, function ($var) use ($bundle_id) {
-											return ($var['bundle_id'] == $bundle_id);
-										});
-										foreach ($this_bundle_decos as $this_bundle_deco) { ?>
-											<div><img class="tns-lazy-img" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
-										<?php } ?>
-									</div>
-
+							<div class="deco_bundle hidden-sm hidden-xs" data-id="<?php echo $bundle['id']; ?>">
+								<div class="bundle_thumb">
+									<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
+										<div class="img_wrapper">
+											<img class="lazyload" src="https://placehold.it/183x205/FFFFFF/FFFFFF" data-src="/<?php echo $bundle['thumb_image']; ?>" />
+										</div>
+									</a>
 									<div class="btn_to_amazon to_single">
 										<span class="a-button-inner">
 											<i class="a-icon a-icon-buynow"></i>
@@ -296,116 +328,94 @@ echo '<pre>';
 										</span>
 									</div>
 								</div>
-
-								<div class="deco_bundle hidden-sm hidden-xs" data-id="<?php echo $bundle['id']; ?>">
-									<div class="bundle_thumb">
-										<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
-											<div class="img_wrapper">
-												<img class="lazyload" src="https://placehold.it/183x205/FFFFFF/FFFFFF" data-src="/<?php echo $bundle['thumb_image']; ?>" />
-											</div>
-										</a>
-										<div class="btn_to_amazon to_single">
-											<span class="a-button-inner">
-												<i class="a-icon a-icon-buynow"></i>
-												<input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-												<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
-													アマゾンでこれを買う
-												</span>
-											</span>
-										</div>
-									</div>
-									<div class="vertical_line"></div>
-									<div class="col_2 hidden-sm hidden-xs">
-										<div class="deco_thumbs">
-											<?php
-											/* $bundle_id = $bundle['id'];
+								<div class="vertical_line"></div>
+								<div class="col_2 hidden-sm hidden-xs">
+									<div class="deco_thumbs">
+										<?php
+										/* $bundle_id = $bundle['id'];
 										$this_bundle_decos = array_filter($product_thumbs, function ($var) use ($bundle_id) {
 											return ($var['bundle_id'] == $bundle_id);
 										}); */
 
-											foreach ($this_bundle_decos as $this_bundle_deco) {
-											?>
-												<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $this_bundle_deco['j2store_product_id']); ?>">
-													<div class="img_wrapper">
-														<img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image']; ?>" />
-													</div>
-												</a>
-											<?php
-											} ?>
-										</div>
-										<div class="clearfix"></div>
-										<div class="bundle_desc_wrapper">
-											<div class="bundle_desc">
-												<?php echo $bundle['introtext']; ?>
-											</div>
-										</div>
+										foreach ($this_bundle_decos as $this_bundle_deco) {
+										?>
+											<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $this_bundle_deco['j2store_product_id']); ?>">
+												<div class="img_wrapper">
+													<img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image']; ?>" />
+												</div>
+											</a>
+										<?php
+										} ?>
 									</div>
 									<div class="clearfix"></div>
+									<div class="bundle_desc_wrapper">
+										<div class="bundle_desc">
+											<?php echo $bundle['introtext']; ?>
+										</div>
+									</div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
+							<div class="clearfix"></div>
+						</div>
 
-							<!-- Modal -->
-							<div class="modal productGallery" data-id="<?php echo $j ?>" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-body">
-											<div class="back_btn_wrapper">
-												<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
-												<div class="back_btn_text">
-													<span>戻る</span>
+						<!-- Modal -->
+						<div class="modal productGallery" data-id="<?php echo $j ?>" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-body">
+										<div class="back_btn_wrapper">
+											<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
+											<div class="back_btn_text">
+												<span>戻る</span>
+											</div>
+										</div>
+
+										<div class="productGallery_slider" data-id="<?php echo $j ?>">
+											<div><img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
+
+											<?php foreach ($this_bundle_decos as $this_bundle_deco) { ?>
+												<div><img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
+											<?php } ?>
+										</div>
+										<ul class="thumbnails slider_sm_thumbnails" data-id="<?php echo $j ?>">
+											<li>
+												<div class="image-wrapper">
+													<div class="a-image-wrapper"><img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
 												</div>
-											</div>
+											</li>
 
-											<div class="productGallery_slider" data-id="<?php echo $j ?>">
-												<div><img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
-
-												<?php foreach ($this_bundle_decos as $this_bundle_deco) { ?>
-													<div><img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
-												<?php } ?>
-											</div>
-											<ul class="thumbnails slider_sm_thumbnails" data-id="<?php echo $j ?>">
+											<?php
+											foreach ($this_bundle_decos as $this_bundle_deco) { ?>
 												<li>
 													<div class="image-wrapper">
-														<div class="a-image-wrapper"><img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
+														<div class="a-image-wrapper"><img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
 													</div>
 												</li>
-
-												<?php
-												foreach ($this_bundle_decos as $this_bundle_deco) { ?>
-													<li>
-														<div class="image-wrapper">
-															<div class="a-image-wrapper"><img class="lazyload" data-src="/<?php echo $this_bundle_deco['thumb_image'] ?>" /></div>
-														</div>
-													</li>
-												<?php
-												} ?>
-												<div class="clearfix"></div>
-											</ul>
-										</div>
+											<?php
+											} ?>
+											<div class="clearfix"></div>
+										</ul>
 									</div>
 								</div>
 							</div>
-						<?php $j++;
-						} ?>
-					</div>
+						</div>
+					<?php $j++;
+					} ?>
 				</div>
 			</div>
-		<?php } ?>
+		</div>
 	<?php } ?>
+<?php } ?>
 </div>
 
-<?php if ($product_type == 'image') { ?>
+<? php/*  if ($product_type == 'image') { ?>
 	<?php if ($this->params->get('item_use_tabs', 1)) : ?>
 		<?php echo $this->loadTemplate('tabs'); ?>
 	<?php else : ?>
 		<?php echo $this->loadTemplate('notabs'); ?>
 	<?php endif; ?>
-<?php } ?>
-
-<?php if (isset($this->product->source->event->afterDisplayContent)) : ?>
-	<?php echo $this->product->source->event->afterDisplayContent; ?>
-<?php endif; ?>
+<?php } */ ?>
 
 <!-- Modal -->
 <div class="modal" id="productGallery" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">

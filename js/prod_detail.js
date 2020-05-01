@@ -1,13 +1,15 @@
+/* var html = '<div style="line-height: 32px;">' +
+    '<p>JP: <a title="wiki" href="https://wikiepedia.com" target="_blank"><img width="32" height="32" src="/images/poster/edupack/favicon/dog/koinuno-heya.jpg" /></a> <a title="wiki3" href="https://wikiepedia.com" target="_blank"><img width="32" height="32" src="/images/poster/edupack/favicon/dog/dogfan.jpg" /></a></p>' +
+    '<p>EN: <a title="wiki2" href="https://wikiepedia.com" target="_blank"><img width="32" height="32" src="/images/poster/edupack/favicon/dog/akc.jpg" /></a> <a title="wiki4" href="https://wikiepedia.com" target="_blank"><img width="32" height="32" src="/images/poster/edupack/favicon/dog/dogtime.jpg" /></a></p></div>';
 var tabledata = [];
 for (i = 1; i < 100; i++) {
-    tabledata.push({ id: i, name: 'Labrador Retriever', name_jp: 'ラブラドール・レトリバー', wiki: 'https://www.wikipedia.com', source1: 'https://www.google.com', source2: 'https://www.yahoo.com', source3: 'https://www.google.jp', audio: 'https://www.w3schools.com/html/horse.ogg' });
-}
-var table;
+    tabledata.push({ id: i, name: 'Labrador Retriever', name_jp: 'ラブラドール・レトリバー', source1: html, source2: 'https://www.yahoo.com', source3: 'https://www.google.jp', audio: 'https://www.w3schools.com/html/horse.ogg' });
+} */
 
 //Generate print icon
 var wikiIcon = function (cell, formatterParams) {
     return "<i class=\"fab fa-wikipedia-w\"></i>";
-};
+};/* 
 var linkIcon = function (cell, formatterParams) {
     //return "<i class=\"fas fa-external-link-alt\"></i>";
     return "<i class=\"fas fa-external-link-alt\"></i>";
@@ -17,16 +19,14 @@ var audioIcon = function (cell, formatterParams) {
     return "<i class=\"fas fa-volume-up\"></i>";
     //return '<audio controls><source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg"><source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>';
     //return "<audio src=\"https://www.w3schools.com/html/horse.ogg\"></audio>";
-};
-
+}; */
 var nameFormatter = function (cell, formatterParams) {
     var rowData = cell.getData();
     var cellValue = cell.getValue();
 
     return '<div class="col_name">' + rowData.name_jp + '<br />(' + cell.getValue() + ')</div>';
 };
-
-var sourceFormatter = function (cell, formatterParams) {
+/* var sourceFormatter = function (cell, formatterParams) {
     var rowData = cell.getData();
     var cellValue = cell.getValue();
 
@@ -46,8 +46,9 @@ var sourceFormatter = function (cell, formatterParams) {
     html += '</ul>';
 
     return html;
-};
+}; */
 
+var table;
 var slider1;
 var slider2 = null;
 var slider_md = null;
@@ -178,6 +179,49 @@ function imageZoom(img_element) {
 }
 
 jQuery(function ($) {
+
+    if ($('#imageMapTable').length) {
+        var n=1;
+        $('#image-map area').siblings().each(function(){
+            //$(this).prop('data-row',n);
+            $(this).attr('data-row', n++);
+        })
+        table = new Tabulator("#imageMapTable", {
+            columnHeaderVertAlign: "middle", //align header contents to bottom of cell
+            //columnHeaderVertAlign :"middle", //align header contents to bottom of cell
+            tooltipsHeader: false, //enable header tooltips
+            tooltipGenerationMode: "hover", //regenerate tooltip as users mouse enters the cell;
+            tooltips: false,
+            movableColumns: false,
+            height: "600px",
+            //data: tabledata,
+            ajaxURL: "/bin/cap/" + $('.simple-product').data('sku') + ".json", //ajax URL
+            layout: "fitColumns",
+            langs: {
+                "jp-jp": {
+                    "columns": {
+                        "name": "名前",
+                        //"audio": "オーディオ",
+                        //"wiki": "ウィキペディア",
+                        "source1": "外部参照",
+                        //"source2":"外部参照2",
+                        //"source3":"外部参照3",
+                    }
+                },
+            },
+            columns: [
+                { field: "id", width: 20, headerSort: false },
+                { title: "Name", field: "name", formatter: nameFormatter, headerSort: false, widthGrow: 1/*, width: 180*/ },
+                //{ title: "Audio", field: "audio", formatter: audioIcon, titleFormatter: audioIcon, /* width: 90,  */align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().audio) }, headerSort: false },
+                //{ title: "Wikipedia", field: "wiki", formatter: wikiIcon, titleFormatter: wikiIcon,/*  width: 80, */ align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().wiki) }, headerSort: false },
+                { title: "Source 1", field: "source1", formatter: "html", widthGrow: 1, /* width: 90,  align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source1) },*/ headerSort: false }
+                //{ title: "Source 2", field: "source2", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source2) } },
+                //{ title: "Source 3", field: "source3", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source3) } }
+            ],
+        });
+
+        table.setLocale("jp-jp");
+    }
 
     var isSlider2Init = false;
     var isSliderMDInit = false;
@@ -406,42 +450,6 @@ jQuery(function ($) {
         $("body").removeClass("modal-open")
     });
 
-    if ($('#example-table').length) {
-        table = new Tabulator("#example-table", {
-            columnHeaderVertAlign: "middle", //align header contents to bottom of cell
-            //columnHeaderVertAlign :"middle", //align header contents to bottom of cell
-            tooltipsHeader: true, //enable header tooltips
-            tooltipGenerationMode: "hover", //regenerate tooltip as users mouse enters the cell;
-            tooltips: true,
-            height: "600px",
-            data: tabledata,
-            layout: "fitColumns",
-            langs: {
-                "jp-jp": {
-                    "columns": {
-                        "name": "名前",
-                        "audio": "オーディオ",
-                        "wiki": "ウィキペディア",
-                        "source1": "外部参照",
-                        //"source2":"外部参照2",
-                        //"source3":"外部参照3",
-                    }
-                },
-            },
-            columns: [
-                { field: "id", width: 20, headerSort: false },
-                { title: "Name", field: "name", formatter: nameFormatter, headerSort: false, widthGrow: 4/*, width: 180*/ },
-                { title: "Audio", field: "audio", formatter: audioIcon, titleFormatter: audioIcon, /* width: 90,  */align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().audio) }, headerSort: false },
-                { title: "Wikipedia", field: "wiki", formatter: wikiIcon, titleFormatter: wikiIcon,/*  width: 80, */ align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().wiki) }, headerSort: false },
-                { title: "Source 1", field: "source1", formatter: sourceFormatter, widthGrow: 2, /* width: 90, */ align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source1) }, headerSort: false }
-                //{ title: "Source 2", field: "source2", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source2) } },
-                //{ title: "Source 3", field: "source3", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source3) } }
-            ],
-        });
-
-        table.setLocale("jp-jp");
-    }
-
     if ($('#image-map').length) {
         $('#image-map').imageMapResize();
 
@@ -485,7 +493,7 @@ jQuery(function ($) {
 
 
             $("html, body").animate(
-                { scrollTop: $("#example-table").offset().top },
+                { scrollTop: $("#imageMapTable").offset().top },
                 500
             );
 

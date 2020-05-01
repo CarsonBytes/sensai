@@ -20,8 +20,8 @@
 /installation/sessions
 /libraries/autoload_psr4.php
 /tmp
-/configuration.php
-/.htaccess
+#/configuration.php
+#/.htaccess
 /web.config
 /.php_cs.cache
 /media/plg_jchoptimize/cache
@@ -54,14 +54,14 @@ phpdoc-*
 /plugins/installer/webinstaller
 
 # Languages #
-administrator/language/*
+administrator/clanguage/*
 !administrator/language/en-GB
 administrator/manifests/packages/*
 !administrator/manifests/packages/pkg_en-GB.xml
 !administrator/language/overrides/index.html
 language/*
 !language/en-GB
-!language/overrides/index.html
+!language/overrides/index.htmls
 
 # OSX #
 ._*

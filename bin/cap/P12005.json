@@ -1,0 +1,338 @@
+[
+    {
+        "name": "Bichon frise",
+        "name_jp": "\u30d3\u30b7\u30e7\u30f3 \u30d5\u30ea\u30fc\u30bc \r",
+        "id": 1,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%93%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%95%E3%83%AA%E3%83%BC%E3%82%BC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/bichon-frise.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Bichon_Frise\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/bichon-frise\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/bichon-frise#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Boston Terrier",
+        "name_jp": "\u30dc\u30b9\u30c8\u30f3 \u30c6\u30ea\u30a2 ",
+        "id": 2,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%9C%E3%82%B9%E3%83%88%E3%83%B3%E3%83%BB%E3%83%86%E3%83%AA%E3%82%A2\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/boston-terrier.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Boston_Terrier\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/boston-terrier\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/boston-terrier#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Bulldog",
+        "name_jp": "\u30d6\u30eb\u30c9\u30c3\u30b0\r",
+        "id": 3,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%96%E3%83%AB%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/bulldog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Bulldog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/bulldog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/bulldog#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Chow Chow",
+        "name_jp": "\u30c1\u30e3\u30a6 \u30c1\u30e3\u30a6 \r",
+        "id": 4,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%81%E3%83%A3%E3%82%A6%E3%83%BB%E3%83%81%E3%83%A3%E3%82%A6\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/chow-chow.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Chow_Chow\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/chow-chow\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/chow-chow#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Dalmatian",
+        "name_jp": "\u30c0\u30eb\u30e1\u30b7\u30a2\u30f3",
+        "id": 5,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%80%E3%83%AB%E3%83%A1%E3%82%B7%E3%82%A2%E3%83%B3\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/dalmatian.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Dalmatian_(dog)\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/dalmatian\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/dalmatian#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Finnish Spitz",
+        "name_jp": "\u30d5\u30a3\u30cb\u30c3\u30b7\u30e5 \u30b9\u30d4\u30c3\u30c4",
+        "id": 6,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%95%E3%82%A3%E3%83%8B%E3%83%83%E3%82%B7%E3%83%A5%E3%83%BB%E3%82%B9%E3%83%94%E3%83%83%E3%83%84\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/finnish-spitz.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Finnish_Spitz\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/finnish-spitz\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/finnish-spitz#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "French Bulldog",
+        "name_jp": "\u30d5\u30ec\u30f3\u30c1 \u30d6\u30eb\u30c9\u30c3\u30b0",
+        "id": 7,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%95%E3%83%AC%E3%83%B3%E3%83%81%E3%83%BB%E3%83%96%E3%83%AB%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/french-bulldog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/French_Bulldog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/french-bulldog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/french-bulldog#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Japanese Spitz",
+        "name_jp": "\u65e5\u672c\u30b9\u30d4\u30c3\u30c4\r",
+        "id": 8,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E6%97%A5%E6%9C%AC%E3%82%B9%E3%83%94%E3%83%83%E3%83%84\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/nagyou\/japanese-spitz.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Japanese_Spitz\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/japanese-spitz\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/japanese-spitz#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Keeshond",
+        "name_jp": "\u30ad\u30fc\u30b9\u30db\u30f3\u30c9\r",
+        "id": 9,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%AD%E3%83%BC%E3%82%B9%E3%83%9B%E3%83%B3%E3%83%89\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/kagyou\/keeshond.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Keeshond\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/keeshond\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/keeshond#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Lhasa Apso",
+        "name_jp": "\u30e9\u30b5  \u30a2\u30d7\u30bd",
+        "id": 10,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%A9%E3%82%B5%E3%83%BB%E3%82%A2%E3%83%97%E3%82%BD\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/yarawagyou\/lhasa-apso.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Lhasa_Apso\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/lhasa-apso\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/lhasa-apso#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "L\u00f6wchen",
+        "name_jp": "\u30ed\u30fc\u30b7\u30a7\u30f3",
+        "id": 11,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%AD%E3%83%BC%E3%82%B7%E3%82%A7%E3%83%B3\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/yarawagyou\/lowchen.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/L%C3%B6wchen\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/lowchen\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/lowchen#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Schipperke",
+        "name_jp": "\u30b9\u30ad\u30c3\u30d1\u30fc\u30ad ",
+        "id": 12,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%B9%E3%82%AD%E3%83%83%E3%83%91%E3%83%BC%E3%82%AD\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/schipperke.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Schipperke\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/schipperke\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/schipperke#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Miniature Poodle",
+        "name_jp": "\u30df\u30cb\u30c1\u30e5\u30a2   \u30d7\u30fc\u30c9\u30eb\r",
+        "id": 13,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%97%E3%83%BC%E3%83%89%E3%83%AB\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/standard-poodle.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Poodle\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/poodle-miniature\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/poodle\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Standard  Poodle",
+        "name_jp": "\u30b9\u30bf\u30f3\u30c0\u30fc\u30c9   \u30d7\u30fc\u30c9\u30eb\r",
+        "id": 14,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%97%E3%83%BC%E3%83%89%E3%83%AB\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/standard-poodle.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Poodle\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/poodle-standard\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/poodle\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Shiba Inu",
+        "name_jp": "\u67f4\u72ac",
+        "id": 15,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E6%9F%B4%E7%8A%AC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/shiba.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Shiba_Inu\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/shiba-inu\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/shiba-inu\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Mameshiba",
+        "name_jp": "\u8c46\u67f4\r",
+        "id": 16,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/www.mame-shiba-inu.com\/what-is-mame-shiba-inu-dog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/mame-shiba-inu.png\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/dogtime.com\/dog-breeds\/shiba-inu#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <a href=\"https:\/\/www.mame-shiba-inu.com\/in-english\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/mame-shiba-inu.png\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Shar Pei",
+        "name_jp": "\u30b7\u30e3\u30fc   \u30da\u30a4",
+        "id": 17,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%B7%E3%83%A3%E3%83%BC%E3%83%BB%E3%83%9A%E3%82%A4\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/shar-pei.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Shar_Pei\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/chinese-shar-pei\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/chinese-shar-pei#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Tibetan Spaniel",
+        "name_jp": "\u30c1\u30d9\u30bf\u30f3   \u30b9\u30d1\u30cb\u30a8\u30eb\r",
+        "id": 18,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%81%E3%83%99%E3%82%BF%E3%83%B3%E3%83%BB%E3%82%B9%E3%83%91%E3%83%8B%E3%82%A8%E3%83%AB\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/tibetan-spaniel.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Tibetan_spaniel\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/tibetan-spaniel\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/tibetan-spaniel#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Tibetan Terrier",
+        "name_jp": "\u30c1\u30d9\u30bf\u30f3    \u30c6\u30ea\u30a2\r",
+        "id": 19,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%81%E3%83%99%E3%82%BF%E3%83%B3%E3%83%BB%E3%83%86%E3%83%AA%E3%82%A2\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/tibetan-terrier.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Tibetan_Terrier\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/tibetan-terrier\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/tibetan-terrier#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Australian Cattle Dog",
+        "name_jp": "\u30aa\u30fc\u30b9\u30c8\u30e9\u30ea\u30a2\u30f3 \u30ad\u30e3\u30c8\u30eb \u30c9\u30c3\u30b0",
+        "id": 20,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%AA%E3%83%BC%E3%82%B9%E3%83%88%E3%83%A9%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%A3%E3%83%88%E3%83%AB%E3%83%BB%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/agyou\/australian-cattledog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Australian_Cattle_Dog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/australian-cattle-dog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/australian-cattle-dog#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Australian Shepherd",
+        "name_jp": "\u30aa\u30fc\u30b9\u30c8\u30e9\u30ea\u30a2\u30f3   \u30b7\u30a7\u30d1\u30fc\u30c9",
+        "id": 21,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%AA%E3%83%BC%E3%82%B9%E3%83%88%E3%83%A9%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%B7%E3%82%A7%E3%83%91%E3%83%BC%E3%83%89\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/agyou\/australian-shepherd.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Australian_Shepherd\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/australian-shepherd\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/australian-shepherd#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Bearded Collie",
+        "name_jp": "\u30d3\u30a2\u30c7\u30c3\u30c9   \u30b3\u30ea\u30fc\r",
+        "id": 22,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%93%E3%82%A2%E3%83%87%E3%83%83%E3%83%89%E3%83%BB%E3%82%B3%E3%83%AA%E3%83%BC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/bearded-collie.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Bearded_Collie\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/bearded-collie\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/bearded-collie#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Belgian Malinois",
+        "name_jp": "\u30d9\u30eb\u30b8\u30a2\u30f3\u30de\u30ea\u30ce\u30a2\r",
+        "id": 23,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%99%E3%83%AB%E3%82%B8%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%B7%E3%82%A7%E3%83%91%E3%83%BC%E3%83%89%E3%83%BB%E3%83%89%E3%83%83%E3%82%B0%E3%83%BB%E3%83%9E%E3%83%AA%E3%83%8E%E3%82%A2\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/belgian-malinois.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Malinois_dog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/belgian-malinois\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/belgian-malinois#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Belgian Sheepdog",
+        "name_jp": "\u30d9\u30eb\u30b8\u30a2\u30f3\u30b7\u30fc\u30d7\u30c9\u30c3\u30b0\r",
+        "id": 24,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/kagyou\/carpathian-shepherd-dog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Belgian_Shepherd\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/belgian-sheepdog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/belgian-sheepdog#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Belgian Tervuren",
+        "name_jp": "\u30d9\u30eb\u30b8\u30a2\u30f3\u30bf\u30fc\u30d3\u30e5\u30ec\u30f3\r",
+        "id": 25,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%99%E3%83%AB%E3%82%B8%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%B7%E3%82%A7%E3%83%91%E3%83%BC%E3%83%89%E3%83%BB%E3%83%89%E3%83%83%E3%82%B0%E3%83%BB%E3%82%BF%E3%83%BC%E3%83%93%E3%83%A5%E3%83%AC%E3%83%B3\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/belgian-tervuren.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Tervuren_dog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/belgian-tervuren\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/belgian-tervuren#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Border Collie",
+        "name_jp": "\u30dc\u30fc\u30c0\u30fc   \u30b3\u30ea\u30fc\r",
+        "id": 26,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%9C%E3%83%BC%E3%83%80%E3%83%BC%E3%83%BB%E3%82%B3%E3%83%AA%E3%83%BC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/border-collie.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Border_Collie\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/border-collie\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/border-collie#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Cardigan Welsh Corgi",
+        "name_jp": "\u30a6\u30a7\u30eb\u30b7\u30e5 \u30b3\u30fc\u30ae\u30fc \u30ab\u30fc\u30c7\u30a3\u30ac\u30f3",
+        "id": 27,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%A6%E3%82%A7%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BB%E3%82%B3%E3%83%BC%E3%82%AE%E3%83%BC%E3%83%BB%E3%82%AB%E3%83%BC%E3%83%87%E3%82%A3%E3%82%AC%E3%83%B3\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/agyou\/welsh-corgi-cardigan.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Cardigan_Welsh_Corgi\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/cardigan-welsh-corgi\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/cardigan-welsh-corgi#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Briard",
+        "name_jp": "\u30d6\u30ea\u30a2\u30fc\u30c9\r",
+        "id": 28,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%96%E3%83%AA%E3%82%A2%E3%83%BC%E3%83%89\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/briard.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Briard\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/briard\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/briard#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Bouvier des Flandres",
+        "name_jp": "\u30d6\u30fc\u30d3\u30a8\u30c7\u30d5\u30e9\u30f3\u30c0\u30fc\u30b9\r",
+        "id": 29,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E7%89%A7%E7%BE%8A%E7%8A%AC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/bouvier-des-flandres.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Bouvier_des_Flandres\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/bouvier-des-flandres\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/bouvier-des-flandres#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Rough Collie",
+        "name_jp": "\u30e9\u30d5   \u30b3\u30ea\u30fc\r",
+        "id": 30,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%A9%E3%83%95%E3%83%BB%E3%82%B3%E3%83%AA%E3%83%BC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/kagyou\/collie.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Rough_Collie\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/collie\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/collie#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Smooth Collie",
+        "name_jp": "\u30b9\u30e0\u30fc\u30b9   \u30b3\u30ea\u30fc\r",
+        "id": 31,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <\/p><p>EN: <a href=\"https:\/\/dogtime.com\/dog-breeds\/collie#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "German Shepherd",
+        "name_jp": "\u30b8\u30e3\u30fc\u30de\u30f3   \u30b7\u30a7\u30d1\u30fc\u30c9\r",
+        "id": 32,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%B8%E3%83%A3%E3%83%BC%E3%83%9E%E3%83%B3%E3%83%BB%E3%82%B7%E3%82%A7%E3%83%91%E3%83%BC%E3%83%89%E3%83%BB%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/german-shepherd.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/German_Shepherd\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/german-shepherd-dog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/german-shepherd-dog#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Old English Sheepdog",
+        "name_jp": "\u30aa\u30fc\u30eb\u30c9   \u30a4\u30f3\u30b0\u30ea\u30c3\u30b7\u30e5   \u30b7\u30fc\u30d7\u30c9\u30c3\u30b0\r",
+        "id": 33,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%AA%E3%83%BC%E3%83%AB%E3%83%89%E3%83%BB%E3%82%A4%E3%83%B3%E3%82%B0%E3%83%AA%E3%83%83%E3%82%B7%E3%83%A5%E3%83%BB%E3%82%B7%E3%83%BC%E3%83%97%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/agyou\/old-english-sheepdog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Old_English_Sheepdog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"http:\/\/akc.org\/dog-breeds\/old-english-sheepdog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/old-english-sheepdog#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Swiss Shepherd",
+        "name_jp": "\u30db\u30ef\u30a4\u30c8\u30b9\u30a4\u30b9\u30b7\u30a7\u30d1\u30fc\u30c9\r",
+        "id": 34,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%BB%E3%82%B9%E3%82%A4%E3%82%B9%E3%83%BB%E3%82%B7%E3%82%A7%E3%83%91%E3%83%BC%E3%83%89%E3%83%BB%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/white-swiss-shepherd.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Berger_Blanc_Suisse\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.dog-breeds-expert.com\/white-swiss-shepherd-dog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dog-breeds-expert.png\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Pembroke Welsh Corgi",
+        "name_jp": "\u30a6\u30a7\u30eb\u30b7\u30e5 \u30b3\u30fc\u30ae\u30fc \u30da\u30f3\u30d6\u30ed\u30fc\u30af",
+        "id": 35,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/\u30a6\u30a7\u30eb\u30b7\u30e5\u30fb\u30b3\u30fc\u30ae\u30fc\u30fb\u30da\u30f3\u30d6\u30ed\u30fc\u30af\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/agyou\/welsh-corgi-pembroke.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Pembroke_Welsh_Corgi\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/pembroke-welsh-corgi\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/pembroke-welsh-corgi#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Swedish Vallhund",
+        "name_jp": "\u30b9\u30a6\u30a7\u30fc\u30c7\u30a3\u30c3\u30b7\u30e5\u30f4\u30a1\u30eb\u30d5\u30f3\u30c8\r",
+        "id": 36,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%B9%E3%82%A6%E3%82%A7%E3%83%BC%E3%83%87%E3%82%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%83%BB%E3%83%B4%E3%82%A1%E3%83%AB%E3%83%95%E3%83%B3%E3%83%88\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/swedish-vallhund.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Swedish_Vallhund\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/swedish-vallhund\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Shetland Sheepdog",
+        "name_jp": "\u30b7\u30a7\u30c3\u30c8\u30e9\u30f3\u30c9   \u30b7\u30fc\u30d7\u30c9\u30c3\u30b0\r",
+        "id": 37,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%B7%E3%82%A7%E3%83%83%E3%83%88%E3%83%A9%E3%83%B3%E3%83%89%E3%83%BB%E3%82%B7%E3%83%BC%E3%83%97%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/shetland-sheepdog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Shetland_Sheepdog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/shetland-sheepdog\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/shetland-sheepdog#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Affenpinscher",
+        "name_jp": "\u30a2\u30fc\u30d5\u30a7\u30f3\u30d4\u30f3\u30b7\u30e3\u30fc\r",
+        "id": 38,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%A2%E3%83%BC%E3%83%95%E3%82%A7%E3%83%B3%E3%83%94%E3%83%B3%E3%82%B7%E3%83%A3%E3%83%BC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/agyou\/affenpinscher.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Affenpinscher\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/affenpinscher\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/affenpinscher#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Maltese",
+        "name_jp": "\u30de\u30eb\u30c1\u30fc\u30ba\r",
+        "id": 39,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%9E%E3%83%AB%E3%83%81%E3%83%BC%E3%82%BA%E3%83%BB%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%83%BB%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/magyou\/maltese.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Maltese_(dog)\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/maltese\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/maltese#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Miniature Pinscher",
+        "name_jp": "\u30df\u30cb\u30c1\u30e5\u30a2 \u30d4\u30f3\u30b7\u30e3\u30fc\r",
+        "id": 40,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%9F%E3%83%8B%E3%83%81%E3%83%A5%E3%82%A2%E3%83%BB%E3%83%94%E3%83%B3%E3%82%B7%E3%83%A3%E3%83%BC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/magyou\/miniature-pinscher.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Miniature_Pinscher\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/miniature-pinscher\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/miniature-pinscher#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Pekingese",
+        "name_jp": "\u30da\u30ad\u30cb\u30fc\u30ba",
+        "id": 41,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%9A%E3%82%AD%E3%83%8B%E3%83%BC%E3%82%BA\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/pekingese.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Pekingese\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/pekingese\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/pekingese#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Pomeranian",
+        "name_jp": "\u30dd\u30e1\u30e9\u30cb\u30a2\u30f3\r",
+        "id": 42,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%9D%E3%83%A1%E3%83%A9%E3%83%8B%E3%82%A2%E3%83%B3\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/pomeranian.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Pomeranian_(dog)\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/pomeranian\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/pomeranian#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Chihuahua (Long Coat)",
+        "name_jp": "\u30c1\u30ef\u30ef (\u30ed\u30f3\u30b0\u30b3\u30fc\u30c8 )\r",
+        "id": 43,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%81%E3%83%AF%E3%83%AF\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/chihuahua.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <a href=\"https:\/\/www.min-inuzukan.com\/long-chihuahua.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/min-inuzukan.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Chihuahua_(dog)\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/chihuahua\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/chihuahua#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Chihuahua (Smooth Coat)",
+        "name_jp": "\u30c1\u30ef\u30ef (\u30b9\u30e0\u30fc\u30b9)\r",
+        "id": 44,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%81%E3%83%AF%E3%83%AF\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/chihuahua.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Chihuahua_(dog)\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/chihuahua\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/chihuahua#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Silky Terrier",
+        "name_jp": "\u30b7\u30eb\u30ad\u30fc\u30c6\u30ea\u30a2\r",
+        "id": 45,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%AA%E3%83%BC%E3%82%B9%E3%83%88%E3%83%A9%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%B7%E3%83%AB%E3%82%AD%E3%83%BC%E3%83%BB%E3%83%86%E3%83%AA%E3%82%A2\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/silky-terrier.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Australian_Silky_Terrier\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/silky-terrier\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/silky-terrier#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Yorkshire Terrier",
+        "name_jp": "\u30e8\u30fc\u30af\u30b7\u30e3\u30fc    \u30c6\u30ea\u30a2\r",
+        "id": 46,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%A8%E3%83%BC%E3%82%AF%E3%82%B7%E3%83%A3%E3%83%BC%E3%83%BB%E3%83%86%E3%83%AA%E3%82%A2\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/yarawagyou\/yorkshire-terrier.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Yorkshire_Terrier\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/yorkshire-terrier\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/yorkshire-terrier#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "English Toy Spaniel",
+        "name_jp": "\u30a4\u30f3\u30b0\u30ea\u30c3\u30b7\u30e5\u30c8\u30a4 \u30b9\u30d1\u30cb\u30a8\u30eb",
+        "id": 47,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%BB%E3%83%81%E3%83%A3%E3%83%BC%E3%83%AB%E3%82%BA%E3%83%BB%E3%82%B9%E3%83%91%E3%83%8B%E3%82%A8%E3%83%AB\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/agyou\/english-toy-spaniel.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/King_Charles_Spaniel\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/english-toy-spaniel\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/english-toy-spaniel#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Cavalier King Charles Spaniel",
+        "name_jp": "\u30ad\u30e3\u30d0\u30ea\u30a2 \u30ad\u30f3\u30b0 \u30c1\u30e3\u30fc\u30eb\u30ba \u30b9\u30d1\u30cb\u30a8\u30eb",
+        "id": 48,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%AD%E3%83%A3%E3%83%90%E3%83%AA%E3%82%A2%E3%83%BB%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%BB%E3%83%81%E3%83%A3%E3%83%BC%E3%83%AB%E3%82%BA%E3%83%BB%E3%82%B9%E3%83%91%E3%83%8B%E3%82%A8%E3%83%AB\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/kagyou\/cavalier-king-charles-spaniel.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Cavalier_King_Charles_Spaniel\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/cavalier-king-charles-spaniel\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/cavalier-king-charles-spaniel#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Chinese Crested",
+        "name_jp": "\u30c1\u30e3\u30a4\u30cb\u30fc\u30ba \u30af\u30ec\u30b9\u30c6\u30c3\u30c9 \u30c9\u30c3\u30b0",
+        "id": 49,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%81%E3%83%A3%E3%82%A4%E3%83%8B%E3%83%BC%E3%82%BA%E3%83%BB%E3%82%AF%E3%83%AC%E3%82%B9%E3%83%86%E3%83%83%E3%83%89%E3%83%BB%E3%83%89%E3%83%83%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/chinese-crested-dog.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Chinese_Crested_Dog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/chinese-crested\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/chinese-crested#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Brussels Griffon",
+        "name_jp": "\u30d6\u30ea\u30e5\u30c3\u30bb\u30eb \u30b0\u30ea\u30d5\u30a9\u30f3\r",
+        "id": 50,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%96%E3%83%AA%E3%83%A5%E3%83%83%E3%82%BB%E3%83%AB%E3%83%BB%E3%82%B0%E3%83%AA%E3%83%95%E3%82%A9%E3%83%B3\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/brussels-griffon.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Griffon_Bruxellois\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/brussels-griffon\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/brussels-griffon#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Shih Tzu",
+        "name_jp": "\u30b7\u30fc\u30ba\u30fc\r",
+        "id": 51,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%82%B7%E3%83%BC%E3%82%BA%E3%83%BC\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/sagyou\/shih-tzu.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Shih_Tzu\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/shih-tzu\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/shih-tzu#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Papillon",
+        "name_jp": "\u30d1\u30d4\u30e8\u30f3\r",
+        "id": 52,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%91%E3%83%94%E3%83%A8%E3%83%B3_(%E7%8A%AC)\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/papillon.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Papillon_(dog)\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/papillon\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/papillon#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Pug",
+        "name_jp": "\u30d1\u30b0\r",
+        "id": 53,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%91%E3%82%B0\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/pug.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Pug\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/pug\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/pug#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Russkiy Toy",
+        "name_jp": "\u30ed\u30b7\u30a2\u30f3   \u30c8\u30a4   \u30c6\u30ea\u30a2\r",
+        "id": 54,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%AD%E3%82%B7%E3%82%A2%E3%83%B3%E3%83%BB%E3%83%88%E3%82%A4%E3%83%BB%E3%83%86%E3%83%AA%E3%82%A2\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/yarawagyou\/russian-toy-terrier.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Russkiy_Toy\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/russian-toy\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Havanese",
+        "name_jp": "\u30cf\u30d0\u30cb\u30fc\u30ba\r",
+        "id": 55,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E3%83%8F%E3%83%90%E3%83%8B%E3%83%BC%E3%82%BA\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/hagyou\/havanese.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Havanese_dog\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/havanese\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/havanese#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    },
+    {
+        "name": "Japanese Chin",
+        "name_jp": "\u72c6  (\u3061\u3093)\r",
+        "id": 56,
+        "source1": "<div style=\"line-height: 32px;\"><p>JP: <a href=\"https:\/\/ja.wikipedia.org\/wiki\/%E7%8B%86\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.koinuno-heya.com\/syurui\/tagyou\/japanese-chin.html\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/koinuno-heya.jpg\" \/><\/a> <\/p><p>EN: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Japanese_Chin\" target=\"_blank\"><i class=\"fab fa-wikipedia-w\"><\/i><\/a> <a href=\"https:\/\/www.akc.org\/dog-breeds\/japanese-chin\/\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/akc.jpg\" \/><\/a> <a href=\"https:\/\/dogtime.com\/dog-breeds\/japanese-chin#\/slide\/1\" target=\"_blank\"><img width=\"32\" height=\"32\" src=\"\/images\/poster\/edupack\/favicon\/dog\/dogtime.jpg\" \/><\/a> <\/p><\/div>"
+    }
+]

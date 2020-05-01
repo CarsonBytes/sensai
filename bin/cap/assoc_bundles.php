@@ -26,15 +26,18 @@ if (file_exists(dirname(__FILE__) . DS . $filename)) {
     while (!feof($file)) {
         $line[$i] = fgetcsv($file);
         if ($i >= 5) {
-
             $j = 0;
             foreach ($line[$i] as $grid) {
                 echo '<pre>';
                 var_dump('$j');
                 var_dump($j);
                 echo '</pre>';
+                echo '<pre>';
+                var_dump('$grid');
+                var_dump($grid);
+                echo '</pre>';
                 if ($j == 1) {
-                    $query = "SELECT id from h1232_content where alias = " . $db->quote($grid);
+                    $query = "SELECT id from h1232_content where alias = " . $db->quote('b'.$grid);
                     $db->setQuery($query);
                     $bundle_id = $db->loadResult();
                     echo '<pre>';
@@ -42,48 +45,69 @@ if (file_exists(dirname(__FILE__) . DS . $filename)) {
                     var_dump($bundle_id);
                     echo '</pre>';
                 } else if ($j > 1) {
-                    $grid = substr($grid, 0, strpos($grid, '-'));
                     if ($grid !== '') {
                         echo '<pre>';
-                        var_dump('$grid');
+                        var_dump('$grid after !== \'\'');
                         var_dump($grid);
                         echo '</pre>';
 
-                        $query = "SELECT id from h1232_content c
-                    LEFT JOIN `h1232_j2store_products` p ON p.product_source_id = c.id
-                    LEFT JOIN `h1232_j2store_variants` v ON p.j2store_product_id = v.product_id
-                    where v.sku = " . $db->quote($grid);
-
-                        $db->setQuery($query);
-                        $deco_id = $db->loadResult();
+                        if ($grid == 'dogs') {
+                            //dogs edu pack
+                            $skus = array('P12003', 'P12004', 'P12005');
+                        } else if ($grid == 'cats') {
+                            //cats edu pack
+                            $skus = array('P12001', 'P12002');
+                        } else {
+                            $grid = substr($grid, 0, strpos($grid, '-'));
+                            $skus = array($grid);
+                        }
                         echo '<pre>';
-                        var_dump('$deco_id');
-                        var_dump($deco_id);
+                        var_dump('$skus');
+                        var_dump($skus);
                         echo '</pre>';
 
-                        $query ='INSERT INTO bundle_single(bundle_id, single_id, created_on)
-                        VALUES('.$bundle_id.', '.$deco_id.', '.$db->quote(date('Y-m-d H:i:s')).')
-                        ON DUPLICATE KEY UPDATE updated_on = '.$db->quote(date('Y-m-d H:i:s'));
+                        foreach ($skus as $sku) {
 
-                        // Create a new query object.
-                        //$query = $db->getQuery(true);
-                        // Insert columns.
-                        //$columns = array('bundle_id', 'single_id', 'created_on');
-                        // Insert values.
-                        //$values = array($bundle_id, $deco_id, $db->quote(date('Y-m-d H:i:s')));
-                        // Prepare the insert query.
-                       /*  $query
-                            ->insert($db->quoteName('bundle_single'))
-                            ->columns($db->quoteName($columns))
-                            ->values(implode(',', $values)); */
 
-                        // Set the query using our newly populated query object and execute it.
-                        $db->setQuery($query);
-                        $result = $db->execute();
-                        echo '<pre>';
-                        var_dump('$result');
-                        var_dump($result);
-                        echo '</pre>';
+                            $query = "SELECT id from h1232_content c
+                            LEFT JOIN `h1232_j2store_products` p ON p.product_source_id = c.id
+                            LEFT JOIN `h1232_j2store_variants` v ON p.j2store_product_id = v.product_id
+                            where v.sku = " . $db->quote($sku);
+
+                            $db->setQuery($query);
+                            $deco_id = $db->loadResult();
+                            echo '<pre>';
+                            var_dump('$deco_id');
+                            var_dump($deco_id);
+                            echo '</pre>';
+                            $query = 'INSERT INTO bundle_single(bundle_id, single_id, created_on)
+                            VALUES(' . $bundle_id . ', ' . $deco_id . ', ' . $db->quote(date('Y-m-d H:i:s')) . ')
+                            ON DUPLICATE KEY UPDATE updated_on = ' . $db->quote(date('Y-m-d H:i:s'));
+
+                            echo '<pre>';
+                            var_dump('$query');
+                            var_dump($query);
+                            echo '</pre>';
+                            // Create a new query object.
+                            //$query = $db->getQuery(true);
+                            // Insert columns.
+                            //$columns = array('bundle_id', 'single_id', 'created_on');
+                            // Insert values.
+                            //$values = array($bundle_id, $deco_id, $db->quote(date('Y-m-d H:i:s')));
+                            // Prepare the insert query.
+                            /*  $query
+                                ->insert($db->quoteName('bundle_single'))
+                                ->columns($db->quoteName($columns))
+                                ->values(implode(',', $values)); */
+
+                            // Set the query using our newly populated query object and execute it.
+                            $db->setQuery($query);
+                            $result = $db->execute();
+                            echo '<pre>';
+                            var_dump('$result');
+                            var_dump($result);
+                            echo '</pre>';
+                        }
                     }
                 }
                 $j++;
