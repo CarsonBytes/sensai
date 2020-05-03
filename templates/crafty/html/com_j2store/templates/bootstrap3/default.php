@@ -61,7 +61,7 @@ $active_menu_route = $this->active_menu->route;
 						<div class="list_item">
 							<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $item['j2store_product_id']); ?>">
 								<div class="img_wrapper">
-									<img src="<?php echo $item['thumb_image'] ?>" />
+									<img class="lazyload" data-src="/<?php echo $item['thumb_image'] ?>" />
 								</div>
 							</a>
 							<div class="title_wrapper">

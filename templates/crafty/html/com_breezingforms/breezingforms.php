@@ -538,9 +538,9 @@ if(
 					echo "</div>\n";
 				}
 
-				if(trim($form->template_code_processed) == 'QuickMode'){
+				/* if(trim($form->template_code_processed) == 'QuickMode'){
 					//echo '<div style="clear:both; display: block; text-align: center; margin-top: 20px;"><span style="margin: 0 auto;">Powered by BreezingForms</span></div>';
-				}
+				} */
 
 				if (!$plainform) echo "</div>\n";
 

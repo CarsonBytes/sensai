@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $document = JFactory::getDocument();
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css');
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
-$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21,npm/lazysizes@5.2.0,npm/lazysizes@5.2.0/plugins/respimg/ls.respimg.min.js');
+$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21');
 $document->addScript('/js/prod_detail.js');
 $document->addScript('/js/sm_slider.js');
 

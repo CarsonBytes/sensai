@@ -29,6 +29,8 @@ $child_menuitem2 = $menu->getItems(
 if (!isset($active_menu_route)) {
     $active_menu_route = '';
 }
+
+$lang = JFactory::getLanguage();
 ?>
 
 <div class="left_nav_wrapper col-sm-12">
@@ -39,6 +41,8 @@ if (!isset($active_menu_route)) {
             <i class="fas fa-caret-down"></i>
         </a>
         <div class="categories_list">
+
+        <h3 class="hidden-xs" style="margin:0;" ><?php echo ($lang->getTag() == 'ja-JP') ? 'カテゴリー' : 'Category' ?></h3>
 
             <?php foreach ($child_menuitems1 as $child_menuitem1) { ?>
                 <a class="<?php echo ($active_menu_route == 'categories/' . $child_menuitem1->alias) ? 'active' : '' ?>" href="/categories/<?php echo $child_menuitem1->alias ?>">

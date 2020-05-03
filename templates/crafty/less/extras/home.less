@@ -1,67 +1,8 @@
 html.home {
-    .j2store-product-module {
-        .j2store-module-product {
-            .product-cart-section {
-                border: 0;
-
-                a {
-                    -webkit-line-clamp: 4;
-                    max-height        : 85.34px;
-                    overflow          : hidden;
-                    text-overflow     : ellipsis;
-                    display           : -webkit-box;
-                    -webkit-box-orient: vertical;
-                    color             : #111;
-                    font-weight       : 400;
-                    font-style        : normal;
-                    text-transform    : none;
-                    text-decoration   : none;
-                    font-size         : 15px;
-                    line-height       : 1.4;
-
-                    :hover {
-                        color  : #c45500;
-                        outline: 0;
-                    }
-                }
-            }
-
-            .j2store-product-image {
-                border: 0;
-
-                a:after {
-                    background: none;
-                    opacity   : 1;
-                    transition: none;
-                }
-            }
-
-            :hover {
-                .product-cart-section {
-                    border: 0;
-                }
-
-                .j2store-product-image {
-                    border: 0;
-
-                    a:after,
-                    img {
-                        opacity: 1;
-                    }
-                }
-            }
-
-            .pro-icon {
-                display: none;
-            }
-        }
-
-    }
-
     .thumbnail_list {
 
-        display    : flex;
-        flex-wrap  : wrap;
+        display: flex;
+        flex-wrap: wrap;
         align-items: stretch;
         margin-top: -25px;
 
@@ -93,20 +34,20 @@ html.home {
             }
 
             @media screen and (max-width: @screen-xs-min) {
-                flex         : 0 0 100%;
+                flex: 0 0 100%;
                 border-bottom: 2px solid #ddd;
                 margin-bottom: 0;
             }
 
             .list_border {
-                height       : 100%;
-                margin       : 0 12px;
-                padding      : 25px 0;
+                height: 100%;
+                margin: 0 12px;
+                padding: 25px 0;
                 border-bottom: 2px solid #ddd;
 
                 @media screen and (max-width: @screen-xs-min) {
-                    margin : 0;
-                    border : 0;
+                    margin: 0;
+                    border: 0;
                     padding: 0;
                 }
 
@@ -116,13 +57,13 @@ html.home {
                 border-bottom        : 2px solid #ddd; */
 
                     @media screen and (max-width: @screen-xs-min) {
-                        display       : flex;
+                        display: flex;
                         flex-direction: row;
-                        flex-wrap     : wrap;
-                        align-content : flex-start;
-                        margin        : 15px 0;
-                        border        : 0;
-                        padding       : 0;
+                        flex-wrap: wrap;
+                        align-content: flex-start;
+                        margin: 15px 0;
+                        border: 0;
+                        padding: 0;
                     }
 
                     a.img_link {
@@ -133,22 +74,22 @@ html.home {
 
                         .img_wrapper {
                             padding-top: 100%;
-                            position   : relative;
+                            position: relative;
 
                             @media screen and (max-width: @screen-xs-min) {
                                 margin-right: 8px;
                             }
 
                             img {
-                                width     : auto;
-                                height    : auto;
-                                position  : absolute;
-                                margin    : auto;
-                                top       : 0;
-                                bottom    : 0;
-                                left      : 0;
-                                right     : 0;
-                                max-width : 100%;
+                                width: auto;
+                                height: auto;
+                                position: absolute;
+                                margin: auto;
+                                top: 0;
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                max-width: 100%;
                                 max-height: 100%;
                             }
                         }
@@ -161,29 +102,29 @@ html.home {
                         }
 
                         a.title {
-                            margin-top        : 10px;
+                            margin-top: 10px;
                             -webkit-line-clamp: 4;
-                            max-height        : 85.34px;
-                            overflow          : hidden;
-                            text-overflow     : ellipsis;
-                            display           : -webkit-box;
+                            max-height: 85.34px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
                             -webkit-box-orient: vertical;
-                            color             : #111;
-                            font-weight       : 400;
-                            font-style        : normal;
-                            text-transform    : none;
-                            text-decoration   : none;
-                            font-size         : 15px;
-                            line-height       : 1.4;
+                            color: #111;
+                            font-weight: 400;
+                            font-style: normal;
+                            text-transform: none;
+                            text-decoration: none;
+                            font-size: 15px;
+                            line-height: 1.4;
 
                             :hover {
-                                color  : #c45500;
+                                color: #c45500;
                                 outline: 0;
                             }
 
                             @media screen and (max-width: @screen-xs-min) {
-                                margin     : 0;
-                                font-size  : 1.5rem;
+                                margin: 0;
+                                font-size: 1.5rem;
                                 line-height: 1.35;
                             }
                         }
