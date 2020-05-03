@@ -10,7 +10,19 @@ $link_keywords = array(
     'vetstreet' => 'vetstreet.png',
     'konekono-heya' => 'konekono-heya.png',
     'thesprucepets' => 'thesprucepets.png',
-    'petguide' => 'petguide.png'
+    'petguide' => 'petguide.png',
+    'omlet' => 'omlet.png',
+    'catbreedslist' => 'catbreedslist.png',
+    'hillspet' => 'hillspet.png',
+    'lykoikitten' => 'lykoikitten.jpg',
+    'felineliving' => 'felineliving.png',
+    'tica' => 'tica.png',
+    'icatcare' => 'icatcare.png',
+    'cat-world' => 'cat-world.png',
+    'catownerclub' => 'catownerclub.png',
+    'showcatsonline' => 'showcatsonline.png',
+    'thehappycatsite' => 'thehappycatsite.png',
+    'catster' => 'catster.png'
 );
 $col = array(
     'sku' => array(1),
@@ -69,12 +81,6 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                     echo '</pre>';
                 } else if (in_array($j, $col['jp_links']) || in_array($j, $col['en_links'])) {
                     if (trim($grid) !== '') { // links
-                        echo '<pre>';
-                        var_dump('$grid after !== \'\'');
-                        var_dump($grid);
-                        var_dump($j);
-                        echo '</pre>';
-
                         if ($j==$col['en_links'][0]) { //en wiki
                             echo '<pre>';
                             var_dump('en wiki');
@@ -82,6 +88,10 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                             echo '</pre>';
                             $html_en .= '<a href="' . $grid . '" target="_blank">' . $wiki_icon . '</a> ';
                         } else if (in_array($j, $col['en_links'])) { //en links
+                            echo '<pre>';
+                            var_dump('en links');
+                            var_dump($grid);
+                            echo '</pre>';
                             foreach ($link_keywords as $key => $value) {
                                 if (strpos($grid, $key) !== false) {
                                     $html_en .= '<a href="' . $grid . '" target="_blank"><img width="32" height="32" src="' . $icon_saved_folder . $value . '" /></a> ';
@@ -94,6 +104,10 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                             echo '</pre>';
                             $html_jp .= '<a href="' . $grid . '" target="_blank">' . $wiki_icon . '</a> ';
                         } else if (in_array($j, $col['jp_links'])) { //jp links
+                            echo '<pre>';
+                            var_dump('jp links');
+                            var_dump($grid);
+                            echo '</pre>';
                             foreach ($link_keywords as $key => $value) {
                                 if (strpos($grid, $key) !== false) {
                                     $html_jp .= '<a href="' . $grid . '" target="_blank"><img width="32" height="32" src="' . $icon_saved_folder . $value . '" /></a> ';
