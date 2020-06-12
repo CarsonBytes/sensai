@@ -35,6 +35,8 @@ $init_row = 4;
 
 $wiki_icon = '<i class="fab fa-wikipedia-w"></i>';
 
+$audio_icon = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay"></audio>';
+
 if (file_exists(dirname(__FILE__) . '/' . $filename)) {
 
     $file = fopen($filename, "r");
@@ -123,6 +125,7 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                 $html_en .= '</p>';
                 $data_array['id'] = $id++;
                 $data_array['source1'] = '<div style="line-height: 32px;">' . $html_jp . $html_en . '</div>';
+                $data_array['audio'] = $audio_icon;
                 echo '<pre>';
                 var_dump('data_array source1');
                 echo $data_array['source1'];

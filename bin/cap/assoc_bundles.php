@@ -3,8 +3,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-define('is_add_original_tags', 0);
-
 define('_JEXEC', 1);
 define('JPATH_BASE', dirname(__DIR__) . '/..');
 define('DS', DIRECTORY_SEPARATOR);
