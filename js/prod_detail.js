@@ -7,19 +7,19 @@ for (i = 1; i < 100; i++) {
 } */
 
 //Generate print icon
-var wikiIcon = function (cell, formatterParams) {
+/*var wikiIcon = function (cell, formatterParams) {
     return "<i class=\"fab fa-wikipedia-w\"></i>";
-};/* 
+}; 
 var linkIcon = function (cell, formatterParams) {
     //return "<i class=\"fas fa-external-link-alt\"></i>";
     return "<i class=\"fas fa-external-link-alt\"></i>";
-};
+};*/
 var audioIcon = function (cell, formatterParams) {
     //return "<i class=\"fas fa-play\"></i>";
-    return "<i class=\"fas fa-volume-up\"></i>";
+    //return "<i class=\"fas fa-volume-up\"></i>";
     //return '<audio controls><source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg"><source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>';
-    //return "<audio src=\"https://www.w3schools.com/html/horse.ogg\"></audio>";
-}; */
+    //return "<audio class=\"audioplay\" src=\"https://www.w3schools.com/html/horse.ogg\"></audio>";
+}; 
 var nameFormatter = function (cell, formatterParams) {
     var rowData = cell.getData();
     var cellValue = cell.getValue();
@@ -29,8 +29,6 @@ var nameFormatter = function (cell, formatterParams) {
 /* var sourceFormatter = function (cell, formatterParams) {
     var rowData = cell.getData();
     var cellValue = cell.getValue();
-
-    //console.log(rowData);
 
     var html = '<ul class="col_source">';
 
@@ -179,7 +177,6 @@ function imageZoom(img_element) {
 }
 
 jQuery(function ($) {
-
     if ($('#imageMapTable').length) {
         var n=1;
         $('#image-map area').siblings().each(function(){
@@ -201,7 +198,7 @@ jQuery(function ($) {
                 "jp-jp": {
                     "columns": {
                         "name": "名前",
-                        //"audio": "オーディオ",
+                        "audio": "オーディオ",
                         //"wiki": "ウィキペディア",
                         "source1": "外部参照",
                         //"source2":"外部参照2",
@@ -214,13 +211,31 @@ jQuery(function ($) {
                 { title: "Name", field: "name", formatter: nameFormatter, headerSort: false, widthGrow: 1/*, width: 180*/ },
                 //{ title: "Audio", field: "audio", formatter: audioIcon, titleFormatter: audioIcon, /* width: 90,  */align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().audio) }, headerSort: false },
                 //{ title: "Wikipedia", field: "wiki", formatter: wikiIcon, titleFormatter: wikiIcon,/*  width: 80, */ align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().wiki) }, headerSort: false },
+                { title: "Audio", field: "audio", formatter: "html", width:100, align: "center", headerSort: false },
                 { title: "Source 1", field: "source1", formatter: "html", widthGrow: 1, /* width: 90,  align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source1) },*/ headerSort: false }
                 //{ title: "Source 2", field: "source2", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source2) } },
                 //{ title: "Source 3", field: "source3", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source3) } }
             ],
+            renderComplete:function(){
+                /* console.log('renderComplete');
+                console.log($('audio.audioplay')); */
+                $('audio.audioplay').mediaelementplayer({
+                    features: ['playpause'],
+                    audioWidth: 20,
+                    audioHeight: 20
+                });
+            }
         });
-
         table.setLocale("jp-jp");
+        $('#imageMapTable .tabulator-tableHolder').on('scroll',function(){
+            /* console.log('scroll');
+            console.log($('audio.audioplay')); */
+            $('audio.audioplay').mediaelementplayer({
+                features: ['playpause'],
+                audioWidth: 20,
+                audioHeight: 20
+            });
+        })
     }
 
     var isSlider2Init = false;

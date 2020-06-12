@@ -1,35 +1,64 @@
 <?php
 // No direct access
 defined('_JEXEC') or die;
-?>
-<div id="myCarousel_h" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel_h" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel_h" data-slide-to="1"></li>
-        <li data-target="#myCarousel_h" data-slide-to="2"></li>
-    </ol>
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
-        <div class="item active"><img src="images/themeparrot/slider/flower.jpg" alt="flower" /></div>
-        <div class="item"><img src="images/themeparrot/slider/slider3.jpg" alt="slider3" /></div>
-        <div class="item"><img src="images/themeparrot/slider/slider.jpg" alt="slider" /></div>
-    </div>
-    <!-- Left and right controls -->
-    <a href="#myCarousel_h" class="left carousel-control" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> <span class="sr-only">Previous</span> </a>
-    <a href="#myCarousel_h" class="right carousel-control" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> <span class="sr-only">Next</span> </a>
-</div>
 
-<div class="clearfix"></div>
+//JHtml::_('jquery.framework');
+
+function getImgSizeUrl($url, $width = 'L')
+{
+	//width : XL, L, M, S, XS
+	$all_sizes = array('_2000', '_1500', '_762', '_277', '_50');
+
+	switch ($width) {
+		case 'XL':
+			return str_replace($all_sizes, '_2000', $url);
+			break;
+		case 'L':
+			return str_replace($all_sizes, '_1500', $url);
+			break;
+		case 'M':
+			return str_replace($all_sizes, '_762', $url);
+			break;
+		case 'S':
+			return str_replace($all_sizes, '_277', $url);
+			break;
+		case 'XS':
+			return str_replace($all_sizes, '_50', $url);
+			break;
+	}
+	return false;
+}
+?>
+<div class="container">
+    <div class="free_promo_container_wrapper">
+        <div id="free_promo" class="carousel slide carousel-fade" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#free_promo" data-slide-to="0" class="active"></li>
+                <li data-target="#free_promo" data-slide-to="1"></li>
+                <li data-target="#free_promo" data-slide-to="2"></li>
+                <li data-target="#free_promo" data-slide-to="3"></li>
+            </ol><!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active"><img class="lazyload carousel_1" data-src="/images/page/promotional_items/gallery/eduPack_bundle_promo_1_762.jpg" alt="" /></div>
+                <div class="item"><img class="lazyload" data-src="/images/page/promotional_items/gallery/eduPack_bundle_promo_2_762.jpg" alt="" /></div>
+                <div class="item"><img class="lazyload" data-src="/images/page/promotional_items/gallery/eduPack_bundle_promo_3_762.jpg" alt="" /></div>
+                <div class="item"><img class="lazyload" data-src="/images/page/promotional_items/gallery/eduPack_bundle_promo_4_762.jpg" alt="" /></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix" style="margin-bottom:15px;"></div>
 <?php
 $freebie1 = array(
-    'title' => 'testing freebies',
-    'main_thumb' => '/images/sensaihonya/poster1.jpg',
-    'main_thumb_alt' => 'poster 1',
+    'title' => 'Cat Handbook',
+    'main_thumb' => '/images/page/promotional_items/cat/cat_1500_1.jpg',
+    'main_thumb_alt' => 'cat',
     'additional_images' =>
-    array('/images/sensaihonya/poster3.jpg', '/images/sensaihonya/poster2.jpg', '/images/sensaihonya/poster4.jpg'),
+    array('/images/page/promotional_items/cat/cat_762_2.jpg', '/images/page/promotional_items/cat/cat_762_7.jpg', '/images/page/promotional_items/cat/cat_1500_12.jpg'),
     'additional_images_alt' =>
-    array('poster3.jpg', 'poster 2.jpg', 'poster 4.jpg'),
+    array('', '', ''),
+    'file'=>'handbook_w_watermarks/cat.zip',
     'introtext' =>
     '<ul class="a-unordered-list a-vertical a-spacing-none">
         <li><span class="a-list-item">【テーブルサイズ】幅60奥行40×高さ28cm、重量2.6kg、耐荷重：40kg</span></li>
@@ -43,13 +72,14 @@ $freebies = array(
     $freebie1
 );
 $freebie2 = array(
-    'title' => 'testing freebies',
-    'main_thumb' => '/images/sensaihonya/poster4.jpg',
-    'main_thumb_alt' => 'poster 1',
+    'title' => 'Dog Handbook',
+    'main_thumb' => '/images/page/promotional_items/dog/dog_1500_1.jpg',
+    'main_thumb_alt' => 'dog',
     'additional_images' =>
-    array('/images/sensaihonya/poster1.jpg', '/images/sensaihonya/poster4.jpg'),
+    array('/images/page/promotional_items/dog/dog_1500_2.jpg', '/images/page/promotional_items/dog/dog_1500_8.jpg', '/images/page/promotional_items/dog/dog_1500_16.jpg'),
     'additional_images_alt' =>
-    array('poster 1.jpg', 'poster 4.jpg'),
+    array('', '', ''),
+    'file'=>'handbook_w_watermarks/dog.zip',
     'introtext' =>
     '<ul class="a-unordered-list a-vertical a-spacing-none">
         <li><span class="a-list-item">【テーブルサイズ】幅60奥行40×高さ28cm、重量2.6kg、耐荷重：40kg</span></li>
@@ -59,9 +89,6 @@ $freebie2 = array(
         <li><span class="a-list-item">【ノートパソコンに最適なミニデスク】11-17インチのノートPCの使用に最適な折り畳み式テーブル、ベッド・ソファーの上でも勉強や仕事、読書、執筆、ゲームなどの作業が快適に。お茶を飲んだり、お菓子を食べたり、お子さんの勉強机にも手頃な大きさで役立ちます。食事、勉強、ゲームなどの際にぴったりのちゃぶ台です。</span></li>
         </ul>'
 );
-array_push($freebies, $freebie1);
-array_push($freebies, $freebie2);
-array_push($freebies, $freebie1);
 array_push($freebies, $freebie2);
 
 function has_next(array $_array)
@@ -102,7 +129,7 @@ function getImageAlt(&$images_alts, $i)
                     <div class="slider_sm_wrapper hidden-md hidden-lg">
                         <div class="sm_slider" data-id="<?php echo $j ?>">
 
-                            <div><img src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
+                            <div><img class="tns-lazy-img" data-src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
 
                             <?php
                             $i = 0;
@@ -111,7 +138,7 @@ function getImageAlt(&$images_alts, $i)
                                 $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
 
                             ?>
-                                <div><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
+                                <div><img class="tns-lazy-img" data-src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                             <?php
                                 $i++;
                             } ?>
@@ -124,7 +151,7 @@ function getImageAlt(&$images_alts, $i)
                             <ul class="thumbnails slider_md_thumbnails" data-id="<?php echo $j ?>">
                                 <li>
                                     <div class="image-wrapper">
-                                        <div class="a-image-wrapper"><img src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
+                                        <div class="a-image-wrapper"><img class="lazyload" data-src="<?php echo getImgSizeUrl($freebie['main_thumb'],'XS') ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
                                     </div>
                                 </li>
 
@@ -134,7 +161,7 @@ function getImageAlt(&$images_alts, $i)
                                 ?>
                                     <li>
                                         <div class="image-wrapper">
-                                            <div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
+                                            <div class="a-image-wrapper"><img class="lazyload" data-src="<?php echo getImgSizeUrl($additional_image,'XS') ?>" alt="<?php echo $image_alt; ?>" /></div>
                                         </div>
                                     </li>
                                 <?php
@@ -148,7 +175,7 @@ function getImageAlt(&$images_alts, $i)
 
                                 <div class="image-wrapper">
                                     <div class="a-image-wrapper">
-                                        <img data-id="main" src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" />
+                                        <img data-id="main" class="tns-lazy-img" data-src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" />
                                     </div>
                                 </div>
 
@@ -158,7 +185,7 @@ function getImageAlt(&$images_alts, $i)
                                     $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
                                 ?>
                                     <div class="image-wrapper">
-                                        <div class="a-image-wrapper"><img data-id="additional-<?php echo $i ?>" src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
+                                        <div class="a-image-wrapper"><img data-id="additional-<?php echo $i ?>" class="tns-lazy-img" data-src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                                     </div>
                                 <?php
                                     $i++;
@@ -185,7 +212,7 @@ function getImageAlt(&$images_alts, $i)
                             </div>
                             <form name="info_request<?php echo $j; ?>" class="info_request" data-id="<?php echo $j; ?>">
                                 <div class="email_input_wrapper">
-                                    <input type="hidden" name="file" value="download.png,robots.txt" />
+                                    <input type="hidden" name="file" value="<?php echo $freebie['file']?>" />
                                     <input type="text" class="form_name" name="name" placeholder="お名前" />
                                     <input type="email" pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" class="email" name="email" placeholder="メールアドレス" />
                                 </div>
@@ -240,7 +267,7 @@ function getImageAlt(&$images_alts, $i)
                             </div>
 
                             <div class="productGallery_slider" data-id="<?php echo $j ?>">
-                                <div><img src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
+                                <div><img class="tns-lazy-img" data-src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
 
                                 <?php
                                 $i = 0;
@@ -249,7 +276,7 @@ function getImageAlt(&$images_alts, $i)
                                     $image_alt = getImageAlt($freebie['additional_images_alt'], $i);
 
                                 ?>
-                                    <div><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
+                                    <div><img class="tns-lazy-img" data-src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                                 <?php
                                     $i++;
                                 } ?>
@@ -257,7 +284,7 @@ function getImageAlt(&$images_alts, $i)
                             <ul class="thumbnails slider_sm_thumbnails" data-id="<?php echo $j ?>">
                                 <li>
                                     <div class="image-wrapper">
-                                        <div class="a-image-wrapper"><img src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
+                                        <div class="a-image-wrapper"><img class="tns-lazy-img" data-src="<?php echo $freebie['main_thumb'] ?>" alt="<?php echo $freebie['main_thumb_alt'] ?>" /></div>
                                     </div>
                                 </li>
 
@@ -269,7 +296,7 @@ function getImageAlt(&$images_alts, $i)
                                 ?>
                                     <li>
                                         <div class="image-wrapper">
-                                            <div class="a-image-wrapper"><img src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
+                                            <div class="a-image-wrapper"><img class="tns-lazy-img" data-src="<?php echo $additional_image ?>" alt="<?php echo $image_alt; ?>" /></div>
                                         </div>
                                     </li>
                                 <?php
@@ -296,14 +323,14 @@ function getImageAlt(&$images_alts, $i)
                                         <div class="thumbnails_wrapper">
                                             <div class="thumbnails_row_wrapper">
                                                 <div class="image_wrapper">
-                                                    <img data-id="main" class="thumbnail_image" src="<?php echo $freebie['main_thumb'] ?>" title="<?php echo $freebie['main_thumb_alt'] ?>" />
+                                                    <img data-id="main" class="thumbnail_image lazyload" data-src="<?php echo $freebie['main_thumb'] ?>" title="<?php echo $freebie['main_thumb_alt'] ?>" />
                                                 </div>
                                                 <?php
                                                 $i = 0;
                                                 foreach ($freebie['additional_images'] as $additional_image) {
                                                     $image_alt = getImageAlt($freebie['additional_images_alt'], $i); ?>
                                                     <div class="image_wrapper">
-                                                        <img data-id="additional-<?php echo $i ?>" class="thumbnail_image" src="<?php echo $additional_image ?>" title="<?php echo $image_alt; ?>" />
+                                                        <img data-id="additional-<?php echo $i ?>" class="thumbnail_image lazyload" data-src="<?php echo $additional_image ?>" title="<?php echo $image_alt; ?>" />
                                                     </div>
                                                     <?php if (($i == 2) && count($freebie['additional_images']) > 3) { ?>
                                             </div>
@@ -319,7 +346,7 @@ function getImageAlt(&$images_alts, $i)
                                     <div class="enlarged_image_wrapper">
                                         <div class="table_wrapper">
                                             <div class="enlarged_image">
-                                                <img src="<?php echo $freebie['main_thumb'] ?>" />
+                                                <img class="lazyload" data-src="<?php echo $freebie['main_thumb'] ?>" />
                                             </div>
                                         </div>
                                     </div>

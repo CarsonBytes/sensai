@@ -9,11 +9,15 @@
  */
 // No direct access
 defined('_JEXEC') or die;
+/* echo '<pre>';
+var_dump($this->product->params);
+var_dump($this->product->params['testparam']);
+echo '</pre>';  */
 
 $document = JFactory::getDocument();
-$document->addStyleSheet('https://cdn.jsdelivr.net/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css');
-$document->addStyleSheet('https://cdn.jsdelivr.net/npm/tiny-slider@2.9.2/dist/tiny-slider.css');
-$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21');
+$document->addStyleSheet('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css,npm/tiny-slider@2.9.2/dist/tiny-slider.css');
+$document->addStyleSheet('https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelementplayer.min.css');
+$document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21,npm/mediaelement@4.2.16/build/mediaelement-and-player.min.js');
 $document->addScript('/js/prod_detail.js');
 $document->addScript('/js/sm_slider.js');
 
@@ -28,6 +32,7 @@ $product_type = $database->loadResult();
 //var_dump($this->product->product_source_id);
 var_dump($this->product->variants->sku);
  echo '</pre>'; */
+ 
 
 if ($product_type == 'bundle') {
 	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext,  b.fulltext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
@@ -409,7 +414,7 @@ echo '<pre>';
 <?php } ?>
 </div>
 
-<? php/*  if ($product_type == 'image') { ?>
+<?php /*  if ($product_type == 'image') { ?>
 	<?php if ($this->params->get('item_use_tabs', 1)) : ?>
 		<?php echo $this->loadTemplate('tabs'); ?>
 	<?php else : ?>

@@ -2,11 +2,13 @@
 // No direct access
 defined('_JEXEC') or die;
 
+JHtml::_('jquery.framework');
+
 $query = "SELECT b.id, a.j2store_product_id, b.title, e.thumb_image /*, b.note, d.title, b.title as tag_title, b.catid, b.introtext, b.fulltext,*/ FROM `h1232_j2store_products` a 
 INNER JOIN `h1232_content` b ON a.product_source_id = b.id
-LEFT JOIN `h1232_contentitem_tag_map` c ON a.product_source_id = c.content_item_id
-LEFT JOIN `h1232_tags` d ON c.tag_id = d.id
-LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
+/*LEFT JOIN `h1232_contentitem_tag_map` c ON a.product_source_id = c.content_item_id
+ LEFT JOIN `h1232_tags` d ON c.tag_id = d.id
+ */LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 WHERE (b.note = 'deco' OR b.note = 'image' OR b.note = 'painting') AND b.state = 1
 group by b.id
 ORDER BY RAND()";

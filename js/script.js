@@ -10,14 +10,19 @@
  * @Link:         http://t3-framework.org 
  *------------------------------------------------------------------------------
  */
-jQuery(document).ready(function($) {  
+jQuery(document).ready(function ($) {
 
-// site preloader -- also uncomment the div in the header and the css style for #preloader
-$(window).load(function(){
-	//$('#preloader').fadeOut('slow',function(){$(this).remove();});
-});
+	// site preloader -- also uncomment the div in the header and the css style for #preloader
+	$(window).load(function () {
+		//$('#preloader').fadeOut('slow',function(){$(this).remove();});
+	});
 
-$("div").filter(function () {
-	return ($(this).text() === "FaLang translation system by Faboba" /* || $(this).text() === "Powered by BreezingForms" */);
-}).remove();
+	$("div").filter(function () {
+		return ($(this).text() === "FaLang translation system by Faboba" /* || $(this).text() === "Powered by BreezingForms" */);
+	}).remove();
+
+	$('.carousel_1').on('lazyloaded', function () {
+		$('.carousel .carousel-indicators').show();
+		$('.carousel').css('padding-top', 0);
+	});
 });

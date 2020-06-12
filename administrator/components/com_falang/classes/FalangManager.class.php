@@ -229,14 +229,14 @@ class FalangManager {
 	public static function setBuffer()
 
 	{
-
+/*
 		$doc = JFactory::getDocument();
 
 		$cacheBuf = $doc->getBuffer('component');
 
 
 
-		/* $cacheBuf2 =
+		 $cacheBuf2 =
 
 			'<div><a title="Faboba : Cr&eacute;ation de composant'.
 
@@ -248,13 +248,13 @@ class FalangManager {
 
 			'nslation syste'.
 
-			'm by Faboba</a></div>'; */
+			'm by Faboba</a></div>'; 
 
 
 
 		if ($doc->_type == 'html')
 
-			$doc->setBuffer($cacheBuf . $cacheBuf2,'component');
+			$doc->setBuffer($cacheBuf . $cacheBuf2,'component');*/
 
 
 

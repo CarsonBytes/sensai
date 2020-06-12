@@ -93,7 +93,8 @@ jQuery(function ($) {
             autoHeight: true,
             preventScrollOnTouch: 'auto',
             gutter: 30
-            //,lazyload: true
+            ,loop: false
+            ,lazyload: true
         });
     });
 
@@ -112,7 +113,7 @@ jQuery(function ($) {
             speed: 0,
             animateIn: 'no_fade',
             animateOut: 'no_fade'
-            //,lazyload: true
+            ,lazyload: true
         });
     });
 
@@ -339,8 +340,8 @@ jQuery(function ($) {
                 //console.log(result);
                 if (result) {
                     name.hide();
-                    email.hide(); 
-                    btn_to_amazon.hide(); 
+                    email.hide();
+                    btn_to_amazon.hide();
                     success.show();
                 } else {
                     fail.show();

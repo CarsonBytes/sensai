@@ -10,16 +10,16 @@
 //}
 
 body {
-    font-size  : 1.5em;
+    font-size: 1.5em;
     line-height: 1.35;
-    color      : #111;
+    color: #111;
 }
 
 body:lang(ja-jp) {
     font-family: 'Hiragino Kaku Gothic Pro W3', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-    font-size  : 13px;
+    font-size: 13px;
     line-height: 19px;
-    color      : #111;
+    color: #111;
 }
 
 #t3-topbar {
@@ -27,7 +27,7 @@ body:lang(ja-jp) {
 
     /* fix language switcher position */
     >div>div>div.col-md-6.col-sm-6.col-xs-12.right-topbar>div>ul.nav.menu {
-        display    : inline-block;
+        display: inline-block;
         line-height: 1;
     }
 
@@ -44,18 +44,18 @@ body:lang(ja-jp) {
 
             button.off-canvas-toggle {
 
-                float        : left;
-                width        : 38px;
-                color        : #fff;
+                float: left;
+                width: 38px;
+                color: #fff;
                 border-radius: 3px;
-                border       : 1px solid #666;
-                height       : 40px;
-                margin       : 10px 7px 10px 0;
-                padding      : 10px 8px 10px 8px;
-                background   : none;
-                line-height  : 1em;
-                position     : relative;
-                z-index      : 1;
+                border: 1px solid #666;
+                height: 40px;
+                margin: 10px 7px 10px 0;
+                padding: 10px 8px 10px 8px;
+                background: none;
+                line-height: 1em;
+                position: relative;
+                z-index: 1;
 
                 :hover {
                     border-color: #fff;
@@ -63,45 +63,45 @@ body:lang(ja-jp) {
 
                 i {
 
-                    background-image   : url(https://images-fe.ssl-images-amazon.com/images/G/09/gno/sprites/nav-sprite-global_bluebeacon-1x_optimized_layout1._CB468502041_.png);
-                    background-repeat  : repeat-x;
+                    background-image: url(https://images-fe.ssl-images-amazon.com/images/G/09/gno/sprites/nav-sprite-global_bluebeacon-1x_optimized_layout1._CB468502041_.png);
+                    background-repeat: repeat-x;
                     background-position: -136px -255px;
-                    width              : 20px;
-                    height             : 18px;
-                    position           : absolute;
-                    top                : 10px;
-                    left               : 8px;
+                    width: 20px;
+                    height: 18px;
+                    position: absolute;
+                    top: 10px;
+                    left: 8px;
                 }
             }
         }
 
         .text-left {
             .top_logo {
-                display      : inline-block;
+                display: inline-block;
                 padding-right: 4px;
 
                 a {
                     &:hover {
-                        outline       : 1px solid #fff;
+                        outline: 1px solid #fff;
                         outline-offset: 0;
                     }
 
                     img {
                         height: 65px;
-                        width : auto;
+                        width: auto;
                     }
                 }
             }
 
             .top_banner_wrapper {
                 /* background-color: #e21e26; */
-                height             : 65px;
-                line-height        : 65px;
-                text-align         : center;
+                height: 65px;
+                line-height: 65px;
+                text-align: center;
 
                 .top_banner {
-                    height          : 100%;
-                    margin-left     : 110px;
+                    height: 100%;
+                    margin-left: 110px;
                     background-color: black;
 
                     @media screen and (min-width: @screen-desktop) {
@@ -114,11 +114,11 @@ body:lang(ja-jp) {
         .right-topbar {
             .right-topbar_inner {
 
-                height         : 65px;
-                display        : flex;
-                align-items    : center;
+                height: 65px;
+                display: flex;
+                align-items: center;
                 justify-content: space-between;
-                position       : relative;
+                position: relative;
 
                 .nav li.item-120 a {
                     //login button padding remove
@@ -127,29 +127,29 @@ body:lang(ja-jp) {
 
                 #j2store_currency {
                     margin-right: 4px;
-                    line-height : 32px;
+                    line-height: 32px;
 
                     a {
                         //default
-                        border         : 1px solid #ccc;
-                        display        : inline-block;
-                        margin-right   : 2px;
-                        padding        : 2px 4px;
+                        border: 1px solid #ccc;
+                        display: inline-block;
+                        margin-right: 2px;
+                        padding: 2px 4px;
                         text-decoration: none;
-                        cursor         : pointer;
+                        cursor: pointer;
 
-                        margin-bottom : 0;
-                        margin-top    : 0;
-                        padding-top   : 0;
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        padding-top: 0;
                         padding-bottom: 0;
                     }
                 }
 
                 .promo_logo {
-                    display     : none;
+                    display: none;
                     margin-right: 15px;
-                    height      : 65px;
-                    width       : auto;
+                    height: 65px;
+                    width: auto;
 
                     @media screen and (min-width: @screen-desktop) {
                         display: block;
@@ -159,8 +159,8 @@ body:lang(ja-jp) {
                 .mod-languages {
                     @media screen and (max-width: @screen-desktop) {
                         position: absolute;
-                        top     : 15px;
-                        right   : 0;
+                        top: 15px;
+                        right: 0;
                     }
                 }
             }
@@ -182,12 +182,12 @@ body:lang(ja-jp) {
 }
 
 .t3-header {
-    padding      : 0;
-    border-top   : 1px solid rgba(0, 0, 0, .17);
+    padding: 0;
+    border-top: 1px solid rgba(0, 0, 0, .17);
     border-bottom: 1px solid rgba(0, 0, 0, .1);
-    white-space  : nowrap;
-    height       : 33px;
-    background   : #fafafa;
+    white-space: nowrap;
+    height: 33px;
+    background: #fafafa;
     margin-bottom: 10px;
 
     .logo {
@@ -197,7 +197,7 @@ body:lang(ja-jp) {
     .navbar-default {
 
         background: none;
-        border    : 0;
+        border: 0;
         min-height: auto;
 
         .t3-megamenu {
@@ -218,7 +218,7 @@ body:lang(ja-jp) {
             }
 
             ul {
-                float  : none;
+                float: none;
                 display: inline-block;
 
                 .dropdown-menu .mega-nav {
@@ -232,11 +232,11 @@ body:lang(ja-jp) {
                             }
 
                             ::after {
-                                display : inline-block;
-                                float   : none;
+                                display: inline-block;
+                                float: none;
                                 position: absolute;
-                                right   : 5px;
-                                top     : 6px;
+                                right: 5px;
+                                top: 6px;
                             }
                         }
 
@@ -257,14 +257,14 @@ body:lang(ja-jp) {
         .navbar-nav {
             >li {
                 &.active>a {
-                    color        : #e47911;
+                    color: #e47911;
                     border-bottom: 2px solid #f90;
                 }
 
                 >a {
-                    padding       : 5px 15px;
+                    padding: 5px 15px;
                     text-transform: none;
-                    background    : none !important;
+                    background: none !important;
 
                     :hover,
                     :focus {
@@ -285,8 +285,8 @@ body:lang(ja-jp) {
         padding-left: 0;
 
         .breadcrumb {
-            background    : none;
-            padding       : 0;
+            background: none;
+            padding: 0;
             padding-bottom: 10px;
 
             >li+li:before {
@@ -294,16 +294,16 @@ body:lang(ja-jp) {
             }
 
             li {
-                display    : inline-block;
+                display: inline-block;
                 font-weight: normal;
 
                 .divider {
-                    display  : inline-block;
-                    padding  : 0 5px;
+                    display: inline-block;
+                    padding: 0 5px;
                     font-size: 7px;
-                    color    : #949494;
-                    position : relative;
-                    top      : -2px;
+                    color: #949494;
+                    position: relative;
+                    top: -2px;
 
                     &.icon-location {
                         padding: 0;
@@ -312,12 +312,12 @@ body:lang(ja-jp) {
                 }
 
                 a {
-                    color    : #767676;
+                    color: #767676;
                     font-size: 12px;
 
                     :hover {
 
-                        color          : #c45500;
+                        color: #c45500;
                         text-decoration: underline;
                     }
                 }
@@ -345,22 +345,22 @@ body:lang(ja-jp) {
 
 .tns-nav {
     text-align: center;
-    margin    : 10px 0;
+    margin: 10px 0;
 
     >[aria-controls] {
-        border-radius   : 2rem;
+        border-radius: 2rem;
         background-color: #f3f3f3;
-        border          : .1rem solid #949494;
-        display         : inline-block;
-        float           : none;
-        height          : .9rem;
-        margin          : 0 .3rem;
-        padding         : 0;
-        width           : .9rem;
+        border: .1rem solid #949494;
+        display: inline-block;
+        float: none;
+        height: .9rem;
+        margin: 0 .3rem;
+        padding: 0;
+        width: .9rem;
 
         &.tns-nav-active {
             background-color: #949494;
-            border          : .1rem solid #949494;
+            border: .1rem solid #949494;
         }
     }
 }
@@ -368,8 +368,8 @@ body:lang(ja-jp) {
 #tns1>.tns-item {
     img {
         max-width: 100%;
-        height   : 350px;
-        width    : auto;
+        height: 350px;
+        width: auto;
     }
 }
 
@@ -383,14 +383,14 @@ body:lang(ja-jp) {
 @media screen and (min-width: @screen-desktop) and (min-height: 660px) {
     .footer_to_bottom {
         .t3-wrapper {
-            position  : relative;
+            position: relative;
             min-height: 100%;
 
             #t3-footer {
                 position: absolute;
-                bottom  : 0;
-                left    : 0;
-                right   : 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
             }
         }
     }
@@ -399,59 +399,162 @@ body:lang(ja-jp) {
 .loader,
 .loader:before,
 .loader:after {
-  background: #242424;
-  -webkit-animation: load1 1s infinite ease-in-out;
-  animation: load1 1s infinite ease-in-out;
-  width: 1em;
-  height: 4em;
+    background: #242424;
+    -webkit-animation: load1 1s infinite ease-in-out;
+    animation: load1 1s infinite ease-in-out;
+    width: 1em;
+    height: 4em;
 }
+
 .loader {
-  color: #242424;
-  text-indent: -9999em;
-  margin: 88px auto;
-  position: relative;
-  font-size: 11px;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
+    color: #242424;
+    text-indent: -9999em;
+    margin: 88px auto;
+    position: relative;
+    font-size: 11px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
 }
+
 .loader:before,
 .loader:after {
-  position: absolute;
-  top: 0;
-  content: '';
+    position: absolute;
+    top: 0;
+    content: '';
 }
+
 .loader:before {
-  left: -1.5em;
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
+    left: -1.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
 }
+
 .loader:after {
-  left: 1.5em;
+    left: 1.5em;
 }
+
 @-webkit-keyframes load1 {
-  0%,
-  80%,
-  100% {
-    box-shadow: 0 0;
-    height: 4em;
-  }
-  40% {
-    box-shadow: 0 -2em;
-    height: 5em;
-  }
+
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 0;
+        height: 4em;
+    }
+
+    40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+    }
 }
+
 @keyframes load1 {
-  0%,
-  80%,
-  100% {
-    box-shadow: 0 0;
-    height: 4em;
-  }
-  40% {
-    box-shadow: 0 -2em;
-    height: 5em;
-  }
+
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 0;
+        height: 4em;
+    }
+
+    40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+    }
+}
+
+/*
+  Bootstrap Carousel Fade Transition (for Bootstrap 3.3.x)
+  CSS from:       http://codepen.io/transportedman/pen/NPWRGq
+  and:            http://stackoverflow.com/questions/18548731/bootstrap-3-carousel-fading-to-new-slide-instead-of-sliding-to-new-slide
+  Inspired from:  http://codepen.io/Rowno/pen/Afykb 
+*/
+.carousel-fade .carousel-inner .item {
+    opacity: 0;
+    transition-property: opacity;
+}
+
+.carousel-fade .carousel-inner .active {
+    opacity: 1;
+}
+
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+}
+
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+    opacity: 1;
+}
+
+.carousel-fade .carousel-control {
+    z-index: 2;
+}
+
+/*
+    WHAT IS NEW IN 3.3: "Added transforms to improve carousel performance in modern browsers."
+    Need to override the 3.3 new styles for modern browsers & apply opacity
+  */
+@media all and (transform-3d),
+(-webkit-transform-3d) {
+
+    .carousel-fade .carousel-inner>.item.next,
+    .carousel-fade .carousel-inner>.item.active.right {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    .carousel-fade .carousel-inner>.item.prev,
+    .carousel-fade .carousel-inner>.item.active.left {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    .carousel-fade .carousel-inner>.item.next.left,
+    .carousel-fade .carousel-inner>.item.prev.right,
+    .carousel-fade .carousel-inner>.item.active {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+
+#home_promo,
+#free_promo {
+    .carousel-indicators {
+        left: 0;
+        width: 100%;
+        top: auto;
+        height: 15px;
+        margin: 0;
+        text-align: center;
+        bottom: 20px;
+        display: none;
+    }
+}
+
+#home_promo {
+    background: black;
+    padding-top: 40.1%;
+    /* 3740/1500 Aspect Ratio */
+}
+
+.free_promo_container_wrapper {
+    background: black;
+    max-width: 500px;
+    margin: 0 auto;
+
+    #free_promo {
+        padding-top: 74.9%;
+        /* 762/1017 Aspect Ratio */
+    }
 }
