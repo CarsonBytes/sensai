@@ -20,7 +20,8 @@ $app = Factory::getApplication('site');
 // Execute the application.
 $app->initialise();
 
-$filename = "000-01 publish records and web relationship - bundles to import.csv";
+$filename = "000-01 publish records and web relationship - csv to import.csv";
+//$filename = "000-01 publish records and web relationship - bundles to import.csv";
 if (file_exists(dirname(__FILE__) . DS . $filename)) {
 
     $file = fopen($filename, "r");
@@ -92,6 +93,10 @@ if (file_exists(dirname(__FILE__) . DS . $filename)) {
             echo '</pre>'; */
             if (strpos($line[$i][$tag_index], 'deco') !== false) {
                 $contentTable->note = "deco";
+            } else if (strpos($line[$i][$tag_index], 'educational-cat') !== false) {
+                $contentTable->note = "educational-cat";
+            } else if (strpos($line[$i][$tag_index], 'educational-dog') !== false) {
+                $contentTable->note = "educational-dog";
             } else if (strpos($line[$i][$tag_index], 'image') !== false) {
                 $contentTable->note = "image";
             } else if (strpos($line[$i][$tag_index], 'painting') !== false) {

@@ -52,6 +52,7 @@ function getImgSizeUrl($url, $width = 'L')
 <?php
 $freebie1 = array(
     'title' => 'Cat Handbook',
+    'archor' => 'cat_handbook',
     'main_thumb' => '/images/page/promotional_items/cat/cat_1500_1.jpg',
     'main_thumb_alt' => 'cat',
     'additional_images' =>
@@ -73,6 +74,7 @@ $freebies = array(
 );
 $freebie2 = array(
     'title' => 'Dog Handbook',
+    'archor' => 'dog_handbook',
     'main_thumb' => '/images/page/promotional_items/dog/dog_1500_1.jpg',
     'main_thumb_alt' => 'dog',
     'additional_images' =>
@@ -119,7 +121,7 @@ function getImageAlt(&$images_alts, $i)
     <div class="free_items_wrapper">
         <?php $j = 0;
         foreach ($freebies as $freebie) { ?>
-            <div class="free_item">
+            <div class="free_item"><a id="<?php echo $freebie['archor'] ?>"></a>
                 <div class="col-sm-12 hidden-md hidden-lg">
                     <h1 itemprop="name" class="product-title"><?php echo $freebie['title']; ?></h1>
                 </div>

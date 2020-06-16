@@ -938,14 +938,9 @@ body.modal-open,
             }
 
             .deco_bundle_wrapper {
-                margin-bottom: 0;
-                border: none;
-
                 .deco_bundle {
-                    padding-left: 200px;
+                    margin-left: 200px;
                     padding-bottom: 15px;
-                    margin-bottom: 15px;
-                    border-bottom: 2px solid #ddd;
                     margin-top: 5px;
                     position: relative;
 
@@ -985,8 +980,12 @@ body.modal-open,
 
                     .col_2 {
                         width: 100%;
-                        float: right;
+                        /* float: right; */
                         padding-left: 15px;
+                        /* position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%); */
 
                         .deco_thumbs {
                             display: flex;
@@ -999,23 +998,26 @@ body.modal-open,
 
                                 .img_wrapper {
                                     img {
-                                        max-width: calc(~"(100vw - 250px) / 12");
+                                        max-width: calc(~"(100vw - 250px) / 11");
                                         height: auto;
-                                        border: 1px solid #a2a6ac;
-                                        border-radius: 2px;
                                         overflow: visible;
-
-                                        :hover {
-                                            border-color: #e77600;
-                                            box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
-                                        }
                                     }
                                 }
                             }
                         }
 
-                        .bundle_desc_wrapper {
-                            margin-top: 15px;
+                        .bundle_title_wrapper {
+                            margin-top: 5px;
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: space-between;
+                            /* height: 38px;
+                            overflow:hidden; */
+                            .bundle_title{
+                                display: block;
+                                width: calc(~"(100vw - 250px) / 12");
+                                font-size: 12px !important;
+                            }
                         }
 
                     }

@@ -9,6 +9,8 @@ defined('_JEXEC') or die;
 $total_cols = $params->get('number_of_coloums', 3);
 $total_count = count($list);
 $counter = 0;
+
+include JPATH_SITE . '/php_html_templates/functions.php';
 ?>
 <div itemscope itemtype="http://schema.org/ItemList" class="j2store-product-module j2store-product-module-list row-fluid">
 	<?php error_reporting(0);
@@ -20,13 +22,19 @@ $counter = 0;
 	<?php endif; ?>
 	<?php if (count($list) > 0) : ?>
 		<div class="thumbnail_list">
-			<?php foreach ($list as $product_id => $product) :
+			<?php
+			foreach ($list as $product_id => $product) :
 				$image_root_path = JUri::root();
 				$image_path = '';
-				if ($product->image_type == 'thumbimage' && isset($product->thumb_image)) {
-					$image_path = $product->thumb_image;
-				} else if ($product->image_type == 'mainimage' && isset($product->main_image)) {
-					$image_path = $product->main_image;
+				if (isEdupack($product->source->note)) {
+					$edupack_info = getEdupackInfo($product->source->note);
+					$image_path = $edupack_info['edupack_img_path'];
+				} else {
+					if ($product->image_type == 'thumbimage' && isset($product->thumb_image)) {
+						$image_path = $product->thumb_image;
+					} else if ($product->image_type == 'mainimage' && isset($product->main_image)) {
+						$image_path = $product->main_image;
+					}
 				} ?>
 				<div class="list_item_wrapper" data-id="<?php echo $product->j2store_product_id; ?>">
 					<div class="list_border">
@@ -41,7 +49,8 @@ $counter = 0;
 						</div>
 					</div>
 				</div>
-			<?php endforeach;  ?>
+			<?php
+			endforeach;  ?>
 		</div>
 	<?php endif; ?>
 </div>

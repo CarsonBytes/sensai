@@ -14,6 +14,8 @@ var_dump($this->product->params);
 var_dump($this->product->params['testparam']);
 echo '</pre>';  */
 
+include JPATH_SITE . '/php_html_templates/functions.php';
+
 $document = JFactory::getDocument();
 $document->addStyleSheet('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css,npm/tiny-slider@2.9.2/dist/tiny-slider.css');
 $document->addStyleSheet('https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelementplayer.min.css');
@@ -27,12 +29,20 @@ $database = JFactory::getDbo();
 $database->setQuery($query);
 //$result = $database->loadAssocList();
 $product_type = $database->loadResult();
+
+$params = json_decode($this->product->params);
 /* 
  echo '<pre>';
 //var_dump($this->product->product_source_id);
 var_dump($this->product->variants->sku);
+ echo '</pre>'; *//* 
+ echo '<pre>';
+ var_dump($params->group_items);
+ var_dump(explode(',',$params->group_items));
+ var_dump($params->group_title);
  echo '</pre>'; */
- 
+
+
 
 if ($product_type == 'bundle') {
 	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext,  b.fulltext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
@@ -43,24 +53,40 @@ if ($product_type == 'bundle') {
 	ORDER by bs.created_on";
 } else {
 	// deco or image posters
+	$group_items_thumb_image = array();
+	if (isset($params->group_items) && count($params->group_items) > 0) :
+		$query2 = "SELECT e.thumb_image FROM `h1232_j2store_products` a 
+		LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
+		WHERE a.product_source_id in ( " . $params->group_items . ")
+		ORDER by a.product_source_id";
+		$database->setQuery($query2);
+		$group_items_thumb_image = $database->loadColumn();
+	endif;
+	/* echo '<pre>';
+	var_dump('$group_items_thumb_image');
+	var_dump($group_items_thumb_image);
+	echo '</pre>'; */
 
 	//bundles query
 	$query2 = "SELECT b.id, a.j2store_product_id, b.title, b.introtext, b.fulltext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
+ 	LEFT JOIN `h1232_j2store_variants` v ON a.j2store_product_id = v.product_id
 	WHERE b.id in (SELECT bundle_id FROM bundle_single where single_id = " . $this->product->product_source_id . ")
-	ORDER by b.id";
+	ORDER by v.sku";
 	$database->setQuery($query2);
 	$bundles = $database->loadAssocList();
 	// var_dump($bundles);
 
 	//bundle products query
-	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
+	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, e.thumb_image, e.main_image, b.note FROM `h1232_j2store_products` a 
 	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
 	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
+ 	LEFT JOIN `h1232_j2store_variants` v ON a.j2store_product_id = v.product_id
 	WHERE bs.bundle_id in (SELECT bundle_id FROM bundle_single where single_id = " . $this->product->product_source_id . ")
-	ORDER by bs.created_on";
+	ORDER by v.sku";
+	/*"; ORDER by bs.created_on */
 }
 /* echo '<pre>';
 var_dump($product_type);
@@ -70,6 +96,9 @@ echo '</pre>';  */
 
 $database->setQuery($query);
 $product_thumbs = $database->loadAssocList();
+/* echo '<pre>';
+var_dump($product_thumbs);
+echo '</pre>'; */
 
 function getImgSizeUrl($url, $width = 'L')
 {
@@ -112,6 +141,9 @@ function getImgSizeUrl($url, $width = 'L')
 
 					<?php
 					$additional_images = json_decode($this->product->additional_images);
+					foreach ($group_items_thumb_image as $group_item_thumb_image) :
+						$additional_images[] = getImgSizeUrl($group_item_thumb_image, 'M');
+					endforeach;
 					$additional_images_alts = (array) json_decode($this->product->additional_images_alt);
 					$i = 0;
 					if ($additional_images[0] != '') {
@@ -148,7 +180,6 @@ function getImgSizeUrl($url, $width = 'L')
 						} ?>
 					</ul>
 				</div>
-
 				<div class="slider_md_wrapper">
 					<div class="my-slider-md">
 
@@ -276,7 +307,31 @@ echo '<pre>';
 	</div>
 <?php } ?>
 
+<style>
+	.logos2 {
+		position: relative;
+		margin: 10px 0;
+		height: 300px;
+	}
 
+	.logos2 .ele0 {
+		position: absolute;
+		left: 100px;
+		top: 0;
+	}
+
+	.logos2 .ele1 {
+		position: absolute;
+		left: 50px;
+		top: 0;
+	}
+
+	.logos2 .ele2 {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+</style>
 <?php if ($product_type != 'bundle') { ?>
 	<?php if (count($bundles) > 0) { ?>
 		<div class="row bundles">
@@ -342,6 +397,20 @@ echo '<pre>';
 											return ($var['bundle_id'] == $bundle_id);
 										}); */
 
+										//separate educational from others
+										$educationals =  array_filter($this_bundle_decos, function ($var) use ($bundle_id) {
+											return isEdupack($var['note']);
+										});
+
+										$this_bundle_decos =  array_filter($this_bundle_decos, function ($var) use ($bundle_id) {
+											return !isEdupack($var['note']);
+										});
+
+										$educational_type = array_values($educationals)[0]['note'];
+										$educational_j2store_product_id = array_values($educationals)[0]['j2store_product_id'];
+										
+										$edupack_info = getEdupackInfo($educational_type);
+
 										foreach ($this_bundle_decos as $this_bundle_deco) {
 										?>
 											<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $this_bundle_deco['j2store_product_id']); ?>">
@@ -351,13 +420,24 @@ echo '<pre>';
 											</a>
 										<?php
 										} ?>
+										<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $educational_j2store_product_id); ?>">
+											<div class="img_wrapper">
+												<img class="lazyload" data-src="<?php echo $edupack_info['edupack_img_path']; ?>" />
+											</div>
+										</a>
+										<a class="img_link" href="<?php echo $edupack_info['handbook_page_path'] ?>">
+											<div class="img_wrapper">
+												<img class="lazyload" data-src="<?php echo $edupack_info['handbook_page_img_path']; ?>" />
+											</div>
+										</a>
 									</div>
-									<div class="clearfix"></div>
-									<div class="bundle_desc_wrapper">
-										<div class="bundle_desc">
-											<?php echo $bundle['introtext']; ?>
-										</div>
-									</div>
+									<?php /* <div class="clearfix"></div>
+									<div class="bundle_title_wrapper" id="bundle_title_wrapper">
+										<?php foreach ($this_bundle_decos as $this_bundle_deco) { ?>
+											<a href="#" class="bundle_title truncate-overflow"><?php echo $this_bundle_deco['title'] ?></a>
+										<?php
+										} ?>
+									</div> */ ?>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -528,3 +608,5 @@ echo '<pre>';
 		</div>
 	</div>
 </div>
+
+<?php

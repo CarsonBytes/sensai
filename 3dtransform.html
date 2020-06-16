@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <title>3D CSS example</title>
     <style>
+
         body {
             margin: 0 auto;
             width: 1000px;
+            background: black;
         }
 
         #logos {
@@ -30,7 +32,7 @@
             transform: rotateY(-50deg);
         }
 
-        #cube img {
+        img {
             -webkit-box-shadow: 9px 10px 20px -10px rgba(0, 0, 0, 0.75);
             -moz-box-shadow: 9px 10px 20px -10px rgba(0, 0, 0, 0.75);
             box-shadow: 9px 10px 20px -10px rgba(0, 0, 0, 0.75);
@@ -66,30 +68,55 @@
             transform: translateZ(170px);
         }
 
-        #logos2 {
+        .logos2 {
+            position: relative;
+            margin: 10px 0;
+            height: 300px;
+        }
+
+        .logos2 .front {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .logos2 .back {
+            position: absolute;
+            left: 50px;
+            top: 0;
+        }
+        .logos2.cat .back {
+            position: absolute;
+            left: 100px;
+            top: 0;
+        }
+
+        .logos2 .back2 {
+            position: absolute;
+            left: 100px;
+            top: 0;
+        }
+
+        #logos3 {
             position: relative;
             margin: 10px 0;
         }
 
-        #logos2 img {
-            -webkit-box-shadow: 9px 10px 20px -10px rgba(0, 0, 0, 0.75);
-            -moz-box-shadow: 9px 10px 20px -10px rgba(0, 0, 0, 0.75);
-            box-shadow: 9px 10px 20px -10px rgba(0, 0, 0, 0.75);
-        }
-
-        #logos2 .front {
+        #logos3 .front {
             position: absolute;
-            left: 40px;
+            left: -110px;
             top: 0;
+            transform: rotate(-20deg);
         }
 
-        #logos2 .back {
+        #logos3 .back {
             position: absolute;
-            left: 20px;
-            top: 0;
+            left: 110px;
+            top: 0px;
+            transform: rotate(20deg);
         }
 
-        #logos2 .back2 {
+        #logos3 .back2 {
             position: absolute;
             left: 0;
             top: 0;
@@ -105,10 +132,27 @@
             <img src="http://sensaihonya.jp/images/poster/decor/P22003_277.jpg" id="back2" alt="back2">
         </div>
     </div>
-    <div id="logos2">
+    <div class="logos2">
         <img src="http://sensaihonya.jp/images/poster/decor/P22001_277.jpg" class="front" alt="MDN">
         <img src="http://sensaihonya.jp/images/poster/decor/P22002_277.jpg" class="back" alt="HTML5">
         <img src="http://sensaihonya.jp/images/poster/decor/P22003_277.jpg" class="back2" alt="back2">
+    </div>
+    <div style="clear:both;"></div><br /><br /><br />
+    <div class="logos2">
+        <img src="http://sensaihonya.jp/images/poster/edupack/dog/P12005_277.jpg" class="back2" alt="back2">
+        <img src="http://sensaihonya.jp/images/poster/edupack/dog/P12004_277.jpg" class="back" alt="HTML5">
+        <img src="http://sensaihonya.jp/images/poster/edupack/dog/P12003_277.jpg" class="front" alt="MDN">
+    </div>
+    <div style="clear:both;"></div><br /><br /><br />
+    <div class="logos2 cat">
+        <img src="http://sensaihonya.jp/images/poster/edupack/cat/P12002_277.jpg" class="back" alt="HTML5">
+        <img src="http://sensaihonya.jp/images/poster/edupack/cat/P12001_277.jpg" class="front" alt="MDN">
+    </div>
+    <div style="clear:both;"></div><br /><br /><br />
+    <div id="logos3">
+        <img src="http://sensaihonya.jp/images/poster/edupack/dog/P12003_277.jpg" class="front" alt="MDN">
+        <img src="http://sensaihonya.jp/images/poster/edupack/dog/P12004_277.jpg" class="back" alt="HTML5">
+        <img src="http://sensaihonya.jp/images/poster/edupack/dog/P12005_277.jpg" class="back2" alt="back2">
     </div>
 </body>
 
