@@ -307,31 +307,6 @@ echo '<pre>';
 	</div>
 <?php } ?>
 
-<style>
-	.logos2 {
-		position: relative;
-		margin: 10px 0;
-		height: 300px;
-	}
-
-	.logos2 .ele0 {
-		position: absolute;
-		left: 100px;
-		top: 0;
-	}
-
-	.logos2 .ele1 {
-		position: absolute;
-		left: 50px;
-		top: 0;
-	}
-
-	.logos2 .ele2 {
-		position: absolute;
-		left: 0;
-		top: 0;
-	}
-</style>
 <?php if ($product_type != 'bundle') { ?>
 	<?php if (count($bundles) > 0) { ?>
 		<div class="row bundles">

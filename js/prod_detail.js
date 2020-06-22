@@ -19,7 +19,7 @@ var audioIcon = function (cell, formatterParams) {
     //return "<i class=\"fas fa-volume-up\"></i>";
     //return '<audio controls><source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg"><source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>';
     //return "<audio class=\"audioplay\" src=\"https://www.w3schools.com/html/horse.ogg\"></audio>";
-}; 
+};
 var nameFormatter = function (cell, formatterParams) {
     var rowData = cell.getData();
     var cellValue = cell.getValue();
@@ -178,8 +178,8 @@ function imageZoom(img_element) {
 
 jQuery(function ($) {
     if ($('#imageMapTable').length) {
-        var n=1;
-        $('#image-map area').siblings().each(function(){
+        var n = 1;
+        $('#image-map area').siblings().each(function () {
             //$(this).prop('data-row',n);
             $(this).attr('data-row', n++);
         })
@@ -211,12 +211,12 @@ jQuery(function ($) {
                 { title: "Name", field: "name", formatter: nameFormatter, headerSort: false, widthGrow: 1/*, width: 180*/ },
                 //{ title: "Audio", field: "audio", formatter: audioIcon, titleFormatter: audioIcon, /* width: 90,  */align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().audio) }, headerSort: false },
                 //{ title: "Wikipedia", field: "wiki", formatter: wikiIcon, titleFormatter: wikiIcon,/*  width: 80, */ align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().wiki) }, headerSort: false },
-                { title: "Audio", field: "audio", formatter: "html", width:100, align: "center", headerSort: false },
+                { title: "Audio", field: "audio", formatter: "html", width: 100, align: "center", headerSort: false },
                 { title: "Source 1", field: "source1", formatter: "html", widthGrow: 1, /* width: 90,  align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source1) },*/ headerSort: false }
                 //{ title: "Source 2", field: "source2", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source2) } },
                 //{ title: "Source 3", field: "source3", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source3) } }
             ],
-            renderComplete:function(){
+            renderComplete: function () {
                 /* console.log('renderComplete');
                 console.log($('audio.audioplay')); */
                 $('audio.audioplay').mediaelementplayer({
@@ -227,7 +227,7 @@ jQuery(function ($) {
             }
         });
         table.setLocale("jp-jp");
-        $('#imageMapTable .tabulator-tableHolder').on('scroll',function(){
+        $('#imageMapTable .tabulator-tableHolder').on('scroll', function () {
             /* console.log('scroll');
             console.log($('audio.audioplay')); */
             $('audio.audioplay').mediaelementplayer({
