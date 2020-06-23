@@ -1,9 +1,21 @@
-var table;
+var selectedSKU = 'P12001';
 jQuery(function ($) {
+    var table;
+    var selectedImageMap;
     function initImgMap() {
-        $('#image-map').imageMapResize();
+        $('.image-map-container img:not([data-sku="' + selectedSKU + '"])').hide()
+        $('.image-map-container img[data-sku="' + selectedSKU + '"]').css('display', 'block')
+        $('map area').css('cursor', 'pointer')
 
-        $('#image-map area').hover(
+        $("#image-map").hide();
+
+        selectedImageMap = $("#image-map" + selectedSKU);
+
+        selectedImageMap.show();
+
+        selectedImageMap.imageMapResize();
+
+        selectedImageMap.find('area').hover(
             function () {
                 var coords = $(this).attr('coords').split(',');
                 var width = $('.image-map-container').width();
@@ -19,7 +31,7 @@ jQuery(function ($) {
                 $('.image-map-container .map-selector').removeClass('hover').attr('style', '');
             }
         )
-        $('#image-map area').click(function (e) {
+        selectedImageMap.find('area').click(function (e) {
 
             e.preventDefault();
 
@@ -50,6 +62,7 @@ jQuery(function ($) {
             return false;
 
         });
+        $(window).trigger('resize'); //fix image map placement incorrect after showing the hidden image
     }
     function initImgMapTable() {
         var n = 1;
@@ -59,47 +72,36 @@ jQuery(function ($) {
 
             return '<div class="col_name">' + rowData.name_jp + '<br />(' + cell.getValue() + ')</div>';
         };
-        $('#image-map area').siblings().each(function () {
+        selectedImageMap.find('area').siblings().each(function () {
             //$(this).prop('data-row',n);
             $(this).attr('data-row', n++);
         })
         table = new Tabulator("#imageMapTable", {
             maxHeight: '100%',
-            //height: '600px',
             columnHeaderVertAlign: "middle", //align header contents to bottom of cell
-            //columnHeaderVertAlign :"middle", //align header contents to bottom of cell
             tooltipsHeader: false, //enable header tooltips
             tooltipGenerationMode: "hover", //regenerate tooltip as users mouse enters the cell;
             tooltips: false,
             movableColumns: false,
             //data: tabledata,
-            ajaxURL: "/bin/cap/P12001.json", //ajax URL
+            ajaxURL: '/bin/cap/' + selectedSKU + '.json', //ajax URL
             layout: "fitColumns",
             langs: {
                 "jp-jp": {
                     "columns": {
                         "name": "名前",
                         "audio": "オーディオ",
-                        //"wiki": "ウィキペディア",
                         "source1": "外部参照",
-                        //"source2":"外部参照2",
-                        //"source3":"外部参照3",
                     }
                 },
             },
             columns: [
                 { field: "id", width: 20, headerSort: false },
                 { title: "Name", field: "name", formatter: nameFormatter, headerSort: false, widthGrow: 1/*, width: 180*/ },
-                //{ title: "Audio", field: "audio", formatter: audioIcon, titleFormatter: audioIcon, /* width: 90,  */align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().audio) }, headerSort: false },
-                //{ title: "Wikipedia", field: "wiki", formatter: wikiIcon, titleFormatter: wikiIcon,/*  width: 80, */ align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().wiki) }, headerSort: false },
                 { title: "Audio", field: "audio", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
                 { title: "Source 1", field: "source1", formatter: "html", widthGrow: 1, /* width: 90,  align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source1) },*/ headerSort: false }
-                //{ title: "Source 2", field: "source2", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source2) } },
-                //{ title: "Source 3", field: "source3", formatter: linkIcon, width: 90, align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source3) } }
             ],
             renderComplete: function () {
-                /* console.log('renderComplete');
-                console.log($('audio.audioplay')); */
                 $('audio.audioplay').mediaelementplayer({
                     features: ['playpause'],
                     audioWidth: 20,
@@ -109,8 +111,6 @@ jQuery(function ($) {
         });
         table.setLocale("jp-jp");
         $('#imageMapTable .tabulator-tableHolder').on('scroll', function () {
-            /* console.log('scroll');
-            console.log($('audio.audioplay')); */
             $('audio.audioplay').mediaelementplayer({
                 features: ['playpause'],
                 audioWidth: 20,
@@ -118,23 +118,62 @@ jQuery(function ($) {
             });
         })
     }
-    $('a.toggle_interactive_table').on('click', function () {
-        if ($(this).data('state') == 0) {
-            if ($(this).data('init') == 0) {
+
+    function toggleInteractiveTable(to_status, toggle_element) {
+        if (to_status == 1) {
+            if (toggle_element.data('init') == 0) {
                 initImgMap();
-                $(this).data('init', 1)
+                toggle_element.data('init', 1)
             }
             initImgMapTable();
-            $('.interactive_table').show();
+            $('.imageMapWrapper').show();
             $(window).trigger('resize');
-            $(this).find('.fa-caret-right').hide();
-            $(this).find('.fa-caret-down').show();
-            $(this).data('state', 1)
+            toggle_element.find('.fa-caret-right').hide();
+            toggle_element.find('.fa-caret-down').show();
+            toggle_element.data('state', 1)
         } else {
-            $('.interactive_table').hide();
-            $(this).find('.fa-caret-down').hide();
-            $(this).find('.fa-caret-right').show();
-            $(this).data('state', 0)
+            $('.imageMapWrapper').hide();
+            toggle_element.find('.fa-caret-down').hide();
+            toggle_element.find('.fa-caret-right').show();
+            toggle_element.data('state', 0)
         }
+
+    }
+    function bindPageClick() {
+        $('ul.pages li a').on('click', function (e) {
+            e.preventDefault();
+            if (selectedSKU != $(this).parent('li').data('page')) {
+                selectedSKU = $(this).parent('li').data('page')
+                $(this).parents('ul').find('li').not('[data-page="'+selectedSKU+'"]').removeClass('selected')
+                $(this).parents('ul').find('li[data-page="'+selectedSKU+'"]').addClass('selected')
+                initImgMap()
+                initImgMapTable()
+            }
+            return false;
+        })
+    }
+    var isAjaxLoaded = false;
+    $('a.toggle_interactive_table').on('click', function (e) {
+        e.preventDefault();
+        var thiselemnt = $(this)
+        if ($(this).data('state') == 0) {
+            if (!isAjaxLoaded) {
+                $.ajax({
+                    url: "/html/edupack/cats.php",
+                    method: 'POST',
+                    data: { sku: selectedSKU }
+                }).done(function (html) {
+                    $('.imageMapWrapper').html(html);
+                    isAjaxLoaded = true;
+                    toggleInteractiveTable(1, thiselemnt)
+                    bindPageClick();
+                })
+            } else {
+                toggleInteractiveTable(1, thiselemnt)
+            }
+        } else {
+            toggleInteractiveTable(0, thiselemnt)
+        }
+        return false;
     })
 });

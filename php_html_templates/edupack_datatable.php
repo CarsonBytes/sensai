@@ -1,4 +1,6 @@
 <?php
+// No direct access
+defined('_JEXEC') or die;
 
 $document = JFactory::getDocument();
 
@@ -12,10 +14,6 @@ $document->addScript('/js/edupack_datatable.js');
 <style>
     .maptable {
         height: 95vh;
-    }
-
-    .interactive_table {
-        display: none;
     }
 
     .button {
@@ -85,6 +83,13 @@ $document->addScript('/js/edupack_datatable.js');
 <div class="button">
     <span>
         <span>
+            <a href="#" class="toggle_handbook" data-state="0" data-init="0">
+                <i class="fas fa-book-open"></i> Toggle Handbook preview
+            </a>
+        </span>
+    </span>
+    <span>
+        <span>
             <a href="#" class="toggle_interactive_table" data-state="0" data-init="0">
                 Toggle interactive learning materials
                 &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-down" style="display:none;"></i>
@@ -92,52 +97,4 @@ $document->addScript('/js/edupack_datatable.js');
         </span>
     </span>
 </div>
-<div class="row interactive_table">
-    <div class="col-sm-6">
-        <div class="image-map-container">
-            <img class="lazyload" data-src="/images/poster/edupack/cat/P12001_1500.jpg" alt="" usemap="#image-map" />
-            <div class="map-selector">&nbsp;</div>
-        </div>
-        <p>
-            <map id="image-map" name="image-map">
-                <area shape="rect" coords="71, 136, 284, 355" />
-                <area shape="rect" coords="290, 188, 463, 352" />
-                <area shape="rect" coords="475, 194, 646, 354" />
-                <area shape="rect" coords="650, 141, 826, 353" />
-                <area shape="rect" coords="837, 144, 990, 355" />
-                <area shape="rect" coords="72, 359, 218, 572" />
-                <area shape="rect" coords="222, 358, 395, 567" />
-                <area shape="rect" coords="402, 393, 660, 561" />
-                <area shape="rect" coords="664, 385, 747, 566" />
-                <area shape="rect" coords="745, 355, 895, 502" />
-                <area shape="rect" coords="900, 361, 997, 549" />
-                <area shape="rect" coords="66, 596, 244, 799" />
-                <area shape="rect" coords="244, 579, 436, 801" />
-                <area shape="rect" coords="439, 569, 514, 805" />
-                <area shape="rect" coords="517, 571, 611, 804" />
-                <area shape="rect" coords="612, 568, 732, 803" />
-                <area shape="rect" coords="730, 570, 834, 769" />
-                <area shape="rect" coords="839, 554, 989, 741" />
-                <area shape="rect" coords="75, 801, 239, 1004" />
-                <area shape="rect" coords="240, 865, 453, 1006" />
-                <area shape="rect" coords="454, 805, 576, 995" />
-                <area shape="rect" coords="584, 817, 748, 992" />
-                <area shape="rect" coords="751, 798, 993, 991" />
-                <area shape="rect" coords="78, 1011, 274, 1221" />
-                <area shape="rect" coords="274, 1006, 468, 1223" />
-                <area shape="rect" coords="468, 1006, 583, 1223" />
-                <area shape="rect" coords="590, 997, 704, 1231" />
-                <area shape="rect" coords="710, 996, 864, 1216" />
-                <area shape="rect" coords="867, 1007, 981, 1222" />
-                <area shape="rect" coords="78, 1229, 219, 1434" />
-                <area shape="rect" coords="232, 1223, 352, 1435" />
-                <area shape="rect" coords="354, 1232, 461, 1430" />
-                <area shape="rect" coords="464, 1228, 591, 1433" />
-                <area shape="rect" coords="592, 1234, 736, 1431" />
-                <area shape="rect" coords="739, 1225, 991, 1436" />
-            </map></p>
-    </div>
-    <div class="col-sm-6 maptable">
-        <div id="imageMapTable">&nbsp;</div>
-    </div>
-</div>
+<div class='imageMapWrapper'></div>
