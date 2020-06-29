@@ -1,7 +1,8 @@
-var selectedSKU = 'P12001';
+var selectedSKU;
 jQuery(function ($) {
     var table;
     var selectedImageMap;
+    var audio_icon = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay"></audio>';
     function initImgMap() {
         $('.image-map-container img:not([data-sku="' + selectedSKU + '"])').hide()
         $('.image-map-container img[data-sku="' + selectedSKU + '"]').css('display', 'block')
@@ -66,22 +67,18 @@ jQuery(function ($) {
     }
     function initImgMapTable() {
         var n = 1;
-        var nameFormatter = function (cell, formatterParams) {
-            var rowData = cell.getData();
-            var cellValue = cell.getValue();
-
-            return '<div class="col_name">' + rowData.name_jp + '<br />(' + cell.getValue() + ')</div>';
-        };
         selectedImageMap.find('area').siblings().each(function () {
             //$(this).prop('data-row',n);
             $(this).attr('data-row', n++);
         })
         table = new Tabulator("#imageMapTable", {
             maxHeight: '100%',
-            columnHeaderVertAlign: "middle", //align header contents to bottom of cell
+            resizableColumns: false,
+            cellVertAlign:"middle",
+            columnHeaderVertAlign: "middle", 
             tooltipsHeader: false, //enable header tooltips
-            tooltipGenerationMode: "hover", //regenerate tooltip as users mouse enters the cell;
-            tooltips: false,
+            //tooltipGenerationMode: "hover", //regenerate tooltip as users mouse enters the cell;
+            //tooltips: false,
             movableColumns: false,
             //data: tabledata,
             ajaxURL: '/bin/cap/' + selectedSKU + '.json', //ajax URL
@@ -89,42 +86,41 @@ jQuery(function ($) {
             langs: {
                 "jp-jp": {
                     "columns": {
-                        "name": "名前",
+                        "formatted_name": "名前",
                         "audio": "オーディオ",
-                        "source1": "外部参照",
+                        "source1": "外部参照 JP",
+                        "source2": "外部参照 EN",
                     }
                 },
             },
             columns: [
-                { field: "id", width: 20, headerSort: false },
-                { title: "Name", field: "name", formatter: nameFormatter, headerSort: false, widthGrow: 1/*, width: 180*/ },
+                //{ field: "id", width: 20, headerSort: false },
+                { title: "Name", field: "formatted_name", formatter: "html",variableHeight: true, headerSort: false, widthGrow: 1 },
                 { title: "Audio", field: "audio", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
-                { title: "Source 1", field: "source1", formatter: "html", widthGrow: 1, /* width: 90,  align: "center", cellClick: function (e, cell) { window.open(cell.getRow().getData().source1) },*/ headerSort: false }
+                { title: "Source 1", field: "source1", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
+                { title: "Source 2", field: "source2", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false }
             ],
             renderComplete: function () {
-                $('audio.audioplay').mediaelementplayer({
-                    features: ['playpause'],
-                    audioWidth: 20,
-                    audioHeight: 20
-                });
+                renderAudioBtn()
             }
         });
         table.setLocale("jp-jp");
         $('#imageMapTable .tabulator-tableHolder').on('scroll', function () {
-            $('audio.audioplay').mediaelementplayer({
-                features: ['playpause'],
-                audioWidth: 20,
-                audioHeight: 20
-            });
+            renderAudioBtn()
         })
+    }
+
+    function renderAudioBtn() {
+        $('audio.audioplay').mediaelementplayer({
+            features: ['playpause'],
+            audioWidth: 20,
+            audioHeight: 20
+        });
     }
 
     function toggleInteractiveTable(to_status, toggle_element) {
         if (to_status == 1) {
-            if (toggle_element.data('init') == 0) {
-                initImgMap();
-                toggle_element.data('init', 1)
-            }
+            initImgMap();
             initImgMapTable();
             $('.imageMapWrapper').show();
             $(window).trigger('resize');
@@ -144,8 +140,8 @@ jQuery(function ($) {
             e.preventDefault();
             if (selectedSKU != $(this).parent('li').data('page')) {
                 selectedSKU = $(this).parent('li').data('page')
-                $(this).parents('ul').find('li').not('[data-page="'+selectedSKU+'"]').removeClass('selected')
-                $(this).parents('ul').find('li[data-page="'+selectedSKU+'"]').addClass('selected')
+                $(this).parents('ul').find('li').not('[data-page="' + selectedSKU + '"]').removeClass('selected')
+                $(this).parents('ul').find('li[data-page="' + selectedSKU + '"]').addClass('selected')
                 initImgMap()
                 initImgMapTable()
             }
@@ -153,27 +149,45 @@ jQuery(function ($) {
         })
     }
     var isAjaxLoaded = false;
-    $('a.toggle_interactive_table').on('click', function (e) {
+    $('body').on('click', 'a.toggle_interactive_table', function (e) {
         e.preventDefault();
         var thiselemnt = $(this)
+        selectedSKU = thiselemnt.data('title');
         if ($(this).data('state') == 0) {
-            if (!isAjaxLoaded) {
-                $.ajax({
-                    url: "/html/edupack/cats.php",
-                    method: 'POST',
-                    data: { sku: selectedSKU }
-                }).done(function (html) {
-                    $('.imageMapWrapper').html(html);
-                    isAjaxLoaded = true;
-                    toggleInteractiveTable(1, thiselemnt)
-                    bindPageClick();
-                })
-            } else {
+            /* if (!isAjaxLoaded) { */
+            $.ajax({
+                url: "/html/",
+                method: 'POST',
+                data: {
+                    type: 'edupack',
+                    sku: selectedSKU
+                }
+            }).done(function (html) {
+                $('.imageMapWrapper').html(html);
+                isAjaxLoaded = true;
                 toggleInteractiveTable(1, thiselemnt)
-            }
+                bindPageClick();
+            })
+            /* } else {
+                toggleInteractiveTable(1, thiselemnt)
+            } */
         } else {
             toggleInteractiveTable(0, thiselemnt)
         }
         return false;
+    }).on('click', 'a.toggle_handbook', function (e) {
+        e.preventDefault()
+        if ($(window).width() <= 1024)
+            window.open('/files/?type=handbook&sku=' + $(this).data('title'), '_blank');
+        else
+            window.open('/html/flip/?i=' + $(this).data('title'), '_blank');
+    });
+
+
+    $(window).on('orientationchange', function () {
+        $(window).one('resize', function () {
+            if ($('a.toggle_interactive_table').data('state') == 1)
+                initImgMapTable()
+        });
     })
 });

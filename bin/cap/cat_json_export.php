@@ -3,26 +3,32 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $filename = "000-01 publish records and web relationship - table-cat.csv";
-$icon_saved_folder = '/images/poster/edupack/favicon/cat/';
+$icon_saved_folder = '/images/poster/edupack/icon/cat/';
 $link_keywords = array(
-    'cat.benesse.ne.jp' => 'cat.benesse.png',
-    'purina' => 'purina.png',
-    'vetstreet' => 'vetstreet.png',
-    'konekono-heya' => 'konekono-heya.png',
-    'thesprucepets' => 'thesprucepets.png',
-    'petguide' => 'petguide.png',
-    'omlet' => 'omlet.png',
-    'catbreedslist' => 'catbreedslist.png',
-    'hillspet' => 'hillspet.png',
-    'lykoikitten' => 'lykoikitten.jpg',
-    'felineliving' => 'felineliving.png',
-    'tica' => 'tica.png',
-    'icatcare' => 'icatcare.png',
-    'cat-world' => 'cat-world.png',
-    'catownerclub' => 'catownerclub.png',
-    'showcatsonline' => 'showcatsonline.png',
-    'thehappycatsite' => 'thehappycatsite.png',
-    'catster' => 'catster.png'
+    //jp
+    'ja.wikipedia' => '../24-jp-wiki.png',
+    'konekono-heya' => '24-jp-cat1.png',
+    'cat.benesse.ne.jp' => '24-jp-cat2.png',
+    'play-azlab' =>  '24-jp-cat3.png',
+
+    //en
+    'en.wikipedia' => '../24-en-wiki.png',
+    'vetstreet' => '24-en-cat1.png',
+    'purina' => '24-en-cat2.png',
+    'petguide' => '24-en-cat3.png',
+    'thesprucepets' => '24-en-cat4.png',
+    'thehappycatsite' => '24-en-cat5.png',
+    'omlet' => '24-en-cat5.png',
+    'catbreedslist' => '24-en-cat5.png',
+    'hillspet' => '24-en-cat5.png',
+    'lykoikitten' => '24-en-cat5.png',
+    'felineliving' => '24-en-cat5.png',
+    'tica' => '24-en-cat5.png',
+    'icatcare' => '24-en-cat5.png',
+    'cat-world' => '24-en-cat5.png',
+    'catownerclub' => '24-en-cat5.png',
+    'showcatsonline' => '24-en-cat5.png',
+    'catster' => '24-en-cat5.png'
 );
 $col = array(
     'sku' => array(1),
@@ -32,10 +38,6 @@ $col = array(
     'jp_links' => array(11, 12,13,14)
 );
 $init_row = 4;
-
-$wiki_icon = '<i class="fab fa-wikipedia-w"></i>';
-
-$audio_icon = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay"></audio>';
 
 if (file_exists(dirname(__FILE__) . '/' . $filename)) {
 
@@ -52,8 +54,8 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
         $data_array = array();
         if ($i >= $init_row) {
             $j = 0;
-            $html_en = '<p>EN: ';
-            $html_jp = '<p>JP: ';
+            $html_en = '';
+            $html_jp = '';
             $sku;
             foreach ($line[$i] as $grid) {
                 if (in_array($j, $col['sku'])) { //sku
@@ -83,13 +85,7 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                     echo '</pre>';
                 } else if (in_array($j, $col['jp_links']) || in_array($j, $col['en_links'])) {
                     if (trim($grid) !== '') { // links
-                        if ($j==$col['en_links'][0]) { //en wiki
-                            echo '<pre>';
-                            var_dump('en wiki');
-                            var_dump($grid);
-                            echo '</pre>';
-                            $html_en .= '<a href="' . $grid . '" target="_blank">' . $wiki_icon . '</a> ';
-                        } else if (in_array($j, $col['en_links'])) { //en links
+                        if (in_array($j, $col['en_links'])) { //en links
                             echo '<pre>';
                             var_dump('en links');
                             var_dump($grid);
@@ -99,13 +95,7 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                                     $html_en .= '<a href="' . $grid . '" target="_blank"><img width="32" height="32" src="' . $icon_saved_folder . $value . '" /></a> ';
                                 }
                             }
-                        } else if ($j==$col['jp_links'][0]) { //jp wiki
-                            echo '<pre>';
-                            var_dump('jp wiki');
-                            var_dump($grid);
-                            echo '</pre>';
-                            $html_jp .= '<a href="' . $grid . '" target="_blank">' . $wiki_icon . '</a> ';
-                        } else if (in_array($j, $col['jp_links'])) { //jp links
+                        }else if (in_array($j, $col['jp_links'])) { //jp links
                             echo '<pre>';
                             var_dump('jp links');
                             var_dump($grid);
@@ -121,14 +111,20 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                 $j++;
             }
             if ($with_sku) {
-                $html_jp .= '</p>';
-                $html_en .= '</p>';
+                $html_jp .= '';
+                $html_en .= '';
                 $data_array['id'] = $id++;
-                $data_array['source1'] = '<div style="line-height: 32px;">' . $html_jp . $html_en . '</div>';
-                $data_array['audio'] = $audio_icon;
+                $data_array['source1'] = '<div style="line-height: 32px;">' . $html_jp . '</div>';
+                $data_array['source2'] = '<div style="line-height: 32px;">' . $html_en . '</div>';
+                $data_array['formatted_name'] = "<div>{$data_array['name_jp']}<br />{$data_array['name']}</div>";
+                $data_array['audio'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay jp"></audio> 
+                    <audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay en"></audio> 
+                    <audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay"></audio>';
                 echo '<pre>';
-                var_dump('data_array source1');
-                echo $data_array['source1'];
+                var_dump('$html_jp');
+                var_dump($html_jp);
+                var_dump('$html_en');
+                var_dump($html_en);
                 echo '</pre>';
                 if (!isset($datas_array[$sku])) $datas_array[$sku] = array();
                 $datas_array[$sku][] = $data_array;

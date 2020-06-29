@@ -2,10 +2,13 @@
 // No direct access
 defined('_JEXEC') or die;
 
+
 $document = JFactory::getDocument();
 
 $document->addStyleSheet('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4/dist/css/tabulator.min.css');
-$document->addStyleSheet('https://cdn.jsdelivr.net/npm/mediaelement@4/build/mediaelementplayer.min.css');
+
+//$document->addStyleSheet('https://cdn.jsdelivr.net/npm/mediaelement@4/build/mediaelementplayer.min.css');
+$document->addStyleSheet('/css/mediaelementplayer.css');
 
 $document->addScript('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4,npm/image-map-resizer@1.0.10,npm/mediaelement@4/build/mediaelement-and-player.min.js');
 $document->addScript('/js/edupack_datatable.js');
@@ -33,6 +36,7 @@ $document->addScript('/js/edupack_datatable.js');
         text-align: center;
         text-decoration: none !important;
         vertical-align: middle;
+        margin: 5px 0;
     }
 
     .button>span:active,
@@ -79,18 +83,40 @@ $document->addScript('/js/edupack_datatable.js');
         width: 100%;
         height: 100%;
     }
+    .tabulator-row.tabulator-selectable:hover{
+        cursor: auto;
+    }
 </style>
+<p>Cats:</p>
 <div class="button">
     <span>
         <span>
-            <a href="#" class="toggle_handbook" data-state="0" data-init="0">
+            <a href="#" target="_blank" class="toggle_handbook" data-title="P12001" data-state="0" >
                 <i class="fas fa-book-open"></i> Toggle Handbook preview
             </a>
         </span>
     </span>
     <span>
         <span>
-            <a href="#" class="toggle_interactive_table" data-state="0" data-init="0">
+            <a href="#" class="toggle_interactive_table" data-state="0" data-title="P12001">
+                Toggle interactive learning materials
+                &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-down" style="display:none;"></i>
+            </a>
+        </span>
+    </span>
+</div>
+<p>Dogs:</p>
+<div class="button">
+    <span>
+        <span>
+            <a href="#" target="_blank" class="toggle_handbook" data-title="P12004" data-state="0" >
+                <i class="fas fa-book-open"></i> Toggle Handbook preview
+            </a>
+        </span>
+    </span>
+    <span>
+        <span>
+            <a href="#" class="toggle_interactive_table" data-state="0" data-title="P12004">
                 Toggle interactive learning materials
                 &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-down" style="display:none;"></i>
             </a>
