@@ -407,7 +407,10 @@ class Com_AkeebaInstallerScript extends \FOF30\Utils\InstallScript
 			"components/com_akeeba/Model/Json/Encapsulation/AesCtr256.php",
 
 			// Optimize JavaScript support
-			"administrator/componetns/com_akeeba/Helper/JsBundler.php",
+			"administrator/components/com_akeeba/Helper/JsBundler.php",
+
+			// Obsolete cacert.pem in the Engine
+			"administrator/components/com_akeeba/BackupEngine/cacert.pem",
 		],
 		'folders' => [
 			// Directories used up to version 4.1 (inclusive)
@@ -552,12 +555,6 @@ class Com_AkeebaInstallerScript extends \FOF30\Utils\InstallScript
 		{
 			$toPath = $componentPath . '/BackupEngine';
 
-			if (class_exists('JLoader') && method_exists('JLoader', 'import'))
-			{
-				JLoader::import('joomla.filesystem.folder');
-				JLoader::import('joomla.filesystem.file');
-			}
-
 			if (@is_dir($componentPath) && !@is_dir($toPath))
 			{
 				JFolder::create($toPath);
@@ -674,13 +671,6 @@ class Com_AkeebaInstallerScript extends \FOF30\Utils\InstallScript
 			define('AKEEBA_PRO', '0');
 		}
 
-		$videoTutorialURL = 'https://www.akeebabackup.com/videos/1212-akeeba-backup-core.html';
-
-		if (AKEEBA_PRO)
-		{
-			$videoTutorialURL = 'https://www.akeebabackup.com/videos/1213-akeeba-backup-for-joomla-pro.html';
-		}
-
 		?>
 		<img src="../media/com_akeeba/icons/logo-48.png" width="48" height="48" alt="Akeeba Backup" align="right"/>
 
@@ -688,8 +678,7 @@ class Com_AkeebaInstallerScript extends \FOF30\Utils\InstallScript
 
 		<fieldset>
 			<p>
-				We strongly recommend watching our
-				<a href="<?php echo $videoTutorialURL ?>">video
+				We strongly recommend watching our <a href="http://akee.ba/abfirstvideo">video
 				tutorials</a> before using this component.
 			</p>
 

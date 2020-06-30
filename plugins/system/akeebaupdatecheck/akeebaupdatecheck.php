@@ -6,8 +6,13 @@
  */
 
 use FOF30\Date\Date;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
 
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 // PHP version check
 if (!version_compare(PHP_VERSION, '5.6.0', '>='))
@@ -15,19 +20,17 @@ if (!version_compare(PHP_VERSION, '5.6.0', '>='))
 	return;
 }
 
-JLoader::import('joomla.application.plugin');
-
-class plgSystemAkeebaupdatecheck extends JPlugin
+class plgSystemAkeebaupdatecheck extends CMSPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @param       object $subject The object to observe
-	 * @param       array  $config  An array that holds the plugin configuration
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 *
 	 * @since       2.5
 	 */
-	public function __construct(& $subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		/**
 		 * I know that this piece of code cannot possibly be executed since I have already returned BEFORE declaring
@@ -54,9 +57,7 @@ class plgSystemAkeebaupdatecheck extends JPlugin
 		}
 
 		// Make sure Akeeba Backup is enabled
-		JLoader::import('joomla.application.component.helper');
-
-		if ( !JComponentHelper::isEnabled('com_akeeba'))
+		if (!ComponentHelper::isEnabled('com_akeeba'))
 		{
 			return;
 		}
@@ -68,15 +69,12 @@ class plgSystemAkeebaupdatecheck extends JPlugin
 		}
 
 		// Do we have to run (at most once per 3 hours)?
-		JLoader::import('joomla.html.parameter');
-		JLoader::import('joomla.application.component.helper');
-
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-		            ->select($db->qn('lastupdate'))
-		            ->from($db->qn('#__ak_storage'))
-		            ->where($db->qn('tag') . ' = ' . $db->q('akeebaupdatecheck_lastrun'));
+			->select($db->qn('lastupdate'))
+			->from($db->qn('#__ak_storage'))
+			->where($db->qn('tag') . ' = ' . $db->q('akeebaupdatecheck_lastrun'));
 
 		$last = $db->setQuery($query)->loadResult();
 
@@ -113,16 +111,16 @@ class plgSystemAkeebaupdatecheck extends JPlugin
 		if ($last)
 		{
 			$query = $db->getQuery(true)
-			            ->update($db->qn('#__ak_storage'))
-			            ->set($db->qn('lastupdate') . ' = ' . $db->q($now->toSql()))
-			            ->where($db->qn('tag') . ' = ' . $db->q('akeebaupdatecheck_lastrun'));
+				->update($db->qn('#__ak_storage'))
+				->set($db->qn('lastupdate') . ' = ' . $db->q($now->toSql()))
+				->where($db->qn('tag') . ' = ' . $db->q('akeebaupdatecheck_lastrun'));
 		}
 		else
 		{
 			$query = $db->getQuery(true)
-			            ->insert($db->qn('#__ak_storage'))
-			            ->columns(array($db->qn('tag'), $db->qn('lastupdate')))
-			            ->values($db->q('akeebaupdatecheck_lastrun') . ', ' . $db->q($now->toSql()));
+				->insert($db->qn('#__ak_storage'))
+				->columns([$db->qn('tag'), $db->qn('lastupdate')])
+				->values($db->q('akeebaupdatecheck_lastrun') . ', ' . $db->q($now->toSql()));
 		}
 
 		try
@@ -143,7 +141,7 @@ class plgSystemAkeebaupdatecheck extends JPlugin
 		$container = FOF30\Container\Container::getInstance('com_akeeba');
 
 		/** @var \Akeeba\Backup\Admin\Model\Updates $model */
-		$model = $container->factory->model('Updates')->tmpInstance();
+		$model      = $container->factory->model('Updates')->tmpInstance();
 		$updateInfo = $model->getUpdates();
 
 		if (!$updateInfo['hasUpdate'])
@@ -151,7 +149,7 @@ class plgSystemAkeebaupdatecheck extends JPlugin
 			return;
 		}
 
-		$superAdmins     = array();
+		$superAdmins     = [];
 		$superAdminEmail = $this->params->get('email', '');
 
 		if (!empty($superAdminEmail))
@@ -179,126 +177,61 @@ class plgSystemAkeebaupdatecheck extends JPlugin
 	 * Returns the Super Users' email information. If you provide a comma separated $email list we will check that these
 	 * emails do belong to Super Users and that they have not blocked reception of system emails.
 	 *
-	 * @param   null|string  $email  A list of Super Users to email
+	 * @param   null|string  $email  A list of Super Users to email, null for all Super Users
 	 *
-	 * @return  array  The list of Super User emails
+	 * @return  User[]  The list of Super User objects
 	 */
 	private function getSuperUsers($email = null)
 	{
-		// Get a reference to the database object
-		$db = JFactory::getDbo();
-
 		// Convert the email list to an array
+		$emails = [];
+
 		if (!empty($email))
 		{
-			$temp = explode(',', $email);
-			$emails = array();
+			$temp   = explode(',', $email);
+			$emails = [];
 
 			foreach ($temp as $entry)
 			{
-				$entry = trim($entry);
-				$emails[] = $db->q($entry);
+				$emails[] = trim($entry);
 			}
 
 			$emails = array_unique($emails);
+			$emails = array_map('strtolower', $emails);
 		}
-		else
+
+		// Get all usergroups with Super User access
+		$db     = $this->getContainer()->db;
+		$q      = $db->getQuery(true)
+			->select([$db->qn('id')])
+			->from($db->qn('#__usergroups'));
+		$groups = $db->setQuery($q)->loadColumn();
+
+		// Get the groups that are Super Users
+		$groups = array_filter($groups, function ($gid) {
+			return Access::checkGroup($gid, 'core.admin');
+		});
+
+		$userList = [];
+
+		foreach ($groups as $gid)
 		{
-			$emails = array();
+			$uids = Access::getUsersByGroup($gid);
+
+			array_walk($uids, function ($uid, $index) use (&$userList) {
+				$userList[$uid] = $this->container->platform->getUser($uid);
+			});
 		}
 
-		// Get a list of groups which have Super User privileges
-		$ret = array();
-
-		// Get a list of groups with core.admin (Super User) permissions
-		try
+		if (empty($emails))
 		{
-			$query = $db->getQuery(true)
-						->select($db->qn('rules'))
-						->from($db->qn('#__assets'))
-						->where($db->qn('parent_id') . ' = ' . $db->q(0));
-			$db->setQuery($query, 0, 1);
-			$rulesJSON	 = $db->loadResult();
-			$rules		 = json_decode($rulesJSON, true);
-
-			$rawGroups = $rules['core.admin'];
-			$groups = array();
-
-			if (empty($rawGroups))
-			{
-				return $ret;
-			}
-
-			foreach ($rawGroups as $g => $enabled)
-			{
-				if ($enabled)
-				{
-					$groups[] = $db->q($g);
-				}
-			}
-
-			if (empty($groups))
-			{
-				return $ret;
-			}
-		}
-		catch (Exception $exc)
-		{
-			return $ret;
+			return $userList;
 		}
 
-		// Get the user IDs of users belonging to the groups with the core.admin (Super User) privilege
-		try
-		{
-			$query = $db->getQuery(true)
-						->select($db->qn('user_id'))
-						->from($db->qn('#__user_usergroup_map'))
-						->where($db->qn('group_id') . ' IN(' . implode(',', $groups) . ')' );
-			$db->setQuery($query);
-			$rawUserIDs = $db->loadColumn(0);
+		array_filter($userList, function (User $user) use ($emails) {
+			return in_array(strtolower($user->email), $emails);
+		});
 
-			if (empty($rawUserIDs))
-			{
-				return $ret;
-			}
-
-			$userIDs = array();
-
-			foreach ($rawUserIDs as $id)
-			{
-				$userIDs[] = $db->q($id);
-			}
-		}
-		catch (Exception $exc)
-		{
-			return $ret;
-		}
-
-		// Get the user information for the Super Users
-		try
-		{
-			$query = $db->getQuery(true)
-						->select(array(
-							$db->qn('id'),
-							$db->qn('username'),
-							$db->qn('email'),
-						))->from($db->qn('#__users'))
-						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
-						->where($db->qn('sendEmail') . ' = ' . $db->q('1'));
-
-			if (!empty($emails))
-			{
-				$query->where($db->qn('email') . 'IN(' . implode(',', $emails) . ')');
-			}
-
-			$db->setQuery($query);
-			$ret = $db->loadObjectList();
-		}
-		catch (Exception $exc)
-		{
-			return $ret;
-		}
-
-		return $ret;
+		return $userList;
 	}
 }

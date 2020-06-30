@@ -52,6 +52,9 @@ class J2StoreModelPayments extends F0FModel {
 		$state = $this->getState();
 		$app = JFactory::getApplication();
 		$filter_order_Dir = $app->input->getString('filter_order_Dir','asc');
+        if(!in_array(strtolower($filter_order_Dir),array('asc','desc'))){
+            $filter_order_Dir = 'desc';
+        }
 		$filter_order = $app->input->getString('filter_order','extension_id');
 		if($filter_order != 'version' && $filter_order != 'id' && !empty($filter_order)){
 			if(in_array ( $filter_order, array('name','version','enabled') )){

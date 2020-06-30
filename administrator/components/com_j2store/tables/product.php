@@ -404,7 +404,8 @@ class J2StoreTableProduct extends F0FTable
 			//first trigger the relevant catalog source plugins
 			$app = JFactory::getApplication();
 			J2Store::plugin()->importCatalogPlugins();
-			$app->triggerEvent('onJ2StoreAfterGetProduct', array(&$this));
+            $product_obj = $this;
+			$app->triggerEvent('onJ2StoreAfterGetProduct', array(&$product_obj));
 
 			$model = F0FModel::getTmpInstance('Products', 'J2StoreModel');
 			$sets[$this->j2store_product_id] = $model->getProduct($this);
@@ -434,7 +435,8 @@ class J2StoreTableProduct extends F0FTable
 	 */
 
 	public function get_vendor() {
-		JFactory::getApplication()->triggerEvent('onJ2StoreGetVendor', array(&$this));
+        $product_obj = $this;
+		JFactory::getApplication()->triggerEvent('onJ2StoreGetVendor', array(&$product_obj));
 		return $this->vendor;
 	}
 

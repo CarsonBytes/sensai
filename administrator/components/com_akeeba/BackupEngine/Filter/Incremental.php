@@ -9,7 +9,7 @@
 
 namespace Akeeba\Engine\Filter;
 
-
+defined('AKEEBAENGINE') || die();
 
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
@@ -24,16 +24,11 @@ use DateTimeZone;
 class Incremental extends Base
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->object  = 'file';
 		$this->subtype = 'all';
 		$this->method  = 'api';
-
-		if (Factory::getKettenrad()->getTag() == 'restorepoint')
-		{
-			$this->enabled = false;
-		}
 	}
 
 	protected function is_excluded_by_api($test, $root)

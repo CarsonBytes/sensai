@@ -29,6 +29,12 @@ class J2StoreModelCustomers extends F0FModel {
 				$this->_db->qn('#__j2store_addresses').'.'.$this->_db->qn('last_name').' LIKE '.$this->_db->q('%'.$name.'%')
 			);
 		}
+		$country_name = $this->getState('country_name');
+		if(!empty($country_name)){
+            $query->where(
+                $this->_db->qn('#__j2store_countries').'.'.$this->_db->qn('country_name').' LIKE '.$this->_db->q('%'.$country_name.'%')
+            );
+        }
         $query->where('#__j2store_addresses.email != ""');
         $query->where('#__j2store_addresses.first_name != ""');
 		return $query;

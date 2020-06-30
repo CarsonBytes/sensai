@@ -52,7 +52,9 @@ class J2StoreModelVendors extends F0FModel {
 		$app = JFactory::getApplication();
 		$filter_order_Dir = $app->input->getString('filter_order_Dir','asc');
 		$filter_order = $app->input->getString('filter_order','j2store_vendor_id');
-
+        if(!in_array(strtolower($filter_order_Dir),array('asc','desc'))){
+            $filter_order_Dir = 'desc';
+        }
 		//check filter
 		if($filter_order =='j2store_vendor_id' || $filter_order =='enabled' || $filter_order =='ordering' ){
 			$query->order('#__j2store_vendors.'.$filter_order.' '.$filter_order_Dir);

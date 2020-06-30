@@ -1,8 +1,3 @@
-AuthUserFile /home/sensaiho/www/.htpasswd
-AuthType Basic
-AuthName "Authorisation required"
-Require valid-user
-
 ##
 # @package    Joomla
 # @copyright  Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.

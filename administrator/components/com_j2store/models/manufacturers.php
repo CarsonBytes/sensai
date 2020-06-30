@@ -50,12 +50,17 @@ class J2StoreModelManufacturers extends F0FModel {
 		$filter_order_Dir = $app->input->getString('filter_order_Dir','asc');
 		$filter_order = $app->input->getString('filter_order','company');
         $search = $app->input->getString('company','');
-
+        if(!in_array(strtolower($filter_order_Dir),array('asc','desc'))){
+            $filter_order_Dir = 'desc';
+        }
 		if($filter_order =='j2store_manufacturer_id' || $filter_order =='enabled' || $filter_order =='ordering'){
-			$query->order('#__j2store_manufacturers.'.$filter_order.' '.$filter_order_Dir);
+			//$query->order($db->q('#__j2store_manufacturers.'.$filter_order).' '.$db->q($filter_order_Dir));
+            $query->order($db->qn('#__j2store_manufacturers').'.'.$db->qn($filter_order).' '.$filter_order_Dir);
 		}elseif(in_array($filter_order ,array('company' ,'city'))){
-			$query->order('#__j2store_addresses.'.$filter_order.' '.$filter_order_Dir);
-		}elseif ($search){
+            $query->order($db->qn('#__j2store_addresses').'.'.$db->qn($filter_order).' '.$filter_order_Dir);
+			//$query->order('#__j2store_addresses.'.$filter_order.' '.$filter_order_Dir);
+		}
+        if ($search){
             $query->where('#__j2store_addresses.company LIKE '.$db->q('%'.$search.'%'));
         }
 	}

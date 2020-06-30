@@ -125,7 +125,7 @@ $( document ).on( 'click', '.j2store_add_to_cart_button', function(e) {
 		/* Get input values from form */
 		var values = form.find('input[type=\'text\'], input[type=\'number\'], input[type=\'hidden\'], input[type=\'radio\']:checked, input[type=\'checkbox\']:checked, select, textarea');
 		form.find('input[type=\'submit\']').val(form.find('input[type=\'submit\']').data('cart-action-always'));
-		
+		form.find('input[type=\'submit\']').attr('disabled',true);
 		var href = form.attr('action');		
 		if(typeof href == 'undefined' || href == '') {
 			var href = 'index.php';
@@ -142,6 +142,7 @@ $( document ).on( 'click', '.j2store_add_to_cart_button', function(e) {
 	 	 });
 
 	 	j2Ajax.done(function(json) {
+			    form.find('input[type=\'submit\']').attr('disabled',false);
 	 	 		form.find('.j2success, .j2warning, .j2attention, .j2information, .j2error').remove();
 				$('.j2store-notification').hide();				
 				if (json['error']) {
@@ -509,7 +510,7 @@ function doAjaxPrice(product_id, id) {
 		var form = $(id).closest('form');		
 		//sanity check
 		if(form.data('product_id') != product_id) return;
-		
+		form.find('input[type=\'submit\']').attr('disabled',true);
 		var values = form.serializeArray();
 		//pop these params from values-> task : add & view : mycart 			
 		values.pop({
@@ -580,7 +581,7 @@ function doAjaxPrice(product_id, id) {
 			success : function(response) {
 				
 				var $product = $('.product-'+ product_id);
-
+				form.find('input[type=\'submit\']').attr('disabled',false);
 				if ($product.length
 						&& typeof response.error == 'undefined') {
 					//SKU

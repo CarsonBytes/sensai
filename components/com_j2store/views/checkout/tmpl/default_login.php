@@ -62,6 +62,7 @@ $J2gridCol = ($this->params->get('bootstrap_version', 2) == 2) ? 'span' : 'col-m
     <b><?php echo JText::_('J2STORE_CHECKOUT_PASSWORD'); ?></b><br />
     <input type="password" name="password" value="" onkeypress="return loginKeyPress(event);" />
     <br />
+      <?php echo J2Store::plugin()->eventWithHtml('BeforeCheckoutLoginButton', array($this)); ?>
     <button type="button" id="button-login" class="button btn btn-primary" ><?php echo JText::_('J2STORE_CHECKOUT_LOGIN'); ?></button><br />
     <input type="hidden" name="task" value="login_validate" />
     <input type="hidden" name="option" value="com_j2store" />

@@ -76,11 +76,16 @@ class J2StoreModelInventories extends F0FModel {
 	public function _buildQueryOrderBy($query){
 		$db =$this->_db;
 		$this->_buildSortQuery($query);
-		if(!empty($this->state->filter_order)) {
-			$query->order('#__j2store_productquantities.'.$this->state->filter_order.' '.$this->state->filter_order_Dir);
+		if(!empty($this->state->filter_order) && in_array($this->state->filter_order,array('variant_id','j2store_productquantity_id'))) {
+            if(!in_array(strtolower($this->state->filter_order_Dir),array('asc','desc'))){
+                $this->state->filter_order_Dir = 'desc';
+            }
+            $query->order($db->qn('#__j2store_productquantities').'.'.$db->qn($this->state->filter_order).' '.$this->state->filter_order_Dir);
+            //$query->order($db->q('#__j2store_productquantities.'.$this->state->filter_order).' '.$db->q($this->state->filter_order_Dir));
 		}else{
 			$query->order('#__j2store_productquantities.j2store_productquantity_id DESC');
 		}
+
 	}
 
 	public function getInventoryPagination()

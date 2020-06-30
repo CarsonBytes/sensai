@@ -54,7 +54,12 @@ class J2StoreControllerAppStores extends F0FController
 
         $model->setState('current_page',$current_page);
         $view   = $this->getThisView('Appstore');
-        $items = $model->getList();
+        try {
+            $items = $model->getList();
+        } catch (Exception $e) {
+            $items = array();
+        }
+
 
         $pagination = $model->getPagination();
         $view->set('items',$items);

@@ -220,6 +220,7 @@ class J2StoreRouter extends JComponentRouterBase {
 				}
 
                 if($Itemid){
+                    $qoptions['Itemid'] = $Itemid;
                     $menu = J2StoreRouterHelper::findProductMenu ( $qoptions );
                     if(is_object($menu) && $menu->id != $Itemid){
                         $Itemid = null;

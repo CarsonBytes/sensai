@@ -47,7 +47,7 @@ class StandardCalculator extends JObject {
 		$nullDate = JFactory::getDBO( )->getNullDate( );
 		if ( empty( $date ) || $date == $nullDate )
 		{
-			$date = JFactory::getDate('now', $tz)->format('Y-m-d');//toSql(true);
+			$date = JFactory::getDate('now')->toSql(true);//format('Y-m-d');
 		}
 
 		//where date_from <= $date

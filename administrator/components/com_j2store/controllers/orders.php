@@ -651,7 +651,17 @@ class J2StoreControllerOrders extends F0FController
 		$order_id = $app->input->get('oid',0);
 		$order = F0FTable::getInstance('Order' ,'J2StoreTable');
 		$order->load($order_id);
-		
+		$discounts = $order->getOrderDiscounts();
+		$session = JFactory::getSession();
+		foreach ($discounts as $discount){
+		    if(isset($discount->discount_type) && $discount->discount_type == 'voucher'){
+                $session->set('voucher', $discount->discount_code, 'j2store');
+            }
+            if(isset($discount->discount_type) && $discount->discount_type == 'coupon'){
+                $session->set('coupon', $discount->discount_code, 'j2store');
+            }
+        }
+
 		$order->getAdminTotals(true);
 		//echo "<pre>";print_r($order);exit;
 		$result['msg'] = JText::_('J2STORE_ORDER_ITEM_CHANGE_SUCCESS');

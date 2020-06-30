@@ -9,16 +9,14 @@
 
 namespace Akeeba\Engine\Filter;
 
-
-
-use Akeeba\Engine\Factory;
+defined('AKEEBAENGINE') || die();
 
 /**
  * Subdirectories exclusion filter based on regular expressions
  */
 class Regexskipdirs extends Base
 {
-	function __construct()
+	public function __construct()
 	{
 		$this->object  = 'dir';
 		$this->subtype = 'children';
@@ -27,11 +25,6 @@ class Regexskipdirs extends Base
 		if (empty($this->filter_name))
 		{
 			$this->filter_name = strtolower(basename(__FILE__, '.php'));
-		}
-
-		if (Factory::getKettenrad()->getTag() == 'restorepoint')
-		{
-			$this->enabled = false;
 		}
 
 		parent::__construct();

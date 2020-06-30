@@ -661,11 +661,19 @@ class J2StoreModelProducts extends F0FModel {
             {
                 $limitstart = $this->getState('limitstart');
                 $limit = $this->getState('limit');
-                $this->_productlist = $this->_getList((string) $query, $limitstart, $limit, $group);
+                try {
+                    $this->_productlist = $this->_getList((string) $query, $limitstart, $limit, $group);
+                } catch (Exception $e) {
+
+                }
             }
             else
             {
-                $this->_productlist = $this->_getList((string) $query, 0, 0, $group);
+                try {
+                    $this->_productlist = $this->_getList((string) $query, 0, 0, $group);
+                } catch (Exception $e) {
+
+                }
             }
 
         }
@@ -727,7 +735,8 @@ class J2StoreModelProducts extends F0FModel {
         $this->_buildWhereQuery($query);
         $this->_buildQueryOrderBy($query);
         $query->group('#__j2store_products.j2store_product_id');
-        J2Store::plugin()->event('AfterProductListQuery', array(&$query, &$this));
+        $model = $this;
+        J2Store::plugin()->event('AfterProductListQuery', array(&$query, &$model));
         return $query;
 
     }
@@ -787,8 +796,8 @@ class J2StoreModelProducts extends F0FModel {
         }
 
         if($state->search){
-
-            $where_array_query = J2Store::plugin()->event('AfterProductListWhereQuery', array(&$this));
+            $product_model = $this;
+            $where_array_query = J2Store::plugin()->event('AfterProductListWhereQuery', array(&$product_model));
             $where_query = '';
             if(!empty($where_array_query)){
                 $where_query = implode(' OR ',$where_array_query);
@@ -927,8 +936,12 @@ class J2StoreModelProducts extends F0FModel {
     protected function _buildQueryOrderBy(&$query){
         $db =$this->_db;
         $this->_buildSortQuery($query);
-        if(!empty($this->state->filter_order)) {
-            $query->order('#__j2store_products.'.$this->state->filter_order.' '.$this->state->filter_order_Dir);
+        if(!empty($this->state->filter_order) && in_array($this->state->filter_order,array('j2store_product_id','product_source','product_source_id'))) {
+            if(!in_array(strtolower($this->state->filter_order_Dir),array('asc','desc'))){
+                $this->state->filter_order_Dir = 'desc';
+            }
+            $query->order($db->qn('#__j2store_products').'.'.$db->qn($this->state->filter_order).' '.$this->state->filter_order_Dir);
+            //$query->order('#__j2store_products.'.$this->state->filter_order.' '.$this->state->filter_order_Dir);
         }else{
             $query->order('#__j2store_products.created_on DESC');
         }
@@ -1516,10 +1529,13 @@ class J2StoreModelProducts extends F0FModel {
             $query->where('a.language in (' . $db->quote($lang_tag) . ',' . $db->quote('*') . ')');
         }
 
-
-        $query->where(
-            $db->qn('#__j2store_variants').'.'.$db->qn('is_master').' = '.$db->q(1)
-        );
+        $is_master = 1;
+        J2Store::plugin()->event('IsMasterProduct',array(&$is_master));
+        if($is_master){
+            $query->where(
+                $db->qn('#__j2store_variants').'.'.$db->qn('is_master').' = '.$db->q(1)
+            );
+        }
 
         if($state->search){
             $query->where(
@@ -1635,7 +1651,7 @@ class J2StoreModelProducts extends F0FModel {
                 $count_ids = 0;
                 $filter_all_ids = array ();
                 foreach ( $filter_ids as $k => $ids ) {
-                    if (count ( $ids ) > 0) {
+                    if (!empty($ids)) {
                         $arr_ids = explode ( ',', $ids );
                         $filter_all_ids = array_merge ( $arr_ids, $filter_all_ids );
                     }
@@ -1716,7 +1732,7 @@ class J2StoreModelProducts extends F0FModel {
                     $sortby = 'min_price ASC';
                     break;
                 case 'rmin_price' :
-                    $sortby = 'max_price ASC';
+                    $sortby = 'min_price DESC';
                     break;
                 case 'sku' :
                     $sortby = '#__j2store_variants.sku ASC';

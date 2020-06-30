@@ -232,31 +232,42 @@ class J2StoreRouterHelper
             return false;
         }
     }
-	
-	public static function findProductMenu($qoptions) {
 
-		$menus =JMenu::getInstance('site');
-		$menu = null;
-		$other_tasks = array('compare','wishlist');
-		foreach($menus->getMenu() as $item)
-		{
-			if(isset($item->query['option']) && $item->query['option'] == 'com_j2store' && isset($item->query['view']) && in_array ( $item->query['view'], array('products') )) {
-				if (isset($item->query['task']) && !empty($item->query['task']) && in_array($item->query['task'] , $other_tasks) && ($item->query['task'] == $qoptions['task']) ){
-					$menu =$item;
-					break;
-				}
-				if(self::checkMenuProducts($item, $qoptions)) {
-					$menu =$item;
-					//break on first found menu
-					break;
-				}
-			}
+    public static function findProductMenu($qoptions) {
 
-		}
+        $menus =JMenu::getInstance('site');
+        $menu = null;
+        $other_tasks = array('compare','wishlist');
+        $list_menu = $menus->getMenu();
+
+        if(isset($qoptions['Itemid']) && !empty($qoptions['Itemid']) && isset($list_menu[$qoptions['Itemid']])){
+            $selected_menu =  $list_menu[$qoptions['Itemid']];
+            if(self::checkMenuProducts($selected_menu, $qoptions)) {
+                $menu =$selected_menu;
+            }
+
+        }
+        if(is_null($menu)){
+            foreach($list_menu as $item)
+            {
+                if(isset($item->query['option']) && $item->query['option'] == 'com_j2store' && isset($item->query['view']) && in_array ( $item->query['view'], array('products') )) {
+                    if (isset($item->query['task']) && !empty($item->query['task']) && in_array($item->query['task'] , $other_tasks) && ($item->query['task'] == $qoptions['task']) ){
+                        $menu =$item;
+                        break;
+                    }
+                    if(self::checkMenuProducts($item, $qoptions)) {
+                        $menu =$item;
+                        //break on first found menu
+                        break;
+                    }
+                }
+
+            }
+        }
         J2Store::plugin()->event('AfterFindProductMenu',array($menus,&$menu));
-		return $menu;
+        return $menu;
 
-	}
+    }
 
 	public static function findProductTagsMenu($qoptions) {
 

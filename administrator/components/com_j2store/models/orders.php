@@ -204,11 +204,19 @@ class J2StoreModelOrders extends F0FModel {
 			{
 				$limitstart = $this->getState('limitstart');
 				$limit = $this->getState('limit');
-				$this->_orders = $this->_getList((string) $query, $limitstart, $limit, $group);
+                try {
+                    $this->_orders = $this->_getList((string) $query, $limitstart, $limit, $group);
+                } catch (Exception $e) {
+
+                }
 			}
 			else
 			{
-				$this->_orders = $this->_getList((string) $query, 0, 0, $group);
+                try {
+                    $this->_orders = $this->_getList((string) $query, 0, 0, $group);
+                } catch (Exception $e) {
+
+                }
 			}
 		}
 
@@ -296,8 +304,12 @@ class J2StoreModelOrders extends F0FModel {
 
 	protected function _buildQueryOrderBy(&$query){
 		$db =$this->_db;
-		if(!empty($this->state->filter_order)) {
-			$query->order($this->state->filter_order.' '.$this->state->filter_order_Dir);
+		if(!empty($this->state->filter_order) && in_array($this->state->filter_order,array('invoice','order_id','created_on','order_total','orderpayment_type'))) {
+            if(!in_array(strtolower($this->state->filter_order_Dir),array('asc','desc'))){
+                $this->state->filter_order_Dir = 'desc';
+            }
+            $query->order($db->qn($this->state->filter_order).' '.$this->state->filter_order_Dir);
+			//$query->order($this->state->filter_order.' '.$this->state->filter_order_Dir);
 		}
 		$query->order('#__j2store_orders.created_on DESC');
 	}
@@ -409,14 +421,7 @@ class J2StoreModelOrders extends F0FModel {
 			if(!preg_match($regex, $since)) {
 				$since = '2001-01-01';
 			}
-            $from_date = JFactory::getDate($since);
-			$since = $from_date->toUnix();
-			if($since == 0) {
-				$since = '';
-			} else {
-				$since = $from_date->toSql();
-			}
-
+            $since = $this->convert_time_to_utc($since);
 			// Filter from-to dates
 			$query->where(
 					$db->qn('#__j2store_orders').'.'.$db->qn('created_on').' >= '.
@@ -433,15 +438,7 @@ class J2StoreModelOrders extends F0FModel {
 			if(!preg_match($regex, $until)) {
 				$until = '2037-01-01';
 			}
-            $extra_date = JFactory::getDate($until);
-            $until = $extra_date->format('Y-m-d').' 23:59:59';
-            $to_date = JFactory::getDate($until);
-			$until = $to_date->toUnix();
-			if($until == 0) {
-				$until = '';
-			} else {
-				$until = $to_date->toSql();
-			}
+            $until = $this->convert_time_to_utc($until);
 			$query->where(
 					$db->qn('#__j2store_orders').'.'.$db->qn('created_on').' <= '.
 					$db->q($until)
@@ -512,6 +509,16 @@ class J2StoreModelOrders extends F0FModel {
 			$query->where($db->qn('#__j2store_orderdiscounts').'.'.$db->qn('discount_type').' = '.$db->q('coupon'));
 		}
 	}
+
+    function convert_time_to_utc($datetime, $format = 'Y-m-d H:i:s', $modify = '')
+    {
+        $tz = JFactory::getConfig()->get('offset');
+        $from_date = JFactory::getDate($datetime,$tz);
+        $from_date->format($format);
+        $timezone = new DateTimeZone('UTC');
+        $from_date->setTimezone($timezone);
+        return $from_date->format($format);
+    }
 
 	public function export($data=array(), $auto=false) {
 		$app = JFactory::getApplication();

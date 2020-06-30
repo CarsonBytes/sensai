@@ -102,7 +102,8 @@ class J2StoreControllerMyProfile extends F0FController
 			$view->assign('fieldClass',J2Store::getSelectableBase());
 			$view->assign('guest', false);
 			if($this->getTask()!='editAddress'){
-				$view->setLayout('default');
+                $layout = $app->input->get('layout','default');
+				$view->setLayout($layout);
 			}
 			// if its guest
 		} elseif ($guest_token && $guest_order_email) {
@@ -117,7 +118,8 @@ class J2StoreControllerMyProfile extends F0FController
             $view->assign('order_pagination', $pagination);
 			$view->assign('guest', true);
 			if($this->getTask()!='editAddress'){
-				$view->setLayout('default');
+                $layout = $app->input->get('layout','default');
+				$view->setLayout($layout);
 			}
 		}
 
@@ -429,7 +431,12 @@ class J2StoreControllerMyProfile extends F0FController
 
 			$model->setState('filter_order',"zone_name");
 			$model->setState('filter_order_Dir',"ASC");
-			$zones = $model->getList();
+            try {
+                $zones = $model->getList();
+            } catch (Exception $e) {
+                $zones = array();
+            }
+
 
 			foreach($zones as &$zone) {
 				$zone->zone_name = JText::_($zone->zone_name);

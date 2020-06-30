@@ -61,7 +61,33 @@ class J2StoreModelVouchers extends F0FModel {
 		}
 		return $this->history[$voucher_id];
 	}
-	
+
+    public function get_admin_voucher_history($voucher_id,$order_id = '') {
+
+        if(!isset($this->history[$voucher_id])) {
+            $db = JFactory::getDbo();
+            $query = $db->getQuery (true);
+            $j2config = J2Store::config ();
+            if($j2config->get('config_including_tax', 0)) {
+                $query->select('ROUND(SUM(discount_amount) + SUM(discount_tax), 2) AS total');
+            }else {
+                $query->select('ROUND(SUM(discount_amount), 2) AS total');
+            }
+            $query->from('#__j2store_orderdiscounts')
+                ->join('LEFT','#__j2store_orders o on #__j2store_orderdiscounts.order_id = o.order_id')
+                -> where(' o.order_state_id!=5 ')
+                -> where('discount_entity_id='.$db->q($voucher_id));
+            if($order_id){
+                $query-> where('o.order_id !='.$db->q($order_id));
+            }
+                $query->group('discount_entity_id');
+            $query->where('discount_type ='.$db->q('voucher'));
+            $db->setQuery ( $query );
+            $this->history[$voucher_id] = $db->loadResult ();
+        }
+        return $this->history[$voucher_id];
+    }
+
 	public function is_valid() {
 		try {
 			$this->validate_enabled();
@@ -82,6 +108,27 @@ class J2StoreModelVouchers extends F0FModel {
 
 		return true;
 	}
+
+	public function is_admin_valid($order){
+        try {
+            $this->validate_enabled();
+            $this->validate_exists();
+            $this->validate_admin_usage_limit($order);
+            $this->validate_expiry_date();
+            //allo plugins to run their own course.
+            $results = J2Store::plugin()->eventWithArray('VoucherIsValid', array($this));
+            if (in_array(false, $results, false)) {
+                throw new Exception( JText::_('J2STORE_VOUCHER_NOT_APPLICABLE'));
+            }
+        } catch ( Exception $e ) {
+            $this->setError($e->getMessage());
+            JFactory::getApplication()->enqueueMessage($e->getMessage(),'warning');
+            $this->remove_voucher();
+            return false;
+        }
+
+        return true;
+    }
 	
 	private function validate_enabled() {
 		$params = J2Store::config();
@@ -111,6 +158,15 @@ class J2StoreModelVouchers extends F0FModel {
 	
 	}
 
+	private function validate_admin_usage_limit($order){
+	    $order_id = isset($order->order_id) ? $order->order_id: '';
+        $total = $this->get_admin_voucher_history($this->voucher->j2store_voucher_id,$order_id);
+        $amount = $this->voucher->voucher_value - $total;
+        if ($amount <= 0) {
+            throw new Exception( JText::_('J2STORE_VOUCHER_USAGE_LIMIT_HAS_REACHED') );
+        }
+    }
+
     /**
      * Ensure voucher date is valid or throw exception
      */
@@ -133,8 +189,13 @@ class J2StoreModelVouchers extends F0FModel {
     }
 	
 	public function get_discount_amount($price, $cartitem, $order, $single=true)  {
-		
-		$voucher_history_total = $this->get_voucher_history($this->voucher->j2store_voucher_id);
+        $app = JFactory::getApplication();
+        if ( $app->isAdmin () ) {
+            $voucher_history_total = $this->get_admin_voucher_history($this->voucher->j2store_voucher_id,$order->order_id);
+        }else{
+            $voucher_history_total = $this->get_voucher_history($this->voucher->j2store_voucher_id);
+        }
+
 		if ($voucher_history_total) {
 			$amount = $this->voucher->voucher_value - $voucher_history_total;
 		} else {
@@ -151,7 +212,7 @@ class J2StoreModelVouchers extends F0FModel {
 		$params = J2Store::config ();
 		$product_helper = J2Store::product ();
 		$cart_item_qty = $cartitem->orderitem_quantity;
-		
+
 		$discount_percent = 0;		
 		if ($params->get ( 'config_including_tax', 0 )) {
 			$actual_price = ($cartitem->orderitem_price + $cartitem->orderitem_option_price);

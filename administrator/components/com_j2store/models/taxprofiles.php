@@ -169,7 +169,8 @@ class J2StoreModelTaxprofiles extends F0FModel {
 		$return = array();
 
 		if(!$taxprofile_id) return $return;
-        J2Store::plugin()->event('BeforeGetTaxwithRates', array(&$this,$value, $taxprofile_id, $includes_tax,$type));
+        $tax_profile_model = $this;
+        J2Store::plugin()->event('BeforeGetTaxwithRates', array(&$tax_profile_model,$value, $taxprofile_id, $includes_tax,$type));
 		//get the rates.
 		$rates = $this->getRates($taxprofile_id);
 		$taxtotal = 0;

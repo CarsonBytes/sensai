@@ -30,7 +30,7 @@ define('KICKSTART_RECOMMENDED_PHP', '7.3.0');
 
 if (!defined('VERSION'))
 {
-	define('VERSION', '7.0.1');
+	define('VERSION', 'rev6E9D790');
 }
 
 if (!defined('KICKSTARTPRO'))
@@ -6941,8 +6941,10 @@ class AKUtilsZapper extends AKAbstractPart
 
 		/**
 		 * Exclude .htaccess if the stealth feature is enabled. Otherwise we'd unset the stealth mode.
+		 * Exclude it even if we have any AddHandler directive, otherwise the site will be borked if the user
+		 * chooses not to rename the .htaccess file
 		 */
-		if (AKFactory::get('kickstart.stealth.enable'))
+		if (AKFactory::get('kickstart.stealth.enable') || AKFactory::get('kickstart.setup.phphandlers', array()))
 		{
 			$ret[] = $destDir . '/.htaccess';
 		}
@@ -9402,6 +9404,7 @@ if (!defined('KICKSTART'))
 
 				$timer = AKFactory::getTimer();
 				$timer->enforce_min_exec_time();
+
 				break;
 
 			case 'finalizeRestore':
@@ -9425,6 +9428,7 @@ if (!defined('KICKSTART'))
 						{
 							$postproc->unlink($root . '/.htaccess');
 						}
+
 						$postproc->rename($root . '/htaccess.bak', $root . '/.htaccess');
 					}
 
@@ -9435,6 +9439,7 @@ if (!defined('KICKSTART'))
 						{
 							$postproc->unlink($root . '/web.config');
 						}
+
 						$postproc->rename($root . '/web.config.bak', $root . '/web.config');
 					}
 				}
@@ -9442,14 +9447,17 @@ if (!defined('KICKSTART'))
 				// Remove restoration.php
 				$basepath = KSROOTDIR;
 				$basepath = rtrim(str_replace('\\', '/', $basepath), '/');
+
 				if (!empty($basepath))
 				{
 					$basepath .= '/';
 				}
+
 				$postproc->unlink($basepath . 'restoration.php');
 
 				// Import a custom finalisation file
 				$filename = dirname(__FILE__) . '/restore_finalisation.php';
+
 				if (file_exists($filename))
 				{
 					// opcode cache busting before including the filename
@@ -9457,18 +9465,22 @@ if (!defined('KICKSTART'))
 					{
 						opcache_invalidate($filename);
 					}
+
 					if (function_exists('apc_compile_file'))
 					{
 						apc_compile_file($filename);
 					}
+
 					if (function_exists('wincache_refresh_if_changed'))
 					{
 						wincache_refresh_if_changed([$filename]);
 					}
+
 					if (function_exists('xcache_asm'))
 					{
 						xcache_asm($filename);
 					}
+
 					include_once $filename;
 				}
 
@@ -9477,6 +9489,7 @@ if (!defined('KICKSTART'))
 				{
 					finalizeRestore($root, $basepath);
 				}
+
 				break;
 
 			default:
@@ -9515,6 +9528,7 @@ function recursive_remove_directory($directory)
 	{
 		$directory = substr($directory, 0, -1);
 	}
+
 	// if the path is not valid or is not a directory ...
 	if (!file_exists($directory) || !is_dir($directory))
 	{
@@ -9533,15 +9547,18 @@ function recursive_remove_directory($directory)
 		// we open the directory
 		$handle   = opendir($directory);
 		$postproc = AKFactory::getPostProc();
+
 		// and scan through the items inside
 		while (false !== ($item = readdir($handle)))
 		{
 			// if the filepointer is not the current directory
 			// or the parent directory
+
 			if ($item != '.' && $item != '..')
 			{
 				// we build the new path to delete
 				$path = $directory . '/' . $item;
+
 				// if the new path is a directory
 				if (is_dir($path))
 				{
@@ -9556,8 +9573,10 @@ function recursive_remove_directory($directory)
 				}
 			}
 		}
+
 		// close the directory
 		closedir($handle);
+
 		// try to delete the now empty directory
 		if (!$postproc->rmdir($directory))
 		{
@@ -9628,6 +9647,7 @@ class AKKickstartUtils
 	{
 		$path = KSROOTDIR;
 		$path = rtrim(str_replace('\\', '/', $path), '/');
+
 		if (!empty($path))
 		{
 			$path .= '/';
@@ -9778,6 +9798,118 @@ class AKKickstartUtils
 
 		return $ret;
 	}
+
+	/**
+	 * Extract the PHP handler configuration from a .htaccess file.
+	 *
+	 * This method supports AddHandler lines and SetHandler blocks.
+	 *
+	 * @param   string  $htaccess
+	 *
+	 * @return  string|null  NULL when not found
+	 */
+	public static function extractHandler($htaccess)
+	{
+		// Normalize the .htaccess
+		$htaccess = self::normalizeHtaccess($htaccess);
+
+		// Look for SetHandler and AddHandler in Files and FilesMatch containers
+		foreach (['Files', 'FilesMatch'] as $container)
+		{
+			$result = self::extractContainer($container, $htaccess);
+
+			if (!is_null($result))
+			{
+				return $result;
+			}
+		}
+
+		// Fallback: extract an AddHandler line
+		$found = preg_match('#^AddHandler\s?.*\.php.*$#mi', $htaccess, $matches);
+
+		if ($found >= 1)
+		{
+			return $matches[0];
+		}
+
+		return null;
+	}
+
+	/**
+	 * Extracts a Files or FilesMatch container with an AddHandler or SetHandler line
+	 *
+	 * @param   string  $container  "Files" or "FilesMatch"
+	 * @param   string  $htaccess   The .htaccess file content
+	 *
+	 * @return  string|null  NULL when not found
+	 */
+	protected static function extractContainer($container, $htaccess)
+	{
+		// Try to find the opening container tag e.g. <Files....>
+		$pattern = sprintf('#<%s\s*.*\.php.*>#m', $container);
+		$found   = preg_match($pattern, $htaccess, $matches, PREG_OFFSET_CAPTURE);
+
+		if (!$found)
+		{
+			return null;
+		}
+
+		// Get the rest of the .htaccess sample
+		$openContainer = $matches[0][0];
+		$htaccess      = trim(substr($htaccess, $matches[0][1] + strlen($matches[0][0])));
+
+		// Try to find the closing container tag
+		$pattern = sprintf('#</%s\s*>#m', $container);
+		$found   = preg_match($pattern, $htaccess, $matches, PREG_OFFSET_CAPTURE);
+
+		if (!$found)
+		{
+			return null;
+		}
+
+		// Get the rest of the .htaccess sample
+		$htaccess       = trim(substr($htaccess, 0, $matches[$found - 1][1]));
+		$closeContainer = $matches[$found - 1][0];
+
+		if (empty($htaccess))
+		{
+			return null;
+		}
+
+		// Now we'll explode remaining lines and find the first SetHandler or AddHandler line
+		$lines = array_map('trim', explode("\n", $htaccess));
+		$lines = array_filter($lines, function ($line) {
+			return preg_match('#(Add|Set)Handler\s?#i', $line) >= 1;
+		});
+
+		if (empty($lines))
+		{
+			return null;
+		}
+
+		return $openContainer . "\n" . array_shift($lines) . "\n" . $closeContainer;
+	}
+
+	/**
+	 * Normalize the .htaccess file content, making it suitable for handler extraction
+	 *
+	 * @param   string  $htaccess  The original file
+	 *
+	 * @return  string  The normalized file
+	 */
+	private static function normalizeHtaccess($htaccess)
+	{
+		// Convert all newlines into UNIX style
+		$htaccess = str_replace("\r\n", "\n", $htaccess);
+		$htaccess = str_replace("\r", "\n", $htaccess);
+
+		// Return only non-comment, non-empty lines
+		return implode("\n", array_filter(explode("\n", $htaccess), function ($line) {
+			$line = trim($line);
+
+			return !empty($line) && (substr($line, 0, 1) !== '#');
+		}));
+	}
 }
 
 
@@ -9927,6 +10059,7 @@ function TranslateWinPath($p_path)
 	{
 		// Is this a UNC path?
 		$is_unc = (substr($p_path, 0, 2) == '\\\\') || (substr($p_path, 0, 2) == '//');
+
 		// Change potential windows directory separator
 		if ((strpos($p_path, '\\') > 0) || (substr($p_path, 0, 1) == '\\'))
 		{
@@ -9965,6 +10098,7 @@ function getListing($directory, $host, $port, $username, $password, $passive, $s
 	{
 		$copy_of_parts = $parts;
 		array_pop($copy_of_parts);
+
 		if (!empty($copy_of_parts))
 		{
 			$parent_directory = '/' . implode('/', $copy_of_parts);
@@ -9988,6 +10122,7 @@ function getListing($directory, $host, $port, $username, $password, $passive, $s
 	{
 		$con = @ftp_connect($host, $port);
 	}
+
 	if ($con === false)
 	{
 		return array(
@@ -9997,6 +10132,7 @@ function getListing($directory, $host, $port, $username, $password, $passive, $s
 
 	// Login
 	$result = @ftp_login($con, $username, $password);
+
 	if ($result === false)
 	{
 		return array(
@@ -10011,6 +10147,7 @@ function getListing($directory, $host, $port, $username, $password, $passive, $s
 	if (!empty($dir))
 	{
 		$result = @ftp_chdir($con, $dir);
+
 		if ($result === false)
 		{
 			return array(
@@ -10053,13 +10190,16 @@ function getListing($directory, $host, $port, $username, $password, $passive, $s
 function parse_rawlist($list)
 {
 	$folders = array();
+
 	foreach ($list as $v)
 	{
 		$info  = array();
 		$vinfo = preg_split("/[\s]+/", $v, 9);
+
 		if ($vinfo[0] !== "total")
 		{
 			$perms = $vinfo[0];
+
 			if (substr($perms, 0, 1) == 'd')
 			{
 				$folders[] = $vinfo[8];
@@ -10086,6 +10226,7 @@ function getSftpListing($directory, $host, $port, $username, $password)
 	{
 		$copy_of_parts = $parts;
 		array_pop($copy_of_parts);
+
 		if (!empty($copy_of_parts))
 		{
 			$parent_directory = '/' . implode('/', $copy_of_parts);
@@ -10220,17 +10361,20 @@ function resolvePath($filename)
 	$filename = str_replace('//', '/', $filename);
 	$parts    = explode('/', $filename);
 	$out      = array();
+
 	foreach ($parts as $part)
 	{
 		if ($part == '.')
 		{
 			continue;
 		}
+
 		if ($part == '..')
 		{
 			array_pop($out);
 			continue;
 		}
+
 		$out[] = $part;
 	}
 
@@ -10240,13 +10384,16 @@ function resolvePath($filename)
 function createStealthURL()
 {
 	$filename = AKFactory::get('kickstart.stealth.url', '');
+
 	// We need an HTML file!
 	if (empty($filename))
 	{
 		return;
 	}
+
 	// Make sure it ends in .html or .htm
 	$filename = basename($filename);
+
 	if ((strtolower(substr($filename, -5)) != '.html') && (strtolower(substr($filename, -4)) != '.htm'))
 	{
 		return;
@@ -10270,11 +10417,81 @@ RewriteRule (.*)				$filename	[R=307,L]
 
 ENDHTACCESS;
 
+	$customHandlers = portPhpHandlers();
+
+	// Port any custom handlers in the stealth file
+	if ($customHandlers)
+	{
+		$stealthHtaccess .= "\n".$customHandlers."\n";
+	}
+
 	// Write the new .htaccess, removing the old one first
 	$postproc = AKFactory::getpostProc();
 	$postproc->unlink('.htaccess');
 	$tempfile = $postproc->processFilename('.htaccess');
 	@file_put_contents($tempfile, $stealthHtaccess);
+	$postproc->process();
+}
+
+/**
+ * Checks if there is an .htaccess file and has any AddHandler directive in it.
+ * In that case, we return the affected lines so they could be stored for later use
+ *
+ * @return  array
+ */
+function getPhpHandlers()
+{
+	$root       = AKKickstartUtils::getPath();
+	$htaccess   = $root.'/.htaccess';
+	$directives = array();
+
+	if (!file_exists($htaccess))
+	{
+		return $directives;
+	}
+
+	$contents   = file_get_contents($htaccess);
+	$directives = AKKickstartUtils::extractHandler($contents);
+	$directives = explode("\n", $directives);
+
+	return $directives;
+}
+
+/**
+ * Fetches any stored php handler directive stored inside the factory and creates a string with the correct markers
+ *
+ * @return string
+ */
+function portPhpHandlers()
+{
+	$phpHandlers = AKFactory::get('kickstart.setup.phphandlers', array());
+
+	if (!$phpHandlers)
+	{
+		return '';
+	}
+
+	$customHandler  = "### AKEEBA_KICKSTART_PHP_HANDLER_BEGIN ###\n";
+	$customHandler .= implode("\n", $phpHandlers)."\n";
+	$customHandler .= "### AKEEBA_KICKSTART_PHP_HANDLER_END ###\n";
+
+	return $customHandler;
+}
+
+function writePhpHandlers()
+{
+	$contents = portPhpHandlers();
+
+	if (!$contents)
+	{
+		return;
+	}
+
+	// Write the new .htaccess, removing the old one first
+	$postproc = AKFactory::getpostProc();
+	$postproc->unlink('.htaccess');
+	$tempfile = $postproc->processFilename('.htaccess');
+	@file_put_contents($tempfile, $contents);
 	$postproc->process();
 }
 
@@ -13576,7 +13793,7 @@ function echoPage()
 		<div id="header">
 			<div class="title">
 				<span id="logo" alt="Akeeba Kickstart logo"></span>
-				Akeeba Kickstart <?php echo $edition ?> 7.0.1
+				Akeeba Kickstart <?php echo $edition ?> rev6E9D790
 			</div>
 		</div>
 
@@ -14735,7 +14952,7 @@ function kickstart_application_cli()
 	if (!$silent)
 	{
 		echo <<< BANNER
-Akeeba Kickstart CLI 7.0.1
+Akeeba Kickstart CLI rev6E9D790
 Copyright (c) 2008-$year Akeeba Ltd / Nicholas K. Dionysopoulos
 -------------------------------------------------------------------------------
 Akeeba Kickstart is Free Software, distributed under the terms of the GNU General
@@ -15090,10 +15307,19 @@ function kickstart_application_web()
 
 				if ($task == 'startExtracting')
 				{
+					// Before starting, read and save any custom AddHandler directive
+					$phpHandlers = getPhpHandlers();
+					AKFactory::set('kickstart.setup.phphandlers', $phpHandlers);
+
 					// If the Stealth Mode is enabled, create the .htaccess file
 					if (AKFactory::get('kickstart.stealth.enable', false))
 					{
 						createStealthURL();
+					}
+					// No stealth mode, but we have custom handler directives, must write our own file
+					elseif ($phpHandlers)
+					{
+						writePhpHandlers();
 					}
 				}
 

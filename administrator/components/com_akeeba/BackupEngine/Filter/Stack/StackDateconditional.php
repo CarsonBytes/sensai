@@ -9,10 +9,10 @@
 
 namespace Akeeba\Engine\Filter\Stack;
 
+defined('AKEEBAENGINE') || die();
+
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Filter\Base;
-
-
 
 /**
  * Date conditional filter
@@ -21,16 +21,12 @@ use Akeeba\Engine\Filter\Base;
  */
 class StackDateconditional extends Base
 {
-	function __construct()
+	public function __construct()
 	{
 		$this->object  = 'file';
 		$this->subtype = 'all';
 		$this->method  = 'api';
 
-		if (Factory::getKettenrad()->getTag() == 'restorepoint')
-		{
-			$this->enabled = false;
-		}
 	}
 
 	protected function is_excluded_by_api($test, $root)

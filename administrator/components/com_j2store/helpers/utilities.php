@@ -420,5 +420,28 @@ class J2Utilities {
 
         return trim( $string );
     }
+
+    function convert_utc_current($date,$format = 'Y-m-d H:i:s'){
+        $nullDate =  JFactory::getDbo()->getNullDate();
+        if(empty($date) || $date == $nullDate){
+            return $nullDate;
+        }
+        $from_date = JFactory::getDate($date,'UTC');
+        $tz = JFactory::getConfig()->get('offset');
+        $timezone = new DateTimeZone($tz);
+        $from_date->setTimezone($timezone);
+        return $from_date->format($format,true);
+    }
+
+    function convert_current_to_utc($date,$format = 'Y-m-d H:i:s'){
+        $nullDate =  JFactory::getDbo()->getNullDate();
+        if(empty($date) || $date == $nullDate){
+            return $nullDate;
+        }
+        $tz = JFactory::getConfig()->get('offset');
+        $from_date = JFactory::getDate($date,$tz);
+        $from_date->setTimezone('UTC');
+        return $from_date->format($format);
+    }
 }
 

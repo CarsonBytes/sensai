@@ -20,13 +20,17 @@ class J2StoreModelShippingtroubles extends F0FModel {
 		$query->select('#__j2store_products.*')->from('#__j2store_products');
 		$this->_buldQueryJoin($query);
 		$this->_buldQueryWhere($query);
-		if(!empty($this->state->filter_order)) {
-			$query->order('#__j2store_products.'.$this->state->filter_order.' '.$this->state->filter_order_Dir);
+        if(!empty($this->state->filter_order) && in_array($this->state->filter_order,array('j2store_product_id','created_on'))) {
+            if(!in_array(strtolower($this->state->filter_order_Dir),array('asc','desc'))){
+                $this->state->filter_order_Dir = 'desc';
+            }
+            $query->order($db->qn('#__j2store_products').'.'.$db->qn($this->state->filter_order).' '.$this->state->filter_order_Dir);
+			//$query->order('#__j2store_products.'.$this->state->filter_order.' '.$this->state->filter_order_Dir);
 		}else{
 			$query->order('#__j2store_products.created_on DESC');
 		}
-		
-		J2Store::plugin()->event('AfterShippingTroubleListQuery', array(&$query, &$this));
+        $shipping_model = $this;
+		J2Store::plugin()->event('AfterShippingTroubleListQuery', array(&$query, &$shipping_model));
 		return $query;
 	}
 	

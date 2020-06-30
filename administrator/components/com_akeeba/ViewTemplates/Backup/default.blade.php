@@ -6,7 +6,7 @@
  */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 /** @var  $this  \Akeeba\Backup\Admin\View\Backup\Html */
 
@@ -294,7 +294,7 @@ defined('_JEXEC') or die();
 					@lang('COM_AKEEBA_BACKUP_TEXT_RTFMTOSOLVEPRO')
 					@endif
 
-					@sprintf('COM_AKEEBA_BACKUP_TEXT_RTFMTOSOLVE', 'https://www.akeebabackup.com/documentation/troubleshooter/abbackup.html?utm_source=akeeba_backup&utm_campaign=backuperrorlink')
+					@sprintf('COM_AKEEBA_BACKUP_TEXT_RTFMTOSOLVE', 'https://www.akeebabackup.com/documentation/akeeba-backup-documentation/troubleshoot-backup.html?utm_source=akeeba_backup&utm_campaign=backuperrorlink')
 				</p>
 				<p>
 					@if(AKEEBA_PRO)
@@ -314,7 +314,7 @@ defined('_JEXEC') or die();
 			</a>
 			@endif
 
-			<a class="akeeba-btn--primary" href="https://www.akeebabackup.com/documentation/troubleshooter/abbackup.html?utm_source=akeeba_backup&utm_campaign=backuperrorbutton">
+			<a class="akeeba-btn--primary" href="https://www.akeebabackup.com/documentation/akeeba-backup-documentation/troubleshoot-backup.html?utm_source=akeeba_backup&utm_campaign=backuperrorbutton">
 				<span class="akion-ios-book"></span>
 				@lang('COM_AKEEBA_BACKUP_TROUBLESHOOTINGDOCS')
 			</a>

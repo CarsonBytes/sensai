@@ -35,7 +35,8 @@ class J2StoreModelProductPrices extends F0FModel {
 
 		$this->_buildQueryWhere($query);
 		$this->_buildQueryOrder($query);
-		J2Store::plugin()->event('ProductPricesAfterBuildQuery', array(&$query, &$this));
+        $product_price_obj = $this;
+		J2Store::plugin()->event('ProductPricesAfterBuildQuery', array(&$query, &$product_price_obj));
 		return $query;
 	}
 
@@ -74,8 +75,13 @@ class J2StoreModelProductPrices extends F0FModel {
 
 	protected function _buildQueryOrder($query) {
 		$state = $this->getFilterValues();
-		if($state->orderby) {
-			$query->order('#__j2store_product_prices.'.$state->orderby.' '.$state->direction);
+        if(isset($state->orderby) && !empty($state->orderby) && in_array($state->orderby,array('variant_id','price'))) {
+            $db = $this->getDbo();
+            if(!in_array(strtolower($state->direction),array('asc','desc'))){
+                $state->direction = 'desc';
+            }
+            $query->order($db->qn('#__j2store_product_prices').'.'.$db->qn($state->orderby).' '.$state->direction);
+			//$query->order('#__j2store_product_prices.'.$state->orderby.' '.$state->direction);
 		}
 	}
 

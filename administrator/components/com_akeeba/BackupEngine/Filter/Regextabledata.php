@@ -9,9 +9,7 @@
 
 namespace Akeeba\Engine\Filter;
 
-
-
-use Akeeba\Engine\Factory;
+defined('AKEEBAENGINE') || die();
 
 /**
  * Database table records exclusion filter
@@ -21,7 +19,7 @@ use Akeeba\Engine\Factory;
  */
 class Regextabledata extends Base
 {
-	function __construct()
+	public function __construct()
 	{
 		$this->object  = 'dbobject';
 		$this->subtype = 'content';
@@ -30,11 +28,6 @@ class Regextabledata extends Base
 		if (empty($this->filter_name))
 		{
 			$this->filter_name = strtolower(basename(__FILE__, '.php'));
-		}
-
-		if (Factory::getKettenrad()->getTag() == 'restorepoint')
-		{
-			$this->enabled = false;
 		}
 
 		parent::__construct();

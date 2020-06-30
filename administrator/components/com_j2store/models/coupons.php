@@ -110,7 +110,7 @@ class J2StoreModelCoupons extends F0FModel {
 			$this->validate_enabled();
 			$this->validate_exists();
 			$this->validate_usage_limit();
-			$this->validate_user_logged();			
+			$this->validate_user_logged();
 			$this->validate_users();
 			$this->validate_user_group();
 			$this->validate_user_usage_limit();
@@ -324,10 +324,9 @@ class J2StoreModelCoupons extends F0FModel {
 		$db = JFactory::getDbo();
 		$nullDate = $db->getNullDate();
 		$tz = JFactory::getConfig()->get('offset');
-		$now = JFactory::getDate('now', $tz)->format('Y-m-d', true);
-		$valid_from = JFactory::getDate($this->coupon->valid_from, $tz)->format('Y-m-d', true);
-		$valid_to = JFactory::getDate($this->coupon->valid_to, $tz)->format('Y-m-d', true);
-
+		$now = JFactory::getDate('now', $tz)->toSql(true);
+		$valid_from = JFactory::getDate($this->coupon->valid_from, $tz)->toSql(true);
+		$valid_to = JFactory::getDate($this->coupon->valid_to, $tz)->toSql(true);
 		if(
 		($this->coupon->valid_from == $nullDate || $valid_from <= $now) &&
 		 ($this->coupon->valid_to == $nullDate || $valid_to >= $now)

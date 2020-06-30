@@ -393,10 +393,13 @@ class J2Email {
 		//replace administrator string, if present
 		$baseURL = str_replace('/administrator', '', $baseURL);
 		$subpathURL = str_replace('/administrator', '', $subpathURL);
-
+        if (version_compare(J2STORE_VERSION, '3.9.0', 'lt')) {
+            $default_invoice_url = JRoute::_('index.php?option=com_j2store&view=myprofile',false);
+        }else{
+            $default_invoice_url = JRoute::link('site','index.php?option=com_j2store&view=myprofile',false);
+        }
 		//invoice url
-		$url = str_replace('&amp;','&', JRoute::_('index.php?option=com_j2store&view=myprofile'));
-
+		$url = str_replace('&amp;','&', $default_invoice_url);
 		$url = str_replace('/administrator', '', $url);
 		$url = ltrim($url, '/');
 		$subpathURL = ltrim($subpathURL, '/');
@@ -438,7 +441,10 @@ class J2Email {
 		    $language = JFactory::getLanguage();
 
         }else{
-            $language = \Joomla\CMS\Language\Language::getInstance($order->customer_language,false);
+            $conf = JFactory::getConfig();
+            $debug = $conf->get('debug_lang');
+            $language = JLanguage::getInstance($order->customer_language, $debug);
+            //$language = \Joomla\CMS\Language\Language::getInstance($order->customer_language,false);
         }
 
 		$tags = array(
@@ -574,7 +580,7 @@ class J2Email {
 				}
 			}
 		}
-
+        J2Store::plugin()->event("BeforeReplaceCustomFields",array(&$fields,&$text,$type));
 		if (isset ( $fields ) && count ( $fields )) {
 			foreach ( $fields as $namekey => $field ) {
 				$string = '';

@@ -405,6 +405,12 @@ class J2StoreModelOrderdownloads extends F0FModel {
 		$path = $params->get('attachmentfolderpath');
 		//$savepath = $path.DS.'products';
 		$file = JPath::clean($path.'/'.$productfile->product_file_save_name);
+
+		if(!JFile::exists($file)) {
+            $path = JPATH_ROOT.'/';
+            $file = JPath::clean($path.'/'.$productfile->product_file_save_name);
+        }
+
 		//if does not exists, check inside the web root
 		if(!JFile::exists($file)) {
 			$path = JPATH_ROOT.'/'.$path;

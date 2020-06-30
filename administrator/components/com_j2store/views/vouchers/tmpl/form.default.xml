@@ -19,9 +19,9 @@
   <headerset>
   	<header name="ordering" type="ordering" sortable="true" tdwidth="10" />
     <header name="j2store_voucher_id" type="rowselect" tdwidth="20" label="J2STORE_VOUCHER_ID_LABEL"/>
-    <header name="voucher_code" sortable="true" translate="false"  label="J2STORE_VOUCHER_CODE_LABEL"/>
+    <header name="voucher_code" type="fieldsearchable" sortable="true" translate="false"  label="J2STORE_VOUCHER_CODE_LABEL"/>
     <header name="voucher_value" type="fieldsearchable" sortable="true" translate="false"  label="J2STORE_VOUCHER_VALUE_LABEL"/>
-    <header name="email_to" type="text" sortable="true"  label="J2STORE_VOUCHER_TO_EMAIL_LABEL"/>      
+    <header name="email_to" type="fieldsearchable" sortable="true"  label="J2STORE_VOUCHER_TO_EMAIL_LABEL"/>
     <header name="enabled" type="published" sortable="true" tdwidth="8%" />     
   </headerset>
 

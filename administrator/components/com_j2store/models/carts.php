@@ -230,9 +230,15 @@ class J2StoreModelCarts extends F0FModel {
 			$query->join('LEFT OUTER', '#__users AS u ON tbl.user_id=u.id');
 		}
 		$this->_buildQueryWhere($query);
-		if(!empty($filter_order)){
-			$query->order($filter_order .' '. $filter_order_Dir);
+
+		if(!in_array($filter_order_Dir,array('ASC','DESC'))){
+		    $filter_order_Dir = "ASC";
 		}
+		if(!empty($filter_order)  && in_array($filter_order,array('tbl.j2store_cart_id'))){
+			$query->order($filter_order .' '. $filter_order_Dir);
+		}else{
+            $query->order('tbl.j2store_cart_id '. $filter_order_Dir);
+        }
 		return $query;
 	}
 

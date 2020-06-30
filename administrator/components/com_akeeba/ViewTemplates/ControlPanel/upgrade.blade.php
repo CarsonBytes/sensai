@@ -8,7 +8,7 @@
 /** @var $this \Akeeba\Backup\Admin\View\ControlPanel\Html */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 // Only show in the Core version with a 10% probability
 if (AKEEBA_PRO) return;

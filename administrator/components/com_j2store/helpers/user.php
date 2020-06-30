@@ -374,7 +374,7 @@ class J2User
 		$minimumIntegers  =  0;
 		$minimumSymbols   =  0;
 		$minimumUppercase =  0;
-		$is_joomla_validate = $config->get('allow_password_validation',0);
+		$is_joomla_validate = $config->get('allow_password_validation',1);
 		if($is_joomla_validate){
 			$params = JComponentHelper::getParams('com_users');
 			if (!empty($params))

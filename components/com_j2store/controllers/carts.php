@@ -411,7 +411,12 @@ class J2StoreControllerCarts extends F0FController
 
                 $model->setState('filter_order', "zone_name");
                 $model->setState('filter_order_Dir', "ASC");
-                $zones = $model->getList();
+                try {
+                    $zones = $model->getList();
+                } catch (Exception $e) {
+                    $zones = array();
+                }
+
 
             }
 

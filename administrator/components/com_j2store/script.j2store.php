@@ -135,7 +135,6 @@ class Com_J2storeInstallerScript extends F0FUtilsInstallscript{
 							 							'app_localization_data' 	=> 	1,
 							 							'app_diagnostics'			=> 	1,
                                                         'app_currencyupdater'		=> 	1,
-                                                        'app_flexivariable'		    => 	1
 							 						)
 						)
 					);
@@ -532,7 +531,7 @@ private function _installFOF($parent)
 			foreach ($queries as $query)
 			{
 				$query = trim($query);
-				if ($query != '' && $query{0} != '#')
+				if ($query != '' && $query[0] != '#')
 				{
 					$db->setQuery($query);
 					try {

@@ -61,12 +61,16 @@ class plgJ2StoreReport_itemised extends J2StoreReportPlugin
     	$model->setState('filter_order', $app->input->getString('filter_order','oi.j2store_orderitem_id'));
     	$model->setState('filter_order_Dir', $app->input->getString('filter_order_Dir'));
 		$model->setState('filter_datetype', $app->input->getString('filter_datetype'));
-
-    	$list = $model->getData();
-    	//$list = $model->getList();
-		$vars->state = $model->getState();
-    	$vars->list = $list;
-    	$vars->total = $model->getTotal();
+        try {
+            $list = $model->getData();
+            //$list = $model->getList();
+            $vars->list = $list;
+            $vars->total = $model->getTotal();
+            $vars->total = 0;
+        } catch (Exception $e) {
+            $vars->list = array();
+        }
+        $vars->state = $model->getState();
     	$vars->pagination = $model->getPagination();
     	$vars->orderStatus =F0FModel::getTmpInstance('OrderStatuses','J2StoreModel')->enabled(1)->getList();
 		$vars->orderDateType = $this->getOrderDateType ();

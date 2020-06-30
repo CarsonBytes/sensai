@@ -182,6 +182,8 @@ class J2Cart {
 			$keys['product_type'] = $item->product_type;
 			$keys['product_options'] = $item->product_options;
 			$keys['cart_id'] = $existing_cart->j2store_cart_id;
+
+            J2Store::plugin()->event("BeforeUpdateCartItemEntry", array( &$keys, $item ) );
 			
 			if($cartitem->load($keys)) {
 				//already has the item. So just add the quantity

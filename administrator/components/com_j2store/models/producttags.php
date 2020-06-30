@@ -748,7 +748,7 @@ class J2StoreModelProducttags extends F0FModel {
 				$count_ids = 0;
 				$filter_all_ids = array ();
 				foreach ( $filter_ids as $k => $ids ) {
-					if (count ( $ids ) > 0) {
+                    if (!empty($ids)) {
 						$arr_ids = explode ( ',', $ids );
 						$filter_all_ids = array_merge ( $arr_ids, $filter_all_ids );
 					}

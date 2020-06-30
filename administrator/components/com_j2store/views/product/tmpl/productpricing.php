@@ -37,9 +37,9 @@ $this->prefix = 'jform[prices]';
 			<tbody>
 				<tr>
 					<td>
-						<?php echo J2Html::calendar('date_from','',array('class'=>'col-sm-2 form-control input-small','id'=>'price_date_from' ));?>
+						<?php echo J2Html::calendar('date_from','',array('class'=>'col-sm-2 form-control input-small','id'=>'price_date_from','format' => '%d-%m-%Y %H:%M:%S','showTime' => true ));?>
 						<?php echo JText::_('J2STORE_TO');?>
-						<?php echo J2Html::calendar('date_to','',array('class'=>'col-sm-2 form-control input-small','id'=>'price_date_to' ));?>
+						<?php echo J2Html::calendar('date_to','',array('class'=>'col-sm-2 form-control input-small','id'=>'price_date_to','format' => '%d-%m-%Y %H:%M:%S','showTime' => true ));?>
 					</td>
 					<td>
 						<?php echo J2Html::text('quantity_from', '',array('class'=>'input-small ')); ?>
@@ -86,13 +86,14 @@ $this->prefix = 'jform[prices]';
 				<tbody>
 					<?php
 						if(isset($this->prices) && !empty($this->prices)):
+                            $utility = J2Store::utilities();
 					foreach($this->prices as $key => $pricing):?>
 					<tr class="row<?php echo $key%2;?>" id="productprice-row-<?php echo $pricing->j2store_productprice_id;?>">
 						<td>
 
-							<?php echo J2Html::calendar($this->prefix."[$pricing->j2store_productprice_id][date_from]",$pricing->date_from,array('class'=>'col-sm-2 form-control input-small','id'=>"price_date_from_$key" ));?>
+							<?php echo J2Html::calendar($this->prefix."[$pricing->j2store_productprice_id][date_from]",$utility->convert_utc_current($pricing->date_from),array('class'=>'col-sm-2 form-control input-small','id'=>"price_date_from_$key",'format' => '%d-%m-%Y %H:%M:%S','showTime' => true ));?>
 							<?php echo JText::_('J2STORE_TO');?>
-							<?php echo J2Html::calendar($this->prefix."[$pricing->j2store_productprice_id][date_to]",$pricing->date_to,array('class'=>'col-sm-2 form-control input-small','id'=>"price_date_to_$key" ));?>
+							<?php echo J2Html::calendar($this->prefix."[$pricing->j2store_productprice_id][date_to]",$utility->convert_utc_current($pricing->date_to),array('class'=>'col-sm-2 form-control input-small','id'=>"price_date_to_$key",'format' => '%d-%m-%Y %H:%M:%S','showTime' => true ));?>
 						</td>
 						<td>
 							<?php echo J2Html::text($this->prefix."[$pricing->j2store_productprice_id][quantity_from]",$pricing->quantity_from,array('class'=>'input-small ')); ?>

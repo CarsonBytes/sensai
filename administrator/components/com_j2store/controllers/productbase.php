@@ -428,16 +428,22 @@ class J2StoreControllerProductsBase extends F0FController
 
 		/* $data['date_from'] =  (isset($data['date_from']) && $data['date_from'])  ? $data['date_from'] : JFactory::getDbo()->getNullDate();
 			$data['date_to'] =  (isset($data['date_to']) && $data['date_to'])  ? $data['date_from'] : JFactory::getDbo()->getNullDate(); */
-
+        $utility =  J2Store::utilities();
 		if ( empty( $data['date_from'] ) || $data['date_from']== $nullDate )
 		{
 			$data['date_from'] = $nullDate;
-		}
+		}else{
+            $data['date_from'] = $utility->convert_current_to_utc($data['date_from']);
+        }
 
 		if ( empty( $data['date_to'] ) || $data['date_to']== $nullDate )
 		{
 			$data['date_to'] = $nullDate;
-		}
+		}else{
+            $data['date_to'] = $utility->convert_current_to_utc($data['date_to']);
+        }
+
+
 
 		$variant = F0FTable::getAnInstance('Variant','J2StoreTable')->getClone();
 		$variant->load(array('product_id' => $product_id));
@@ -473,7 +479,7 @@ class J2StoreControllerProductsBase extends F0FController
 		if($variant_id) {
 			$model->setState('variant_id', $variant_id);
 			$prices = $model->getList();
-			$groups = JHtmlUser::groups();
+            $groups = JHtmlUser::groups(true);
 		}
 
 		$view = $this->getThisView();
@@ -497,19 +503,23 @@ class J2StoreControllerProductsBase extends F0FController
 		$url ="index.php?option=com_j2store&view=products&task=setproductprice&variant_id=".$variant_id."&layout=productpricing&tmpl=component";
 		$msg =JText::_('J2STORE_PRODUCT_PRICE_SAVED_SUCCESSFULLY');
 		$msgType="Message";
+		$utility =  J2Store::utilities();
 		foreach($items['jform']['prices'] as $item){
 
 			$nullDate = JFactory::getDbo( )->getNullDate( );
 			if ( empty( $item['date_from'] ) || $item['date_from']== $nullDate )
 			{
 				$item['date_from'] = $nullDate;
-			}
+			}else{
+                $item['date_from'] = $utility->convert_current_to_utc($item['date_from']);
+            }
 
 			if ( empty( $item['date_to'] ) || $item['date_to']== $nullDate )
 			{
 				$item['date_to'] = $nullDate;
-			}
-
+			}else{
+                $item['date_to'] = $utility->convert_current_to_utc($item['date_to']);
+            }
 			/* 		$item['date_from'] =  (isset($item['date_from']) && $item['date_from'])  ? $item['date_from'] : JFactory::getDbo()->getNullDate();
 				$item['date_to'] =  (isset($item['date_to']) && $item['date_to'])  ? $item['date_from'] : JFactory::getDbo()->getNullDate();
 			*/

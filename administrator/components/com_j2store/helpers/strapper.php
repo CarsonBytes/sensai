@@ -224,7 +224,7 @@ class J2StoreStrapper {
 
 		(function($) {
 			$(document).ready(function(){
-				//date, time, datetime
+				/*date, time, datetime*/
 
 				if( $('.$element_date').length ){
 					$('.$element_date').datepicker({dateFormat: '$date_format'});

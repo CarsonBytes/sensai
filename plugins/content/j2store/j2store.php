@@ -515,7 +515,9 @@ class plgContentJ2Store extends JPlugin
                     }
                     $db = JFactory::getDBo();
                     $query = $db->getQuery(true);
-                    $query->select('#__j2store_product_filters.filter_id')->from('#__j2store_product_filters')->where('#__j2store_product_filters.product_id',$attribs->j2store->j2store_product_id)->order('#__j2store_product_filters.filter_id ASC');
+                    $query->select('#__j2store_product_filters.filter_id')->from('#__j2store_product_filters')
+                        ->where('#__j2store_product_filters.product_id ='.$db->q($attribs->j2store->j2store_product_id))
+                        ->order('#__j2store_product_filters.filter_id ASC');
                     $db->setQuery($query);
                     $product_filter_list = $db->loadColumn();
 					//we are copying the data. So reset the product id and the variant id
