@@ -117,6 +117,10 @@ jQuery(function ($) {
         });
     });
 
+    $('.md_slider').find('img').on('load', function () {
+        $(this).parents('.slider_md_wrapper').find('.image_canvas_caption .default_caption').show();
+    });
+
 
     $('body')
         .on('click', '.sm_slider .tns-slide-active img', function (e) {

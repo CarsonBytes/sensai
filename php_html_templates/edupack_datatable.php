@@ -2,7 +2,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-
 $document = JFactory::getDocument();
 
 $document->addStyleSheet('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4/dist/css/tabulator.min.css');
@@ -87,6 +86,27 @@ $document->addScript('/js/edupack_datatable.js');
         cursor: auto;
     }
 </style>
+
+<div class="button">
+    <span>
+        <span>
+            <a href="#" target="_blank" class="toggle_handbook" data-title="<?php echo $sku; ?>" data-state="0" >
+                <i class="fas fa-book-open"></i> Toggle Handbook preview
+            </a>
+        </span>
+    </span>
+    <span>
+        <span>
+            <a href="#" class="toggle_interactive_table" data-state="0" data-title="<?php echo $sku; ?>">
+                Toggle interactive learning materials
+                &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-down" style="display:none;"></i>
+            </a>
+        </span>
+    </span>
+</div>
+<div class='imageMapWrapper'></div>
+
+<?php /*
 <p>Cats:</p>
 <div class="button">
     <span>

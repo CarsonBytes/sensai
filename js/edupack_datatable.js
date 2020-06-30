@@ -32,7 +32,9 @@ jQuery(function ($) {
                 $('.image-map-container .map-selector').removeClass('hover').attr('style', '');
             }
         )
-        selectedImageMap.find('area').click(function (e) {
+
+        selectedImageMap.find('area').off('click')
+        selectedImageMap.find('area').on('click', function (e) {
 
             e.preventDefault();
 
@@ -74,8 +76,8 @@ jQuery(function ($) {
         table = new Tabulator("#imageMapTable", {
             maxHeight: '100%',
             resizableColumns: false,
-            cellVertAlign:"middle",
-            columnHeaderVertAlign: "middle", 
+            cellVertAlign: "middle",
+            columnHeaderVertAlign: "middle",
             tooltipsHeader: false, //enable header tooltips
             //tooltipGenerationMode: "hover", //regenerate tooltip as users mouse enters the cell;
             //tooltips: false,
@@ -95,7 +97,7 @@ jQuery(function ($) {
             },
             columns: [
                 //{ field: "id", width: 20, headerSort: false },
-                { title: "Name", field: "formatted_name", formatter: "html",variableHeight: true, headerSort: false, widthGrow: 1 },
+                { title: "Name", field: "formatted_name", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
                 { title: "Audio", field: "audio", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
                 { title: "Source 1", field: "source1", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
                 { title: "Source 2", field: "source2", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false }

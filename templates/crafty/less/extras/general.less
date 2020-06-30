@@ -372,12 +372,12 @@ body:lang(ja-jp) {
         width: auto;
     }
 }
-
+/* for jquery 3 it is reduncdant, so comment out
 .slider_sm_wrapper,
 .slider_md_whole_wrapper {
     display: none;
 }
-
+ */
 
 //fix footer to be on the bottom, when middle content is too short
 @media screen and (min-width: @screen-desktop) and (min-height: 660px) {
@@ -575,5 +575,8 @@ a.img_link {
 }
 
 img.lazyload:not([src]) {
+    visibility: hidden;
+}
+img:not([src]) {
     visibility: hidden;
 }

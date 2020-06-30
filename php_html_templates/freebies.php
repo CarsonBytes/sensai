@@ -196,7 +196,7 @@ function getImageAlt(&$images_alts, $i)
 
                             <div class="image_canvas_caption">
                                 <div class="image_canvas_caption_wrapper">
-                                    <span>画像にマウスを合わせると拡大されます</span>
+                                    <span class="default_caption" style="display:none;">画像にマウスを合わせると拡大されます</span>
                                 </div>
                             </div>
                         </div>

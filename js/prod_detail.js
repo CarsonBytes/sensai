@@ -287,6 +287,7 @@ jQuery(function ($) {
                 isSliderMDInit = true;
             }
             $('.my-slider-md').find('img').on('load', function () {
+                $(this).parents('.slider_md_wrapper').find('.image_canvas_caption .default_caption').show();
                 slider_md.updateSliderHeight();
             });
         }

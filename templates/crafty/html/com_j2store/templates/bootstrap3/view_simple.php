@@ -17,8 +17,9 @@ echo '</pre>';  */
 include JPATH_SITE . '/php_html_templates/functions.php';
 
 $document = JFactory::getDocument();
+//$document->addScript('https://cdn.jsdelivr.net/npm/jquery-migrate@3.3.1/dist/jquery-migrate.js');
 $document->addStyleSheet('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4.5.3/dist/css/tabulator.min.css,npm/tiny-slider@2.9.2/dist/tiny-slider.css');
-$document->addStyleSheet('https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelementplayer.min.css');
+//$document->addStyleSheet('https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelementplayer.min.css');
 $document->addScript('https://cdn.jsdelivr.net/combine/npm/tiny-slider@2.9.2,npm/tabulator-tables@4.5.3,npm/image-map-resizer@1.0.10,npm/jquery-zoom@1.7.21,npm/mediaelement@4.2.16/build/mediaelement-and-player.min.js');
 $document->addScript('/js/prod_detail.js');
 $document->addScript('/js/sm_slider.js');
@@ -202,7 +203,7 @@ function getImgSizeUrl($url, $width = 'L')
 
 					<div class="image_canvas_caption">
 						<div class="image_canvas_caption_wrapper">
-							<span>画像にマウスを合わせると拡大されます</span>
+							<span class="default_caption" style="display:none;">画像にマウスを合わせると拡大されます</span>
 						</div>
 					</div>
 				</div>
@@ -262,11 +263,18 @@ function getImgSizeUrl($url, $width = 'L')
 	</div>
 
 	<div class="row">
-		<?php if ($this->product->product_long_desc != '') : ?>
+		<?php /*if ($this->product->product_long_desc != '') : ?>
 			<div class="col-xs-12 col-md-12 product-ldesc">
 				<?php echo $this->product->product_long_desc; ?>
 			</div>
-		<?php endif; ?>
+		<?php endif;*/ ?>
+
+		<div class="col-xs-12">
+			<?php if (isEdupack($product_type)) {
+				$sku = $this->product->variants->sku;
+				include JPATH_SITE . '/php_html_templates/edupack_datatable.php';
+			}  ?>
+		</div>
 
 		<?php if (isset($this->product->source->event->afterDisplayContent)) : ?>
 			<?php echo $this->product->source->event->afterDisplayContent; ?>
@@ -383,7 +391,7 @@ echo '<pre>';
 
 										$educational_type = array_values($educationals)[0]['note'];
 										$educational_j2store_product_id = array_values($educationals)[0]['j2store_product_id'];
-										
+
 										$edupack_info = getEdupackInfo($educational_type);
 
 										foreach ($this_bundle_decos as $this_bundle_deco) {
