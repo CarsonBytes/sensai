@@ -3,7 +3,8 @@ if (
     isset($_SERVER['HTTP_X_REQUESTED_WITH'])
     && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
 ) {
-    $pages = ['P12001','P12002'];
+    $skus = ['P12001','P12002'];
+    $type = 'edupack';
 ?>
 <style>
     ul.pages{
@@ -40,12 +41,12 @@ if (
         border-color: #e77600;
     }
     ul.pages li.selected a, ul.pages li.selected a:hover {
-    font-weight: 700;
-    background-color: #fff;
-    background-image: none;
-    color: #c45500;
-    border-color: #e77600;
-    cursor: default;
+        font-weight: 700;
+        background-color: #fff;
+        background-image: none;
+        color: #c45500;
+        border-color: #e77600;
+        cursor: default;
     }
     ul.pages li a:hover {
         background: #e0e3e9;
@@ -56,21 +57,21 @@ if (
 </style>
 <ul class="pages">
     <?php $i=1;
-    foreach($pages as $page){  ?>
-        <li class="<?php echo $_POST['sku']==$page ? 'selected' : ''; ?>" data-page="<?php echo $page?>"><a href="#"><?php echo $i; ?></a></li>
+    foreach($skus as $sku){  ?>
+        <li class="<?php echo $_POST['sku']==$sku ? 'selected' : ''; ?>" data-type="<?=$type ?>" data-sku="<?php echo $sku?>" data-page="" ><a href="#"><?php echo $i; ?></a></li>
     <?php $i++; } ?>
 </ul>
 <div class="clearfix"></div>
 <div class="row interactive_table">
     <div class="col-sm-6">
         <div class="image-map-container">
-            <?php foreach($pages as $page){  ?>
-                <img data-sku="<?=$page?>" class="<?php echo $_POST['sku']==$page ? '' : ''; ?>" src="/images/poster/edupack/cat/<?=$page?>_1500.jpg" usemap="#image-map<?=$page?>" />
+            <?php foreach($skus as $sku){  ?>
+                <img class="lazyload <?=$type.$sku?>" data-src="/images/poster/edupack/cat/<?=$sku?>_1500.jpg" usemap="#image-map<?=$type.$sku?>" />
             <?php } ?>
             <div class="map-selector">&nbsp;</div>
         </div>
         <p>
-            <map style="<?php echo $_POST['sku']==$pages[0] ? '' : 'display:none;'; ?>" id="image-map<?=$pages[0]?>" name="image-map<?=$pages[0]?>">
+            <map style="<?php echo $_POST['sku']==$skus[0] ? '' : 'display:none;'; ?>" id="image-map<?=$type.$skus[0] ?>" name="image-map<?=$type.$skus[0]?>">
                 <area shape="rect" coords="18, 120, 241, 319" />
                 <area shape="rect" coords="244, 149, 429, 323" />
                 <area shape="rect" coords="429, 163, 654, 320" />
@@ -107,7 +108,7 @@ if (
                 <area shape="rect" coords="575, 1274, 768, 1494" />
                 <area shape="rect" coords="775, 1269, 1013, 1493" />
             </map>
-            <map style="<?php echo $_POST['sku']==$pages[1] ? '' : 'display:none;'; ?>" id="image-map<?=$pages[1]?>" name="image-map<?=$pages[1]?>"> 
+            <map style="<?php echo $_POST['sku']==$skus[1] ? '' : 'display:none;'; ?>" id="image-map<?=$type.$skus[1] ?>" name="image-map<?=$type.$skus[1] ?>"> 
                 <area shape="rect" coords="25, 45, 313, 276" />
                 <area shape="rect" coords="315, 42, 460, 270" />
                 <area shape="rect" coords="470, 47, 744, 274" />

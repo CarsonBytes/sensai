@@ -272,7 +272,7 @@ function getImgSizeUrl($url, $width = 'L')
 		<div class="col-xs-12">
 			<?php if (isEdupack($product_type)) {
 				$sku = $this->product->variants->sku;
-				include JPATH_SITE . '/php_html_templates/edupack_datatable.php';
+				include JPATH_SITE . '/php_html_templates/edupack_datatable2.php';
 			}  ?>
 		</div>
 
@@ -281,6 +281,34 @@ function getImgSizeUrl($url, $width = 'L')
 		<?php endif; ?>
 	</div>
 </div>
+<style>
+	@media (min-width: 992px) {
+		.deco_bundles_wrapper .deco_bundles .deco_bundle_wrapper .deco_bundle .col_2 .deco_thumbs {
+			justify-content: flex-start;
+		}
+
+		.deco_bundles_wrapper .deco_bundles .deco_bundle_wrapper .deco_bundle .col_2 .deco_thumbs a.img_link .img_wrapper img {
+			max-width: calc((100vw - 250px) / 7);
+			max-height: calc((100vw - 250px) / 7);
+		}
+
+		.deco_bundles_wrapper .deco_bundles .deco_bundle_wrapper .deco_bundle .col_2 .deco_thumbs a.img_link .img_wrapper img.handbook {
+			max-width: calc((100vw - 250px) / 7 / 2);
+			max-height: calc((100vw - 250px) / 7 / 2);
+		}
+
+
+
+		.img_wrapper {
+			display: table-cell;
+		}
+
+		.deco_bundles_wrapper .deco_bundles .deco_bundle_wrapper .deco_bundle .col_2 .deco_thumbs a.img_link {
+			margin: 10px;
+		}
+
+	}
+</style>
 <?php if ($product_type == 'bundle') { ?>
 
 	<div class="row">
@@ -402,25 +430,27 @@ echo '<pre>';
 												</div>
 											</a>
 										<?php
+										}
+										foreach ($educationals as $educational) {
+										?>
+											<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $educational['j2store_product_id']); ?>">
+												<div class="img_wrapper">
+													<img class="lazyload" data-src="/<?php echo $educational['thumb_image']; ?>" />
+												</div>
+											</a>
+										<?php
 										} ?>
-										<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $educational_j2store_product_id); ?>">
+										<a class="img_link" href="<?php echo $edupack_info['handbook_page_path'] ?>">
+											<div class="img_wrapper">
+												<img class="lazyload handbook" data-src="<?php echo $edupack_info['handbook_page_img_path']; ?>" />
+											</div>
+										</a>
+										<?php /*<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $educational_j2store_product_id); ?>">
 											<div class="img_wrapper">
 												<img class="lazyload" data-src="<?php echo $edupack_info['edupack_img_path']; ?>" />
 											</div>
-										</a>
-										<a class="img_link" href="<?php echo $edupack_info['handbook_page_path'] ?>">
-											<div class="img_wrapper">
-												<img class="lazyload" data-src="<?php echo $edupack_info['handbook_page_img_path']; ?>" />
-											</div>
-										</a>
+										</a>*/ ?>
 									</div>
-									<?php /* <div class="clearfix"></div>
-									<div class="bundle_title_wrapper" id="bundle_title_wrapper">
-										<?php foreach ($this_bundle_decos as $this_bundle_deco) { ?>
-											<a href="#" class="bundle_title truncate-overflow"><?php echo $this_bundle_deco['title'] ?></a>
-										<?php
-										} ?>
-									</div> */ ?>
 								</div>
 								<div class="clearfix"></div>
 							</div>
