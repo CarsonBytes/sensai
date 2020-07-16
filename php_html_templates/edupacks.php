@@ -30,22 +30,6 @@ function getImgSizeUrl($url, $width = 'L')
 }
 ?>
 <style>
-    .read_more {
-        display: inline-block;
-        border: 1px solid #B79228;
-        color: #B79228;
-        padding: 5px 13px;
-        border-radius: 15px;
-        position: absolute;
-        bottom: 20px;
-        left: 6%;
-        font-weight: bold;
-    }
-
-    .read_more:hover {
-        border-color: #C86516;
-        color: #C86516;
-    }
 
     .free_promo_container_wrapper {
         max-width: none;
@@ -55,48 +39,6 @@ function getImgSizeUrl($url, $width = 'L')
         padding-top: 39.9%;
     }
 
-    #free_promo .carousel_btns_wrapper {
-        position: absolute;
-        bottom: 30px;
-        left: 40px;
-    }
-
-    #free_promo .carousel_btns {
-        display: flex;
-        align-items: center;
-    }
-
-    #free_promo .carousel_btns>a {
-        margin-right: 15px;
-    }
-
-    #free_promo .carousel_btns>a .read_more {
-        position: relative;
-        bottom: auto;
-        z-index: 10;
-    }
-
-    #free_promo .carousel_btns .carousel-indicators {
-        display: block;
-        width: auto;
-        bottom: auto;
-        height: auto;
-        position: relative;
-        line-height: 1;
-    }
-
-    #free_promo .carousel_btns .carousel-indicators li {
-        background-color: #444;
-        bottom: 30px;
-        height: 20px;
-        width: 20px;
-        border: 2px solid #fff;
-        margin: 0;
-    }
-
-    #free_promo .carousel_btns .carousel-indicators li.active {
-        background-color: #478203;
-    }
 </style>
 <div class="container">
     <div class="free_promo_container_wrapper">
@@ -116,10 +58,10 @@ function getImgSizeUrl($url, $width = 'L')
                 </div>
             </div>
             <div class="carousel-inner">
-                <div class="item active"><img class="lazyload carousel_1" data-src="/images/page/promotional_items/gallery/promo-0.jpg" alt="" /></div>
-                <div class="item"><img class="lazyload" data-src="/images/page/promotional_items/gallery/promo-1.jpg" alt="" /></div>
-                <div class="item"><img class="lazyload" data-src="/images/page/promotional_items/gallery/promo-2.jpg" alt="" /></div>
-                <div class="item"><img class="lazyload" data-src="/images/page/promotional_items/gallery/promo-3.jpg" alt="" /></div>
+                <div class="item active"><img class="lazyload carousel_1" data-src="/images/page/edupacks/gallery/06-eduPack-promo_1_1500.jpg" alt="" /></div>
+                <div class="item"><img class="lazyload" data-src="/images/page/edupacks/gallery/06-eduPack-promo_2_1500.jpg" alt="" /></div>
+                <div class="item"><img class="lazyload" data-src="/images/page/edupacks/gallery/06-eduPack-promo_3_1500.jpg" alt="" /></div>
+                <div class="item"><img class="lazyload" data-src="/images/page/edupacks/gallery/06-eduPack-promo_4_1500.jpg" alt="" /></div>
             </div>
         </div>
     </div>
@@ -127,12 +69,12 @@ function getImgSizeUrl($url, $width = 'L')
 <div class="clearfix" style="margin-bottom:15px;"></div>
 <?php
 $freebie1 = array(
-    'title' => 'Cat Handbook',
-    'archor' => 'cat_handbook',
-    'main_thumb' => '/images/page/promotional_items/cat/cat_1500_1.jpg',
+    'title' => 'Cat Edupack',
+    'archor' => 'cat_edupack',
+    'main_thumb' => '/images/poster/edupack/cat/Edupack_cats_762.jpg',
     'main_thumb_alt' => 'cat',
     'additional_images' =>
-    array('/images/page/promotional_items/cat/cat_762_2.jpg', '/images/page/promotional_items/cat/cat_762_7.jpg', '/images/page/promotional_items/cat/cat_1500_12.jpg'),
+    array('/images/poster/edupack/cat/P12001_762.jpg', '/images/poster/edupack/cat/P12002_762.jpg'),
     'additional_images_alt' =>
     array('', '', ''),
     'file' => 'handbook_w_watermarks/cat.zip',
@@ -149,12 +91,12 @@ $freebies = array(
     $freebie1
 );
 $freebie2 = array(
-    'title' => 'Dog Handbook',
+    'title' => 'Dog Edupack',
     'archor' => 'dog_handbook',
-    'main_thumb' => '/images/page/promotional_items/dog/dog_1500_1.jpg',
+    'main_thumb' => '/images/poster/edupack/dog/Edupack_dogs_762.jpg',
     'main_thumb_alt' => 'dog',
     'additional_images' =>
-    array('/images/page/promotional_items/dog/dog_1500_2.jpg', '/images/page/promotional_items/dog/dog_1500_8.jpg', '/images/page/promotional_items/dog/dog_1500_16.jpg'),
+    array('/images/poster/edupack/dog/P12003_762.jpg', '/images/poster/edupack/dog/P12004_762.jpg', '/images/poster/edupack/dog/P12005_762.jpg'),
     'additional_images_alt' =>
     array('', '', ''),
     'file' => 'handbook_w_watermarks/dog.zip',
@@ -187,9 +129,70 @@ function getImageAlt(&$images_alts, $i)
 }
 
 ?>
-<div class="promotional_banner col-xs-12 col-sm-12 col-md-12 col-lg-2 pull-right">
-    <div class="promotional_banner_wrapper">
-        This is promotional banner
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 pull-right sidebar_right">
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>EduPack Series</h3>
+            <img src="/images/poster/edupack/dog/dog_edupack.jpg" />
+            <p>Buy 1 Bundle <br />Get 1 EduPack + 1 Handbook</p>
+            <a href="#">Click to learn more</a>
+        </div>
+    </div>
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>Chart Posters</h3>
+            <img src="/images/page/edupacks/side_irish_terrier.png" />
+            <p>Full Color, Organised, Informative</p>
+            <a href="#">Click to learn more</a>
+        </div>
+    </div>
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>Get Access To Interactive Learning Materials</h3>
+            <img src="/images/page/edupacks/qrcode.png" style="margin-bottom: 0;"/>
+            <img src="/images/page/edupacks/interactive-table.png" />
+            <p>Scan the QR code and learn more online</p>
+            <a href="#">Click to learn more</a>
+        </div>
+    </div>
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>Excellent Quality Control</h3>
+            <img src="/images/page/edupacks/promo-icons-printer.png" />
+            <p>Printed in Japan by Reputable Japanese Printer</p>
+            <a href="#">Click to learn more</a>
+        </div>
+    </div>
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>Our Poster uses High-Quality Paper</h3>
+            <img src="/images/page/edupacks/promo-icons-quality.png" />
+            <p>Premium Japanese paper '金藤',<br />180kg with gloss PP lamination</p>
+            <a href="#">Click to learn more</a>
+        </div>
+    </div>
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>Our Poster is hard to tear</h3>
+            <img src="/images/page/edupacks/promo-icons-strong.png" />
+            <p>gloss laminated: 引っ張り、折り曲げなどに強く、紙のレベルをはるかに上回る破れにくさで、繰り返しの張り替えにも対応します。</p>
+            <a href="#">Click to learn more</a>
+        </div>
+    </div>
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>Our Poster is Water Resistant</h3>
+            <img src="/images/page/edupacks/promo-icons-water-repel.png" />
+            <a href="#">Click to learn more</a>
+        </div>
+    </div>
+    <div class="promotional_banner">
+        <div class="promotional_banner_wrapper">
+            <h3>Carefully Packaged</h3>
+            <img src="/images/page/edupacks/promo-icons-packing-tube-sqpng.png" />
+            <p>bulk rolled and put into a plastic tube then inserted into a tube</p>
+            <a href="#">Click to learn more</a>
+        </div>
     </div>
 </div>
 

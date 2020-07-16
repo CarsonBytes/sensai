@@ -214,7 +214,7 @@ jQuery(function ($) {
 
             var current_md_slider_id = $(this).parents('.md_slider').data('id');
             var img_id = $(this).parents('.a-image-wrapper').find('img').data('id');
-            var img_src = $(this).parents('.a-image-wrapper').find('img').prop('src');
+            var img_src = $(this).parents('.a-image-wrapper').find('img').data('zoomsrc');
             main_scrollY = $(window).scrollTop();
 
             console.log(current_md_slider_id);
@@ -245,7 +245,7 @@ jQuery(function ($) {
             $('.productGallery_m[data-id=' + current_md_slider_id + '] .enlarged_image img')
                 .hide()
                 .css('max-height', $('.productGallery_m[data-id=' + current_md_slider_id + '] .modal-content').height() - 68)
-                .prop('src', $(this).find('img').prop('src'))
+                .prop('src', $(this).find('img').data('zoomsrc'))
         })
 
     $('.productGallery_m, .productGallery').on('hidden.bs.modal', function (e) {

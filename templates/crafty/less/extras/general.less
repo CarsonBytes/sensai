@@ -97,15 +97,31 @@ body:lang(ja-jp) {
                 /* background-color: #e21e26; */
                 height: 65px;
                 line-height: 65px;
-                text-align: center;
 
                 .top_banner {
                     height: 100%;
                     margin-left: 110px;
                     background-color: black;
+                    background-image: linear-gradient(-90deg, #232f3e, black, #232f3e);
+                    overflow: hidden;
+                    position: relative;
 
                     @media screen and (min-width: @screen-desktop) {
                         margin-left: 0;
+                    }
+
+                    .fade {
+
+                        height: 100%;
+                        width: 100%;
+                        position: absolute;
+                        opacity: 1;
+                        background: linear-gradient(-90deg, #232F3E 0%, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 80%, #232f3e 100%);
+                    }
+
+                    img {
+                        height: 100%;
+                        width: auto;
                     }
                 }
             }
@@ -372,6 +388,7 @@ body:lang(ja-jp) {
         width: auto;
     }
 }
+
 /* for jquery 3 it is reduncdant, so comment out
 .slider_sm_wrapper,
 .slider_md_whole_wrapper {
@@ -528,7 +545,7 @@ body:lang(ja-jp) {
 }
 
 
-#home_promo,
+/* #home_promo,
 #free_promo {
     .carousel-indicators {
         left: 0;
@@ -540,7 +557,7 @@ body:lang(ja-jp) {
         bottom: 20px;
         display: none;
     }
-}
+} */
 
 #home_promo {
     background: black;
@@ -577,6 +594,67 @@ a.img_link {
 img.lazyload:not([src]) {
     visibility: hidden;
 }
+
 img:not([src]) {
     visibility: hidden;
+}
+
+.carousel.slide {
+    .carousel_btns_wrapper {
+
+        position: absolute;
+        bottom: 30px;
+        left: 40px;
+
+        .carousel_btns {
+            display: flex;
+            align-items: center;
+
+            >a {
+                margin-right: 15px;
+            }
+
+            .read_more {
+                display: inline-block;
+                border: 1px solid #B79228;
+                color: #B79228;
+                padding: 5px 13px;
+                border-radius: 15px;
+                left: 6%;
+                font-weight: bold;
+                position: relative;
+                bottom: auto;
+                z-index: 10;
+
+                :hover {
+                    border-color: #C86516;
+                    color: #C86516;
+                }
+            }
+
+            .carousel-indicators {
+                display: block;
+                width: auto;
+                left: auto;
+                bottom: auto;
+                height: auto;
+                position: relative;
+                line-height: 1;
+                margin: 0;
+
+                li {
+                    background-color: #444;
+                    bottom: 30px;
+                    height: 20px;
+                    width: 20px;
+                    border: 2px solid #fff;
+                    margin: 0;
+
+                    &.active {
+                        background-color: #478203;
+                    }
+                }
+            }
+        }
+    }
 }

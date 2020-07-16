@@ -3,13 +3,20 @@ if (
     isset($_SERVER['HTTP_X_REQUESTED_WITH'])
     && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
 ) {
-    $pages = 11;
+    $pages = 15;
     $type = 'handbook';
     $skus = array(
-        'P12003' => array(1,2,3,4,5,6),
-        'P12004' => array(7,8,9,10,11),
-        'P12005' => array(7,8,9,10,11)
-    )
+        'P12003' => array(1,2,3,4,5),
+        'P12004' => array(6,7,8,9),
+        'P12005' => array(10,11,12,13,14,15)
+    );
+    function getSku($page){
+        global $skus;
+        if (in_array($page, $skus['P12003'])) $sku = 'P12003';
+        else if (in_array($page, $skus['P12004'])) $sku = 'P12004';
+        else $sku = 'P12005'; 
+        return $sku;
+    }
 ?>
 <style>
     ul.pages{
@@ -62,125 +69,229 @@ if (
 </style>
 <ul class="pages">
     <?php
-    for ($i=1;$i<=$pages;$i++){  
+    for ($i=1;$i<=$pages;$i++){ 
+        $sku = getSku($i);
     ?>
-        <li class="<?php echo $_POST['page']==$i ? 'selected' : ''; ?>" data-type="handbook" data-sku="<?php echo in_array($i, $skus['P12001']) ? 'P12001' : 'P12002' ?>" data-page="<?php echo $i?>" ><a href="#"><?php echo $i; ?></a></li>
+        <li class="<?php echo $_POST['page']==$i ? 'selected' : ''; ?>" data-type="handbook" data-sku="<?php echo $sku ?>" data-page="<?php echo $i?>" ><a href="#"><?php echo $i; ?></a></li>
     <?php } ?>
 </ul>
 <div class="clearfix"></div>
 <div class="row interactive_table">
     <div class="col-sm-6">
         <div class="image-map-container">
-            <?php for ($i=1;$i<=$pages;$i++){  
-                $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
-                <img class="lazyload <?=$type.$sku.$i ?>" data-src="/images/handbook/cats/interactive_handbook_cats_1500_<?=$i?>.jpg" usemap="#image-map<?=$type.$sku.$i ?>" />
+            <?php for ($i=1;$i<=$pages;$i++){
+                $sku = getSku($i);
+            ?>
+                <img class="lazyload <?=$type.$sku.$i ?>" data-src="/images/handbook/dogs/interactive_handbook_dogs_1500_<?=$i?>.jpg" usemap="#image-map<?=$type.$sku.$i ?>" />
             <?php } ?>
             <div class="map-selector">&nbsp;</div>
         </div>
         <p>
-            <?php $i = 2; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 2; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="21, 93, 367, 488" />
-                <area shape="rect" coords="413, 102, 734, 410" />
-                <area shape="rect" coords="749, 88, 1009, 299" />
-                <area shape="rect" coords="370, 413, 732, 657" />
-                <area shape="rect" coords="739, 303, 1019, 603" />
-                <area shape="rect" coords="28, 500, 315, 824" />
-                <area shape="rect" coords="318, 660, 478, 946" />
-                <area shape="rect" coords="482, 679, 740, 946" />
-                <area shape="rect" coords="744, 607, 1011, 847" />
-                <area shape="rect" coords="784, 851, 1009, 998" />
-                <area shape="rect" coords="22, 865, 310, 1106" />
-                <area shape="rect" coords="337, 966, 591, 1222" />
-                <area shape="rect" coords="620, 1002, 878, 1160" />
-                <area shape="rect" coords="18, 1106, 328, 1458" />
-                <area shape="rect" coords="328, 1226, 639, 1464" />
-                <area shape="rect" coords="649, 1165, 1011, 1463" />
+                <area shape="rect" coords="21, 100, 361, 480" />
+                <area shape="rect" coords="418, 100, 736, 412" />
+                <area shape="rect" coords="750, 93, 1003, 302" />
+                <area shape="rect" coords="366, 415, 737, 668" />
+                <area shape="rect" coords="737, 310, 1014, 602" />
+                <area shape="rect" coords="25, 494, 311, 829" />
+                <area shape="rect" coords="313, 668, 488, 953" />
+                <area shape="rect" coords="496, 672, 737, 947" />
+                <area shape="rect" coords="741, 604, 1013, 846" />
+                <area shape="rect" coords="779, 850, 1009, 993" />
+                <area shape="rect" coords="30, 857, 310, 1114" />
+                <area shape="rect" coords="336, 964, 596, 1228" />
+                <area shape="rect" coords="617, 995, 881, 1153" />
+                <area shape="rect" coords="12, 1113, 332, 1463" />
+                <area shape="rect" coords="334, 1238, 635, 1462" />
+                <area shape="rect" coords="638, 1152, 1009, 1461" />
             </map>
-            <?php $i = 3; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 3; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="91, 25, 510, 457" />
-                <area shape="rect" coords="612, 19, 965, 496" />
-                <area shape="rect" coords="54, 462, 597, 1020" />
-                <area shape="rect" coords="625, 507, 946, 1027" />
-                <area shape="rect" coords="36, 1039, 540, 1468" />
-                <area shape="rect" coords="570, 1035, 984, 1444" />
+                <area shape="rect" coords="16, 158, 364, 507" />
+                <area shape="rect" coords="369, 136, 760, 507" />
+                <area shape="rect" coords="763, 152, 1007, 511" />
+                <area shape="rect" coords="28, 526, 297, 822" />
+                <area shape="rect" coords="299, 530, 560, 829" />
+                <area shape="rect" coords="563, 533, 801, 854" />
+                <area shape="rect" coords="805, 548, 1008, 804" />
+                <area shape="rect" coords="30, 831, 343, 1115" />
+                <area shape="rect" coords="345, 898, 640, 1127" />
+                <area shape="rect" coords="658, 871, 1010, 1128" />
+                <area shape="rect" coords="26, 1119, 299, 1460" />
+                <area shape="rect" coords="303, 1155, 498, 1462" />
+                <area shape="rect" coords="503, 1151, 771, 1466" />
+                <area shape="rect" coords="774, 1141, 1006, 1469" />
             </map>
-            <?php $i = 4; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 4; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="18, 15, 409, 464" />
-                <area shape="rect" coords="420, 126, 1017, 467" />
-                <area shape="rect" coords="36, 473, 425, 890" />
-                <area shape="rect" coords="492, 475, 954, 880" />
-                <area shape="rect" coords="32, 912, 481, 1466" />
-                <area shape="rect" coords="548, 886, 900, 1456" />
+                <area shape="rect" coords="16, 116, 407, 460" />
+                <area shape="rect" coords="410, 133, 798, 391" />
+                <area shape="rect" coords="801, 116, 991, 423" />
+                <area shape="rect" coords="24, 538, 265, 727" />
+                <area shape="rect" coords="274, 536, 512, 727" />
+                <area shape="rect" coords="520, 536, 760, 725" />
+                <area shape="rect" coords="763, 428, 1015, 731" />
+                <area shape="rect" coords="30, 795, 332, 1105" />
+                <area shape="rect" coords="339, 748, 701, 1103" />
+                <area shape="rect" coords="702, 760, 1017, 1103" />
+                <area shape="rect" coords="36, 1114, 266, 1489" />
+                <area shape="rect" coords="281, 1107, 611, 1485" />
+                <area shape="rect" coords="620, 1101, 1008, 1481" />
             </map>
-            <?php $i = 5; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 5; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="67, 40, 409, 430" />
-                <area shape="rect" coords="513, 56, 973, 399" />
-                <area shape="rect" coords="430, 412, 897, 646" />
-                <area shape="rect" coords="14, 466, 304, 987" />
-                <area shape="rect" coords="315, 718, 615, 1098" />
-                <area shape="rect" coords="687, 650, 987, 1100" />
-                <area shape="rect" coords="29, 1050, 307, 1481" />
-                <area shape="rect" coords="323, 1137, 637, 1481" />
-                <area shape="rect" coords="651, 1115, 1010, 1457" />
+                <area shape="rect" coords="28, 103, 342, 418" />
+                <area shape="rect" coords="348, 106, 570, 416" />
+                <area shape="rect" coords="575, 99, 999, 435" />
+                <area shape="rect" coords="34, 427, 426, 751" />
+                <area shape="rect" coords="430, 438, 706, 739" />
+                <area shape="rect" coords="708, 448, 1014, 833" />
+                <area shape="rect" coords="27, 759, 557, 1124" />
+                <area shape="rect" coords="564, 837, 982, 1173" />
+                <area shape="rect" coords="20, 1128, 432, 1490" />
+                <area shape="rect" coords="457, 1182, 722, 1483" />
+                <area shape="rect" coords="726, 1183, 996, 1488" />
             </map>
-            <?php $i = 6; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 6; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="34, 42, 667, 395" />
-                <area shape="rect" coords="670, 48, 1008, 395" />
-                <area shape="rect" coords="51, 449, 521, 859" />
-                <area shape="rect" coords="523, 404, 1012, 873" />
-                <area shape="rect" coords="50, 998, 218, 1429" />
-                <area shape="rect" coords="223, 899, 449, 1431" />
-                <area shape="rect" coords="455, 933, 656, 1403" />
-                <area shape="rect" coords="656, 969, 1009, 1324" />
+                <area shape="rect" coords="15, 101, 354, 412" />
+                <area shape="rect" coords="380, 104, 694, 400" />
+                <area shape="rect" coords="720, 197, 1010, 444" />
+                <area shape="rect" coords="25, 416, 406, 767" />
+                <area shape="rect" coords="408, 476, 703, 768" />
+                <area shape="rect" coords="710, 445, 1010, 776" />
+                <area shape="rect" coords="29, 770, 418, 1128" />
+                <area shape="rect" coords="428, 810, 747, 1127" />
+                <area shape="rect" coords="753, 806, 1009, 1135" />
+                <area shape="rect" coords="29, 1131, 351, 1476" />
+                <area shape="rect" coords="369, 1146, 691, 1474" />
+                <area shape="rect" coords="709, 1147, 996, 1476" />
             </map>
-            <?php $i = 7; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 7; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="171, 65, 633, 556" />
-                <area shape="rect" coords="637, 186, 968, 577" />
-                <area shape="rect" coords="421, 588, 992, 1070" />
-                <area shape="rect" coords="426, 1071, 989, 1468" />
+                <area shape="rect" coords="19, 173, 325, 461" />
+                <area shape="rect" coords="326, 114, 730, 461" />
+                <area shape="rect" coords="740, 141, 993, 457" />
+                <area shape="rect" coords="28, 487, 350, 834" />
+                <area shape="rect" coords="352, 491, 622, 832" />
+                <area shape="rect" coords="661, 480, 1021, 838" />
+                <area shape="rect" coords="24, 852, 264, 1173" />
+                <area shape="rect" coords="275, 879, 727, 1123" />
+                <area shape="rect" coords="732, 852, 1012, 1126" />
+                <area shape="rect" coords="14, 1179, 375, 1471" />
+                <area shape="rect" coords="379, 1194, 648, 1473" />
+                <area shape="rect" coords="647, 1125, 1013, 1474" />
             </map>
-            <?php $i = 8; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 8; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="35, 51, 1004, 527" />
-                <area shape="rect" coords="63, 570, 320, 1102" />
-                <area shape="rect" coords="419, 546, 1002, 923" />
-                <area shape="rect" coords="322, 932, 632, 1456" />
-                <area shape="rect" coords="652, 941, 1001, 1346" />
+                <area shape="rect" coords="39, 100, 322, 372" />
+                <area shape="rect" coords="323, 95, 637, 357" />
+                <area shape="rect" coords="642, 106, 1010, 375" />
+                <area shape="rect" coords="32, 378, 349, 614" />
+                <area shape="rect" coords="352, 375, 654, 626" />
+                <area shape="rect" coords="683, 397, 1010, 614" />
+                <area shape="rect" coords="47, 617, 344, 897" />
+                <area shape="rect" coords="348, 640, 664, 906" />
+                <area shape="rect" coords="668, 619, 1013, 920" />
+                <area shape="rect" coords="34, 914, 418, 1166" />
+                <area shape="rect" coords="433, 941, 664, 1209" />
+                <area shape="rect" coords="670, 930, 1010, 1126" />
+                <area shape="rect" coords="24, 1169, 339, 1481" />
+                <area shape="rect" coords="353, 1214, 671, 1488" />
+                <area shape="rect" coords="696, 1129, 1013, 1483" />
             </map>
-            <?php $i = 9; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 9; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="19, 42, 579, 544" />
-                <area shape="rect" coords="585, 69, 999, 550" />
-                <area shape="rect" coords="46, 566, 435, 1053" />
-                <area shape="rect" coords="439, 577, 714, 1067" />
-                <area shape="rect" coords="744, 570, 1009, 1003" />
-                <area shape="rect" coords="49, 1064, 737, 1449" />
-                <area shape="rect" coords="747, 1005, 988, 1481" />            
+                <area shape="rect" coords="12, 106, 351, 384" />
+                <area shape="rect" coords="379, 104, 676, 373" />
+                <area shape="rect" coords="727, 94, 1019, 338" />
+                <area shape="rect" coords="20, 394, 352, 654" />
+                <area shape="rect" coords="355, 376, 670, 708" />
+                <area shape="rect" coords="680, 349, 990, 663" />
+                <area shape="rect" coords="12, 664, 343, 990" />
+                <area shape="rect" coords="355, 715, 649, 1024" />
+                <area shape="rect" coords="689, 675, 1012, 938" />
+                <area shape="rect" coords="23, 994, 320, 1212" />
+                <area shape="rect" coords="331, 1024, 648, 1218" />
+                <area shape="rect" coords="654, 945, 1010, 1179" />
+                <area shape="rect" coords="23, 1232, 295, 1470" />
+                <area shape="rect" coords="304, 1220, 695, 1475" />
+                <area shape="rect" coords="704, 1179, 1021, 1485" />
             </map>
-            <?php $i = 10; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 10; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="35, 159, 687, 591" />
-                <area shape="rect" coords="710, 41, 987, 602" />
-                <area shape="rect" coords="48, 599, 479, 952" />
-                <area shape="rect" coords="514, 609, 973, 951" />
-                <area shape="rect" coords="104, 985, 568, 1448" />
-                <area shape="rect" coords="573, 956, 967, 1467" />            
+                <area shape="rect" coords="23, 148, 248, 450" />
+                <area shape="rect" coords="316, 112, 661, 430" />
+                <area shape="rect" coords="664, 115, 1022, 446" />
+                <area shape="rect" coords="7, 565, 230, 953" />
+                <area shape="rect" coords="238, 496, 654, 943" />
+                <area shape="rect" coords="656, 483, 1019, 948" />
+                <area shape="rect" coords="23, 1037, 266, 1473" />
+                <area shape="rect" coords="286, 964, 515, 1465" />
+                <area shape="rect" coords="527, 969, 832, 1479" />
+                <area shape="rect" coords="833, 1059, 1009, 1473" />
             </map>
-            <?php $i = 11; $sku = in_array($i, $skus['P12001']) ? 'P12001' : 'P12002'; ?>
+            <?php $i = 11; $sku = getSku($i);?>
             <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
-                <area shape="rect" coords="35, 40, 507, 500" />
-                <area shape="rect" coords="534, 22, 986, 533" />
-                <area shape="rect" coords="39, 519, 492, 926" />
-                <area shape="rect" coords="523, 556, 982, 896" />
-                <area shape="rect" coords="30, 935, 445, 1461" />
-                <area shape="rect" coords="447, 972, 674, 1467" />
-                <area shape="rect" coords="691, 982, 989, 1462" />          
+                <area shape="rect" coords="23, 129, 416, 582" />
+                <area shape="rect" coords="427, 273, 790, 561" />
+                <area shape="rect" coords="792, 141, 1021, 490" />
+                <area shape="rect" coords="14, 590, 264, 984" />
+                <area shape="rect" coords="280, 624, 546, 896" />
+                <area shape="rect" coords="558, 577, 1011, 946" />
+                <area shape="rect" coords="26, 1031, 394, 1460" />
+                <area shape="rect" coords="395, 947, 622, 1219" />
+                <area shape="rect" coords="632, 1085, 1002, 1464" />
+            </map>
+            <?php $i = 12; $sku = getSku($i);?>
+            <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
+                <area shape="rect" coords="20, 132, 339, 494" />
+                <area shape="rect" coords="342, 108, 695, 492" />
+                <area shape="rect" coords="769, 122, 1016, 422" />
+                <area shape="rect" coords="33, 502, 353, 872" />
+                <area shape="rect" coords="358, 494, 690, 876" />
+                <area shape="rect" coords="697, 434, 1017, 873" />
+                <area shape="rect" coords="77, 877, 775, 1024" />
+                <area shape="rect" coords="30, 1061, 507, 1481" />
+                <area shape="rect" coords="516, 1029, 1003, 1477" />
+            </map>
+            <?php $i = 13; $sku = getSku($i);?>
+            <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
+                <area shape="rect" coords="25, 106, 438, 496" />
+                <area shape="rect" coords="442, 107, 731, 511" />
+                <area shape="rect" coords="743, 122, 1009, 515" />
+                <area shape="rect" coords="27, 511, 466, 847" />
+                <area shape="rect" coords="544, 521, 1011, 850" />
+                <area shape="rect" coords="300, 854, 596, 1071" />
+                <area shape="rect" coords="8, 1117, 434, 1484" />
+                <area shape="rect" coords="446, 1075, 841, 1471" />
+                <area shape="rect" coords="845, 1201, 1023, 1440" />
+            </map>
+            <?php $i = 14; $sku = getSku($i);?>
+            <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
+                <area shape="rect" coords="23, 97, 382, 588" />
+                <area shape="rect" coords="398, 172, 660, 598" />
+                <area shape="rect" coords="672, 111, 993, 593" />
+                <area shape="rect" coords="25, 588, 330, 1037" />
+                <area shape="rect" coords="335, 608, 698, 1028" />
+                <area shape="rect" coords="722, 635, 963, 1033" />
+                <area shape="rect" coords="20, 1037, 370, 1479" />
+                <area shape="rect" coords="393, 1035, 638, 1480" />
+                <area shape="rect" coords="661, 1031, 1006, 1480" />
+            </map>
+            <?php $i = 15; $sku = getSku($i);?>
+            <map style="<?php echo $_POST['page']==$i ? '' : 'display:none;'; ?>" id="image-map<?=$type.$sku.$i ?>" name="image-map<?=$type.$sku.$i ?>">
+                <area shape="rect" coords="24, 121, 273, 512" />
+                <area shape="rect" coords="279, 160, 494, 510" />
+                <area shape="rect" coords="494, 119, 738, 509" />
+                <area shape="rect" coords="741, 130, 1003, 506" />
+                <area shape="rect" coords="23, 522, 434, 1006" />
+                <area shape="rect" coords="441, 511, 741, 1010" />
+                <area shape="rect" coords="745, 559, 1011, 1008" />
+                <area shape="rect" coords="27, 1025, 354, 1470" />
+                <area shape="rect" coords="368, 1028, 656, 1467" />
+                <area shape="rect" coords="668, 1032, 1009, 1472" />
             </map>
         </p>
     </div>

@@ -14,7 +14,7 @@ $document->addScript('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4,np
 $document->addScript('/js/edupack_datatable2.js');
 
 
-if (!isset($sku)) $sku = 'P12001';
+if (!isset($sku)) $sku = 'P12004';
 ?>
 <style>
     .maptable {
@@ -89,10 +89,9 @@ if (!isset($sku)) $sku = 'P12001';
     .tabulator-row.tabulator-selectable:hover {
         cursor: auto;
     }
-    .tabulator-cell 
 </style>
 
-<div class="edupack_button">
+<div class="edupack_button" style="display:none;">
     <span>
         <span>
             <a href="#" class="toggle_interactive_table" data-state="0" data-type="edupack" data-sku="<?php echo $sku; ?>" data-page="">

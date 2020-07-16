@@ -30,7 +30,12 @@ defined('_JEXEC') or die;
 					</a>
 				</div>
 				<div class="top_banner_wrapper">
-					<div class="top_banner">This is a top banner. Height : 65px</div>
+					<a href="#">
+						<div class="top_banner">
+							<div class="fade"></div>
+							<img src="/images/page/common/header/Fuji_long.jpg">
+						</div>
+					</a>
 				</div>
 				<?php /*<div class="pull-left skype">
 					<jdoc:include type="modules" name="<?php $this->_p('skype') ?>" />

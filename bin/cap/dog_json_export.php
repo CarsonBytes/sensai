@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$filename = "000-01 publish records and web relationship - table-dog.csv";
+$filename = "000-01 sensaihonya publish records and web relationship - table-dog.csv";
 $icon_saved_folder = '/images/poster/edupack/icon/';
 $en_link_keywords = array(
     //'akc' => 'dog/akc.jpg',
@@ -78,15 +78,27 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                         if (($j >= 5) && ($j < 10)) { //en links
                             foreach ($en_link_keywords as $key => $value) {
                                 if (strpos($grid, $key) !== false) {
-                                    $html_en .= '<a href="' . $grid . '" target="_blank"><img width="32" height="32" src="' . $icon_saved_folder . $value . '" /></a> ';
+                                    $html_en .= '<a href="' . $grid . '" target="_blank"><img src="' . $icon_saved_folder . $value . '" /></a> ';
                                 }
                             }
-                        }else if (($j >= 10) && ($j < 15)) { //jp links
+                        }else if (($j >= 10) && ($j < 14)) { //jp links
                             foreach ($jp_link_keywords as $key => $value) {
                                 if (strpos($grid, $key) !== false) {
-                                    $html_jp .= '<a href="' . $grid . '" target="_blank"><img width="32" height="32" src="' . $icon_saved_folder . $value . '" /></a> ';
+                                    $html_jp .= '<a href="' . $grid . '" target="_blank"><img src="' . $icon_saved_folder . $value . '" /></a> ';
                                 }
                             }
+                        }else if ($j == 16) { //handbook page
+                            $data_array['handbook_page'] = $grid;
+                            echo '<pre>';
+                            var_dump('handbook_page');
+                            var_dump($data_array['handbook_page']);
+                            echo '</pre>';
+                        }else if ($j == 17) { //handbook order
+                            $data_array['handbook_order'] = $grid;
+                            echo '<pre>';
+                            var_dump('handbook_order');
+                            var_dump($data_array['handbook_order']);
+                            echo '</pre>';
                         }
                     }
                 }
@@ -96,8 +108,8 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                 $html_jp .= '';
                 $html_en .= '';
                 $data_array['id'] = $id++;
-                $data_array['source1'] = '<div style="line-height: 32px;">' . $html_jp . '</div>';
-                $data_array['source2'] = '<div style="line-height: 32px;">' . $html_en . '</div>';
+                $data_array['source1'] = '<div>' . $html_jp . '</div>';
+                $data_array['source2'] = '<div>' . $html_en . '</div>';
                 $data_array['formatted_name'] = "<div>{$data_array['name_jp']}<br />{$data_array['name']}</div>";
                 $data_array['audio'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay jp"></audio> 
                     <audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay en"></audio> 

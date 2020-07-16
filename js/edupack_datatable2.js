@@ -5,7 +5,6 @@ jQuery(function ($) {
     var table;
     var selectedImageMap;
     var tableSKU = '';
-    var audio_icon = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay"></audio>';
     function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect();
         var elemTop = rect.top;
@@ -20,7 +19,10 @@ jQuery(function ($) {
     function initImgMap() {
         $('.image-map-container img:not(.' + selectedType + selectedSKU + selectedPage.toString() + ')').hide()
         $('.image-map-container img.' + selectedType + selectedSKU + selectedPage.toString()).show()
-        //console.log(selectedType + selectedSKU + selectedPage)
+        /* console.log(selectedType + selectedSKU + selectedPage.toString())
+        console.log(selectedType)
+        console.log(selectedSKU)
+        console.log(selectedPage) */
 
         $('map area').css('cursor', 'pointer')
         $("map").hide();
@@ -180,20 +182,16 @@ jQuery(function ($) {
         }
 
     }
-    function bindPageClick() {
-        $('ul.pages li a').on('click', function (e) {
-            e.preventDefault();
-            if (!$(this).parent('li').hasClass('selected')) {
-                selectedSKU = $(this).parent('li').data('sku')
-                selectedPage = $(this).parent('li').data('page')
-                selectedType = $(this).parent('li').data('type')
-                $(this).parents('ul').find('li').not('[data-sku="' + selectedSKU + '"][data-page="' + selectedPage + '"]').removeClass('selected')
-                $(this).parents('ul').find('li[data-sku="' + selectedSKU + '"][data-page="' + selectedPage + '"]').addClass('selected')
-                initImgMap()
-                initImgMapTable(true)
-            }
-            return false;
-        })
+    function bindPageClick(selectedLi) {
+        selectedLi = (typeof selectedLi !== 'undefined') ? selectedLi.parent('li') : $('ul.pages li.selected');
+        //console.log(selectedLi)
+        selectedSKU = selectedLi.data('sku')
+        selectedPage = selectedLi.data('page')
+        selectedType = selectedLi.data('type')
+        $('ul.pages li').removeClass('selected')
+        selectedLi.addClass('selected')
+        initImgMap()
+        initImgMapTable(true)
     }
     var isAjaxLoaded = false;
     $('body').on('click', 'a.toggle_interactive_table', function (e) {
@@ -217,6 +215,11 @@ jQuery(function ($) {
                 //isAjaxLoaded = true;
                 toggleInteractiveTable(1, thiselemnt)
                 bindPageClick();
+                $('ul.pages li a').on('click', function (e) {
+                    e.preventDefault();
+                    bindPageClick($(this));
+                    return false;
+                })
             })
             /* } else {
                 toggleInteractiveTable(1, thiselemnt)
@@ -240,4 +243,6 @@ jQuery(function ($) {
                 initImgMapTable()
         });
     })
+
+    $('.edupack_button').show();
 });
