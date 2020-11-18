@@ -144,7 +144,7 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 		if ($this->container->platform->getDocument()->getType() == 'html')
 		{
 			HTMLHelper::_('jquery.framework');
-			$this->container->template->addJS('admin://components/com_admintools/media/js/namespace.min.js', false, false, ADMINTOOLS_VERSION);
+			$this->container->template->addJS('admin://components/com_admintools/media/js/namespace.min.js', false, false, $this->container->mediaVersion);
 		}
 	}
 }

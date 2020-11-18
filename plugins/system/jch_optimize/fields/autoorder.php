@@ -189,10 +189,14 @@ class JFormFieldAutoorder extends JFormFieldAuto
 		{
 			$oController->setMessage(JText::_('JCH_LEVERAGEBROWSERCACHE_FILEDOESNTEXIST'), 'warning');
 		}
-		elseif ($expires == 'CODEALREADYINFILE')
+		elseif ($expires == 'CODEUPDATEDSUCCESS')
 		{
-			$oController->setMessage(JText::_('JCH_LEVERAGEBROWSERCACHE_CODEALREADYINFILE'), 'notice');
+			$oController->setMessage(JText::_('JCH_LEVERAGEBROWSERCACHE_CODEUPDATEDSUCCESS'));
 		}
+        elseif ($expires == 'CODEUPDATEDFAIL')
+        {
+            $oController->setMessage(JText::_('JCH_LEVERAGEBROWSERCACHE_CODEUPDATEDFAIL'), 'notice');
+        }
 		else
 		{
 			$oController->setMessage(JText::_('JCH_LEVERAGEBROWSERCACHE_SUCCESS'));

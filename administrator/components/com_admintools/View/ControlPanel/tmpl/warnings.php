@@ -69,14 +69,12 @@ echo $this->loadAnyTemplate('admin:com_admintools/ControlPanel/phpversion_warnin
 
 <?php if ($this->oldVersion): ?>
 	<div class="akeeba-block--warning">
-		<a class="close" data-dismiss="alert" href="#">×</a>
 		<strong><?php echo Text::_('COM_ADMINTOOLS_ERR_CONTROLPANEL_OLDVERSION'); ?></strong>
 	</div>
 <?php endif; ?>
 
 <?php if ($emptyRoot): ?>
 	<div class="akeeba-block--failure">
-		<a class="close" data-dismiss="alert" href="#">×</a>
 		<?php echo Text::_('COM_ADMINTOOLS_LBL_CONTROLPANEL_EMPTYROOT'); ?>
 	</div>
 <?php endif; ?>
@@ -87,7 +85,7 @@ echo $this->loadAnyTemplate('admin:com_admintools/ControlPanel/phpversion_warnin
 			<?php echo Text::_('COM_ADMINTOOLS_MSG_CONTROLPANEL_MUSTENTERDLID'); ?>
 		</h3>
 		<p>
-			<?php echo Text::sprintf('COM_ADMINTOOLS_LBL_CONTROLPANEL_NEEDSDLID', 'https://www.akeebabackup.com/download/official/add-on-dlid.html'); ?>
+			<?php echo Text::sprintf('COM_ADMINTOOLS_LBL_CONTROLPANEL_NEEDSDLID', 'https://www.akeeba.com/download/official/add-on-dlid.html'); ?>
 		</p>
 		<form name="dlidform" action="index.php" method="post" class="akeeba-form--inline">
 			<input type="hidden" name="option" value="com_admintools" />
@@ -107,8 +105,6 @@ echo $this->loadAnyTemplate('admin:com_admintools/ControlPanel/phpversion_warnin
 		</form>
 	</div>
 <?php endif; ?>
-
-<div id="updateNotice"></div>
 
 <?php if ($this->serverConfigEdited): ?>
 	<div class="akeeba-block--warning">

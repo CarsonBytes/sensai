@@ -21,7 +21,7 @@ $uriBase = rtrim(Uri::base(), '/');
 		<h3><?php echo Text::_('COM_ADMINTOOLS_LBL_CONTROLPANEL_SECURITY'); ?></h3>
 	</header>
 
-	<div class="akeeba-grid--small">
+	<div class="akeeba-grid">
 		<?php if (ADMINTOOLS_PRO && $this->needsQuickSetup): ?>
 			<a href="index.php?option=com_admintools&view=QuickStart" class="akeeba-action--orange">
 				<span class="akion-flash"></span>

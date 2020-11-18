@@ -146,7 +146,14 @@ class Combiner extends CombinerBase
 
 				$sHtml = $this->oParser->cleanHtml();
 
-				$sCriticalCss = $oCssParser->optimizeCssDelivery($sContents, $sHtml);
+				if (!class_exists('DOMDocument') || !class_exists('DOMXPath'))
+				{
+					Logger::log('Document Object Model not supported', $this->params);
+				}
+				else
+				{
+					$sCriticalCss = $oCssParser->optimizeCssDelivery($sContents, $sHtml);
+				}
 			}
 
 			$sContents = $oCssParser->sortImports($sContents);
@@ -191,7 +198,7 @@ class Combiner extends CombinerBase
 		foreach ($aUrlArray as $aUrl)
 		{
 			//Truncate url to less than 40 characters
-			$sUrl = $this->prepareFileUrl($aUrl, $sType);
+			$sUrl = Helper::prepareFileUrl($aUrl, $sType);
 
 			JCH_DEBUG ? Profiler::start('CombineFile - ' . $sUrl) : null;
 
@@ -352,6 +359,8 @@ class Combiner extends CombinerBase
 	 *
 	 * @param   array   $aUrl
 	 * @param   string  $sType
+	 *
+	 * @deprecated Use Helper::prepareFileUrl instead
 	 *
 	 * @return string
 	 */

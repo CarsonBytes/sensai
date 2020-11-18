@@ -318,13 +318,21 @@ class CssParser extends \JchOptimize\Minify\Base
 			}
 			else
 			{
+				//If we're processing for http\2 skip background images if not in critical css
+				//No way to tell which falls below the fold
+				if ($http2 && !$bInFontFace && !$this->params->get('optimizeCssDelivery_enable', '0'))
+				{
+					return $aMatches[0];
+				}
+
 				return $this->_correctUrlCB($aMatches, $aUrl, $bInFontFace, $http2);
 			}
 		}, $sContent);
 
 		if (is_null($sCorrectedContent))
 		{
-			throw new Exception('The plugin failed to correct the url of the background images');
+			$sCssFileUrl = $aUrl['url'];
+			throw new Exception('Failed to correct the url of background image in ' . Helper::prepareFileUrl($sCssFileUrl, 'css'));
 		}
 
 		$sContent = $sCorrectedContent;
@@ -360,14 +368,12 @@ class CssParser extends \JchOptimize\Minify\Base
 				
 
 				$sImageUrl = Url::toRootRelative($sImageUrl, $sCssFileUrl);
-
 				$oImageUri = clone Uri::getInstance($sImageUrl);
+				$sImageUrlCdn = Helper::cookieLessDomain($this->params, $oImageUri->toString(array('path')), $sImageUrl);
 
 				if ($this->params->get('cookielessdomain_enable', '0') && $bInFontFace)
 				{
 					$oUri = clone Uri::getInstance();
-
-					$sImageUrlCdn = Helper::cookieLessDomain($this->params, $oImageUri->toString(array('path')), $sImageUrl);
 
 					//If image(font) not loaded over CDN
 					if ($sImageUrlCdn == $sImageUrl)
@@ -382,8 +388,6 @@ class CssParser extends \JchOptimize\Minify\Base
 				}
 				else
 				{
-					$sImageUrlCdn = Helper::cookieLessDomain($this->params, $oImageUri->toString(array('path')), $sImageUrl);
-
 					//If CSS file will be loaded by CDN but image won't then return absolute url
 					if ($this->params->get('cookielessdomain_enable', '0') && in_array('css', Helper::getCdnFileTypes($this->params)) && $sImageUrlCdn == $sImageUrl)
 					{
@@ -443,7 +447,7 @@ class CssParser extends \JchOptimize\Minify\Base
 		$sCss = $sCssMediaImports;
 
 		$sCss = preg_replace('#@charset[^;}]++;?#i', '', $sCss);
-		$sCss = $this->removeAtRules($sCss, '#(?>[/@]?[^/@]*+(?:/\*(?>\*?[^\*]*+)*?\*/)?)*?\K(?:@import[^;}]++;?|\K$)#i');
+		$sCss = $this->removeAtRules($sCss, '#(?>[/@]?[^/@]*+(?:/\*(?>\*?[^*]*+)*?\*/)?)*?\K(?:@import[^;}]++;?|\K$)#i');
 
 		return $sCss;
 	}
@@ -457,7 +461,7 @@ class CssParser extends \JchOptimize\Minify\Base
 	 */
 	protected function _sortImportsCB($aMatches)
 	{
-		if (!isset($aMatches[1]) || $aMatches[1] == '' || preg_match('#^(?>\(|/(?>/|\*))#', $aMatches[0]))
+		if (!isset($aMatches[1]) || $aMatches[1] == '' || preg_match('#^(?>\(|/[/*])#', $aMatches[0]))
 		{
 			return $aMatches[0];
 		}
@@ -518,7 +522,7 @@ class CssParser extends \JchOptimize\Minify\Base
 	public static function cssRulesRegex()
 	{
 		$c = self::BLOCK_COMMENT . '|' . self::LINE_COMMENT;
-
+		//language=RegExp
 		$r = "(?:\s*+(?>$c)\s*+)*+\K"
 			. "((?>[^{}@/]*+(?:/(?![*/])|(?<=\\\\)[{}@/])?)*?)(?>{[^{}]*+}|(@[^{};]*+)(?>({((?>[^{}]++|(?3))*+)})|;?)|$)";
 
@@ -535,13 +539,6 @@ class CssParser extends \JchOptimize\Minify\Base
 	 */
 	public function optimizeCssDelivery(&$sCombinedCss, $sHtml)
 	{
-		if (!class_exists('DOMDocument') || !class_exists('DOMXPath'))
-		{
-			Logger::log('Document Object Model not supported', $this->params);
-
-			return parent::optimizeCssDelivery($aContents, $sHtml);
-		}
-
 		JCH_DEBUG ? Profiler::start('OptimizeCssDelivery') : null;
 
 		$this->_debug('', '');
@@ -601,7 +598,6 @@ class CssParser extends \JchOptimize\Minify\Base
 
 		$this->_debug('', '', 'afterExtractCriticalCss');
 
-		
 		$aContents[0] = $sCombinedCss;
 
 		$this->_debug(self::cssRulesRegex(), '', 'afterCleanCriticalCss');
@@ -611,7 +607,6 @@ class CssParser extends \JchOptimize\Minify\Base
 		return $sCriticalCss;
 	}
 
-	
 
 
 	/**
@@ -628,6 +623,8 @@ class CssParser extends \JchOptimize\Minify\Base
 	 */
 	public function extractCriticalCss($aMatches, $oXPath, $sHtmlAboveFold, $sFullHtml, &$sCriticalCss, &$sUnusedCss)
 	{
+		$this->_debug($aMatches[0], '', 'beginExtractCriticalCss');
+
 		$matches0 = trim($aMatches[0]);
 
 		if (empty($matches0))
@@ -652,8 +649,8 @@ class CssParser extends \JchOptimize\Minify\Base
 			return '';
 		}
 
-		//recurse into each @media rule
-		if (preg_match('#^@media#', $matches0))
+		//recurse into each conditional group rule
+		if (preg_match('#^@(?:media|supports|document)#', $matches0))
 		{
 			$sCriticalCssInner = '';
 			$sUnusedCssInner   = '';
@@ -670,13 +667,23 @@ class CssParser extends \JchOptimize\Minify\Base
 			return trim($sMediaCss) != '' ? $aMatches[2] . '{' . $sMediaCss . '}' . $this->sLnEnd : '';
 		}
 
-		//Return all other @rules
-		if (preg_match('#^\s*+@(?:-[^-]+-)?(?:page|keyframes|charset|namespace)#i', $matches0))
+		//Return all other @rules, not needed in critical CSS
+		if (preg_match('#^\s*+@#i', $matches0))
 		{
 			return $aMatches[0];
 		}
 
-		//we're inside a @media rule or global css
+		//we're inside a conditional group rule or global css
+		//Let's just add the :root pseudo-selector to the critical css
+		if (preg_match('#^:root\s*+(?:,|$)#', trim($aMatches[1])))
+		{
+			$sCriticalCss .= $aMatches[0];
+
+			return $aMatches[0];
+		}
+
+		
+
 		//remove pseudo-selectors
 		$sSelectorGroup = preg_replace('#::?[a-zA-Z0-9-]++(?:\([^)]++\))?#', '', $aMatches[1]);
 		//Split selector groups into individual selector chains
@@ -706,10 +713,8 @@ class CssParser extends \JchOptimize\Minify\Base
 		//If no valid selector chain was found in the group then we don't add this selector group to the critical CSS
 		if (empty($aFoundSelectorChains))
 		{
-			$this->_debug('', '', 'afterSelectorNotFound');
+			$this->_debug($sSelectorGroup, '', 'afterSelectorNotFound');
 
-			
-			//
 			//Simply return match to combined CSS without adding to critical css
 			return $aMatches[0];
 		}

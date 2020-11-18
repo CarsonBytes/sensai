@@ -1,4 +1,40 @@
 <?php die() ?>
+Admin Tools 5.9.0
+================================================================================
++ .htaccess and NginX Conf Maker: Better support for more file types in setting the expiration time
++ .htaccess, NginX and WebConfig Maker: added option to reset all the options to default values
+- Removed update notifications inside the component
+~ Improved unhandled PHP exception error page
+~ Using nullable DATETIME instead of zero dates
+# [HIGH] web.config Maker would block some Joomla index.php URLs whose last parameter ended in ".php"
+# [HIGH] template=something blocked for com_ajax requests (they must always be allowed)
+# [LOW] Remote file change scanner with frontend URL would fail if the secret word contained the plus sign character due to a PHP bug.
+# [LOW] Wrong version query to the namespace.js
+# [LOW] Temporary Super Users were blocked by the Monitor Super Users feature
+# [LOW] Session Cleaner was running only when backend users accessed to the site
+
+Admin Tools 5.8.0
+================================================================================
++ .htaccess Maker: Automatically compress static resources will now use Brotli compression with priority if it's supported by both the server (mod_brotli) and the client (accepts encoding "br").
++ .htaccess and NginX Conf Maker: Neutralise SVG script execution. There are major caveats! Please do read the documentation before enabling this option.
++ Inherit the base font size instead of defining a fixed one
+- Removed support for Internet Explorer
+~ Adjust size of control panel icons
+~ Improve the UX of the URL Redirect form page
+~ More clarity in the in-component update notifications, explaining they come from Joomla itself
+~ Improve "Redirect index.php to the site's root" code
+# [LOW] web.config Maker: 1 year option for the expiration time did not take effect
+# [LOW] Auto-compression and expiration time didn't work on .js files served with MIME type text/javascript
+# [LOW] There were leftover, non-functional dismiss buttons in some information and warning messages in the backend
+# [LOW] Removed obsolete country and continent information from the default email templates for new installations.
+# [LOW] Rescue URL would trigger an Admin Query String blocked request before sending the email (just annoying, not really causing a functional problem)
+
+Admin Tools 5.7.4
+================================================================================
++ .htaccess/NginX Conf/web.config Maker: more options for the expiration time
+# [LOW] Clearing the Security Exceptions Log date filters can cause an error on MySQL 8
+# [LOW] Expiration time was not being set for WOFF fonts in the .htaccess Maker
+
 Admin Tools 5.7.3
 ================================================================================
 ~ Small change in the FOF library to prevent harmless but confusing and annoying errors from appearing during upgrade

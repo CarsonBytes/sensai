@@ -1,7 +1,63 @@
 <?php die();?>
+Akeeba Backup 7.4.0
+================================================================================
++ Files and Directories Exclusion: mark folder and file symlinks as such [gh-676]
++ Automatically rewrite the Output Directory using site path variables such as [SITEROOT] for portability [gh-678]
++ Automatically rewrite the Off-site Folders Inclusion using site path variables for portability
++ Remote backup JSON API version 2
++ ANGIE: Added feature to resume restoring the database if an error occurs
+~ Deprecated Upload to pCloud
+~ Removed tooltips from Database Tables Exclusion and Files and Folders Exclusion pages to clean up the UI
+~ Using nullable TIMESTAMP fields instead of zero dates
+# [MEDIUM] Recent Chrome and Chromium-based browsers open OAuth2 windows without opener information, making linking to Google Drive, Dropbox etc impossible without manually copying the tokens (the button causes you to log out of the site)
+# [LOW] Files and Directories Exclusion: the folder up is not clickable / doesn't do anything [gh-675]
+# [LOW] Scheduling information button appears in the Configuration Wizard's finale page in the Core version
+
+Akeeba Backup 7.3.2.1
+================================================================================
+! CLI backups broken in version 7.3.2
+# [LOW] PHP notices from Joomla core code when running akeeba-check-failed.php in CLI
+
+Akeeba Backup 7.3.2
+================================================================================
+- Removed update notifications inside the component
+~ Normalized the default backup description under all backup methods (backend, frontend, CLI, JSON API)
+# [HIGH] WebDAV fails to upload because of the wrong absolute URL being calculated
+# [MEDIUM] The Resume and Cancel buttons in the backend backup didn't work due to a typo in the JavaScript
+# [MEDIUM] Restoring a JPS backup archive through the integrated restoration was broken if it contained charactes other than a-z, A-Z, 0-9, dash, dot or underscore.
+# [LOW] pCloud was erroneously listed in the free of charge Core version (it requires a paid subscription and was thus unusable)
+
+Akeeba Backup 7.3.1
+================================================================================
+- Removed the System - Akeeba Backup Update Check plugin
+~ Improved unhandled PHP exception error page
+# [HIGH] Media query strings missing from JavaScript, causing issues to people upgrading from 7.2.2 or earlier.
+# [LOW] Frontend backup URL does not work if the secret key contains the plus sign (+) character due to a PHP bug.
+
+Akeeba Backup 7.3.0
+================================================================================
++ S3: Add support for Cape Town and Milan regions
++ Inherit the base font size instead of defining a fixed one
++ Added feature to "freeze" some backup records to keep them indefinitely
+- Removed support for Internet Explorer
+~ Improve default header and body fonts for similar cross-platform "feel" without the need to use custom fonts.
+~ Rendering improvements
+~ Loading all JavaScript defered
+~ Do not show the Backup on Update icon when Joomla is in record add / edit mode (main menu hidden and status bar locked).
+~ Adjust size of control panel icons
+~ More clarity in the in-component update notifications, explaining they come from Joomla itself
+# [HIGH] Replacing (not just removing) AddHandler/SetHandler lines would fail during restoration
+# [MEDIUM] Fetching back to server the archives from these provides would result in invalid archives: Amazon S3, Backblaze, Cloudfiles, OVH, Swift
+# [MEDIUM] Greedy RegEx match in database dump could mess up views containing the literal ' view ' (word "view" surrounded by spaces) in their definition.
+
+Akeeba Backup 7.2.2
+================================================================================
++ Automatic UTF8MB4 character encoding downgrades from MySQL 8 to 5.7/5.6/5.5 on restoration.
+# [LOW] The package would install on unsupported PHP versions 5.6 and 7.0 and Joomla 3.8, leading to errors
+# [HIGH] The System - Akeeba Backup Update Check plugin throws a fatal error since version 7.1.4 when an update is available
+
 Akeeba Backup 7.2.1
 ================================================================================
-
 ~ Small change in the FOF library to prevent harmless but confusing and annoying errors from appearing during upgrade
 ~ The following items are carried over from unpublished version 7.2.0
 + Restoration: Enable UTF8MB4 compatibility detection by default

@@ -75,7 +75,9 @@ class ImageOptimizer
 
 		$data = array_merge($files, array( "data" => json_encode(array_merge($this->auth, $opts))));
 
-	        return self::request($data, "https://api.jch-optimize.net/");
+                $response = self::request($data, "https://api.jch-optimize.net/");
+
+                return $response;
         }
 
         private function request($data, $url)

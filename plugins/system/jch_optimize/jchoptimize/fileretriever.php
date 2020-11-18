@@ -71,7 +71,7 @@ class FileRetriever
 			try
 			{
 				$sUserAgent          = !empty($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-				$aHeader             = array_merge($aHeader, array('Accept-Encoding' => 'identity, deflate, *;q=0'));
+				$aHeader             = array_merge($aHeader, array('Accept-Encoding' => 'identity;q=0'));
 				$response            = $this->oHttpAdapter->request($sPath, $aPost, $aHeader, $sUserAgent, $timeout);
 				$this->response_code = $response['code'];
 

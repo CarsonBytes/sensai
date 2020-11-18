@@ -14,6 +14,7 @@ use Akeeba\Backup\Admin\Helper\SecretWord;
 use Akeeba\Backup\Admin\Model\ControlPanel;
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
+use AkeebaFEFHelper;
 use FOF30\Container\Container;
 use FOF30\Dispatcher\Dispatcher as BaseDispatcher;
 use FOF30\Dispatcher\Mixin\ViewAliases;
@@ -104,6 +105,15 @@ class Dispatcher extends BaseDispatcher
 			$customCss .= ', media://com_akeeba/css/dark.min.css';
 		}
 
+		$helperFile = JPATH_SITE . '/media/fef/fef.php';
+
+		if (!class_exists('AkeebaFEFHelper') && is_file($helperFile))
+		{
+			include_once $helperFile;
+		}
+
+		AkeebaFEFHelper::load();
+
 		$this->container->renderer->setOptions([
 			'custom_css' => $customCss,
 			'fef_dark'   => $darkMode,
@@ -140,11 +150,15 @@ class Dispatcher extends BaseDispatcher
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		// !!!!! WARNING: ALWAYS GO THROUGH JFactory; DO NOT GO THROUGH $this->container->db !!!!!
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		$jDbo = JFactory::getDbo();
 
-		if ($jDbo->name == 'pdomysql')
+		if (version_compare(PHP_VERSION, '7.999.999', 'le'))
 		{
-			@JFactory::getDbo()->disconnect();
+			$jDbo = JFactory::getDbo();
+
+			if ($jDbo->name == 'pdomysql')
+			{
+				@JFactory::getDbo()->disconnect();
+			}
 		}
 
 		// Load the utils helper library
@@ -182,33 +196,6 @@ class Dispatcher extends BaseDispatcher
 		// Set the linkbar style to Classic (Bootstrap tabs). The sidebar takes too much space and requires adding
 		// manual HTML to render it...
 		$this->container->renderer->setOption('linkbar_style', 'classic');
-	}
-
-	public function onAfterDispatch()
-	{
-		/**
-		 * Apply our CloudFlare Rocket Loader workaround.
-		 *
-		 * See the after_render.php file for a lengthy explanation.
-		 */
-		if ($this->input->get('format', 'html') != 'html')
-		{
-			return;
-		}
-
-		if (!function_exists('akeebaBackupOnAfterRenderToFixBrokenCloudFlareRocketLoader'))
-		{
-			require_once __DIR__ . '/after_render.php';
-		}
-
-		try
-		{
-			JFactory::getApplication()->registerEvent('onAfterRender', 'akeebaBackupOnAfterRenderToFixBrokenCloudFlareRocketLoader');
-		}
-		catch (\Exception $e)
-		{
-			// Ooops. JFactory died on us. Bye-bye!
-		}
 	}
 
 	public function loadAkeebaEngine()
@@ -249,17 +236,17 @@ class Dispatcher extends BaseDispatcher
 	private function loadCommonJavascript()
 	{
 		// Do not move: everything depends on UserInterfaceCommon
-		$this->container->template->addJS('media://com_akeeba/js/UserInterfaceCommon.min.js');
+		$this->container->template->addJS('media://com_akeeba/js/UserInterfaceCommon.min.js', true, false, $this->container->mediaVersion);
 		// Do not move: System depends on Modal
-		$this->container->template->addJS('media://com_akeeba/js/Modal.min.js');
+		$this->container->template->addJS('media://com_akeeba/js/Modal.min.js', true, false, $this->container->mediaVersion);
 		// Do not move: System depends on Ajax
-		$this->container->template->addJS('media://com_akeeba/js/Ajax.min.js');
+		$this->container->template->addJS('media://com_akeeba/js/Ajax.min.js', true, false, $this->container->mediaVersion);
 		// Do not move: System depends on Ajax
-		$this->container->template->addJS('media://com_akeeba/js/System.min.js');
+		$this->container->template->addJS('media://com_akeeba/js/System.min.js', true, false, $this->container->mediaVersion);
 		// Do not move: Tooltip depends on System
-		$this->container->template->addJS('media://com_akeeba/js/Tooltip.min.js');
+		$this->container->template->addJS('media://com_akeeba/js/Tooltip.min.js', true, false, $this->container->mediaVersion);
 		// Always add last (it's the least important)
-		$this->container->template->addJS('media://com_akeeba/js/piecon.min.js');
+		$this->container->template->addJS('media://com_akeeba/js/piecon.min.js', true, false, $this->container->mediaVersion);
 	}
 
 	/**

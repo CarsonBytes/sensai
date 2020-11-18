@@ -635,6 +635,8 @@ JFIELD;
 			if (!preg_match('@\n?## BEGIN EXPIRES CACHING - JCH OPTIMIZE ##.*?## END EXPIRES CACHING - JCH OPTIMIZE ##@s', $contents))
 			{
 				$sExpires = <<<APACHECONFIG
+
+
 ## BEGIN EXPIRES CACHING - JCH OPTIMIZE ##
 <IfModule mod_expires.c>
 	ExpiresActive on
@@ -730,6 +732,7 @@ JFIELD;
 ## END EXPIRES CACHING - JCH OPTIMIZE ##
 APACHECONFIG;
 
+				$sExpires = str_replace(array("\r\n", "\n"), PHP_EOL, $sExpires);
 				return file_put_contents($htaccess, $sExpires, FILE_APPEND);
 			}
 			else

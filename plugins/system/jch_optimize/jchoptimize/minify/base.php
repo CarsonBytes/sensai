@@ -35,9 +35,13 @@ abstract class Base
 	// language=RegExp
 	const SINGLE_QUOTE_STRING = "'(?>(?:\\\\.)?[^\\\\']*+)+?(?:'|(?=$))";
 
+	//regex for backtick quoted string
+	//language=RegExp
+	const BACK_TICK_STRING = '`(?>(?:\\\\.)?[^\\\\`]*+)+?(?:`|(?=$))';
+
 	//regex for block comments
 	// language=RegExp
-	const BLOCK_COMMENT = '/\*(?>[^/\*]++|//|\*(?!/)|(?<!\*)/)*+\*/';
+	const BLOCK_COMMENT = '/\*(?>[^*]++|\*(?!/))*+\*/';
 
 	//regex for line comments
 	// language=RegExp
@@ -60,7 +64,8 @@ abstract class Base
 
 	protected $_debug = false;
 	protected $_regexNum = -1;
-	protected $_limit = 0;
+	protected $_limit = 10;
+	protected $_printCode = true;
 
 	/**
 	 *
@@ -91,13 +96,14 @@ abstract class Base
 		{
 			print 'num=' . $regexNum . "\n";
 			print 'time=' . $time . "\n\n";
+
+			if ($this->_printCode)
+			{
+				print $regex . "\n";
+				print $code . "\n\n";
+			}
 		}
 
-		if ($regexNum == $this->_regexNum)
-		{
-			print $regex . "\n";
-			print $code . "\n\n";
-		}
 
 		$pstamp = $nstamp;
 	}

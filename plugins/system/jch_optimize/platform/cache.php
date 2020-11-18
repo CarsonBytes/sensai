@@ -25,6 +25,7 @@ namespace JchOptimize\Platform;
 defined('_JEXEC') or die('Restricted access');
 
 use JchOptimize\Interfaces\CacheInterface;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Event\Dispatcher;
 
 class Cache implements CacheInterface
@@ -198,6 +199,19 @@ class Cache implements CacheInterface
 			$dispatcher->triggerEvent('onLSCacheExpired');
 
 			header('X-LiteSpeed-Purge: *');
+		}
+
+		//Clean jotcache
+		//@TODO add Joomla 4 compatibility
+		if (version_compare(JVERSION, '4.0', 'lt'))
+		{
+			if (file_exists(JPATH_ADMINISTRATOR . '/components/com_jotcache/models/main.php'))
+			{
+				$oController = new BaseController;
+				$oController->addModelPath(JPATH_ADMINISTRATOR . '/components/com_jotcache/models', 'MainModel');
+				$oMainModel = $oController->getModel('Main', 'MainModel');
+				$oMainModel->refresh();
+			}
 		}
 
 		return (bool) $return;

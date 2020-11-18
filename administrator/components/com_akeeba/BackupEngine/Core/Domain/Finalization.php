@@ -766,7 +766,7 @@ class Finalization extends Part
 		// We finished normally. Fetch the stats record
 		$statistics = Factory::getStatistics();
 		$registry   = Factory::getConfiguration();
-		$data       = [
+		$data = [
 			'backupend' => Platform::getInstance()->get_timestamp_database(),
 			'status'    => 'complete',
 			'multipart' => $registry->get('volatile.statistics.multipart', 0),
@@ -789,6 +789,12 @@ class Finalization extends Part
 
 			return false;
 		}
+
+		/**
+		 * We could have handled it in $data above. However, if the schema has not been updated this function will
+		 * continue failing inifnitely, causing the backup to never end.
+		 */
+		$statistics->updateInStep(false);
 
 		$stat = (object) $statistics->getRecord();
 		Platform::getInstance()->remove_duplicate_backup_records($stat->archivename);
@@ -899,6 +905,13 @@ class Finalization extends Part
 			{
 				$stat = Platform::getInstance()->get_statistics($id);
 
+				// Exclude frozen record from quota management
+				if (isset($stat['frozen']) && $stat['frozen'])
+				{
+					Factory::getLog()->debug(sprintf("Excluding frozen backup id %d from quota management", $id));
+					continue;
+				}
+
 				try
 				{
 					$backupstart = new DateTime($stat['backupstart']);
@@ -1005,8 +1018,8 @@ class Finalization extends Part
 							elseif (@file_exists(dirname($filePath) . '/' . substr($file['logname'], 0, -4)))
 							{
 								/**
-								 * Transitional period: the log file akeeba.tag.log.php may not exist but the
-								 * akeeba.tag.log does. This addresses this transition.
+								 * Bad host: the log file akeeba.tag.log.php may not exist but the akeeba.tag.log file
+								 * does. This code addresses this problem.
 								 */
 								$killLogs[] = dirname($filePath) . '/' . substr($file['logname'], 0, -4);
 							}
@@ -1033,7 +1046,7 @@ class Finalization extends Part
 			else
 			{
 				Factory::getLog()->debug("Processing count quotas");
-				// Yes, aply the quota setting. Add to $ret all entries minus the last
+				// Yes, apply the quota setting. Add to $ret all entries minus the last
 				// $countQuota ones.
 				$totalRecords = count($allFiles);
 				$checkLimit   = $totalRecords - $countQuota;
@@ -1069,8 +1082,8 @@ class Finalization extends Part
 									elseif (@file_exists(dirname($filePath) . '/' . substr($def['logname'], 0, -4)))
 									{
 										/**
-										 * Transitional period: the log file akeeba.tag.log.php may not exist but the
-										 * akeeba.tag.log does. This addresses this transition.
+										 * Bad host: the log file akeeba.tag.log.php may not exist but the akeeba.tag.log file
+										 * does. This code addresses this problem.
 										 */
 										$killLogs[] = dirname($filePath) . '/' . substr($def['logname'], 0, -4);
 									}
@@ -1123,7 +1136,19 @@ class Finalization extends Part
 
 							if (!empty($filePath))
 							{
-								$killLogs[] = dirname($filePath) . '/' . $def['logname'];
+								if (@file_exists(dirname($filePath) . '/' . $def['logname']))
+								{
+									$killLogs[] = dirname($filePath) . '/' . $def['logname'];
+
+								}
+								elseif (@file_exists(dirname($filePath) . '/' . substr($def['logname'], 0, -4)))
+								{
+									/**
+									 * Bad host: the log file akeeba.tag.log.php may not exist but the akeeba.tag.log file
+									 * does. This code addresses this problem.
+									 */
+									$killLogs[] = dirname($filePath) . '/' . substr($def['logname'], 0, -4);
+								}
 							}
 						}
 					}
@@ -1290,6 +1315,12 @@ class Finalization extends Part
 		foreach ($allRecords as $item)
 		{
 			if ($item['id'] == $latestBackupId)
+			{
+				continue;
+			}
+
+			// Skip frozen records
+			if (isset($item['frozen']) && $item['frozen'])
 			{
 				continue;
 			}

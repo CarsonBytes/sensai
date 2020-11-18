@@ -632,5 +632,22 @@ class Helper extends HelperBase
 		return $aCdnFileTypes;
 	}
 
+	/**
+	 * Truncate url at the '/' less than 40 characters prepending '...' to the string
+	 *
+	 * @param   array   $aUrl
+	 * @param   string  $sType
+	 *
+	 * @return string
+	 */
+	public static function prepareFileUrl($aUrl, $sType)
+	{
+		$sUrl = isset($aUrl['url']) ?
+			Admin::prepareFileValues($aUrl['url'], '', 40) :
+			($sType == 'css' ? 'Style' : 'Script') . ' Declaration';
+
+		return $sUrl;
+	}
+
 			
 }

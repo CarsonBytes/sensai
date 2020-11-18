@@ -8,7 +8,7 @@
 defined('_JEXEC') || die;
 
 // Old PHP version detected. EJECT! EJECT! EJECT!
-if (!version_compare(PHP_VERSION, '5.6.0', '>='))
+if (!version_compare(PHP_VERSION, '7.1.0', '>='))
 {
 	return;
 }

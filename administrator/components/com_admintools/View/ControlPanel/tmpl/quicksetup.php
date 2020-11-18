@@ -26,7 +26,7 @@ $uriBase = rtrim(Uri::base(), '/');
 		<?php echo Text::_('COM_ADMINTOOLS_CONTROLPANEL_HEADER_QUICKSETUP_HELP'); ?>
 	</p>
 
-	<div class="akeeba-grid--small">
+	<div class="akeeba-grid">
 		<div>
 			<a href="index.php?option=com_admintools&view=QuickStart" class="akeeba-action--orange">
 				<span class="akion-flash"></span>

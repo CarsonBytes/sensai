@@ -102,24 +102,7 @@ class Backup extends Model
 		// Use the default description if none specified
 		if (empty($description))
 		{
-			$dateNow  = new Date();
-			$timezone = $this->container->platform->getConfig()->get('offset', 'UTC');
-
-			if (!$this->getContainer()->platform->isCli())
-			{
-				$user = $this->container->platform->getUser();
-
-				if (!$user->guest)
-				{
-					$timezone = $user->getParam('timezone', $timezone);
-				}
-			}
-
-			$tz = new DateTimeZone($timezone);
-			$dateNow->setTimezone($tz);
-			$description =
-				Text::_('COM_AKEEBA_BACKUP_DEFAULT_DESCRIPTION') . ' ' .
-				$dateNow->format(Text::_('DATE_FORMAT_LC2'), true);
+			$description = $this->getDefaultDescription();
 		}
 
 		// Try resetting the engine
@@ -147,6 +130,16 @@ class Backup extends Model
 		Factory::nuke();
 		Factory::getLog()->log(LogLevel::DEBUG, " -- Resetting Akeeba Engine factory ($tag.$backupId)");
 		Platform::getInstance()->load_configuration();
+
+		// Autofix the output directory
+		/** @var ConfigurationWizard $confWizModel */
+		$confWizModel = $this->container->factory->model('ConfigurationWizard')->tmpInstance();
+		$confWizModel->autofixDirectories();
+
+		// Rebase Off-site Folder Inclusion filters to use site path variables
+		/** @var \Akeeba\Backup\Admin\Model\IncludeFolders $incFoldersModel */
+		$incFoldersModel = $this->container->factory->model('IncludeFolders')->tmpInstance();
+		$incFoldersModel->rebaseFiltersToSiteDirs();
 
 		// Should I apply any configuration overrides?
 		if (is_array($overrides) && !empty($overrides))
@@ -180,7 +173,7 @@ class Backup extends Model
 					'Domain'   => 'init',
 					'Step'     => '',
 					'Substep'  => '',
-					'Error'    => 'Failed configuration check Q' . $checkItem['code'] . ': ' . $checkItem['description'] . '. Please refer to https://www.akeebabackup.com/documentation/warnings/q' . $checkItem['code'] . '.html for more information and troubleshooting instructions.',
+					'Error'    => 'Failed configuration check Q' . $checkItem['code'] . ': ' . $checkItem['description'] . '. Please refer to https://www.akeeba.com/documentation/warnings/q' . $checkItem['code'] . '.html for more information and troubleshooting instructions.',
 					'Warnings' => [],
 					'Progress' => 0,
 				];
@@ -702,6 +695,60 @@ class Backup extends Model
 		$backupId = 'id' . ($maxId + 1);
 
 		return $backupId;
+	}
+
+	/**
+	 * Get the default backup description.
+	 *
+	 * The default description is "Backup taken on DATE TIME" where DATE TIME is the current timestamp in the most
+	 * specific timezone. The timezone order, from least to most specific, is:
+	 * * UTC (fallback)
+	 * * Server Timezone from Joomla's Global Configuration
+	 * * Timezone from the current user's profile (only applicable to backend backups)
+	 * * Forced backup timezone
+	 *
+	 * @param   string  $format  Date and time format. Default: DATE_FORMAT_LC2 plus the abbreviated timezone
+	 *
+	 * @return  string
+	 */
+	public function getDefaultDescription(string $format = ''): string
+	{
+		// If no date format is specified we use DATE_FORMAT_LC2 plus the abbreviated timezone
+		if (empty($format))
+		{
+			$format = Text::_('DATE_FORMAT_LC2') . ' T';
+		}
+
+		// Get the most specific Joomla timezone (UTC, overridden by server timezone, overridden by user timezone)
+		$joomlaTimezone = $this->container->platform->getConfig()->get('offset', 'UTC');
+
+		if (!$this->getContainer()->platform->isCli())
+		{
+			$user = $this->container->platform->getUser();
+
+			if (!$user->guest)
+			{
+				$joomlaTimezone = $user->getParam('timezone', $joomlaTimezone);
+			}
+		}
+
+		$timezone = $joomlaTimezone;
+
+		// The forced timezone overrides everything else
+		$forcedTZ = Platform::getInstance()->get_platform_configuration_option('forced_backup_timezone', 'AKEEBA/DEFAULT');
+
+		if (!empty($forcedTZ) && ($forcedTZ != 'AKEEBA/DEFAULT'))
+		{
+			$timezone = $forcedTZ;
+		}
+
+		// Convert the current date and time to the selected timezone
+		$dateNow = new Date();
+		$tz      = new DateTimeZone($timezone);
+
+		$dateNow->setTimezone($tz);
+
+		return Text::_('COM_AKEEBA_BACKUP_DEFAULT_DESCRIPTION') . ' ' . $dateNow->format($format, true);
 	}
 
 }

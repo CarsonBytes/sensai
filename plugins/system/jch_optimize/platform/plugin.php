@@ -76,7 +76,8 @@ class Plugin implements PluginInterface
                                 ->select('folder AS type, element AS name, params, extension_id')
                                 ->from('#__extensions')
                                 ->where('element = ' . $db->quote('jch_optimize'))
-                                ->where('type = ' . $db->quote('plugin'));
+                                ->where('type = ' . $db->quote('plugin'))
+	                        ->where('folder = ' . $db->quote('system'));
 
                         self::$plugin = $db->setQuery($query)->loadObject();
 

@@ -13,7 +13,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 defined('_JEXEC') || die();
 
 // PHP version check
-if (!version_compare(PHP_VERSION, '5.6.0', '>='))
+if (!version_compare(PHP_VERSION, '7.1.0', '>='))
 {
 	return;
 }

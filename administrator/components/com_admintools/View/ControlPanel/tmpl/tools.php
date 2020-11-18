@@ -21,7 +21,7 @@ $uriBase = rtrim(Uri::base(), '/');
 		<h3><?php echo Text::_('COM_ADMINTOOLS_LBL_CONTROLPANEL_TOOLS'); ?></h3>
 	</header>
 
-	<div class="akeeba-grid--small">
+	<div class="akeeba-grid">
 		<?php if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN'): ?>
 			<a href="index.php?option=com_admintools&view=ConfigureFixPermissions" class="akeeba-action--teal">
 				<span class="akion-ios-gear"></span>

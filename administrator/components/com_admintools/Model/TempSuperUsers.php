@@ -320,6 +320,57 @@ class TempSuperUsers extends DataModel
 	}
 
 	/**
+	 * Adds a new user into the list of "safe ids", otherwise at the next session load it will be disabled by the feature
+	 * "Monitor Super User accounts"
+	 *
+	 * @param int $userid ID of the new user that should be injected into the list
+	 *
+	 */
+	public function addUserToSafeId($userid)
+	{
+		$db    = $this->container->db;
+		$query = $db->getQuery(true)
+					->select($db->quoteName('value'))
+					->from($db->quoteName('#__admintools_storage'))
+					->where($db->quoteName('key') . ' = ' . $db->quote('superuserslist'));
+		$db->setQuery($query);
+
+		try
+		{
+			$jsonData = $db->loadResult();
+		}
+		catch (\Exception $e)
+		{
+			return;
+		}
+
+		$userList = [];
+
+		if (!empty($jsonData))
+		{
+			$userList = json_decode($jsonData, true);
+		}
+
+		$userList[] = $userid;
+
+		$db   = $this->container->db;
+		$data = json_encode($userList);
+
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__admintools_storage'))
+			->where($db->quoteName('key') . ' = ' . $db->quote('superuserslist'));
+		$db->setQuery($query);
+		$db->execute();
+
+		$object = (object) [
+			'key'   => 'superuserslist',
+			'value' => $data,
+		];
+
+		$db->insertObject('#__admintools_storage', $object);
+	}
+
+	/**
 	 * Returns all Joomla! user groups
 	 *
 	 * @return  array

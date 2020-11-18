@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/exclude.php';
 
-class JFormFieldDynamicSelectors extends JFormFieldExclude
+class JFormFieldDynamicselectors extends JFormFieldExclude
 {
 	public $type = 'dynamicselectors';
 	public $filetype = 'selectors';

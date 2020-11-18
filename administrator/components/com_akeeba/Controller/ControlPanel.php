@@ -37,7 +37,7 @@ class ControlPanel extends Controller
 		parent::__construct($container, $config);
 
 		$this->setPredefinedTaskList([
-			'main', 'SwitchProfile', 'UpdateInfo', 'applydlid', 'resetSecretWord', 'reloadUpdateInformation',
+			'main', 'SwitchProfile', 'applydlid', 'resetSecretWord',
 			'forceUpdateDb', 'dismissUpsell', 'fixOutputDirectory', 'checkOutputDirectory', 'addRandomToFilename',
 		]);
 	}
@@ -66,48 +66,6 @@ class ControlPanel extends Controller
 		}
 
 		$this->setRedirect($url, \Joomla\CMS\Language\Text::_('COM_AKEEBA_CPANEL_PROFILE_SWITCH_OK'));
-	}
-
-	public function UpdateInfo()
-	{
-		/** @var Updates $updateModel */
-		$updateModel = $this->container->factory->model('Updates')->tmpInstance();
-		$infoArray   = $updateModel->getUpdates();
-		$updateInfo  = (object) $infoArray;
-
-		$result = '';
-
-		if ($updateInfo->hasUpdate)
-		{
-			$strings = [
-				'header'  => \Joomla\CMS\Language\Text::sprintf('COM_AKEEBA_CPANEL_MSG_UPDATEFOUND', $updateInfo->version),
-				'button'  => \Joomla\CMS\Language\Text::sprintf('COM_AKEEBA_CPANEL_MSG_UPDATENOW', $updateInfo->version),
-				'infourl' => $updateInfo->infoURL,
-				'infolbl' => \Joomla\CMS\Language\Text::_('COM_AKEEBA_CPANEL_MSG_MOREINFO'),
-			];
-
-			$result = <<<HTML
-	<div class="akeeba-block--warning">
-		<h3>
-			<span class="icon icon-exclamation-sign glyphicon glyphicon-exclamation-sign"></span>
-			{$strings['header']}
-		</h3>
-		<p>
-			<a href="index.php?option=com_installer&view=update" class="akeeba-btn--primary">
-				{$strings['button']}
-			</a>
-			<a href="{$strings['infourl']}" target="_blank" class="akeeba-btn--ghost akeeba-btn--small">
-				{$strings['infolbl']}
-			</a>
-		</p>
-	</div>
-HTML;
-		}
-
-		echo '###' . $result . '###';
-
-		// Cut the execution short
-		$this->container->platform->closeApplication();
 	}
 
 	/**
@@ -173,20 +131,6 @@ HTML;
 		$msg = \Joomla\CMS\Language\Text::sprintf('COM_AKEEBA_CPANEL_MSG_FESECRETWORD_RESET', $newSecret);
 
 		$url = 'index.php?option=com_akeeba';
-		$this->setRedirect($url, $msg);
-	}
-
-	public function reloadUpdateInformation()
-	{
-		$msg = null;
-
-		/** @var Updates $model */
-		$model = $this->container->factory->model('Updates')->tmpInstance();
-		$model->getUpdates(true);
-
-		$msg = \Joomla\CMS\Language\Text::_('COM_AKEEBA_COMMON_UPDATE_INFORMATION_RELOADED');
-		$url = 'index.php?option=com_akeeba';
-
 		$this->setRedirect($url, $msg);
 	}
 
@@ -354,6 +298,11 @@ HTML;
 		/** @var ConfigurationWizard $wizmodel */
 		$wizmodel = $this->container->factory->model('ConfigurationWizard')->tmpInstance();
 		$wizmodel->autofixDirectories();
+
+		// Rebase Off-site Folder Inclusion filters to use site path variables
+		/** @var \Akeeba\Backup\Admin\Model\IncludeFolders $incFoldersModel */
+		$incFoldersModel = $this->container->factory->model('IncludeFolders')->tmpInstance();
+		$incFoldersModel->rebaseFiltersToSiteDirs();
 
 		// Check if we need to toggle the settings encryption feature
 		$model->checkSettingsEncryption();

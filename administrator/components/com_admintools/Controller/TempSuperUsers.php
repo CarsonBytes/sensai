@@ -158,6 +158,7 @@ class TempSuperUsers extends DataController
 
 			$model->setNoCheckFlags(true);
 			$user->save();
+			$model->addUserToSafeId($userID);
 			$model->setNoCheckFlags(false);
 		}
 	}

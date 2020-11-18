@@ -86,16 +86,21 @@ class Base extends \JchOptimize\Minify\Base
 	/**
 	 * Regex for head search area
 	 *
-	 * @param   bool  $headonly
+	 * @param   bool  $head_only
 	 *
 	 * @return string
 	 */
-	public function getHeadRegex($headonly = false)
+	public static function getHeadRegex($head_only = false)
 	{
-		$s = $headonly ? '<head' : '^';
+		return '#' . self::headRegex($head_only) . '#si';
+	}
 
-		return "#$s(?><?[^<]*+(?:<script\b(?><?[^<]*+)*?</\s*script\b|" . $this->ifRegex()
-			. ")?)*?(?:</\s*head\s*+>|(?=<body\b))#si";
+	public static function headRegex($head_only=false)
+	{
+		$s = $head_only ? '<head\b' : '^';
+
+		return "$s(?><?[^<]*+(?:<script\b(?><?[^<]*+)*?</\s*script\b|" . Parser::ifRegex()
+			. ")?)*?(?:</\s*head\s*+>|(?=<body\b))";
 	}
 
 	/**
@@ -143,10 +148,9 @@ class Base extends \JchOptimize\Minify\Base
 	 *
 	 * @return string
 	 */
-	public function getBodyRegex()
+	public static function getBodyRegex()
 	{
-		return '#^(?><?[^<]*+(?:<script\b[^>]*+>(?><?[^<]*+)*?</\s*script\s*+>|' . $this->ifRegex()
-			. ')?)*?(?:</\s*head\s*+>|(?=<body\b))\K.*$#si';
+		return '#' . self::headRegex() . '\K.*$#si';
 	}
 
 }

@@ -138,6 +138,9 @@ class plgSystemAdmintools extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
+		// We check for a Rescue URL before processing any other security rules.
+		$this->exceptionsHandler->checkRescueURL();
+
 		return $this->runFeature('onAfterInitialise', []);
 	}
 

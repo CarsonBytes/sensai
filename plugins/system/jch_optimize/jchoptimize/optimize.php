@@ -29,6 +29,7 @@ use JchOptimize\Platform\Settings;
 use JchOptimize\Platform\Profiler;
 use JchOptimize\Platform\Utility;
 use Joomla\Registry\Registry;
+
 /**
  * Main plugin file
  *
@@ -62,7 +63,7 @@ class Optimize
 			$oParser->runCookieLessDomain();
 			$oParser->lazyLoadImages();
 
-			$sOptimizedHtml = Helper::minifyHtml($oParser->getHtml(), $this->params);
+			$sOptimizedHtml = self::reduceDom(Helper::minifyHtml($oParser->getHtml(), $this->params));
 
 			$this->sendHeaders();
 		}
@@ -91,7 +92,7 @@ class Optimize
 	 * Static method to initialize the plugin
 	 *
 	 * @param   Settings|Registry  $oParams
-	 * @param   string    $sHtml
+	 * @param   string             $sHtml
 	 *
 	 * @return string
 	 * @throws Exception
@@ -144,5 +145,11 @@ class Optimize
 	protected function sendHeaders()
 	{
 		
+	}
+
+	protected function reduceDom($sHtml)
+	{
+		
+		return $sHtml;
 	}
 }

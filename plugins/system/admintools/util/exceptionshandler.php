@@ -47,8 +47,7 @@ class AtsystemUtilExceptionshandler
 	 */
 	public function logAndAutoban($reason, $extraLogInformation = '', $extraLogTableInformation = '')
 	{
-		$ret = $this->logBreaches($reason, $extraLogInformation, $extraLogTableInformation);
-
+		$ret     = $this->logBreaches($reason, $extraLogInformation, $extraLogTableInformation);
 		$autoban = $this->cparams->getValue('tsrenable', 0);
 
 		if ($autoban)
@@ -73,9 +72,6 @@ class AtsystemUtilExceptionshandler
 	 */
 	public function blockRequest($reason = 'other', $message = '', $extraLogInformation = '', $extraLogTableInformation = '')
 	{
-		// Rescue URL check
-		AtsystemUtilRescueurl::processRescueURL($this);
-
 		if (empty($message))
 		{
 			$customMessage = $this->cparams->getValue('custom403msg', '');
@@ -612,14 +608,16 @@ class AtsystemUtilExceptionshandler
 
 		// Because SpamAssassin blacklists our domain when it misidentifies an email as spam.
 		$replaceThat = [
-			'<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a style=\"color: #ccf; text-decoration: none;\" href=\"https://www.akeebabackup.com/products/admin-tools.html\">Akeeba AdminTools</a></p>',
-			'<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a style=\"color: #ccf; text-decoration: none;\" href=\"https://www.akeebabackup.com/products/admin-tools.html\">Akeeba AdminTools</a></p>',
-			'https://www.akeebabackup.com',
-			'http://www.akeebabackup.com',
+			'<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a style=\"color: #ccf; text-decoration: none;\" href=\"https://www.akeeba.com/products/admin-tools.html\">Akeeba AdminTools</a></p>',
+			'<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a style=\"color: #ccf; text-decoration: none;\" href=\"https://www.akeeba.com/products/admin-tools.html\">Akeeba AdminTools</a></p>',
+			'https://www.akeeba.com',
+			'https://www.akeeba.com',
 			'http://akeebabackup.com',
 			'https://akeebabackup.com',
 			'www.akeebabackup.com',
+			'www.akeeba.com',
 			'akeebabackup.com',
+			'akeeba.com',
 		];
 
 		foreach ($replaceThat as $find)
@@ -759,6 +757,26 @@ HTML;
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Checks if the Rescue URL is being accessed.
+	 *
+	 * This only applies when IP autoban is enabled and this is an administrator access.
+	 *
+	 * @return  void
+	 */
+	public function checkRescueURL()
+	{
+		$autoban = $this->cparams->getValue('tsrenable', 0);
+
+		if (!$autoban)
+		{
+			return;
+		}
+
+		// If IP auto-ban is enabled we need to check for a Rescue URL
+		AtsystemUtilRescueurl::processRescueURL($this);
 	}
 
 	/**

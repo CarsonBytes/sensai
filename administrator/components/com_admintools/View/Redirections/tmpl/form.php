@@ -9,29 +9,44 @@ use Akeeba\AdminTools\Admin\Helper\Select;
 use Akeeba\AdminTools\Admin\View\Redirections\Html;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var $this Html */
 
 defined('_JEXEC') or die;
+
+$baseUri = Uri::base();
+
+if (substr($baseUri, -14) == 'administrator/')
+{
+	$baseUri = substr($baseUri, 0, -14);
+}
+
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm" class="akeeba-form--horizontal">
 	<div class="akeeba-container--66-33">
 		<div>
+			<div class="akeeba-form-group">
+				<label for="dest">
+					<?php echo Text::_('COM_ADMINTOOLS_LBL_REDIRECTION_DEST'); ?>
+				</label>
+				<div class="akeeba-input-group">
+					<span><?= $baseUri ?></span>
+					<input type="text" name="dest" id="dest" value="<?php echo $this->escape($this->item->dest); ?>" />
+				</div>
+				<p class="akeeba-help-text">
+					<?php echo Text::_('COM_ADMINTOOLS_REDIRECTIONS_FIELD_DEST_DESC') ?>
+				</p>
+			</div>
+
 			<div class="akeeba-form-group">
 				<label for="source">
 					<?php echo Text::_('COM_ADMINTOOLS_LBL_REDIRECTION_SOURCE'); ?>
 				</label>
 				<input type="text" name="source" id="source"
 					   value="<?php echo $this->escape($this->item->source); ?>" />
-			</div>
-
-			<div class="akeeba-form-group">
-				<label for="dest">
-					<?php echo Text::_('COM_ADMINTOOLS_LBL_REDIRECTION_DEST'); ?>
-				</label>
-				<input type="text" name="dest" id="dest" value="<?php echo $this->escape($this->item->dest); ?>" />
-				<p>
-					<?php echo Text::_('COM_ADMINTOOLS_REDIRECTIONS_FIELD_DEST_DESC') ?>
+				<p class="akeeba-help-text">
+					<?php echo Text::_('COM_ADMINTOOLS_REDIRECTIONS_FIELD_SOURCE_DESC') ?>
 				</p>
 			</div>
 
@@ -42,7 +57,7 @@ defined('_JEXEC') or die;
 
 				<?php echo Select::keepUrlParamsList('keepurlparams', null, $this->item->keepurlparams) ?>
 
-				<p>
+				<p class="akeeba-help-text">
 					<?php echo Text::_('COM_ADMINTOOLS_REDIRECTIONS_FIELD_KEEPURLPARAMS_DESC') ?>
 				</p>
 			</div>
@@ -53,7 +68,7 @@ defined('_JEXEC') or die;
 				</label>
 
 				<?php echo HTMLHelper::_('FEFHelper.select.booleanswitch', 'published', $this->item->published) ?>
-				<p>
+				<p class="akeeba-help-text">
 					<?php echo Text::_('COM_ADMINTOOLS_REDIRECTIONS_FIELD_PUBLISHED_DESC') ?>
 				</p>
 			</div>

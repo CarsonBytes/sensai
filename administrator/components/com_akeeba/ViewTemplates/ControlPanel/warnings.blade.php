@@ -180,7 +180,7 @@ $cloudFlareTestFile .= '?' . $this->getContainer()->mediaVersion;
             @lang('COM_AKEEBA_CPANEL_MSG_MUSTENTERDLID')
         </h3>
         <p>
-            @sprintf('COM_AKEEBA_LBL_CPANEL_NEEDSDLID','https://www.akeebabackup.com/download/official/add-on-dlid.html')
+            @sprintf('COM_AKEEBA_LBL_CPANEL_NEEDSDLID','https://www.akeeba.com/download/official/add-on-dlid.html')
         </p>
         <form name="dlidform" action="index.php" method="post" class="akeeba-form--inline">
             <input type="hidden" name="option" value="com_akeeba" />

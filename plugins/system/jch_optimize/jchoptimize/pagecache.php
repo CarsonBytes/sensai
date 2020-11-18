@@ -42,16 +42,15 @@ class Pagecache
 		{
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') 
 			{
-				Cache::deleteCache();
+				Cache::deleteCache('page');
 
 				return;
 			}
 
-			$html = Cache::getCache(self::getPageCacheId(), true);
+			$html = Cache::getCache(self::getPageCacheId(), true, true);
 
 			if ($html != false)
 			{
-
 				while (@ob_end_clean());
 				echo $html;
 
@@ -93,7 +92,7 @@ class Pagecache
 				$sHtml = str_replace('</body>', $tag, $sHtml);
 			}
 			
-			Cache::saveCache($sHtml, self::getPageCacheId());
+			Cache::saveCache($sHtml, self::getPageCacheId(), true);
 		}
 	}
 

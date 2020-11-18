@@ -135,7 +135,7 @@ class Url
 	 */
 	public static function isInvalid($sUrl)
 	{
-		return (empty($sUrl) || trim($sUrl) == '/');
+		return (empty($sUrl) || trim($sUrl) == '/' || trim($sUrl, ' /\\') == trim(Uri::base(true), ' /\\'));
 	}
 
 	/**

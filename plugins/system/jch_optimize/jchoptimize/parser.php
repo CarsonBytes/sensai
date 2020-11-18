@@ -204,6 +204,8 @@ class Parser extends Base
 		$aCBArgs['excludes']['js_script']  = $aExcludeScript;
 		$aCBArgs['excludes']['css_script'] = $aExcludeStyle;
 
+		$aCBArgs['remove']['js'] = Helper::getArray($oParams->get('remove_js', ''));
+
 		//These parameters will be excluded without preserving execution order
 		$aExJsComp_ieo      = $this->getExComp($oParams->get('excludeJsComponents', ''));
 		$aExcludeJs_ieo     = Helper::getArray($oParams->get('excludeJs', ''));
@@ -327,8 +329,8 @@ class Parser extends Base
 			$u = self::ATTRIBUTE_VALUE;
 
 			$rx = "#(?><?[^<]*+)*?\K(?:<img\s++"
-				. "(?!(?=(?>$a\s*+)*?width\s*=)(?=(?>$a\s*+)*?height\s*=))"
-				. "(?=(?>$a\s*+)*?src\s*+=([\"']?)($u))[^>]*+>|$)#i";
+				. "(?!(?=(?>$a\s*+)*?width\s*+=)(?=(?>$a\s*+)*?height\s*+=))"
+				. "(?=(?>$a\s*+)*?src\s*+=([\"']?)($u))(?>$a\s*+)*?/?>|$)#i";
 
 			//find all images and populate the $m array
 			// $m[0] - complete <img/> tag
@@ -402,6 +404,10 @@ class Parser extends Base
 			$aDontMoves = $aCBArgs['dontmove'];
 		}
 
+		if (isset($aCBArgs['remove']))
+		{
+			$aRemoves = $aCBArgs['remove'];
+		}
 		$sMedia = '';
 
 		if (($sType == 'css') && (preg_match('#media=(?(?=["\'])(?:["\']([^"\']+))|(\w+))#i', $aMatches[0], $aMediaTypes) > 0))
@@ -412,10 +418,14 @@ class Parser extends Base
 
 		switch (true)
 		{
+			case ($sUrl != '' && !empty($aRemoves['js']) && Helper::findExcludes($aRemoves['js'], $sUrl)):
+
+				return '';
+
 			//These cases are being excluded without preserving execution order
-			case ($sUrl != '' && !Url::isHttpScheme($sUrl)):
-			case (!empty($sUrl) && !empty($aExcludes_ieo['js']) && Helper::findExcludes($aExcludes_ieo['js'], $sUrl)):
-			case ($sDeclaration != '' && Helper::findExcludes($aExcludes_ieo['js_script'], $sDeclaration, 'js')):
+			case ($sUrl != '' && !Url::isHttpScheme($sUrl) && !Url::isDataUri($sUrl)):
+			case (!empty($sUrl) && $sType == 'js' && !empty($aExcludes_ieo['js']) && Helper::findExcludes($aExcludes_ieo['js'], $sUrl)):
+			case ($sDeclaration != '' && $sType == 'js' && Helper::findExcludes($aExcludes_ieo['js_script'], $sDeclaration, 'js')):
 				//Exclude javascript files with async attributes
 
 
@@ -450,6 +460,7 @@ class Parser extends Base
 				return '';
 
 			//These cases are being excluded while preserving execution order
+			case (($sUrl != '') && Url::isDataUri($sUrl)):
 			case (($sUrl != '') && !$this->isHttpAdapterAvailable($sUrl)):
 			case ($sUrl != '' && Url::isSSL($sUrl) && !extension_loaded('openssl')):
 			case (($sUrl != '') && !empty($aExcludes[$sType]) && Helper::findExcludes($aExcludes[$sType], $sUrl)):
@@ -1213,6 +1224,7 @@ REGEXP;
 
 		//Skip first 80 elements before starting to modify images for lazy load to avoid problems
 		//with css render blocking
+		//language=RegExp
 		$s80 = '(?:(?><?(?:[a-z0-9]++)(?:[^>]*+)>(?><?[^<]*+)*?(?=<[a-z0-9])){80}|$)';
 
 		/**
