@@ -20,7 +20,7 @@
 /installation/sessions
 /libraries/autoload_psr4.php
 /tmp
-#/configuration.php
+/configuration.php
 #/.htaccess
 /web.config
 /.php_cs.cache
