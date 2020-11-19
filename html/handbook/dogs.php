@@ -299,4 +299,4 @@ if (
         <div id="imageMapTable">&nbsp;</div>
     </div>
 </div>
-<? } ?>
+<?php } ?>

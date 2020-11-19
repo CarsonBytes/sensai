@@ -26,14 +26,14 @@ defined('_JEXEC') or die;
 				<?php endif ?>
 				<div class="top_logo pull-left">
 					<a href="/" class="nav-logo-link" aria-label="Amazon" tabindex="6">
-						<img src="/images/page/common/header/logo.png" alt="精彩本屋" />
+						<img src="<?php echo JURI::root() ?>images/page/common/header/logo.png" alt="精彩本屋" />
 					</a>
 				</div>
 				<div class="top_banner_wrapper">
 					<a href="#">
 						<div class="top_banner">
 							<div class="fade"></div>
-							<img src="/images/page/common/header/Fuji_long.jpg">
+							<img src="<?php echo JURI::root() ?>images/page/common/header/Fuji_long.jpg">
 						</div>
 					</a>
 				</div>
@@ -49,11 +49,11 @@ defined('_JEXEC') or die;
 			</div>
 			<div class="col-lg-5 col-md-6 col-sm-3 col-xs-3 right-topbar">
 				<div class="right-topbar_inner">
-					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo1-quality.png" /></a>
-					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo2_paper.png" /></a>
-					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo3_printing.png" /></a>
-					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo4_satisfaction.png" /></a>
-					<a class="promo_logo" href="#"><img src="/images/page/common/header/promo5_freebie.png" /></a>
+					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo1-quality.png" /></a>
+					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo2_paper.png" /></a>
+					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo3_printing.png" /></a>
+					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo4_satisfaction.png" /></a>
+					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo5_freebie.png" /></a>
 					<jdoc:include type="modules" name="<?php $this->_p('topbar-right') ?>" />
 				</div>
 			</div>

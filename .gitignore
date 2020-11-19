@@ -16,6 +16,7 @@
 /administrator/cache
 /administrator/logs
 /cache
+/logs
 /installation/cache
 /installation/sessions
 /libraries/autoload_psr4.php

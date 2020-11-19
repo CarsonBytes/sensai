@@ -58,4 +58,4 @@ if (is_file(T3_TEMPLATE_PATH . '/css/custom.css')) {
 <![endif]-->
 
 <!-- You can add Google Analytics here or use T3 Injection feature -->
-<script type="text/javascript" src="/js/script.js"></script>
+<script type="text/javascript" src="<?php echo JURI::root() ?>js/script.js"></script>

@@ -1,8 +1,9 @@
 <?php
 // No direct access
 defined('_JEXEC') or die;
-define('JPATH_BASE', dirname(__DIR__) . '/..');
-define('DS', DIRECTORY_SEPARATOR);
+
+if (!defined('JPATH_BASE')) define('JPATH_BASE', dirname(__DIR__) . '/..');
+if (!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 require_once(JPATH_BASE . DS . 'includes' . DS . 'defines.php');
 require_once(JPATH_BASE . DS . 'includes' . DS . 'framework.php');
 
@@ -21,10 +22,12 @@ $child_menuitems1 = $menu->getItems(
     array('mainmenu', $parent_menuitem[0]->id, 2)
 );
 
-$child_menuitem2 = $menu->getItems(
-    array('menutype', 'parent_id', 'level'),
-    array('mainmenu', $child_menuitem1[0]->id, 3)
-);
+if (isset($child_menuitem1)) {
+    $child_menuitem2 = $menu->getItems(
+        array('menutype', 'parent_id', 'level'),
+        array('mainmenu', $child_menuitem1[0]->id, 3)
+    );
+}
 
 if (!isset($active_menu_route)) {
     $active_menu_route = '';
@@ -42,7 +45,7 @@ $lang = JFactory::getLanguage();
         </a>
         <div class="categories_list">
 
-        <h3 class="hidden-xs" style="margin:0;" ><?php echo ($lang->getTag() == 'ja-JP') ? 'カテゴリー' : 'Category' ?></h3>
+            <h3 class="hidden-xs" style="margin:0;"><?php echo ($lang->getTag() == 'ja-JP') ? 'カテゴリー' : 'Category' ?></h3>
 
             <?php foreach ($child_menuitems1 as $child_menuitem1) { ?>
                 <a class="<?php echo ($active_menu_route == 'categories/' . $child_menuitem1->alias) ? 'active' : '' ?>" href="/categories/<?php echo $child_menuitem1->alias ?>">
