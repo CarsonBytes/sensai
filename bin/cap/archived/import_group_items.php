@@ -63,8 +63,7 @@ if (file_exists(dirname(__FILE__) . DS . $filename)) {
                 }
                 $group[$group_num][] = $sku;
             } else if ($j == 2) {
-                /* 
-                echo '<pre>';
+                /* echo '<pre>';
                 var_dump('group name');
                 var_dump($grid);
                 echo '</pre>'; */

@@ -1,0 +1,15 @@
+,,must be unique
+level,title,alias
+0,ROOT,root
+1,Poster,poster
+2,Animal,animal
+3,Cat,cat
+3,Dog,dog
+2,Abstract,abstract
+3,Flower,flower
+3,Blue,blue
+2,Map,map
+3,Historical,historical
+2,Painting,painting
+3,Impressionism,impressionism
+3,Water Color,water-color
