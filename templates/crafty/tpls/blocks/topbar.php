@@ -32,8 +32,9 @@ defined('_JEXEC') or die;
 				<div class="top_banner_wrapper">
 					<a href="#">
 						<div class="top_banner">
+							<div class="free_audio_posters_slogan">Your Free Audio ePosters Here!</div>
 							<div class="fade"></div>
-							<img src="<?php echo JURI::root() ?>images/page/common/header/Fuji_long.jpg">
+							<img src="<?php echo JURI::root() ?>images/page/common/header/topbar.jpg">
 						</div>
 					</a>
 				</div>
@@ -49,11 +50,30 @@ defined('_JEXEC') or die;
 			</div>
 			<div class="col-lg-5 col-md-6 col-sm-3 col-xs-3 right-topbar">
 				<div class="right-topbar_inner">
-					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo1-quality.png" /></a>
-					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo2_paper.png" /></a>
-					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo3_printing.png" /></a>
-					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo4_satisfaction.png" /></a>
-					<a class="promo_logo" href="#"><img src="<?php echo JURI::root() ?>images/page/common/header/promo5_freebie.png" /></a>
+					<a class="promo_logo" href="#">
+						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/app_base.svg" alt="App" />
+						<img class="hover" src="<?php echo JURI::root() ?>images/page/common/header/app_over.svg" alt="App" />
+						<img class="active" src="<?php echo JURI::root() ?>images/page/common/header/app_highlight.svg" alt="App" />
+						<div>App</div>
+					</a>
+					<a class="promo_logo" href="#">
+						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/pdf_base.svg" alt="High Res PDF" />
+						<img class="hover" src="<?php echo JURI::root() ?>images/page/common/header/pdf_over.svg" alt="High Res PDF" />
+						<img class="active" src="<?php echo JURI::root() ?>images/page/common/header/pdf_highlight.svg" alt="High Res PDF" />
+						<div>High Res PDF</div>
+					</a>
+					<a class="promo_logo" href="#">
+						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/QR-code_base.svg" alt="QR code" />
+						<img class="hover" src="<?php echo JURI::root() ?>images/page/common/header/QR-code_over.svg" alt="QR code" />
+						<img class="active" src="<?php echo JURI::root() ?>images/page/common/header/QR-code_highlight.svg" alt="QR code" />
+						<div>QR code</div>
+					</a>
+					<a class="promo_logo" href="#">
+						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/audio_base.svg" alt="Audio" />
+						<img class="hover" src="<?php echo JURI::root() ?>images/page/common/header/audio_over.svg" alt="Audio" />
+						<img class="active" src="<?php echo JURI::root() ?>images/page/common/header/audio_highlight.svg" alt="Audio" />
+						<div>Audio</div>
+					</a>
 					<jdoc:include type="modules" name="<?php $this->_p('topbar-right') ?>" />
 				</div>
 			</div>

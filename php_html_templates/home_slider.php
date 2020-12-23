@@ -1,8 +1,11 @@
 <?php
 // No direct access
 defined('_JEXEC') or die;
-?>
-<style>
+?><style>
+    .slider > .custom > p {
+        margin: 0;
+    }
+
     #home_promo .carousel_btns_wrapper {
         position: absolute;
         bottom: 20px;
@@ -52,14 +55,13 @@ defined('_JEXEC') or die;
                 <li data-target="#home_promo" data-slide-to="1"></li>
                 <li data-target="#home_promo" data-slide-to="2"></li>
                 <li data-target="#home_promo" data-slide-to="3"></li>
-                <li data-target="#home_promo" data-slide-to="4"></li>
             </ol><!-- Wrapper for slides -->
         </div>
     </div>
     <div class="carousel-inner">
-        <?php for ($i = 1; $i < 6; $i++) { ?>
+        <?php for ($i = 1; $i < 5; $i++) { ?>
             <div class="item <?php if ($i == 1) { ?>active<?php } ?>">
-                <img class="lazyload <?php if ($i == 1) { ?>carousel_1<?php } ?>" data-src="<?php echo JURI::root() ?>images/page/home/gallery/08-gallery_<?php echo $i?>_2000.jpg" alt="" />
+                <img class="lazyload <?php if ($i == 1) { ?>carousel_1<?php } ?>" data-src="<?php echo JURI::root() ?>images/page/home/gallery/home_slider_<?php echo $i?>.jpg" alt="" />
                 <?php /* <a href="#">
                     <div class="read_more">Read More</div>
                 </a>*/ ?>

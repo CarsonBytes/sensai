@@ -333,9 +333,13 @@ jQuery(function ($) {
 
     $(".btn_to_amazon")
         .on('mousedown touchstart', function (event) {
+            event.preventDefault();
+            console.log('down')
             $(this).addClass('focus');
         })
         .on('mouseup mouseout touchend', function (event) {
+            event.preventDefault();
+            console.log('up / out')
             $(this).removeClass('focus');
         })
 
@@ -357,4 +361,13 @@ jQuery(function ($) {
         $("body").removeClass("modal-open")
     });
 
+    $.fancybox.defaults.buttons= [
+        "zoom",
+        //"share",
+        //"slideShow",
+        //"fullScreen",
+        //"download",
+        //"thumbs",
+        "close"
+      ];
 })

@@ -16,28 +16,26 @@ $document->addScript('/js/category_listings.js');
 //echo rtrim(JUri::base(), '/') . JRoute::_('index.php?option=com_j2store&view=products&task=view&&id='.$j2store_product_id).'<br />';
 
 
+$db = JFactory::getDbo();
+/* echo '<pre>';
+var_dump($this->active_menu);
+echo '</pre>';
+die(); */
 $query = "SELECT b.id, a.j2store_product_id, b.title, e.thumb_image /*, b.note, d.title, b.title as tag_title, b.catid, b.introtext, b.fulltext,*/ FROM `h1232_j2store_products` a 
 INNER JOIN `h1232_content` b ON a.product_source_id = b.id
-LEFT JOIN `h1232_contentitem_tag_map` c ON a.product_source_id = c.content_item_id
-LEFT JOIN `h1232_tags` d ON c.tag_id = d.id
 LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
-WHERE (b.note = 'deco' OR b.note = 'image' OR b.note = 'educational-cat' OR b.note = 'educational-dog' OR b.note = 'painting') AND d.alias = '" . $this->active_menu->alias . "' AND b.state = 1
+LEFT JOIN `bundles_categories` bc ON bc.bundle_id = b.id
+LEFT JOIN `h1232_categories` c ON  c.id = bc.category_id
+WHERE c.alias = {$db->quote($this->active_menu->alias)} AND b.state = 1
 ORDER BY a.`j2store_product_id` DESC";
 
-$database = JFactory::getDbo();
-$database->setQuery($query);
+$db->setQuery($query);
 
-$result = $database->loadAssocList();/* 
+$result = $db->loadAssocList();/* 
 
 echo '<pre>';
 
 var_dump($this->active_menu->title);
-
-echo '</pre>'; */
-
-/* echo '<pre>';
-
-var_dump($this->active_menu->alias);
 
 echo '</pre>'; */
 

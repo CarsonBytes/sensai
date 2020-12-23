@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"beautify.options": {
+			"indent_with_tabs": true
+		}
+	}
+}

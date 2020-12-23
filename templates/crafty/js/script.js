@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
 $(window).load(function(){
 	//$('#preloader').fadeOut('slow',function(){$(this).remove();});
 	$('.slider_sm_wrapper').fadeIn('fast');
-	$('.slider_md_whole_wrapper').fadeIn('fast');
+	$('.slider_md_whole_wrapper.with_charts').fadeIn('fast');
 });
 
 });

@@ -9,12 +9,12 @@ if (
             switch ($_POST['sku']) {
                 case 'P12001':
                 case 'P12002':
-                    include dirname(__DIR__) . '/html/'.$_POST['type'].'/cats.php';
+                    include  __DIR__ . '/' .$_POST['type'].'/cats.php';
                     break;
                 case 'P12003':
                 case 'P12004':
                 case 'P12005':
-                    include dirname(__DIR__) . '/html/'.$_POST['type'].'/dogs.php';
+                    include __DIR__ . '/' .$_POST['type'].'/dogs.php';
                     break;
                 default:
                     die();

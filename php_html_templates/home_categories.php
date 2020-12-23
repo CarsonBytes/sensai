@@ -15,7 +15,7 @@ LEFT JOIN `h1232_tags` d ON c.tag_id = d.id
 LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 WHERE (b.note = 'deco' OR b.note = 'image' OR b.note = 'painting') AND b.state = 1
 ORDER BY RAND()
-LIMIT 10;";
+LIMIT 5;";
 
 $database = JFactory::getDbo();
 $database->setQuery($query);

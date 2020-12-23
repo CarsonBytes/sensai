@@ -14,7 +14,18 @@ $document->addScript('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4,np
 $document->addScript('/js/edupack_datatable2.js');
 
 
-if (!isset($sku)) $sku = 'P12004';
+//if (!isset($sku)) $sku = 'P12004';
+switch ($product_type) {
+    case 'educational-cat':
+        $sku = "P12001";
+        break;
+    case 'educational-dog':
+        $sku = "P12003";
+        break;
+    default:
+        $sku = "P12001";
+        break;
+}
 ?>
 <style>
     .maptable {

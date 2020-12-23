@@ -59,3 +59,7 @@ if (is_file(T3_TEMPLATE_PATH . '/css/custom.css')) {
 
 <!-- You can add Google Analytics here or use T3 Injection feature -->
 <script type="text/javascript" src="<?php echo JURI::root() ?>js/script.js"></script>
+
+<?php //schoolbell in google font ?>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">

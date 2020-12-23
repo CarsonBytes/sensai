@@ -2,32 +2,10 @@
 // No direct access
 defined('_JEXEC') or die;
 
+include JPATH_SITE . '/php_html_templates/functions.php';
+
 //JHtml::_('jquery.framework');
 
-function getImgSizeUrl($url, $width = 'L')
-{
-    //width : XL, L, M, S, XS
-    $all_sizes = array('_2000', '_1500', '_762', '_277', '_50');
-
-    switch ($width) {
-        case 'XL':
-            return str_replace($all_sizes, '_2000', $url);
-            break;
-        case 'L':
-            return str_replace($all_sizes, '_1500', $url);
-            break;
-        case 'M':
-            return str_replace($all_sizes, '_762', $url);
-            break;
-        case 'S':
-            return str_replace($all_sizes, '_277', $url);
-            break;
-        case 'XS':
-            return str_replace($all_sizes, '_50', $url);
-            break;
-    }
-    return false;
-}
 ?>
 <style>
 
