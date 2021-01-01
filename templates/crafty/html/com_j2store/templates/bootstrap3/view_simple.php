@@ -30,54 +30,96 @@ $product_type = $database->loadResult();
 
 $params = json_decode($this->product->params);
 
-
-
-if ($product_type == 'bundle') {
-	$query = "SELECT bs.bundle_id, a.j2store_product_id, b.title, b.introtext,  b.fulltext, e.thumb_image, e.main_image FROM `h1232_j2store_products` a 
-	INNER JOIN `h1232_content` b ON a.product_source_id = b.id
-	LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
-	LEFT JOIN `bundle_single` bs ON bs.single_id = b.id
-	WHERE bs.bundle_id = " . $this->product->product_source_id . "
-	ORDER by bs.created_on";
-} else {
-	//bundle's corresponding  tags and params
-	$query2 = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids , 
-	GROUP_CONCAT( DISTINCT t.title ) as tag_titles ,  
+/**
+ *  there should be no bundle type, as all products are bundle now 
+ * */
+if ($product_type == 'chart') {
+	/**
+	 * query for chart's tags and params
+	 */
+	$query2 = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids, 
+	GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
 	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,
-	bi.params
+	cp.params as chart_params
+	FROM h1232_contentitem_tag_map ctm
+	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
+	LEFT JOIN `chart_params` cp ON cp.chart_id = ctm.content_item_id
+	where ctm.content_item_id = {$this->product->product_source_id}
+	and t.published = 1
+	group by ctm.content_item_id;";
+
+	$database->setQuery($query2);
+	$result = $database->loadAssoc();
+
+	//dump($result);
+
+	$tag_ids_string = $result['tag_ids'];
+	$tag_titles = explode(',', $result['tag_titles']);
+	$tag_alias = explode(',', $result['tag_alias']);
+
+	if (isset($result['chart_params']))
+		$chart_params = json_decode($result['chart_params']);
+} else if ($product_type == 'bundle') {
+
+	/**
+	 * query for bundle's tags, charts and params
+	 */
+	$query2 = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids, 
+	GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
+	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,
+	bi.params as bundle_params,
+	GROUP_CONCAT( DISTINCT cp.params SEPARATOR '----') as charts_params
 	FROM h1232_contentitem_tag_map ctm
 	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
 	LEFT JOIN `bundle_params` bi ON bi.bundle_id = ctm.content_item_id
-		where ctm.content_item_id = {$this->product->product_source_id}
-		and t.published = 1
-		group by ctm.content_item_id;";
+	LEFT JOIN `bundles_charts` bc ON bc.bundle_id = bi.bundle_id
+	left JOIN `chart_params` cp ON cp.chart_id = bc.chart_id
+	where ctm.content_item_id = {$this->product->product_source_id}
+	and t.published = 1
+	group by ctm.content_item_id;";
 
 	$database->setQuery($query2);
-	$result = $database->loadAssocList();
-	$tag_ids_string = array_column($result, 'tag_ids')[0];
-	$tag_titles = explode(',', $result[0]['tag_titles']);
-	$tag_alias = explode(',', $result[0]['tag_alias']);
+	$result = $database->loadAssoc();
+	//dump($result);
+	$tag_ids_string = $result['tag_ids'];
+	$tag_titles = explode(',', $result['tag_titles']);
+	$tag_alias = explode(',', $result['tag_alias']);
 
-	if (isset($result[0]['params']))
-		$bundle_params = json_decode($result[0]['params']);
+	if (isset($result['bundle_params']))
+		$bundle_params = json_decode($result['bundle_params']);
 
-	$query2 = "SELECT distinct jp.j2store_product_id, c.id as content_id, c.title, 
-	GROUP_CONCAT( DISTINCT t.title ) as matched_tag_titles, 
-	GROUP_CONCAT( DISTINCT t.alias ) as matched_tag_alias, 
-	GROUP_CONCAT( DISTINCT ctm.tag_id ) as matched_tag_ids, 
-	jpi.main_image as thumb_image, bi.params
-	FROM sensaiho_nya.h1232_contentitem_tag_map ctm
-	left join h1232_tags t on t.id = ctm.tag_id
-	left JOIN `h1232_content` c ON c.id = ctm.content_item_id
-	LEFT JOIN `h1232_j2store_products` jp ON jp.product_source_id = c.id
-	LEFT JOIN `h1232_j2store_productimages` jpi ON jp.j2store_product_id = jpi.product_id
-	RIGHT JOIN `bundle_params` bi ON bi.bundle_id = c.id
-	where ctm.tag_id in ({$tag_ids_string}) and c.id != {$this->product->product_source_id}
-	and c.state = 1  and t.published = 1
-	group by jp.j2store_product_id;";
-	$database->setQuery($query2);
-	$related_bundles = $database->loadAssocList();
+	if (isset($result['charts_params'])) {
+		$charts_params = explode('----', $result['charts_params']);
+		foreach ($charts_params as $key => $value) {
+			$charts_params[$key] = json_decode($value);
+		}
+	}
 }
+
+$document->setMetaData('keywords', $result['tag_titles']);
+
+/**
+ * related bundle query
+ */
+$query2 = "SELECT distinct jp.j2store_product_id, c.id as content_id, c.title, 
+GROUP_CONCAT( DISTINCT t.title ) as matched_tag_titles, 
+GROUP_CONCAT( DISTINCT t.alias ) as matched_tag_alias, 
+GROUP_CONCAT( DISTINCT ctm.tag_id ) as matched_tag_ids, 
+jpi.main_image as thumb_image, bi.params
+FROM sensaiho_nya.h1232_contentitem_tag_map ctm
+left join h1232_tags t on t.id = ctm.tag_id
+left JOIN `h1232_content` c ON c.id = ctm.content_item_id
+LEFT JOIN `h1232_j2store_products` jp ON jp.product_source_id = c.id
+LEFT JOIN `h1232_j2store_productimages` jpi ON jp.j2store_product_id = jpi.product_id
+RIGHT JOIN `bundle_params` bi ON bi.bundle_id = c.id
+where ctm.tag_id in ({$tag_ids_string}) and c.id != {$this->product->product_source_id}
+and c.state = 1  and t.published = 1
+group by jp.j2store_product_id;";
+
+//dump($query2);
+
+$database->setQuery($query2);
+$related_bundles = $database->loadAssocList();
 ?>
 <div itemscope data-sku="<?= $this->product->variants->sku ?>" itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
 	<div class="row">
@@ -131,163 +173,22 @@ if ($product_type == 'bundle') {
 			</div>
 			<div class="hidden-sm hidden-xs main_content">
 				<?php echo $this->loadTemplate('title'); ?>
-				<div class="product_tags">
+				<?php /*?><div class="product_tags">
 					<strong>Tags:</strong>
 					<?php $i = 0;
 					foreach ($tag_titles as $tag_title) {
 						if ($i > 0) {
 							echo ', ';
-						} ?><a target="_blank" href="<?php echo JUri::base() . 'tag/' . $tag_alias[$i]; ?>"><?php echo $tag_title; ?></a><?php
-																																			$i++;
-																																		}
-																																			?>
-				</div>
-				<?php if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs')) {
-				?>
-					<div class="selection_text">
-						<strong>Option:</strong>
-						<div data-option="with_chart" class="option_text selected">With our exclusive chart posters: <a href="#">Popular dog breeds</a></div>
-						<div data-option="no_chart" class="option_text">Without our exclusive chart posters</div>
-					</div>
-					<style>
-						.product_tags strong,
-						.selection_text strong {
-							padding-left: 2px;
-							padding-bottom: 2px;
-							font-weight: 700;
-						}
-
-						.selection_text div {
-							display: none;
-						}
-
-						.selection_text div.selected {
-							display: inline-block;
-						}
-
-						.selection_boxes {
-							margin-left: -6px;
-						}
-
-						.selection_box {
-							border: 1px solid #e0e0e0;
-							cursor: pointer;
-							display: inline-block;
-							position: relative;
-							margin-top: 4px;
-							margin-bottom: 4px;
-							padding: 0 !important;
-							margin-left: 6px;
-							margin-right: 0;
-						}
-
-						/* .selection_box:hover {
-							border-color: #d0d0d0;
-						}
-
-						.selection_box.selected {
-							border-width: 1px;
-							border-color: #e47911;
-						} */
-						.selection_box .active,
-						.selection_box .hover {
-							display: none;
-						}
-
-						.selection_box.selected .default {
-							display: none;
-						}
-
-						.selection_box.selected .active {
-							display: inline-block;
-						}
-
-						.selection_box:hover .default,
-						.selection_box:hover .active {
-							display: none;
-						}
-
-						.selection_box:hover .hover {
-							display: inline-block;
-						}
-
-						.selection_box.selected:hover .active {
-							display: inline-block;
-						}
-
-						.selection_box.selected:hover .hover {
-							display: none;
-						}
-
-						.selection_box img {
-							width: 38px;
-							height: auto;
-						}
-					</style>
-					<script>
-						var slider_md_2;
-						var isSliderMD2Init = false;
-						jQuery(function($) {
-							$('.selection_box').on('click', function() {
-								var selected_option = $(this).find('img').data('option');
-								$('.selection_box').removeClass('selected');
-								$(this).addClass('selected');
-
-								$('.option_text').removeClass('selected');
-								$('.option_text[data-option="' + selected_option + '"]').addClass('selected');
-
-								if (selected_option == 'no_chart') {
-									$('.chart_toggle_in_title').hide();
-									$('.slider_md_whole_wrapper.slider_1').hide();
-									$('.slider_md_whole_wrapper.slider_2').show();
-
-									if (!isSliderMD2Init) {
-										slider_md_2 = tns({
-											container: '.my-slider-md_2',
-											items: 1,
-											navAsThumbnails: true,
-											navContainer: '#slider_md_thumbnails_2',
-											navPosition: 'top',
-											controls: false,
-											center: true,
-											preventScrollOnTouch: 'auto',
-											gutter: 30,
-											loop: false,
-											speed: 0,
-											animateIn: 'no_fade',
-											animateOut: 'no_fade',
-											autoHeight: true,
-											lazyload: true
-										});
-										$('.my-slider-md_2').find('img').on('load', function() {
-											$(this).parents('.slider_md_wrapper').find('.image_canvas_caption .default_caption').show();
-											slider_md_2.updateSliderHeight();
-										});
-										isSliderMD2Init = true;
-									}
-									slider_md_2.goTo('first');
-
-								} else {
-									$('.chart_toggle_in_title').show();
-									$('.slider_md_whole_wrapper.slider_2').hide();
-									$('.slider_md_whole_wrapper.slider_1').show();
-								}
-							})
-						})
-					</script>
-					<div class="selection_boxes">
-						<div class="selection_box selected">
-							<img class="default" src="<?php echo JUri::base() . 'images/icon/bundle_default.svg'; ?>" alt="With our exclusive chart posters" data-option="with_chart">
-							<img class="active" src="<?php echo JUri::base() . 'images/icon/bundle_selected.svg'; ?>" alt="With our exclusive chart posters" data-option="with_chart">
-							<img class="hover" src="<?php echo JUri::base() . 'images/icon/bundle_over.svg'; ?>" alt="With our exclusive chart posters" data-option="with_chart">
-						</div>
-						<div class="selection_box">
-							<img class="default" src="<?php echo JUri::base() . 'images/icon/plus_default.svg'; ?>" alt="Without our exclusive chart posters" data-option="no_chart">
-							<img class="active" src="<?php echo JUri::base() . 'images/icon/plus_selected.svg'; ?>" alt="With our exclusive chart posters" data-option="no_chart">
-							<img class="hover" src="<?php echo JUri::base() . 'images/icon/plus_over.svg'; ?>" alt="With our exclusive chart posters" data-option="no_chart">
-						</div>
-					</div>
-				<?php } ?>
+						} ?><a target="_blank" href="<?php echo JUri::base() . 'tag/' . $tag_alias[$i]; ?>"><?php echo $tag_title; ?></a>
+					<?php
+						$i++;
+					}
+					?>
+				</div><?php */ ?>
+				<?php
+				if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs')) {
+					include JPATH_SITE . '/php_html_templates/prod_detail/selection_box.php';
+				} ?>
 				<?php echo $this->product->source->introtext; ?>
 			</div>
 			<div class="image_zoom_preview">
@@ -323,39 +224,27 @@ if ($product_type == 'bundle') {
 			display: table-cell;
 		}
 
-		.btn2 {
-			margin: 10px 0;
+		.deco_bundles .btn_to_amazon {
 			width: 45%;
+			margin-top: 10px;
 		}
 
-		.btn2 .hover,
-		.btn2 .focus {
-			display: none;
-		}
-
-		.btn2:hover .default {
-			display: none;
-		}
-
-		.btn2:hover .hover {
-			display: block;
-		}
-
-		.btn2.focus .hover,
-		.btn2.focus .default {
-			display: none;
-		}
-
-		.btn2.focus img.focus {
-			display: block;
-		}
-
-		.btn2.to_bundle {
+		.deco_bundles .btn_to_amazon.to_view {
 			float: left;
 		}
 
-		.btn2.to_amz {
+		.deco_bundles .btn_to_amazon.to_order {
 			float: right;
+		}
+
+		.deco_bundles .btn_to_amazon .a-button-inner img {
+			display: block;
+			position: absolute;
+			top: 2px;
+			left: 2px;
+			width: 25px;
+			height: 25px;
+			border-radius: 2px;
 		}
 
 	}
@@ -364,6 +253,7 @@ if ($product_type == 'bundle') {
 		text-align: center;
 	}
 </style>
+
 <?php /* if ($product_type == 'bundle') { ?>
 
 	<div class="row">
@@ -393,153 +283,10 @@ if ($product_type == 'bundle') {
 
 		</div>
 	</div>
-<?php } */ ?>
+<?php } */
 
-<?php
-if ($product_type != 'bundle') { ?>
-	<?php if (count($related_bundles) > 0) { ?>
-		<div class="row bundles">
-			<div class="col-xs-12 deco_bundles_wrapper">
-				<div class="deco_bundles">
-					<h2>Related Bundles</h2>
-					<?php $j = 0;
-					foreach ($related_bundles as $bundle) { ?>
-						<div class="deco_bundle_wrapper">
-							<a class="bundle_title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>">
-								<?php echo $bundle['title'];
-								?>
-							</a>
-							<div class="matched_tags">
-								<span>Matched Tags:</span>
-								<?php
-								$matched_tag_titles = explode(',', $bundle['matched_tag_titles']);
-								$matched_tag_alias = explode(',', $bundle['matched_tag_alias']);
-								$i = 0;
-								foreach ($matched_tag_titles as $matched_tag_title) {
-									if ($i > 0) {
-										echo ', ';
-									} ?><a target="_blank" href="<?php echo JUri::base() . 'tag/' . $matched_tag_alias[$i]; ?>"><?php echo $matched_tag_title; ?></a>
-								<?php
-									$i++;
-								}
-								?>
-							</div>
+include JPATH_SITE . '/php_html_templates/prod_detail/this_bundle.php';
 
-							<div class="slider_sm_wrapper hidden-md hidden-lg">
-								<div class="sm_slider" data-id="<?php echo $j ?>">
-
-									<div><img class="tns-lazy-img" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
-
-									<?php
-									$params = json_decode($bundle['params']);
-									$img_names = $params->img_names;
-									foreach ($img_names as $img_name) { ?>
-										<div><img class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" /></div>
-									<?php } ?>
-								</div>
-
-								<div class="btn_to_amazon to_single">
-									<?php /*<span class="a-button-inner">
-										<i class="a-icon a-icon-buynow"></i>
-										<input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-										<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
-											アマゾンでこれを買う
-										</span>
-									</span>*/ ?>
-								</div>
-
-								<div class="btn_to_amazon to_single">
-								</div>
-							</div>
-
-							<div class="deco_bundle hidden-sm hidden-xs" data-id="<?php echo $bundle['content_id']; ?>">
-								<div class="bundle_thumb">
-									<a class="img_link" data-fancybox="gallery" href="<?php echo getImgSizeUrl($bundle['thumb_image'], 'XL'); ?>">
-										<div class="img_wrapper">
-											<img class="lazyload" src="https://placehold.it/183x205/FFFFFF/FFFFFF" data-src="/<?php echo $bundle['thumb_image']; ?>" />
-										</div>
-									</a>
-									<a class="btn2 to_amz" href="#">
-										<img class="default" src="<?php echo JUri::base() . 'images/icon/amazon_default.svg'; ?>" />
-										<img class="hover" src="<?php echo JUri::base() . 'images/icon/amazon_over.svg'; ?>" />
-										<img class="focus" src="<?php echo JUri::base() . 'images/icon/amazon_down.svg'; ?>" />
-									</a>
-									<a class="btn2 to_bundle" href="#">
-										<img class="default" src="<?php echo JUri::base() . 'images/icon/more_default.svg'; ?>" />
-										<img class="hover" src="<?php echo JUri::base() . 'images/icon/more_over.svg'; ?>" />
-										<img class="focus" src="<?php echo JUri::base() . 'images/icon/more_down.svg'; ?>" />
-									</a>
-								</div>
-								<div class="vertical_line"></div>
-								<div class="col_2 hidden-sm hidden-xs">
-									<div class="deco_thumbs">
-										<?php
-										foreach ($img_names as $img_name) {
-										?>
-											<a class="img_link" data-fancybox="gallery" href="<?php echo getImgSizeUrl($img_name, 'XL') ?>">
-												<div class="img_wrapper">
-													<img class="lazyload" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" />
-												</div>
-											</a>
-										<?php
-										}
-										?>
-									</div>
-								</div>
-								<div class="clearfix"></div>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-
-						<!-- Modal -->
-						<div class="modal productGallery" data-id="<?php echo $j ?>" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-body">
-										<div class="back_btn_wrapper">
-											<button type="button" class="btn btn-default back" data-dismiss="modal"></button>
-											<div class="back_btn_text">
-												<span>戻る</span>
-											</div>
-										</div>
-
-										<div class="productGallery_slider" data-id="<?php echo $j ?>">
-											<div><img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" /></div>
-
-											<?php foreach ($img_names as $img_name) { ?>
-												<div><img class="lazyload" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" /></div>
-											<?php } ?>
-										</div>
-										<ul class="thumbnails slider_sm_thumbnails" data-id="<?php echo $j ?>">
-											<li>
-												<div class="image-wrapper">
-													<div class="a-image-wrapper">
-														<img class="lazyload" data-src="/<?php echo $bundle['thumb_image'] ?>" />
-													</div>
-												</div>
-											</li>
-
-											<?php
-											foreach ($img_names as $img_name) { ?>
-												<li>
-													<div class="image-wrapper">
-														<div class="a-image-wrapper">
-															<img class="lazyload" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" />
-														</div>
-													</div>
-												</li>
-											<?php
-											} ?>
-											<div class="clearfix"></div>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					<?php $j++;
-					} ?>
-				</div>
-			</div>
-		</div>
-<?php }
+if (isset($related_bundles) && count($related_bundles) > 0) {
+	include JPATH_SITE . '/php_html_templates/prod_detail/related_bundles.php';
 }

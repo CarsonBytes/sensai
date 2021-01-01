@@ -68,3 +68,19 @@ function getImgSizeUrl($url, $width = 'L')
 	}
 	return false;
 }
+
+function dump($a) {
+    $backtrace = debug_backtrace()[0];
+    $fh = fopen($backtrace['file'], 'r');
+    $line = 0;
+    while (++$line <= $backtrace['line']) {
+        $code = fgets($fh);
+    }
+    fclose($fh);
+    preg_match('/' . __FUNCTION__ . '\s*\((.*)\)\s*;/u', $code, $name);
+    ob_start();
+    echo '<pre>'.trim($name[1]).":\n";
+    var_export($a);
+    echo '</pre>';
+    ob_flush();
+}

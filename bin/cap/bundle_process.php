@@ -3,7 +3,7 @@ define('DS', DIRECTORY_SEPARATOR);
 
 require_once(__DIR__ . DS . 'init.php');
 
-$filename = "calc data - bundle_params (4).csv";
+$filename = "calc data - bundle+chart_params (2).csv";
 
 define('FILE_PATH', __DIR__ . DS . 'bundle' . DS . $filename);
 
@@ -11,7 +11,7 @@ define('FILE_PATH', __DIR__ . DS . 'bundle' . DS . $filename);
  * import params for bundles, e.g.
  * mapping for extra single images of each bundle, and chart_option
  */
-//require_once(__DIR__ . DS . 'bundle' . DS . 'bundle_params.php');
+require_once(__DIR__ . DS . 'bundle' . DS . 'bundle_chart_params.php');
 
 /**
  * associate tags with bundles, remove old redundant tags' connections

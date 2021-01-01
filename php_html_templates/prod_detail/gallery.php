@@ -1,5 +1,8 @@
 <?php
 // No direct access
+
+use ParagonIE\Sodium\Core\Curve25519\Ge\P2;
+
 defined('_JEXEC') or die;
 
 $additional_images = json_decode($this->product->additional_images);
@@ -16,14 +19,37 @@ $gallery_images_2 = array();  //2nd gallery
 if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs')) {
     $gallery_images_1 = explode('|', $bundle_params->bundle_chart_imgs[0]);
     $gallery_images_2 = $additional_images;
-
 } else {
     $gallery_images_1 = $additional_images;
 }
-
-
 ?>
+<style>
 
+.slider_md_whole_wrapper.two_cols {
+    padding-left: 90px;
+}
+
+.slider_md_whole_wrapper.two_cols .slider_md_thumbnails_wrapper {
+    margin-left: -90px;
+    padding-right: 10px;
+    width: 90px;
+}
+
+.slider_md_whole_wrapper.two_cols .slider_md_thumbnails_wrapper ul {
+    columns: 2;
+}
+
+.slider_md_whole_wrapper.two_cols .slider_md_thumbnails_wrapper ul li {
+    break-inside: avoid-column;
+}
+</style>
+<script>
+    jQuery(function($) {
+        $('body').on('mouseenter', '#slider_md_thumbnails_2 li', function(e) {
+            slider_md_2.goTo($(this).data('nav'));
+        })
+    })
+</script>
 <div class="slider_sm_wrapper hidden-md hidden-lg">
     <div class="my-slider1">
 
@@ -41,7 +67,7 @@ if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs'
     </div>
 </div>
 
-<div class="slider_md_whole_wrapper hidden-sm hidden-xs slider_1">
+<div class="slider_md_whole_wrapper hidden-sm hidden-xs slider_1 <?php echo count($gallery_images_1) > 10 ? 'two_cols' : '' ?>">
     <div class="slider_md_thumbnails_wrapper">
         <ul class="thumbnails" id="slider_md_thumbnails">
             <?php $i = 0;
@@ -80,7 +106,7 @@ if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs'
     </div>
 </div>
 <?php if (!empty($gallery_images_2)) { ?>
-    <div class="slider_md_whole_wrapper hidden-sm hidden-xs slider_2" style="display:none;">
+    <div class="slider_md_whole_wrapper hidden-sm hidden-xs slider_2 <?php echo count($gallery_images_2) > 10 ? 'two_cols' : '' ?>" style="display:none;">
         <div class="slider_md_thumbnails_wrapper">
             <ul class="thumbnails" id="slider_md_thumbnails_2">
 
@@ -99,20 +125,20 @@ if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs'
         </div>
         <div class="slider_md_wrapper">
             <div class="my-slider-md_2">
-            <?php
-            $i = 0;
-            foreach ($gallery_images_2 as $gallery_image) {
-                if ($i == 0) { ?>
-                    <div class="image-wrapper">
-                        <div class="a-image-wrapper"><img data-id="main" class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="<?php /* echo $this->product->main_image_alt */ ?>" /></div>
-                    </div>
-                <?php } else { ?>
-                    <div class="image-wrapper">
-                        <div class="a-image-wrapper"><img data-id="<?php echo 'additional-' . $i ?>" src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="" /></div>
-                    </div>
-            <?php }
-                $i++;
-            } ?>
+                <?php
+                $i = 0;
+                foreach ($gallery_images_2 as $gallery_image) {
+                    if ($i == 0) { ?>
+                        <div class="image-wrapper">
+                            <div class="a-image-wrapper"><img data-id="main" class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="<?php /* echo $this->product->main_image_alt */ ?>" /></div>
+                        </div>
+                    <?php } else { ?>
+                        <div class="image-wrapper">
+                            <div class="a-image-wrapper"><img data-id="<?php echo 'additional-' . $i ?>" src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="" /></div>
+                        </div>
+                <?php }
+                    $i++;
+                } ?>
             </div>
 
             <div class="image_canvas_caption">
