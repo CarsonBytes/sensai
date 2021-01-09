@@ -9,10 +9,17 @@ define("IMG_S", 277);
 define("IMG_XS", 50);
 define("BUNDLE_PATH", 'images/bundle/');
 
+/**
+ * @deprecated
+ */
 function isEdupack($educational_type)
 {
 	return strpos($educational_type, 'educational-') !== false;
 }
+
+/**
+ * @deprecated
+ */
 function getEdupackInfo($educational_type)
 {
 	if (!isEdupack($educational_type)) return false;
@@ -83,4 +90,8 @@ function dump($a) {
     var_export($a);
     echo '</pre>';
     ob_flush();
+}
+
+function isLogin(){
+    return !JFactory::getUser()->guest;
 }

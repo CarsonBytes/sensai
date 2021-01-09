@@ -86,11 +86,20 @@ if (!empty($yireo_plugin)) {
 ?>
 
 <div class="right_menu_btns">
-    <div class="signup_login_link">
-        <a href="<?php echo JURI::root() ?>signup">Sign up</a>
-        /
-        <a href="<?php echo JURI::root() ?>login">Login</a>
-    </div>
+    <?php $user = JFactory::getUser();
+    if ($user->guest) { ?>
+        <div class="signup_login_link">
+            <a href="<?php echo JURI::root() ?>signup">Sign up</a>
+            /
+            <a href="<?php echo JURI::root() ?>login">Login</a>
+        </div>
+    <?php } else { ?>
+        <div class="logined_text">
+            <a href="<?php echo JURI::root() ?>signup/profile">Profile</a>
+            /  
+            <a href="<?php echo JURI::root() ?>logout">Logout</a> 
+        </div>
+    <?php } ?>
     <div class="mod-languages<?php echo $moduleclass_sfx ?> <?php echo ($params->get('dropdown', 1) && $params->get('advanced_dropdown', 1)) ? ' advanced-dropdown' : ''; ?>">
         <?php if ($headerText) : ?>
             <div class="pretext">
