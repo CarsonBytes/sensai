@@ -49,7 +49,7 @@ function getImgSizeUrl($url, $width = 'L')
 {
 
 	//add base url
-	if(strpos($url, JUri::base()) === false){
+	if (strpos($url, JUri::base()) === false) {
 		$url = JUri::base() . $url;
 	}
 
@@ -76,22 +76,62 @@ function getImgSizeUrl($url, $width = 'L')
 	return false;
 }
 
-function dump($a) {
-    $backtrace = debug_backtrace()[0];
-    $fh = fopen($backtrace['file'], 'r');
-    $line = 0;
-    while (++$line <= $backtrace['line']) {
-        $code = fgets($fh);
-    }
-    fclose($fh);
-    preg_match('/' . __FUNCTION__ . '\s*\((.*)\)\s*;/u', $code, $name);
-    ob_start();
-    echo '<pre>'.trim($name[1]).":\n";
-    var_export($a);
-    echo '</pre>';
-    ob_flush();
+function dump($a)
+{
+	$backtrace = debug_backtrace()[0];
+	$fh = fopen($backtrace['file'], 'r');
+	$line = 0;
+	while (++$line <= $backtrace['line']) {
+		$code = fgets($fh);
+	}
+	fclose($fh);
+	preg_match('/' . __FUNCTION__ . '\s*\((.*)\)\s*;/u', $code, $name);
+	ob_start();
+	echo '<pre>' . trim($name[1]) . ":\n";
+	var_export($a);
+	echo '</pre>';
+	ob_flush();
 }
 
-function isLogin(){
-    return !JFactory::getUser()->guest;
+function isLogin()
+{
+	return !JFactory::getUser()->guest;
+}
+
+function getChart($id)
+{
+	$database = JFactory::getDbo();
+
+	/**
+	 * query for chart's tags and params
+	 */
+	$query = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids, 
+	/* GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
+	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias, */
+	cp.params as chart_params
+	FROM h1232_contentitem_tag_map ctm
+	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
+	LEFT JOIN `chart_params` cp ON cp.chart_id = ctm.content_item_id
+	LEFT JOIN `h1232_content` c ON c.id = cp.chart_id
+	WHERE ctm.content_item_id = {$id} AND  t.published = 1 AND c.state = 1
+	group by ctm.content_item_id;";
+
+	$database->setQuery($query);
+
+	return $database->loadObject();
+}
+
+
+function getCharts()
+{
+	$database = JFactory::getDbo();
+
+	$query = "SELECT c.title, c.introtext, cp.params
+	FROM chart_params cp
+	LEFT JOIN `h1232_content` c ON c.id = cp.chart_id
+	WHERE  c.state = 1";
+
+	$database->setQuery($query);
+
+	return $database->loadObjectList();
 }

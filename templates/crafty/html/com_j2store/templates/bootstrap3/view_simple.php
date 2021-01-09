@@ -34,31 +34,16 @@ $params = json_decode($this->product->params);
  *  there should be no bundle type, as all products are bundle now 
  * */
 if ($product_type == 'chart') {
-	/**
-	 * query for chart's tags and params
-	 */
-	$query2 = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids, 
-	/* GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
-	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias, */
-	cp.params as chart_params
-	FROM h1232_contentitem_tag_map ctm
-	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
-	LEFT JOIN `chart_params` cp ON cp.chart_id = ctm.content_item_id
-	where ctm.content_item_id = {$this->product->product_source_id}
-	and t.published = 1
-	group by ctm.content_item_id;";
 
-	$database->setQuery($query2);
-	$result = $database->loadAssoc();
-
+	$result = getChart($this->product->product_source_id);
 	//dump($result);
 
-	$tag_ids_string = $result['tag_ids'];
-	/* $tag_titles = explode(',', $result['tag_titles']);
-	$tag_alias = explode(',', $result['tag_alias']); */
+	$tag_ids_string = $result->tag_ids;
+	/* $tag_titles = explode(',', $result->tag_titles);
+	$tag_alias = explode(',', $result->tag_alias); */
 
-	if (isset($result['chart_params'])) {
-		$chart_params = json_decode($result['chart_params']);
+	if (isset($result->chart_params)) {
+		$chart_params = json_decode($result->chart_params);
 		//dump($chart_params);
 	}
 } else if ($product_type == 'bundle') {
