@@ -15,11 +15,11 @@ $document->addScript('/js/edupack_datatable2.js');
 
 
 //if (!isset($sku)) $sku = 'P12004';
-switch ($product_type) {
-    case 'educational-cat':
+switch ($chart_params->chart_skus[0]) {
+    case 'A0B_10630':
         $sku = "P12001";
         break;
-    case 'educational-dog':
+    case 'A0B_10610':
         $sku = "P12003";
         break;
     default:
@@ -113,6 +113,15 @@ switch ($product_type) {
     </span>
     <span>
         <span>
+            <a href="<?php echo JUri::base() . 'download-promo'; ?>" target="_blank" class="download_pdf">
+                Download PDF
+                &nbsp;<i class="fas fa-download"></i>
+            </a>
+        </span>
+    </span>
+
+    <?php /*<span>
+        <span>
             <a href="#" class="toggle_interactive_table" data-state="0" data-type="handbook" data-sku="<?php echo $sku; ?>" data-page="2">
                 Toggle interactive handbooks
                 &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-down" style="display:none;"></i>
@@ -125,7 +134,7 @@ switch ($product_type) {
                 <i class="fas fa-book-open"></i> Toggle Handbook preview
             </a>
         </span>
-    </span>
+    </span>*/ ?>
 </div>
 
 <div class='imageMapWrapper'></div>

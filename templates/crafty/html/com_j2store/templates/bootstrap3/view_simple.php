@@ -38,8 +38,8 @@ if ($product_type == 'chart') {
 	 * query for chart's tags and params
 	 */
 	$query2 = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids, 
-	GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
-	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,
+	/* GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
+	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias, */
 	cp.params as chart_params
 	FROM h1232_contentitem_tag_map ctm
 	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
@@ -54,19 +54,21 @@ if ($product_type == 'chart') {
 	//dump($result);
 
 	$tag_ids_string = $result['tag_ids'];
-	$tag_titles = explode(',', $result['tag_titles']);
-	$tag_alias = explode(',', $result['tag_alias']);
+	/* $tag_titles = explode(',', $result['tag_titles']);
+	$tag_alias = explode(',', $result['tag_alias']); */
 
-	if (isset($result['chart_params']))
+	if (isset($result['chart_params'])) {
 		$chart_params = json_decode($result['chart_params']);
+		//dump($chart_params);
+	}
 } else if ($product_type == 'bundle') {
 
 	/**
 	 * query for bundle's tags, charts and params
 	 */
 	$query2 = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids, 
-	GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
-	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,
+	/* GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
+	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,  */
 	bi.params as bundle_params,
 	GROUP_CONCAT( DISTINCT cp.params SEPARATOR '----') as charts_params
 	FROM h1232_contentitem_tag_map ctm
@@ -82,8 +84,8 @@ if ($product_type == 'chart') {
 	$result = $database->loadAssoc();
 	//dump($result);
 	$tag_ids_string = $result['tag_ids'];
-	$tag_titles = explode(',', $result['tag_titles']);
-	$tag_alias = explode(',', $result['tag_alias']);
+ 	/* $tag_titles = explode(',', $result['tag_titles']);
+	$tag_alias = explode(',', $result['tag_alias']); */
 
 	if (isset($result['bundle_params']))
 		$bundle_params = json_decode($result['bundle_params']);
@@ -96,15 +98,15 @@ if ($product_type == 'chart') {
 	}
 }
 
-$document->setMetaData('keywords', $result['tag_titles']);
+/* $document->setMetaData('keywords', $result['tag_titles']); */
 
 /**
  * related bundle query
  */
 $query2 = "SELECT distinct jp.j2store_product_id, c.id as content_id, c.title, 
-GROUP_CONCAT( DISTINCT t.title ) as matched_tag_titles, 
-GROUP_CONCAT( DISTINCT t.alias ) as matched_tag_alias, 
-GROUP_CONCAT( DISTINCT ctm.tag_id ) as matched_tag_ids, 
+/* GROUP_CONCAT( DISTINCT t.title ) as matched_tag_titles, 
+ GROUP_CONCAT( DISTINCT t.alias ) as matched_tag_alias, 
+ GROUP_CONCAT( DISTINCT ctm.tag_id ) as matched_tag_ids,  */
 jpi.main_image as thumb_image, bi.params
 FROM sensaiho_nya.h1232_contentitem_tag_map ctm
 left join h1232_tags t on t.id = ctm.tag_id
@@ -203,7 +205,7 @@ $related_bundles = $database->loadAssocList();
 
 		<div class="col-xs-12">
 			<?php
-			if (isEdupack($product_type)) {
+			if ($product_type == 'chart') {
 				include JPATH_SITE . '/php_html_templates/prod_detail/edupack_datatable2.php';
 			}  ?>
 		</div>
@@ -227,24 +229,6 @@ $related_bundles = $database->loadAssocList();
 		.deco_bundles .btn_to_amazon {
 			width: 45%;
 			margin-top: 10px;
-		}
-
-		.deco_bundles .btn_to_amazon.to_view {
-			float: left;
-		}
-
-		.deco_bundles .btn_to_amazon.to_order {
-			float: right;
-		}
-
-		.deco_bundles .btn_to_amazon .a-button-inner img {
-			display: block;
-			position: absolute;
-			top: 2px;
-			left: 2px;
-			width: 25px;
-			height: 25px;
-			border-radius: 2px;
 		}
 
 	}

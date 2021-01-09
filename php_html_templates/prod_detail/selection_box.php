@@ -4,7 +4,6 @@
     <div data-option="no_chart" class="option_text">Without our exclusive chart posters</div>
 </div>
 <style>
-    .product_tags strong,
     .selection_text strong {
         padding-left: 2px;
         padding-bottom: 2px;

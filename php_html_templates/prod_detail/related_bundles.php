@@ -2,6 +2,25 @@
 // No direct access
 defined('_JEXEC') or die;
 ?>
+<style>
+    .deco_bundles .btn_to_amazon.to_view {
+        float: left;
+    }
+
+    .deco_bundles .btn_to_amazon.to_order {
+        float: right;
+    }
+
+    .deco_bundles .btn_to_amazon .a-button-inner img {
+        display: block;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 25px;
+        height: 25px;
+        border-radius: 2px;
+    }
+</style>
 <div class="row bundles">
     <div class="col-xs-12 deco_bundles_wrapper">
         <div class="deco_bundles related_bundles">
