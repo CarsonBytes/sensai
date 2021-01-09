@@ -65,7 +65,7 @@ html.itemid-331 {
 
 
 
-    .btn_to_amazon {
+    /* .btn_to_amazon {
         display: block;
         position: relative;
         overflow: hidden;
@@ -107,7 +107,7 @@ html.itemid-331 {
             }
         }
 
-        &.to_single {
+        &.to_single, &.to_order{
             background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
 
             &.touched {
@@ -117,7 +117,7 @@ html.itemid-331 {
             }
         }
 
-        &.to_bundle_categories {
+        &.to_bundle_categories, &.to_view {
             background: linear-gradient(to bottom, #f6c88f, #ed9220);
 
             &.touched {
@@ -163,8 +163,136 @@ html.itemid-331 {
             position: relative;
 
         }
-    }
+    } */
 
+    .btn_to_amazon {
+        display        : block;
+        position       : relative;
+        overflow       : hidden;
+        height         : 100%;
+        border-radius  : .2rem;
+        box-shadow     : 0 0.1rem 0 rgba(255, 255, 255, .4);
+        border-radius  : .3rem;
+        border-color   : #a88734 #9c7e31 #846a29;
+        border-style   : solid;
+        border-width   : .1rem;
+        color          : #111;
+        cursor         : pointer;
+        padding        : 0;
+        text-align     : center;
+        text-decoration: none !important;
+        margin-bottom  : 12px !important;
+    
+        .a-button-inner {
+            display : block;
+            position: relative;
+            overflow: hidden;
+            height  : 29px;
+    
+            .a-icon {
+                background-image : url(/images/AmazonUIIcon-sprite_1x-003a05344e6a5263c945684c66748394b4cbb9a2._V2_.png);
+                background-size  : 400px 900px;
+                background-repeat: no-repeat;
+                display          : inline-block;
+                vertical-align   : top;
+                position         : absolute;
+    
+                &.a-icon-buynow {
+                    top                : 2px;
+                    left               : 2px;
+                    width              : 25px;
+                    height             : 25px;
+                    background-position: -35px -60px;
+                }
+            }
+        }
+    
+    
+        &.to_single, &.to_order{
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+    
+            :hover {
+                border-color: #a88734 #9c7e31 #846a29;
+    
+                .a-button-inner {
+                    background: #f1c861;
+                    background: -webkit-linear-gradient(top, #f5d78e, #eeb933);
+                    background: linear-gradient(to bottom, #f5d78e, #eeb933);
+                }
+            }
+    
+            &.focus,
+            :active {
+                border-color: #a88734 #9c7e31 #9c7e31;
+                box-shadow  : 0 0 3px 2px rgba(228, 121, 17, .5);
+    
+                .a-button-inner {
+                    background-color: #f0c14b;
+                    background-image: none;
+                }
+            }
+        }
+    
+        &.to_bundle_categories, &.to_view {
+            background: linear-gradient(to bottom, #f6c88f, #ed9220);
+    
+            :hover {
+                border-color: #be751a #b26d18 #9a5f15;
+    
+                .a-button-inner {
+                    background: #eba145;
+                    background: -webkit-linear-gradient(top, #f4bc77, #e18512);
+                    background: linear-gradient(to bottom, #f4bc77, #e18512);
+                }
+            }
+    
+            &.focus,
+            :active {
+                border-color: #be751a #b26d18 #9a5f15;
+                box-shadow  : 0 0 3px 2px rgba(228, 121, 17, .5);
+    
+                .a-button-inner {
+                    background-color: #ed9220;
+                    background-image: none;
+                }
+            }
+        }
+    
+        input {
+            cursor          : pointer;
+            position        : absolute;
+            background-color: transparent;
+            color           : transparent;
+            border          : 0;
+            height          : 100%;
+            width           : 100%;
+            left            : 0rem;
+            top             : 0rem;
+            opacity         : .01;
+            outline         : 0;
+            overflow        : visible;
+        }
+    
+        .a-button-text {
+            color           : #111;
+            background-color: transparent;
+            border          : 0;
+            display         : block;
+            background-color: transparent;
+            border          : 0;
+            display         : block;
+            font-size       : 13px;
+            line-height     : 29px;
+            margin          : 0;
+            outline         : 0;
+            padding         : 0 10px 0 11px;
+            text-align      : center;
+            white-space     : nowrap;
+            padding-left    : 35px;
+            position        : relative;
+    
+        }
+    }
     .buy_box {
         width: 100%
     }
