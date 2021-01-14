@@ -39,6 +39,7 @@ if ($headright = $this->countModules('head-search or languageswitcherload or off
 	<div class="container">
 		<div class="row">
 			<!-- LOGO -->
+			<?php /*
 			<div class="<?php echo $logosize ?> logo">
 				<div class="logo-<?php echo $logotype, ($logoimgsm ? ' logo-control' : '') ?>">
 					<a href="<?php echo JURI::base(true) ?>" title="<?php echo strip_tags($sitename) ?>">
@@ -52,7 +53,7 @@ if ($headright = $this->countModules('head-search or languageswitcherload or off
 					</a>
 					<small class="site-slogan"><?php echo $slogan ?></small>
 				</div>
-			</div>
+			</div>*/?>
 			<!-- //LOGO -->
 			
 			<!-- MAIN NAVIGATION -->
