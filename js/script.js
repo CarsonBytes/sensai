@@ -12,10 +12,27 @@
  */
 jQuery(document).ready(function ($) {
 
-	// site preloader -- also uncomment the div in the header and the css style for #preloader
+	function reposition() {
+		var modal = $(this),
+			dialog = modal.find('.modal-dialog');
+		modal.css('display', 'block');
+
+		// Dividing by two centers the modal exactly, but dividing by three 
+		// or four works better for larger screens.
+		dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+	}
+
+	// Reposition when a modal is shown
+	$(document).on('show.bs.modal', '.modal', reposition)
+	// Reposition when the window is resized
+	$(window).on('resize', function() {
+		$('.modal:visible').each(reposition);
+	});
+
+	/* // site preloader -- also uncomment the div in the header and the css style for #preloader
 	$(window).load(function () {
 		//$('#preloader').fadeOut('slow',function(){$(this).remove();});
-	});
+	});*/
 
 	$("div").filter(function () {
 		return ($(this).text() === "FaLang translation system by Faboba" /* || $(this).text() === "Powered by BreezingForms" */);

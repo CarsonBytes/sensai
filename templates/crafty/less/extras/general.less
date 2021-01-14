@@ -760,3 +760,151 @@ img:not([src]) {
         }
     }
 }
+
+body.modal-open {
+    position: relative;
+}
+
+.modal.dialog {
+    z-index: 100;
+
+    .modal-content {
+        border-radius: 8px;
+        border       : 1px solid;
+        border-color : #D5D9D9;
+        box-shadow   : 0 0 14px 0 rgba(15, 17, 17, .5);
+
+        .modal-header {
+            border-bottom   : 1px solid #D5D9D9;
+            background-color: #F0F2F2;
+            border-radius   : 8px 8px 0 0;
+            padding         : 0 24px;
+            position        : relative;
+
+            h5.modal-title {
+                padding     : 16px 0;
+                min-height  : 56px;
+                margin-right: 28px;
+                line-height : 24px;
+                font-size   : 16px;
+                font-weight : 700;
+            }
+
+            .close_btn_wrapper {
+                display     : block;
+                border-color: transparent;
+                position    : absolute;
+                top         : 7px;
+                right       : 7px;
+                z-index     : 1000;
+                user-select : none;
+                padding     : 8px;
+
+                .close {
+                    opacity   : .64;
+                    display   : inline-block;
+                    background: none;
+                    color     : black;
+                    border    : 0;
+                    padding   : 6px 8px;
+
+                    &:focus {
+                        background-color: transparent;
+                        box-shadow      : 0 0 3px 2px rgba(228, 121, 17, .5);
+                        outline         : 0;
+                        border          : 1px solid #e77600;
+                    }
+
+                    &:hover {
+                        opacity: .8;
+                        cursor : pointer;
+                    }
+
+                    i {
+                        font-size: 13px;
+                        display  : block;
+                    }
+                }
+            }
+        }
+
+        .modal-body {
+
+            .btn_set {
+
+                display        : flex;
+                justify-content: flex-end;
+
+                button {
+                    border         : 0;
+                    background     : none;
+                    margin         : 0 0 0 10px;
+                    padding        : 0;
+                    text-decoration: none;
+                    outline        : none;
+                    text-align     : right;
+                    float          : right;
+                    opacity        : 1;
+                    font-weight    : inherit;
+                    float          : none;
+
+                    >span {
+                        background     : #e7e9ec;
+                        border-radius  : 3px;
+                        border-color   : #ADB1B8 #A2A6AC #8D9096;
+                        border-style   : solid;
+                        border-width   : 1px;
+                        cursor         : pointer;
+                        display        : inline-block;
+                        padding        : 0;
+                        text-align     : center;
+                        text-decoration: none !important;
+                        vertical-align : middle;
+
+                        >span {
+                            background      : #eff1f3;
+                            background      : -webkit-linear-gradient(top, #f7f8fa, #e7e9ec);
+                            background      : linear-gradient(to bottom, #f7f8fa, #e7e9ec);
+                            display         : block;
+                            position        : relative;
+                            overflow        : hidden;
+                            height          : 29px;
+                            box-shadow      : 0 1px 0 rgba(255, 255, 255, .6) inset;
+                            border-radius   : 2px;
+                            color           : #111;
+                            background-color: transparent;
+                            border          : 0;
+                            display         : block;
+                            font-size       : 14px;
+                            line-height     : 29px;
+                            margin          : 0;
+                            outline         : 0;
+                            padding         : 0 10px 0 11px;
+                            text-align      : center;
+                            white-space     : nowrap;
+                            width           : 100%;
+                            height          : 100%;
+                        }
+
+                        :active,
+                        :active:hover {
+                            border-color: #a2a6ac #979aa1 #82858a;
+                        }
+
+                        :active>span {
+                            box-shadow      : 0 1px 3px rgba(0, 0, 0, .2) inset;
+                            background-color: #e7e9ec;
+                            background-image: none;
+                        }
+
+                        :hover>span {
+                            background: #e0e3e8;
+                            background: -webkit-linear-gradient(top, #e7eaf0, #d9dce1);
+                            background: linear-gradient(to bottom, #e7eaf0, #d9dce1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -2,6 +2,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
+require_once(JPATH_SITE . '/php_html_templates/functions.php');
+
 $document = JFactory::getDocument();
 
 $document->addStyleSheet('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4/dist/css/tabulator.min.css');
@@ -26,6 +28,13 @@ switch ($chart_params->chart_skus[0]) {
         $sku = "P12001";
         break;
 }
+
+/**
+ * TODO dynamic pdf code
+ */
+$pdf_code = 'test';
+$download_status = getUserFileDownloadStatus(getFilePath($pdf_code));
+$is_pdf_prompt = isset($download_status['prompt']);
 ?>
 <style>
     .maptable {
@@ -102,6 +111,22 @@ switch ($chart_params->chart_skus[0]) {
     }
 </style>
 
+<?php if ($is_pdf_prompt) { ?>
+    <script>
+        var prompt = <?php echo json_encode($download_status['prompt']) ?>;
+        jQuery(function($) {
+            $('body').on('click', 'a.download_pdf', function(e) {
+                e.preventDefault();
+                var htmlOutput = $.templates("#modal_dialog_tpl").render(prompt);
+                $('.modal.dialog').html(htmlOutput).modal();
+            }).on('click', '.dl_anyways, .take_me_there', function() {
+                $('.modal.dialog').modal('hide');
+                window.open($(this).data('link'),$(this).data('target')); 
+            });
+        });
+    </script>
+<?php } ?>
+
 <div class="edupack_button" style="display:none;">
     <span>
         <span>
@@ -113,8 +138,8 @@ switch ($chart_params->chart_skus[0]) {
     </span>
     <span>
         <span>
-            <a href="<?php echo JUri::base() . 'download-promo'; ?>" target="_blank" class="download_pdf">
-                Download PDF
+            <a href="<?php echo $is_pdf_prompt ? '#' : $download_status['link'] ?>" target="_blank" class="download_pdf">
+                <?php echo $download_status['is_redownload'] ? 'Re-' : ''; ?>Download PDF
                 &nbsp;<i class="fas fa-download"></i>
             </a>
         </span>

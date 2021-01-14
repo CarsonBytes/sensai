@@ -9,6 +9,10 @@ define("IMG_S", 277);
 define("IMG_XS", 50);
 define("BUNDLE_PATH", 'images/bundle/');
 
+JFactory::getLanguage()->load('custom', JPATH_SITE, JFactory::getLanguage()->getTag(), true);
+
+use Joomla\CMS\Uri\Uri;
+
 /**
  * @deprecated
  */
@@ -134,4 +138,238 @@ function getCharts()
 	$database->setQuery($query);
 
 	return $database->loadObjectList();
+}
+
+
+function getFilePath($code)
+{
+	$db = JFactory::getDBO();
+
+	$query = "SELECT fp.id, fp.code, fp.path, fp.params, 
+    count(DISTINCT fd.id) AS total_download_cnt, count(DISTINCT fd2.id) AS user_download_cnt
+    FROM sensaiho_nya.filepath fp
+    LEFT JOIN files_downloaded fd ON fd.filepath_id = fp.id
+    LEFT JOIN (SELECT * FROM files_downloaded WHERE user_id = {$db->quote(JFactory::getUser()->id)} ) fd2 ON fd2.filepath_id = fp.id
+    WHERE fp.code = {$db->quote($code)}
+    GROUP BY fp.id
+    ORDER BY file_version_id desc
+    LIMIT 1";
+
+	//echo 'getFilePath';
+	//dump($query);
+
+	$db->setQuery($query);
+	$result = $db->loadObject();
+
+	//dump($result);
+	return $result;
+}
+
+function getFilePaths()
+{
+    $db = JFactory::getDBO();
+
+    $query = "SELECT fp.id, fp.file_id, fp.file_version_id, fp.code, fp.params,
+	count(DISTINCT fd.id) AS total_download_cnt, count(DISTINCT fd2.id) AS user_download_cnt
+	FROM filepath fp
+	INNER JOIN (
+		SELECT MAX(id) id, file_id, MAX(file_version_id) rev
+		FROM filepath
+		GROUP BY file_id
+	) fp2 ON fp.id = fp2.id
+	LEFT JOIN files_downloaded fd ON fd.filepath_id = fp.id
+	LEFT JOIN (SELECT * FROM files_downloaded WHERE user_id = {$db->quote(JFactory::getUser()->id)} ) fd2 ON fd2.filepath_id = fp.id
+	GROUP BY fp.id
+	ORDER BY file_id";
+
+    //echo 'getFilePath';
+    //dump($query);
+
+    $db->setQuery($query);
+    $result = $db->loadObjectList();
+
+    //dump($result);
+    return $result;
+}
+
+
+function insertFilesDownloaded($user_id, $filepath_id, $filesize)
+{
+	$db = JFactory::getDBO();
+
+	$values = array(
+		$db->quote($user_id),
+		$db->quote($filepath_id),
+		$db->quote($_SERVER['REMOTE_ADDR']),
+		$filesize,
+		$db->quote($_SERVER['HTTP_X_FORWARDED_FOR']),
+		$db->quote(date('Y-m-d H:i:s'))
+	);
+	$query = $db->getQuery(true);
+	$query
+		->insert($db->quoteName('files_downloaded'))
+		->columns($db->quoteName(array('user_id', 'filepath_id', 'ip', 'bytes', 'HTTP_X_FORWARDED_FOR', 'created')))
+		->values(implode(',', $values));
+
+	/* echo 'insertBundlesCharts';
+    dump($query); */
+
+	$db->setQuery($query);
+
+	$result = $db->execute();
+	/* 
+    dump($result); */
+}
+
+/**
+ * case of status:
+ *  0: 	user never downloaded 
+ * 		=> go to transition page to download
+ *  1: 	user has downloaded this file before and does not reach any quota yet 
+ * 		=> prompt and download pdf immediately	
+ *  2: 	user has downloaded this file and there is no quota at all
+ * 		=> download pdf immediately
+ * -1: 	self quota for this file reaches
+ * 		=> prompt and ask whether redirection is desired , in case alternative file is there
+ * -2: 	global quota for this file reaches
+ * 		=> prompt and ask whether redirection is desired , in case alternative file is there
+ * -3: 	user does not login in
+ * -4:	1 of the quotas is reached but no alternative file is there
+ * 
+ * return:
+ * array of status, prompt settings, etc.
+ * 
+ */
+function getUserFileDownloadStatus($file_info)
+{
+
+
+	$is_redownload = false;
+	if (!isLogin()) {
+		return array(
+			'status' => -3,
+			'prompt' => array(
+				'title' => JText::sprintf('PROMPT_NOTICE'),
+				'message' => JText::sprintf('PROMPT_LOGIN'),
+				'btns' => array(
+					array(
+						'name' => 'take_me_there',
+						'text' => JText::sprintf('PROMPT_YES_TAKE_ME_THERE'),
+						'link' => JUri::base() . 'login?return=' . urlencode(base64_encode(Uri::getInstance()->toString())),
+						'target' => '_self'
+					),
+					array(
+						'name' => 'cancel',
+						'text' => JText::sprintf('PROMPT_CANCEL')
+					)
+				)
+			),
+			'is_redownload' => $is_redownload
+		);
+	}
+	if ($file_info == null) {
+		return false;
+	}
+	$file_params = json_decode($file_info->params);
+
+	/**
+	 * check if user has downloaded or not
+	 */
+	if ($file_info->user_download_cnt > 0) {
+		$is_redownload = true;
+	}
+	
+	/**
+	 * TODO user has downloaded this file and there is no quota defined at all
+	 */
+
+	/**
+	 * TODO 1 of the quota is reached but no alternative file is there
+	 */
+
+	/**
+	 * check if local quota is reached 
+	 */
+	if ($file_info->user_download_cnt >= $file_params->total_download_limit_per_user) {
+
+		return array(
+			'status' => -1,
+			'prompt' => array(
+				'title' => JText::sprintf('PROMPT_NOTICE'),
+				'message' => JText::sprintf('PROMPT_LOCAL_REDIRECT', $file_info->user_download_cnt, $file_params->total_download_limit_per_user),
+				'btns' => array(
+					array(
+						'name' => 'take_me_there',
+						'text' => JText::sprintf('PROMPT_YES_TAKE_ME_THERE'),
+						'link' => JUri::base() . 'download-promo?c=' . $file_params->alternative_filepath_code,
+						'target' => '_blank'
+					),
+					array(
+						'name' => 'cancel',
+						'text' => JText::sprintf('PROMPT_CANCEL')
+					)
+				)
+			),
+			'is_redownload' => $is_redownload
+		);
+	}
+	/**
+	 * check if global quota is reached 
+	 */
+	if ($file_info->total_download_cnt >= $file_params->total_download_limit) {
+		return array(
+			'status' => -2,
+			'prompt' => array(
+				'title' => JText::sprintf('PROMPT_NOTICE'),
+				'message' => JText::sprintf('PROMPT_GLOBAL_REDIRECT', $file_info->user_download_cnt, $file_params->total_download_limit_per_user),
+				'btns' => array(
+					array(
+						'name' => 'take_me_there',
+						'text' => JText::sprintf('PROMPT_YES_TAKE_ME_THERE'),
+						'link' => JUri::base() . 'download-promo?c=' . $file_params->alternative_filepath_code,
+						'target' => '_blank'
+					),
+					array(
+						'name' => 'cancel',
+						'text' => JText::sprintf('PROMPT_CANCEL')
+					)
+				)
+			),
+			'is_redownload' => $is_redownload
+		);
+	}
+
+	/**
+	 * check if user has downloaded this file before 
+	 */
+	if ($file_info->user_download_cnt == 0) {
+		return array(
+			'status' => 0,
+			'link' => JUri::base() . 'download-promo?d=1&c=' . $file_info->code,
+			'is_redownload' => $is_redownload
+		);
+	}
+
+	/**
+	 * until here user has downloaded this file before and does not reach any quota yet
+	 */
+	return array(
+		'status' => 1,
+		'prompt' => array(
+			'title' => JText::sprintf('PROMPT_NOTICE'),
+			'message' => JText::sprintf('PROMPT_REDOWNLOAD', $file_info->user_download_cnt, $file_params->total_download_limit_per_user),
+			'btns' => array(
+				array(
+					'name' => 'dl_anyways',
+					'text' => JText::sprintf('PROMPT_DOWNLOAD_ANYWAYS'),
+					'link' => JUri::base() . 'download-promo?d=1&c=' . $file_info->code
+				),
+				array(
+					'name' => 'cancel',
+					'text' => JText::sprintf('PROMPT_CANCEL')
+				)
+			)
+		),
+		'is_redownload' => $is_redownload
+	);
 }
