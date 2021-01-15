@@ -81,26 +81,3 @@ $charts = getCharts();
 <div class="clearfix"></div>
 
 <?php
-
-function getFilePaths()
-{
-    $db = JFactory::getDBO();
-
-    $query = "SELECT fp.id, fp.file_id, fp.file_version_id, fp.code, fp.params
-    FROM filepath fp
-    INNER JOIN (
-        SELECT MAX(id) id, file_id, MAX(file_version_id) rev
-        FROM filepath
-        GROUP BY file_id
-    ) fp2 ON fp.id = fp2.id
-    order by file_id";
-
-    //echo 'getFilePath';
-    //dump($query);
-
-    $db->setQuery($query);
-    $result = $db->loadObjectList();
-
-    //dump($result);
-    return $result;
-}
