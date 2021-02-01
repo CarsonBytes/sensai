@@ -10,7 +10,7 @@
 //}
 
 body {
-    font-family   : 'Schoolbell', cursive;
+    font-family   : "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Apple Legacy Chevron", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size     : 1.5em;
     letter-spacing: 1px;
     line-height   : 1.35;
@@ -113,7 +113,8 @@ body:lang(ja-jp) {
                     }
 
                     .free_audio_posters_slogan {
-                        display: none;
+                        font-family: 'Schoolbell', cursive;
+                        display    : none;
 
                         @media screen and (min-width: @screen-desktop) {
                             display       : block;
@@ -905,6 +906,25 @@ body.modal-open {
                     }
                 }
             }
+        }
+    }
+}
+
+html.static {
+    .item-pagestatic {
+        max-width: 600px;
+        margin   : 0 auto;
+
+        .page-header h2 {
+            font-size     : 18px;
+            text-transform: uppercase;
+            text-align    : center;
+            font-weight   : bold;
+            color         : #478203;
+        }
+
+        .articlebody {
+            padding: 0;
         }
     }
 }
