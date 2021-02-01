@@ -21,15 +21,6 @@ include JPATH_SITE . '/php_html_templates/functions.php';
         border-radius: 2px;
     }
 
-    .item-page {
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    .item-page .articlebody {
-        padding: 0;
-    }
-
     .main_content img {
         width: 150px;
         float: left;
@@ -44,7 +35,7 @@ include JPATH_SITE . '/php_html_templates/functions.php';
 <?php
 $promos = getFilePaths();
 ?>
-<div class="free_items col-sm-12 col-md-12 col-lg-12">
+<div class="free_items">
     <div class="free_items_wrapper">
         <?php $j = 0;
         foreach ($promos as $promo) {
@@ -70,7 +61,7 @@ $promos = getFilePaths();
             <?php } ?>
 
             <div class="free_item">
-                <div class="col-xs-12 col-md-12 main_content_col">
+                <div class="main_content_col">
                     <div class="main_content">
                         <h1 itemprop="name" class="product-title"><?php echo $file_params->title; ?></h1>
                         <img src="<?php echo $file_params->thumb; ?>" />

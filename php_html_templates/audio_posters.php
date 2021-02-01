@@ -21,15 +21,6 @@ include JPATH_SITE . '/php_html_templates/functions.php';
         border-radius: 2px;
     }
 
-    .item-page {
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    .item-page .articlebody {
-        padding: 0;
-    }
-
     .main_content img {
         width: 150px;
         float: left;
@@ -44,30 +35,28 @@ include JPATH_SITE . '/php_html_templates/functions.php';
 <?php
 $charts = getCharts();
 ?>
-<div class="free_items col-sm-12 col-md-12 col-lg-12">
-    <div class="free_items_wrapper">
+<div class="audio_posters">
+    <div class="audio_posters_wrapper">
         <?php $j = 0;
         foreach ($charts as $chart) {
             $chart_params = json_decode($chart->params);
         ?>
-            <div class="free_item">
-                <div class="col-xs-12 col-md-12 main_content_col">
-                    <div class="main_content">
-                        <h1 itemprop="name" class="product-title"><?php echo $chart->title; ?></h1>
-                        <img src="<?php echo $chart_params->img_names[0]; ?>" />
-                        <?php echo $chart->introtext; ?>
-                        <a href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart_params->chart_j2_store_product_id); ?>">
-                            <div class="btn_to_amazon to_view">
-                                <span class="a-button-inner">
-                                    <img src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
-                                    <input title="View" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-                                    <span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
-                                        View
-                                    </span>
+            <div class="audio_poster">
+                <div class="main_content">
+                    <h1 itemprop="name" class="product-title"><?php echo $chart->title; ?></h1>
+                    <img src="<?php echo $chart_params->img_names[0]; ?>" />
+                    <?php echo $chart->introtext; ?>
+                    <a href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart_params->chart_j2_store_product_id); ?>">
+                        <div class="btn_to_amazon to_view">
+                            <span class="a-button-inner">
+                                <img src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
+                                <input title="View" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
+                                <span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
+                                    View
                                 </span>
-                            </div>
-                        </a>
-                    </div>
+                            </span>
+                        </div>
+                    </a>
                 </div>
                 <div class="clearfix"></div>
                 <hr />
