@@ -36,6 +36,9 @@ $pdf_code = 'test';
 $download_status = getUserFileDownloadStatus(getFilePath($pdf_code));
 $is_pdf_prompt = isset($download_status['prompt']);
 ?>
+<script>
+	var locale = '<?php echo JFactory::getLanguage()->getTag();?>' ;
+</script>
 <style>
     .maptable {
         height: 95vh;

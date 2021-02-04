@@ -6,55 +6,6 @@ if (
     $skus = ['P12001','P12002'];
     $type = 'edupack';
 ?>
-<style>
-    ul.pages{
-        display: inline-block;
-        color: #111;
-        margin-top:10px;
-        padding: 0;
-    }
-    ul.pages li{
-        margin-right: 4px;
-        background-color: #fff;
-        display: block;
-        float: left;
-        line-height: 16px;
-        list-style: none;
-        position: relative;
-    }
-    ul.pages li a{
-        color: #111;
-        padding: 8px 12px 7px 13px;
-        border-radius: 3px;
-        box-shadow: 0 1px 0 rgba(255,255,255,.6) inset;
-        background: #eff1f3;
-        background: -webkit-linear-gradient(top,#f7f8fa,#e7e9ec);
-        background: linear-gradient(to bottom,#f7f8fa,#e7e9ec);
-        border: 1px solid #6c6e73;
-        border-color: #adb1b8 #a2a6ac #8d9096;
-        display: block;
-        text-decoration: none;
-    }
-    
-    ul.pages li.selected{
-        background-color: #fff;
-        border-color: #e77600;
-    }
-    ul.pages li.selected a, ul.pages li.selected a:hover {
-        font-weight: 700;
-        background-color: #fff;
-        background-image: none;
-        color: #c45500;
-        border-color: #e77600;
-        cursor: default;
-    }
-    ul.pages li a:hover {
-        background: #e0e3e9;
-        background: -webkit-linear-gradient(top,#e7eaf0,#d9dce1);
-        background: linear-gradient(to bottom,#e7eaf0,#d9dce1);
-        border-color: #a2a6ac #979aa1 #82858a;
-    }
-</style>
 <ul class="pages">
     <?php $i=1;
     foreach($skus as $sku){  ?>

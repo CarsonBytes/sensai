@@ -9,6 +9,10 @@ define("IMG_S", 277);
 define("IMG_XS", 50);
 define("BUNDLE_PATH", 'images/bundle/');
 
+defined('JPATH_BASE') or define('JPATH_BASE', realpath(dirname(__FILE__) . '/../'));  
+require_once JPATH_BASE . '/includes/defines.php';
+require_once JPATH_BASE . '/includes/framework.php';
+
 JFactory::getLanguage()->load('custom', JPATH_SITE, JFactory::getLanguage()->getTag(), true);
 
 use Joomla\CMS\Uri\Uri;
@@ -373,3 +377,4 @@ function getUserFileDownloadStatus($file_info)
 		'is_redownload' => $is_redownload
 	);
 }
+?>

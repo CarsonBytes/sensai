@@ -334,12 +334,12 @@ jQuery(function ($) {
     $(".btn_to_amazon")
         .on('mousedown touchstart', function (event) {
             event.preventDefault();
-            console.log('down')
+            //console.log('down')
             $(this).addClass('focus');
         })
         .on('mouseup mouseout touchend', function (event) {
             event.preventDefault();
-            console.log('up / out')
+            //console.log('up / out')
             $(this).removeClass('focus');
         })
 

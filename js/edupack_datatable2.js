@@ -1,8 +1,8 @@
 var selectedSKU;
 var selectedPage;
 var selectedType;
+var table;
 jQuery(function ($) {
-    var table;
     var selectedImageMap;
     var tableSKU = '';
     function isScrolledIntoView(el) {
@@ -125,12 +125,24 @@ jQuery(function ($) {
             ajaxURL: '/bin/cap/' + $('ul.pages li.selected').data('sku') + '.json', //ajax URL
             layout: "fitColumns",
             langs: {
-                "jp-jp": {
+                "ja-JP": {
                     "columns": {
-                        "formatted_name": "名前",
-                        "audio": "オーディオ",
-                        "source1": "外部参照 JP",
-                        "source2": "外部参照 EN",
+                        "name": "名前 EN",
+                        "name_jp": "名前 JP",
+                        "audio": "オーディオ EN",
+                        "audio_jp": "オーディオ JP",
+                        "source": "外部参照 EN",
+                        "source_jp": "外部参照 JP",
+                    }
+                },
+                "en-GB": {
+                    "columns": {
+                        "name": "Name EN",
+                        "name_jp": "Name JP",
+                        "audio": "Audio EN",
+                        "audio_jp": "Audio JP",
+                        "source": "Source EN",
+                        "source_jp": "Source JP",
                     }
                 },
             },
@@ -138,16 +150,18 @@ jQuery(function ($) {
                 //{ field: "id", width: 20, headerSort: false },
                 /* { field: "handbook_page", width: 20, headerSort: false },
                 { field: "handbook_order", width: 20, headerSort: false }, */
-                { title: "Name", field: "formatted_name", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
-                { title: "Audio", field: "audio", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
-                { title: "Source 1", field: "source1", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
-                { title: "Source 2", field: "source2", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false }
+                { title: "Name JP", field: "name_jp", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
+                { title: "Name EN", field: "name", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
+                { title: "Audio EN", field: "audio", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
+                { title: "Audio JP", field: "audio_jp", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
+                { title: "Source EN", field: "source", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
+                { title: "Source JP", field: "source_jp", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false }
             ],
             renderComplete: function () {
                 renderAudioBtn()
             }
         });
-        table.setLocale("jp-jp");
+        table.setLocale(locale);
         $('#imageMapTable .tabulator-tableHolder').on('scroll', function () {
             renderAudioBtn()
         })
@@ -193,10 +207,51 @@ jQuery(function ($) {
         initImgMap()
         initImgMapTable(true)
     }
+
+    var table_columns = {};
+    table_columns['en-GB'] = ['name', 'audio', 'source'];
+    table_columns['ja-JP'] = ['name_jp', 'name', 'audio_jp', 'source_jp'];
+
+    function switchLocale(locale = 'all') {
+        if (locale == 'all') {
+            for (var locale_code in table_columns) {
+                table_columns[locale_code].forEach(
+                    function (element) {
+                        table.showColumn(element)
+                    }
+                )
+            }
+        } else {
+            for (var locale_code in table_columns) {
+                if (locale_code != locale)
+                    table_columns[locale_code].forEach(
+                        function (element) {
+                            table.hideColumn(element)
+                        }
+                    )
+                else
+                    continue;
+
+            }
+            for (var locale_code in table_columns) {
+                if (locale_code == locale)
+                    table_columns[locale_code].forEach(
+                        function (element) {
+                            table.showColumn(element)
+                        }
+                    )
+                else
+                    continue;
+
+            }
+        }
+        table.redraw();
+    }
+
     var isAjaxLoaded = false;
     $('body').on('click', 'a.toggle_interactive_table', function (e) {
         e.preventDefault();
-        var thiselemnt = $(this)
+        var thiselemnt = $(this);
         selectedSKU = thiselemnt.data('sku');
         selectedPage = thiselemnt.data('page');
         selectedType = thiselemnt.data('type');
@@ -234,6 +289,9 @@ jQuery(function ($) {
             window.open('/files/?type=handbook&sku=' + $(this).data('sku'), '_blank');
         else
             window.open('/html/flip/?i=' + $(this).data('sku'), '_blank');
+
+    }).on('change', '.locale_selector', function (e) {
+        switchLocale($(this).prop('value'));
     });
 
 
@@ -245,4 +303,6 @@ jQuery(function ($) {
     })
 
     $('.edupack_button').show();
+
+
 });
