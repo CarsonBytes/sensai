@@ -128,14 +128,12 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                 $html_jp .= '';
                 $html_en .= '';
                 $data_array['id'] = $id++;
-                /*$data_array['source1'] = '<div style="line-height: 24px;">' . $html_jp . '</div>';
-                $data_array['source2'] = '<div style="line-height: 24px;">' . $html_en . '</div>';*/
-                $data_array['source1'] = '<div>' . $html_jp . '</div>';
-                $data_array['source2'] = '<div>' . $html_en . '</div>';
-                $data_array['formatted_name'] = "<div>{$data_array['name_jp']}<br />{$data_array['name']}</div>";
-                $data_array['audio'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay jp"></audio> 
-                    <audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay en"></audio> 
-                    <audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay"></audio>';
+                $data_array['name'] = "<div>{$data_array['name']}</div>";
+                $data_array['name_jp'] = "<div>{$data_array['name_jp']}</div>";
+                $data_array['audio'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay en"></audio>';
+                $data_array['audio_jp'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay jp"></audio>';
+                $data_array['source'] = '<div>' . $html_en . '</div>';
+                $data_array['source_jp'] = '<div>' . $html_jp . '</div>';
                 echo '<pre>';
                 var_dump('$html_jp');
                 var_dump($html_jp);

@@ -81,19 +81,19 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                                     $html_en .= '<a href="' . $grid . '" target="_blank"><img src="' . $icon_saved_folder . $value . '" /></a> ';
                                 }
                             }
-                        }else if (($j >= 10) && ($j < 14)) { //jp links
+                        } else if (($j >= 10) && ($j < 14)) { //jp links
                             foreach ($jp_link_keywords as $key => $value) {
                                 if (strpos($grid, $key) !== false) {
                                     $html_jp .= '<a href="' . $grid . '" target="_blank"><img src="' . $icon_saved_folder . $value . '" /></a> ';
                                 }
                             }
-                        }else if ($j == 16) { //handbook page
+                        } else if ($j == 16) { //handbook page
                             $data_array['handbook_page'] = $grid;
                             echo '<pre>';
                             var_dump('handbook_page');
                             var_dump($data_array['handbook_page']);
                             echo '</pre>';
-                        }else if ($j == 17) { //handbook order
+                        } else if ($j == 17) { //handbook order
                             $data_array['handbook_order'] = $grid;
                             echo '<pre>';
                             var_dump('handbook_order');
@@ -108,12 +108,12 @@ if (file_exists(dirname(__FILE__) . '/' . $filename)) {
                 $html_jp .= '';
                 $html_en .= '';
                 $data_array['id'] = $id++;
-                $data_array['source1'] = '<div>' . $html_jp . '</div>';
-                $data_array['source2'] = '<div>' . $html_en . '</div>';
-                $data_array['formatted_name'] = "<div>{$data_array['name_jp']}<br />{$data_array['name']}</div>";
-                $data_array['audio'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay jp"></audio> 
-                    <audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay en"></audio> 
-                    <audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay"></audio>';
+                $data_array['name'] = "<div>{$data_array['name']}</div>";
+                $data_array['name_jp'] = "<div>{$data_array['name_jp']}</div>";
+                $data_array['audio'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay en"></audio>';
+                $data_array['audio_jp'] = '<audio src="https://www.w3schools.com/html/horse.mp3" class="audioplay jp"></audio>';
+                $data_array['source'] = '<div>' . $html_en . '</div>';
+                $data_array['source_jp'] = '<div>' . $html_jp . '</div>';
                 echo '<pre>';
                 var_dump('$html_jp');
                 var_dump($html_jp);
