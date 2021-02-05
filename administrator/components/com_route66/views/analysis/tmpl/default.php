@@ -8,15 +8,15 @@ defined('_JEXEC') or die;
 ?>
 <?php if($this->isPro): ?>
 <script type="text/javascript">
-jQuery(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function(event) {
 	Route66UrlAnalyzer.start();
-});
-Joomla.submitbutton = function(task){
+	Joomla.submitbutton = function(task){
 		if(!document.formvalidator.isValid(document.getElementById('adminForm'))) {
 			return false;
 		}
 		Route66UrlAnalyzer.fetchPage();
-}
+	}
+});
 </script>
 <?php endif; ?>
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm" class="form form-horizontal">

@@ -41,7 +41,6 @@ class plgSystemCwgears extends JPlugin
 
     var $pinterest;
     var $share;
-    private $caching = 0;
 
     /**
      * plg System CW Gears constructor.
@@ -190,7 +189,6 @@ class plgSystemCwgears extends JPlugin
                 }
             }
         }
-        return;
     }
 
     /**
@@ -205,7 +203,7 @@ class plgSystemCwgears extends JPlugin
         $baseUrl = '../media/coalaweb/';
 
         //Lets add some style for backend extension configurations.
-        if ($app->isAdmin()) {
+        if ($app->isClient('administrator')) {
 
             //Should we remove dependencies
             $dbCleanDepend = $this->params->get('db_clean_dependencies', '0');
@@ -239,7 +237,7 @@ class plgSystemCwgears extends JPlugin
         //Is Gzip turned on
         $gzip = $app->get('gzip');
 
-        if ($gziphelp && $gzip && !$app->isAdmin()) {
+        if ($gziphelp && $gzip && !$app->isClient('administrator')) {
 
             // Lets check if it exists before including
             $iptools_php = JPATH_SITE . '/plugins/system/cwgears/helpers/iptools.php';
@@ -299,8 +297,8 @@ class plgSystemCwgears extends JPlugin
         //Let stop Joomla cache from affecting specific parts of the website.
         //Inspired by Crosstec
         $loadCacheControl = $this->params->get('cache_off', 0);
-        if ($loadCacheControl && $this->checkRules() && !$app->isAdmin()) {
-            $this->caching = JFactory::getConfig()->get('caching');
+        if ($loadCacheControl && $this->checkRules() && !$app->isClient('administrator')) {
+            $caching = JFactory::getConfig()->get('caching');
             JFactory::getConfig()->set('caching', 0);
         }
     }
@@ -321,7 +319,7 @@ class plgSystemCwgears extends JPlugin
         //----------------------------------------------------------------------
         $loadJquery = $this->params->get('jquery_on', 0);
 
-        if ($loadJquery && !$app->isAdmin()) {
+        if ($loadJquery && !$app->isClient('administrator')) {
 
             // Let create a link to our local directory.
             $localURL = JURI::root(true) . "/media/coalaweb/plugins/system/gears/js";
@@ -423,7 +421,7 @@ class plgSystemCwgears extends JPlugin
                 include_once $loadcount_php;
             } else {
                 $app->enqueueMessage(JText::_('PLG_CWGEARS_ASSET_MISSING_MESSAGE'), 'notice');
-                return;
+                return false;
             }
 
             $helpFunc = new CwGearsHelperLoadcount();
@@ -585,7 +583,7 @@ class plgSystemCwgears extends JPlugin
         //----------------------------------------------------------------------
 
         $ccssAdd = $this->params->get('ccss_add');
-        if ($ccssAdd && !$app->isAdmin() && $doc->getType() == 'html') {
+        if ($ccssAdd && !$app->isClient('administrator') && $doc->getType() == 'html') {
             $ccssCode = $this->params->get('ccss_code');
             $ccssFile = $this->params->get('ccss_file');
             // Remove comments.
@@ -619,7 +617,7 @@ class plgSystemCwgears extends JPlugin
         //----------------------------------------------------------------------
 
         $cjsAdd = $this->params->get('cjs_add');
-        if ($cjsAdd && !$app->isAdmin() && $doc->getType() == 'html') {
+        if ($cjsAdd && !$app->isClient('administrator') && $doc->getType() == 'html') {
             $cjsCode = $this->params->get('cjs_code');
 
             // Remove comments.
@@ -643,7 +641,7 @@ class plgSystemCwgears extends JPlugin
         //----------------------------------------------------------------------
 
         $yooEditorTweak = $this->params->get('zoo_editor_tweak');
-        if ($yooEditorTweak && $app->isAdmin()) {
+        if ($yooEditorTweak && $app->isClient('administrator')) {
             $zooEditorTweak = '.creation-form textarea {width: 100%; height:400px;}';
             $doc->addCustomTag('<style type="text/css">' . $zooEditorTweak . '</style>');
         }
@@ -654,7 +652,7 @@ class plgSystemCwgears extends JPlugin
 
         $defer = $this->params->get('defer');
         $async = $this->params->get('async');
-        if (($defer || $async) && !$app->isAdmin() && $doc->getType() == 'html') {
+        if (($defer || $async) && !$app->isClient('administrator') && $doc->getType() == 'html') {
 
             $scripts_to_handle = trim((string)$this->params->get('script_list', ''));
 
@@ -707,6 +705,7 @@ class plgSystemCwgears extends JPlugin
 
             return true;
         }
+        return true;
     }
 
     /**
@@ -795,7 +794,7 @@ class plgSystemCwgears extends JPlugin
         $params = new JRegistry($plugin->params);
         $loadCacheControl = $params->get('cache_off', 0);
 
-        if ($loadCacheControl && !$app->isAdmin()) {
+        if ($loadCacheControl && !$app->isClient('administrator')) {
             $defs = str_replace("\r", "", $params->get('rules', ''));
             $defs = explode("\n", $defs);
 
@@ -817,6 +816,7 @@ class plgSystemCwgears extends JPlugin
 
             return false;
         }
+        return false;
     }
 
     /**

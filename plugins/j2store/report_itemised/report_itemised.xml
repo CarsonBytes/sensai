@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="j2store" method="upgrade">
-	<name>Report Itemised</name>
+	<name>J2STORE_REPORT_ITEMISED</name>
 	<version>1.0</version>
 	<creationDate>May 2014</creationDate>
 	<author>Gokila Priya</author>

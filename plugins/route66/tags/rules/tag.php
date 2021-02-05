@@ -117,7 +117,7 @@ class Route66RuleTagsTag extends Route66Rule
 		$query->select('id')->from('#__tags')->where('alias = ' . $db->q($alias));
 		$application = JFactory::getApplication();
 
-		if ($application->isSite() && $application->getLanguageFilter())
+		if ($application->isClient('site') && $application->getLanguageFilter())
 		{
 			$query->where($db->qn('language') . ' IN(' . $db->q('*') . ', ' . $db->q($this->getLanguage()) . ')');
 		}

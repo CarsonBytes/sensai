@@ -1,7 +1,7 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.4.4
+* @version 1.9
 * @package BreezingForms
 * @copyright (C) 2004 by Peter Koch
 * @license Released under the terms of the GNU General Public License

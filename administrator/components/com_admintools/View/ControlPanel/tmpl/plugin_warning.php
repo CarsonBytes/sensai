@@ -8,7 +8,7 @@
 use Akeeba\AdminTools\Admin\View\WebApplicationFirewall\Html;
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 /** @var  Html $this */
 

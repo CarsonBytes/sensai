@@ -2,7 +2,7 @@
 /**
  * @package     BreezingForms
  * @author      Markus Bopp
- * @link        http://www.crosstec.de
+ * @link        https://www.crosstec.org
  * @license     GNU/GPL
 */
 

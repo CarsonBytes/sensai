@@ -12,7 +12,7 @@ use Joomla\CMS\Language\Text;
 /** @var  Html $this */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $template = $this->container->template;
 

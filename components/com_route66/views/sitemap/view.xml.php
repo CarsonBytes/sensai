@@ -11,7 +11,7 @@ class Route66ViewSitemap extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$application = JFactory::getApplication();
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
+		JLoader::register('Route66ModelSitemap', JPATH_ADMINISTRATOR . '/components/com_route66/models/sitemap.php');
 		$model = JModelLegacy::getInstance('Sitemap', 'Route66Model', array('ignore_request' => true));
 		$this->item = $model->getItem($application->input->getInt('id'));
 

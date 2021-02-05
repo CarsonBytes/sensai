@@ -128,7 +128,8 @@ $limit = $global_config->get('list_limit',20);
             });
             j2Ajax.done(function(json) {
                 if(json['html']){
-                    $('#variant_display_block').html(json['html'])
+                    window.location.reload();
+                    //$('#variant_display_block').html(json['html']);
                 }
 
             }).fail(function( jqXHR, textStatus, errorThrown) {

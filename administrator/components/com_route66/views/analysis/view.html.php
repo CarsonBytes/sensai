@@ -6,13 +6,15 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 jimport('joomla.application.component.view');
 
 class Route66ViewAnalysis extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
-		$this->isPro = JFile::exists(JPATH_SITE . '/plugins/k2/route66seo/media/js/route66analyzer.js');
+		$this->isPro = File::exists(JPATH_SITE . '/plugins/k2/route66seo/media/js/route66analyzer.js');
 
 		$this->loadHelper('html');
 		$this->loadHelper('extension');
@@ -20,12 +22,12 @@ class Route66ViewAnalysis extends JViewLegacy
 
 		JToolBarHelper::title(JText::_('COM_ROUTE66_SEO_ANALYSIS_TITLE'), 'search');
 		$toolbar = JToolbar::getInstance('toolbar');
-		$toolbar->appendButton('Link', 'back', 'JTOOLBAR_BACK', 'index.php?option=com_route66&view=seo');
+		$toolbar->appendButton('Link', 'arrow-left', 'JTOOLBAR_BACK', 'index.php?option=com_route66&view=seo');
 
 		if ($this->isPro)
 		{
 			JHtml::_('jquery.framework');
-			JHtml::_('behavior.formvalidation');
+			JHtml::_('behavior.formvalidator');
 			$document = JFactory::getDocument();
 			$document->addStyleSheet(JUri::root(true) . '/media/route66/css/route66seo.css', array('version' => $version));
 			$this->loadLanguage();
@@ -36,7 +38,15 @@ class Route66ViewAnalysis extends JViewLegacy
 
 			$this->form = JForm::getInstance('route66seoanalysis', JPATH_SITE . '/administrator/components/com_route66/forms/route66seoanalysis.xml', array('control' => 'jform'));
 
-			$button = '<button onclick="Joomla.submitbutton(\'seo.fetchPage\');" class="btn btn-small btn-success"><span class="icon-play icon-white" title="' . JText::_('COM_ROUTE66_ANALYZE') . '"></span>' . JText::_('COM_ROUTE66_ANALYZE') . '</button>';
+			if(version_compare(JVERSION, '4.0', 'ge'))
+			{
+				$button = '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'seo.fetchPage\');" class="btn btn-small btn-success"><span class="fa fa-play" title="' . JText::_('COM_ROUTE66_ANALYZE') . '"></span>' . JText::_('COM_ROUTE66_ANALYZE') . '</button></joomla-toolbar-button>';
+			}
+			else
+			{
+				$button = '<button onclick="Joomla.submitbutton(\'seo.fetchPage\');" class="btn btn-small btn-success"><span class="icon-play icon-white" title="' . JText::_('COM_ROUTE66_ANALYZE') . '"></span>' . JText::_('COM_ROUTE66_ANALYZE') . '</button>';
+			}
+
 			$toolbar->appendButton('Custom', $button, 'generate');
 		}
 		else
@@ -67,9 +77,9 @@ class Route66ViewAnalysis extends JViewLegacy
 
 		foreach ($files as $file)
 		{
-			if (JFile::exists($path . '/' . $file))
+			if (File::exists($path . '/' . $file))
 			{
-				$buffer = JFile::read($path . '/' . $file);
+				$buffer = file_get_contents($path . '/' . $file);
 				$buffer = str_replace('wordpress-seo', 'js-text-analysis', $buffer);
 				$i18n = json_decode($buffer);
 

@@ -1,6 +1,16 @@
+<?php
+/**
+ * @author      Lefteris Kavadas
+ * @copyright   Copyright (c) 2016 - 2019 Lefteris Kavadas / firecoders.com
+ * @license     GNU General Public License version 3 or later
+ */
+defined('_JEXEC') or die;
+?>
+<?php if(version_compare(JVERSION, '4', 'lt')): ?>
 <div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 </div>
+<?php endif; ?>
 <div id="j-main-container" class="span10 form-horizontal">
 	<p class="lead"><?php echo JText::_('COM_ROUTE66_GETTING_STARTED_MESSAGE_GOOGLE_PAGESPEED'); ?></p>
 	<h3><?php echo JText::_('JOPTIONS'); ?></h3>

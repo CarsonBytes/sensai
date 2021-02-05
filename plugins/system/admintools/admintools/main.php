@@ -17,7 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 // This dummy class is here to allow the class autoloader to load the main plugin file
 class AtsystemAdmintoolsMain

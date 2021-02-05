@@ -19,32 +19,32 @@ class Route66HelperExtension
 		return $manifest->version;
 	}
 
-	public static function checkPluginsOrdering()
+	public static function fixPluginsOrdering()
 	{
 		$db = JFactory::getDbo();
+
 		$query = $db->getQuery(true);
-		$query->select($db->qn('element'));
-		$query->from($db->qn('#__extensions'));
+		$query->update($db->qn('#__extensions'));
+		$query->set($db->qn('ordering') . ' = ' . $db->q('100'));
 		$query->where($db->qn('folder') . ' = ' . $db->q('system'));
-		$query->where($db->qn('enabled') . ' = 1');
-		$query->order($db->qn('ordering') . ' DESC');
-		$db->setQuery($query, 0, 2);
-		$plugins = $db->loadColumn();
+		$query->where($db->qn('element') . ' = ' . $db->q('route66pagespeed'));
+		$db->setQuery($query);
+		$db->execute();
 
-		$warning = null;
+		$query = $db->getQuery(true);
+		$query->update($db->qn('#__extensions'));
+		$query->set($db->qn('ordering') . ' = ' . $db->q('101'));
+		$query->where($db->qn('folder') . ' = ' . $db->q('system'));
+		$query->where($db->qn('element') . ' = ' . $db->q('route66'));
+		$db->setQuery($query);
+		$db->execute();
 
-		foreach ($plugins as $plugin)
-		{
-			if ($plugin != 'route66' && $plugin != 'route66pagespeed')
-			{
-				$warning = JText::_('COM_ROUTE66_WRONG_PLUGIN_ORDER');
-			}
-		}
-
-		if ($warning)
-		{
-			$application = JFactory::getApplication();
-			$application->enqueueMessage($warning, 'warning');
-		}
+		$query = $db->getQuery(true);
+		$query->update($db->qn('#__extensions'));
+		$query->set($db->qn('ordering') . ' = ' . $db->q('102'));
+		$query->where($db->qn('folder') . ' = ' . $db->q('system'));
+		$query->where($db->qn('element') . ' = ' . $db->q('languagefilter'));
+		$db->setQuery($query);
+		$db->execute();
 	}
 }

@@ -12,7 +12,7 @@ use Joomla\CMS\Router\Route;
 /** @var  Html $this For type hinting in the IDE */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 ?>
 <?php echo $this->loadAnyTemplate('admin:com_admintools/ControlPanel/warnings'); ?>

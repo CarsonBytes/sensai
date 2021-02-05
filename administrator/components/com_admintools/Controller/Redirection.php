@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Controller;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 class Redirection extends Redirections
 {

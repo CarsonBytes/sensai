@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Cache Cleaner
- * @version         7.2.2
+ * @version         7.3.3
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
@@ -11,7 +11,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory as JFactory;
 use Joomla\CMS\Plugin\PluginHelper as JPluginHelper;
+use Joomla\CMS\Language\Text as JText;
+use RegularLabs\Library\Document as RL_Document;
+use RegularLabs\Library\Extension as RL_Extension;
+use RegularLabs\Library\Language as RL_Language;
 
 /**
  * Module that cleans cache
@@ -34,6 +39,20 @@ if ( ! JPluginHelper::isEnabled('system', 'regularlabs'))
 }
 
 require_once JPATH_LIBRARIES . '/regularlabs/autoload.php';
+
+if ( ! RL_Document::isJoomlaVersion(3, 'CACHECLEANER'))
+{
+	RL_Extension::disable('cachecleaner', 'module');
+
+	RL_Language::load('plg_system_regularlabs');
+
+	JFactory::getApplication()->enqueueMessage(
+		JText::sprintf('RL_ADMIN_MODULE_HAS_BEEN_DISABLED', JText::_('CACHECLEANER')),
+		'error'
+	);
+
+	return;
+}
 
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';

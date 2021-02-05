@@ -9,7 +9,7 @@ use Akeeba\AdminTools\Admin\View\DatabaseTools\Html;
 use Joomla\CMS\Language\Text;
 
 /** @var $this Html */
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 ?>
 <?php if (!empty($this->table)): ?>

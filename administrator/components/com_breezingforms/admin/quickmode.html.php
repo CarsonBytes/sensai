@@ -1,9 +1,9 @@
 <?php
 /**
  * BreezingForms - A Joomla Forms Application
- * @version 1.8
+ * @version 1.9
  * @package BreezingForms
- * @copyright (C) 2008-2012 by Markus Bopp
+ * @copyright (C) 2008-2020 by Markus Bopp
  * @license Released under the terms of the GNU General Public License
  **/
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
@@ -56,6 +56,11 @@ class QuickModeHtml {
 		<script
 			type="text/javascript"
 			src="<?php echo JURI::root() ?>components/com_breezingforms/libraries/jquery/center.js"></script>
+		
+		<script
+			type="text/javascript"
+			src="<?php echo JURI::root() . 'administrator/components/com_breezingforms/libraries/jquery/'; ?>jquery.scroll.js"></script>
+			
 
 		<?php
 		if ( version_compare( $version->getShortVersion(), '3.2', '>=' ) ) {
@@ -290,6 +295,7 @@ class QuickModeHtml {
 					mdata.label = JQuery('#bfElementLabel').val();
 					mdata['label_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementLabelTrans').val();
 					mdata.maxLength = JQuery('#bfElementTypeTextMaxLength').val();
+					mdata.icon = JQuery('#bfElementTypeTextIcon').val();
 
 					mdata.hint = JQuery('#bfElementTypeTextHint').val();
 					mdata['hint_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeTextHintTrans').val();
@@ -343,6 +349,8 @@ class QuickModeHtml {
 					JQuery('#bfElementTypeTextSize').val(mdata.size);
 					JQuery('#bfElementOrderNumber').val(mdata.orderNumber);
 					JQuery('#bfElementValidationRequired').attr('checked', mdata.required);
+
+					JQuery('#bfElementTypeTextIcon').val(mdata.icon);
 				};
 
 				// TEXTAREA
@@ -362,6 +370,7 @@ class QuickModeHtml {
 
 					mdata.hint = JQuery('#bfElementTypeTextareaHint').val();
 					mdata['hint_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeTextareaHintTrans').val();
+					mdata.icon = JQuery('#bfElementTypeTextareaIcon').val();
 
 
 					mdata.width = JQuery('#bfElementTypeTextareaWidth').val();
@@ -419,6 +428,76 @@ class QuickModeHtml {
 					JQuery('#bfElementTypeTextareaMaxLengthShow').attr('checked', mdata.showMaxlengthCounter);
 					JQuery('#bfElementTextareaAdvancedOrderNumber').val(mdata.orderNumber);
 					JQuery('#bfElementValidationRequired').attr('checked', mdata.required);
+
+					JQuery('#bfElementTypeTextareaIcon').val(mdata.icon);
+				};
+
+				// NUMBER ELEMENT
+				this.saveNumberInputProperties = function (mdata, item) {
+					mdata.value = JQuery('#bfElementTypeNumberInputValue').val();
+					mdata['value_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeNumberInputValueTrans').val();
+					mdata.placeholder = JQuery('#bfElementTypeNumberInputPlaceholder').val();
+					mdata['placeholder_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeNumberInputPlaceholderTrans').val();
+					mdata.bfName = JQuery('#bfElementName').val();
+					mdata.logging = JQuery('#bfElementNumberInputAdvancedLogging').attr('checked');
+					mdata.label = JQuery('#bfElementLabel').val();
+					mdata['label_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementLabelTrans').val();
+					mdata.maxLength = JQuery('#bfElementTypeNumberInputMaxLength').val();
+					mdata.icon = JQuery('#bfElementTypeNumberInputIcon').val();
+
+					mdata.hint = JQuery('#bfElementTypeNumberInputHint').val();
+					mdata['hint_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeNumberInputHintTrans').val();
+
+					mdata.labelPosition = JQuery('#bfElementAdvancedLabelPosition').val();
+					mdata.tabIndex = JQuery('#bfElementAdvancedTabIndex').val();
+					mdata.off = JQuery('#bfElementAdvancedTurnOff').attr('checked');
+					mdata.hideInMailback = JQuery('#bfElementAdvancedHideInMailback').attr('checked');
+					mdata.hideLabel = JQuery('#bfElementNumberInputAdvancedHideLabel').attr('checked');
+					mdata.size = JQuery('#bfElementTypeNumberInputSize').val();
+					mdata.orderNumber = JQuery('#bfElementNumberInputOrderNumber').val();
+					mdata.required = JQuery('#bfElementValidationRequired').attr('checked');
+
+					mdata.step = JQuery('#bfElementNumberInputAdvancedStep').val();
+					mdata.min = JQuery('#bfElementNumberInputAdvancedMin').val();
+					mdata.max = JQuery('#bfElementNumberInputAdvancedMax').val();
+
+					item.properties = mdata;
+				};
+
+				this.populateNumberInputProperties = function (mdata) {
+
+					JQuery('#bfElementTypeNumberInputValue').val(mdata.value);
+					JQuery('#bfElementTypeNumberInputValueTrans').val(typeof mdata['value_translation<?php echo $active_language_code; ?>'] != "undefined" ? mdata['value_translation<?php echo $active_language_code; ?>'] : "");
+
+					if (typeof mdata.placeholder == "undefined") {
+						mdata['placeholder'] = '';
+					}
+					JQuery('#bfElementTypeNumberInputPlaceholder').val(mdata.placeholder);
+					JQuery('#bfElementTypeNumberInputPlaceholderTrans').val(typeof mdata['placeholder_translation<?php echo $active_language_code; ?>'] != "undefined" ? mdata['placeholder_translation<?php echo $active_language_code; ?>'] : "");
+
+					JQuery('#bfElementName').val(mdata.bfName);
+					JQuery('#bfElementLabel').val(mdata.label);
+					JQuery('#bfElementLabelTrans').val(typeof mdata['label_translation<?php echo $active_language_code; ?>'] != "undefined" ? mdata['label_translation<?php echo $active_language_code; ?>'] : "");
+					JQuery('#bfElementNumberInputAdvancedLogging').attr('checked', mdata.logging);
+					JQuery('#bfElementTypeNumberInputMaxLength').val(mdata.maxLength);
+
+					JQuery('#bfElementTypeNumberInputHint').val(mdata.hint);
+					JQuery('#bfElementTypeNumberInputHintTrans').val(typeof mdata['hint_translation<?php echo $active_language_code; ?>'] != "undefined" ? mdata['hint_translation<?php echo $active_language_code; ?>'] : "");
+
+					JQuery('#bfElementAdvancedLabelPosition').val(mdata.labelPosition);
+					JQuery('#bfElementAdvancedTabIndex').val(mdata.tabIndex);
+					JQuery('#bfElementAdvancedHideInMailback').attr('checked', mdata.hideInMailback);
+					JQuery('#bfElementAdvancedTurnOff').attr('checked', mdata.off);
+					JQuery('#bfElementNumberInputAdvancedHideLabel').attr('checked', mdata.hideLabel);
+					JQuery('#bfElementTypeNumberInputSize').val(mdata.size);
+					JQuery('#bfElementNumberInputOrderNumber').val(mdata.orderNumber);
+					JQuery('#bfElementValidationRequired').attr('checked', mdata.required);
+
+					JQuery('#bfElementTypeNumberInputIcon').val(mdata.icon);
+
+					JQuery('#bfElementNumberInputAdvancedStep').val(mdata.step);
+					JQuery('#bfElementNumberInputAdvancedMin').val(mdata.min);
+					JQuery('#bfElementNumberInputAdvancedMax').val(mdata.max);
 				};
 
 				// RADIOS
@@ -889,10 +968,10 @@ class QuickModeHtml {
 					mdata.pubkey = JQuery('#bfElementTypeReCaptchaPubkey').val();
 					mdata.privkey = JQuery('#bfElementTypeReCaptchaPrivkey').val();
 					mdata.theme = JQuery('#bfElementTypeReCaptchaTheme').val();
+					mdata.size = JQuery('#bfElementTypeReCaptchaSize').val();
 
 					mdata.newCaptcha = JQuery('#bfElementTypeReCaptchaNew').attr('checked');
 					mdata.invisibleCaptcha = JQuery('#bfElementTypeReCaptchaInvisible').attr('checked');
-					mdata.classicCaptcha = JQuery('#bfElementTypeReCaptchaClassic').attr('checked');
 
 					// static properties
 					mdata.bfName = JQuery('#bfElementName').val();
@@ -919,10 +998,10 @@ class QuickModeHtml {
 					JQuery('#bfElementTypeReCaptchaPubkey').val(mdata.pubkey);
 					JQuery('#bfElementTypeReCaptchaPrivkey').val(mdata.privkey);
 					JQuery('#bfElementTypeReCaptchaTheme').val(mdata.theme);
+					JQuery('#bfElementTypeReCaptchaSize').val(mdata.size);
 
 					JQuery('#bfElementTypeReCaptchaNew').attr('checked', mdata.newCaptcha);
 					JQuery('#bfElementTypeReCaptchaInvisible').attr('checked', mdata.invisibleCaptcha);
-					JQuery('#bfElementTypeReCaptchaClassic').attr('checked', mdata.classicCaptcha);
 
 					// static properties
 					JQuery('#bfElementName').val(mdata.bfName);
@@ -965,6 +1044,7 @@ class QuickModeHtml {
 					mdata['value_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeCalendarResponsiveValueTrans').val();
 
 					mdata.size = JQuery('#bfElementTypeCalendarResponsiveSize').val();
+					mdata.icon = JQuery('#bfElementTypeCalendarResponsiveIcon').val();
 
 					mdata.hint = JQuery('#bfElementTypeCalendarResponsiveHint').val();
 					mdata['hint_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeCalendarResponsiveHintTrans').val();
@@ -1010,6 +1090,8 @@ class QuickModeHtml {
 					JQuery('#bfElementAdvancedTurnOff').attr('checked', mdata.off);
 					JQuery('#bfElementAdvancedLabelPosition').val(mdata.labelPosition);
 					JQuery('#bfElementValidationRequired').attr('checked', mdata.required);
+
+					JQuery('#bfElementTypeCalendarResponsiveIcon').val(mdata.icon);
 				};
 
 				// CALENDAR
@@ -1022,6 +1104,7 @@ class QuickModeHtml {
 					mdata['value_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeCalendarValueTrans').val();
 
 					mdata.size = JQuery('#bfElementTypeCalendarSize').val();
+					mdata.icon = JQuery('#bfElementTypeCalendarIcon').val();
 
 					mdata.hint = JQuery('#bfElementTypeCalendarHint').val();
 					mdata['hint_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeCalendarHintTrans').val();
@@ -1038,6 +1121,16 @@ class QuickModeHtml {
 					mdata.hideInMailback = JQuery('#bfElementAdvancedHideInMailback').attr('checked');
 					mdata.off = JQuery('#bfElementAdvancedTurnOff').attr('checked');
 					mdata.required = JQuery('#bfElementValidationRequired').attr('checked');
+
+					/* versions > 3.7 */
+					mdata.showTime = JQuery('#bfElementCalendarAdvancedShowTime').attr('checked');
+					mdata.timeFormat = JQuery('#bfElementCalendarAdvancedTimeFormat').attr('checked');
+					mdata.singleHeader = JQuery('#bfElementCalendarAdvancedSingleHeader').attr('checked');
+					mdata.todayButton = JQuery('#bfElementCalendarAdvancedTodayButton').attr('checked');
+					mdata.weekNumbers = JQuery('#bfElementCalendarAdvancedWeekNumbers').attr('checked');
+					mdata.minYear = JQuery('#bfElementCalendarAdvancedMinYear').val();
+					mdata.maxYear = JQuery('#bfElementCalendarAdvancedMaxYear').val();
+					mdata.firstDay = JQuery('#bfElementCalendarAdvancedFirstDay').val();
 
 					item.properties = mdata;
 				};
@@ -1067,6 +1160,18 @@ class QuickModeHtml {
 					JQuery('#bfElementAdvancedTurnOff').attr('checked', mdata.off);
 					JQuery('#bfElementAdvancedLabelPosition').val(mdata.labelPosition);
 					JQuery('#bfElementValidationRequired').attr('checked', mdata.required);
+
+					JQuery('#bfElementTypeCalendarIcon').val(mdata.icon);
+
+					/* > 3.7 */
+					JQuery('#bfElementCalendarAdvancedShowTime').attr('checked', mdata.showTime);
+					JQuery('#bfElementCalendarAdvancedTimeFormat').attr('checked', mdata.timeFormat);
+					JQuery('#bfElementCalendarAdvancedSingleHeader').attr('checked', mdata.singleHeader);
+					JQuery('#bfElementCalendarAdvancedTodayButton').attr('checked', mdata.todayButton);
+					JQuery('#bfElementCalendarAdvancedWeekNumbers').attr('checked', mdata.weekNumbers);
+					JQuery('#bfElementCalendarAdvancedMinYear').val(mdata.minYear);
+					JQuery('#bfElementCalendarAdvancedMaxYear').val(mdata.maxYear);
+					JQuery('#bfElementCalendarAdvancedFirstDay').val(mdata.firstDay);
 				};
 
 				// Hidden
@@ -1166,6 +1271,7 @@ class QuickModeHtml {
 							case 'bfFile':
 							case 'bfHidden':
 							case 'bfCalendar':
+							case 'bfNumberInput':
 							case 'bfCalendarResponsive':
 								var option = document.createElement('option');
 								JQuery(option).val(items[i].properties.bfName + ":" + items[i].properties.bfType);
@@ -1229,6 +1335,7 @@ class QuickModeHtml {
 					mdata['hint_translation<?php echo $active_language_code; ?>'] = JQuery('#bfElementTypeStripeHintTrans').val();
 
 					mdata.hideLabel = JQuery('#bfElementStripeAdvancedHideLabel').attr('checked');
+					mdata.emailfield = JQuery('#bfElementStripeAdvancedEmailField').val();
 
 					// static properties
 					mdata.bfName = JQuery('#bfElementName').val();
@@ -1262,6 +1369,7 @@ class QuickModeHtml {
 					JQuery('#bfElementStripeAdvancedImage').val(mdata.image);
 					JQuery('#bfElementStripeAdvancedImageTrans').val(typeof mdata['image_translation<?php echo $active_language_code; ?>'] != "undefined" ? mdata['image_translation<?php echo $active_language_code; ?>'] : "");
 
+					JQuery('#bfElementStripeAdvancedEmailField').val(mdata.emailfield);
 
 					// file
 					JQuery('#bfElementStripeAdvancedDownloadableFile').attr('checked', mdata.downloadableFile);
@@ -1295,7 +1403,7 @@ class QuickModeHtml {
 					// account
 					mdata.business = JQuery('#bfElementTypePayPalBusiness').val();
 					mdata.token = JQuery('#bfElementTypePayPalToken').val();
-
+					mdata.cancelURL = JQuery('#bfElementTypePayPalCancelURL').val();
 					mdata.itemname = JQuery('#bfElementTypePayPalItemname').val();
 					mdata.itemnumber = JQuery('#bfElementTypePayPalItemnumber').val();
 					mdata.amount = JQuery('#bfElementTypePayPalAmount').val();
@@ -1349,7 +1457,7 @@ class QuickModeHtml {
 					// account
 					JQuery('#bfElementTypePayPalBusiness').val(mdata.business);
 					JQuery('#bfElementTypePayPalToken').val(mdata.token);
-
+					JQuery('#bfElementTypePayPalCancelURL').val(mdata.cancelURL);
 					JQuery('#bfElementTypePayPalItemname').val(mdata.itemname);
 					JQuery('#bfElementTypePayPalItemnumber').val(mdata.itemnumber);
 					JQuery('#bfElementTypePayPalAmount').val(mdata.amount);
@@ -1587,6 +1695,12 @@ class QuickModeHtml {
 										appScope.saveInit(mdata, item);
 										appScope.saveAction(mdata, item);
 										break;
+									case 'bfNumberInput':
+										appScope.saveNumberInputProperties(mdata, item);
+										appScope.saveValidation(mdata, item);
+										appScope.saveInit(mdata, item);
+										appScope.saveAction(mdata, item);
+										break;
 								}
 								item.attributes.id = JQuery('#bfElementName').val();
 								JQuery(appScope.selectedTreeElement).attr('id', JQuery('#bfElementName').val());
@@ -1742,6 +1856,7 @@ class QuickModeHtml {
 								JQuery('#bfElementTypeFile').css('display', 'none');
 								JQuery('#bfElementTypeHidden').css('display', 'none');
 								JQuery('#bfElementTypeSummarize').css('display', 'none');
+								JQuery('#bfElementTypeNumberInput').css('display', 'none');
 
 								JQuery('#bfElementTypeTextAdvanced').css('display', 'none');
 								JQuery('#bfElementTypeTextareaAdvanced').css('display', 'none');
@@ -1761,12 +1876,20 @@ class QuickModeHtml {
 								JQuery('#bfElementTypeFileAdvanced').css('display', 'none');
 								JQuery('#bfElementTypeHiddenAdvanced').css('display', 'none');
 								JQuery('#bfElementTypeSummarizeAdvanced').css('display', 'none');
+								JQuery('#bfElementTypeNumberInputAdvanced').css('display', 'none');
 								JQuery('#bfElementValidationRequiredSet').css('display', 'none');
 
 								JQuery('#bfAdvancedLeaf').css('display', '');
 								JQuery('#bfHideInMailback').css('display', '');
 
 								switch (mdata.bfType) {
+									case 'bfNumberInput':
+										JQuery('#bfElementType').val('bfElementTypeNumberInput');
+										appScope.populateNumberInputProperties(mdata);
+										appScope.populateElementValidationScript();
+										appScope.populateElementInitScript();
+										appScope.populateElementActionScript();
+										break;
 									case 'bfSummarize':
 										JQuery('#bfHideInMailback').css('display', 'none');
 										JQuery('#bfElementType').val('bfElementTypeSummarize');
@@ -2801,6 +2924,9 @@ class QuickModeHtml {
 							case 'bfElementTypeSubmitButton':
 								obj = appScope.createSubmitButton(id);
 								break;
+							case 'bfElementTypeNumberInput':
+								obj = appScope.createNumberInput(id);
+								break;
 							case 'bfElementTypeHidden':
 								obj = appScope.createHidden(id);
 								break;
@@ -3307,8 +3433,9 @@ class QuickModeHtml {
 		<?php
 		jimport( 'joomla.application.component.helper' );
 		$default = JComponentHelper::getParams( 'com_languages' )->get( 'site' );
+
 		if ( $formId > 0 && version_compare( $version->getShortVersion(), '2.5', '>=' ) && count( JLanguageHelper::getLanguages() ) > 1 ) {
-			if ( $active_language_code != '' && $active_language_code != JFactory::getLanguage()->getDefault() ) {
+			if ( $active_language_code != '' && $active_language_code != $default ) {
 				?>
 				<script type="text/javascript">
 					JQuery(document).ready(function () {
@@ -3320,11 +3447,11 @@ class QuickModeHtml {
 			?>
 			<div
 				onclick="location.href='index.php?option=com_breezingforms&format=html&act=quickmode&formName=translationtest&form=<?php echo $formId ?>&active_language_code='"
-				class="bfLanguageButton<?php echo $active_language_code == JFactory::getLanguage()->getDefault() || $active_language_code == '' ? ' bfLanguageButtonActive' : '' ?>"><?php echo JFactory::getLanguage()->getDefault(); ?></div>
+				class="bfLanguageButton<?php echo $active_language_code == $default || $active_language_code == '' ? ' bfLanguageButtonActive' : '' ?>"><?php echo $default; ?></div>
 			<?php
 			$languages = JLanguageHelper::getLanguages();
 			foreach ( $languages As $language ) {
-				if ( $language->lang_code != JFactory::getLanguage()->getDefault() ) {
+				if ( $language->lang_code != $default ) {
 					?>
 					<div
 						onclick="location.href='index.php?option=com_breezingforms&format=html&act=quickmode&formName=translationtest&form=<?php echo $formId ?>&active_language_code=<?php echo $language->lang_code; ?>'"
@@ -3347,6 +3474,7 @@ class QuickModeHtml {
 					<input class="btn btn-warning" id="bfNewElementButton" type="submit"
 					       value="<?php echo BFText::_( 'COM_BREEZINGFORMS_NEW_ELEMENT' ); ?>"/>
 				</form>
+				<input id="scrollElementList" type="checkbox"><label for="scrollElementList">Scroll element list</label>
 				<div id="bfElementExplorer"></div>
 
 			</div> <!-- ##### bfQuickModeLeft end ##### -->
@@ -3357,6 +3485,7 @@ class QuickModeHtml {
 				<form name="bfForm" onsubmit="return false">
 
 					<div id="menutab" class="flora">
+					<input id="triggerScrollable" type="checkbox"><label for="triggerScrollable">Keep panel docked</label>
 						<ul>
 							<li><a onclick="JQuery('.bfFadingMessage').css('display','none')" href="#fragment-1"><span><div
 											class="tab-items"><?php echo BFText::_( 'COM_BREEZINGFORMS_PROPERTIES' ) ?></div></span></a>
@@ -3680,7 +3809,8 @@ class QuickModeHtml {
 														value="bfElementTypeStripe"><?php echo BFText::_( 'COM_BREEZINGFORMS_STRIPE' ); ?></option>
 													<option
 														value="bfElementTypeSofortueberweisung"><?php echo BFText::_( 'COM_BREEZINGFORMS_SOFORTUEBERWEISUNG' ); ?></option>
-
+													<option
+														value="bfElementTypeNumberInput"><?php echo BFText::_( 'COM_BREEZINGFORMS_NUMBER_INPUT' ); ?></option>
 													<option
 														value="bfElementTypeSignature"><?php echo BFText::_( 'COM_BREEZINGFORMS_SIGNATURE' ); ?></option>
 												</select>
@@ -3707,6 +3837,77 @@ class QuickModeHtml {
 												       for="bfElementName"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_NAME' ); ?></label>
 												<input type="text" value="" id="bfElementName"/>
 											</div>
+
+											<!-- NUMBER INPUT BEGIN -->
+											<div class="bfElementTypeClass" id="bfElementTypeNumberInput"
+											     style="display:none">
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo 'value'; ?>"
+													       for="bfElementTypeNumberInputValue"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_VALUE' ); ?></label>
+													<input type="text" value="" id="bfElementTypeNumberInputValue"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo 'placeholder'; ?>"
+													       for="bfElementTypeNumberInputPlaceholder"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_TEXT_PLACEHOLDER' ); ?></label>
+													<input type="text" value="" id="bfElementTypeNumberInputPlaceholder"/>
+												</div>
+												<div class="bfPropertyWrap bfTrans">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo 'translated placholder'; ?>"
+													       for="bfElementTypeNumberInputPlaceholderTrans"><?php echo 'translated placeholder'; ?>
+														<br/><em>(<?php echo $active_language_code ?>)</em></label>
+													<input type="text" value="" id="bfElementTypeNumberInputPlaceholderTrans"/>
+												</div>
+												<?php
+												// Icon for Textfield
+												// This code is only for NEW THEME
+
+												$dataTheme = Zend_Json::decode( $dataObjectString );
+												// echo '<pre>';
+												// print_r($dataTheme);
+												// echo '</pre>';
+												if($dataTheme['properties']['themebootstrapThemeEngine'] == 'bootstrap' && $dataTheme['properties']['themebootstrap'] == 'Azure') { ?>
+												
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													title="<?php echo 'icon element'; ?>"
+													for="bfElementTypeNumberInputIcon"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_ICON' ); ?></label>
+													<input type="text" value="" id="bfElementTypeNumberInputIcon"/>
+												</div>
+												<?php } ?>
+
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_TEXTFIELD_SIZE' ) ); ?>"
+													       for="bfElementTypeNumberInputSize"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_SIZE' ); ?></label>
+													<input type="text" value="" id="bfElementTypeNumberInputSize"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_TEXTFIELD_MAXLENGTH' ) ); ?>"
+													       for="bfElementTypeNumberInputMaxLength"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_MAX_LENGTH' ); ?></label>
+													<input type="text" value="" id="bfElementTypeNumberInputMaxLength"/>
+												</div>
+
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_TEXTFIELD_HINT' ) ); ?>"
+													       for="bfElementTypeNumberInputHint"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_HINT' ); ?></label>
+													<textarea id="bfElementTypeNumberInputHint"></textarea>
+												</div>
+
+												<div class="bfPropertyWrap bfTrans">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_TEXTFIELD_HINT' ) ); ?>"
+													       for="bfElementTypeNumberInputHintTrans"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_HINT' ); ?>
+														<br/><em>(<?php echo $active_language_code ?>)</em></label>
+													<textarea id="bfElementTypeNumberInputHintTrans"></textarea>
+												</div>
+											</div>
+											<!-- NUMBER INPUT END -->
+
 											<!-- HIDDEN BEGIN -->
 											<div class="bfElementTypeClass" id="bfElementTypeHidden"
 											     style="display:none">
@@ -3795,7 +3996,26 @@ class QuickModeHtml {
 														<br/><em>(<?php echo $active_language_code ?>)</em></label>
 													<input type="text" value="" id="bfElementTypeTextPlaceholderTrans"/>
 												</div>
+												<?php
+												
+												// Icon for Textfield
+												// This code is only for NEW THEME
 
+												$dataTheme = Zend_Json::decode( $dataObjectString );
+												// echo '<pre>';
+												// print_r($dataTheme);
+												// echo '</pre>';
+												if(isset($dataTheme['properties']) && isset($dataTheme['properties']['themebootstrapThemeEngine']) && isset($dataTheme['properties']['themebootstrap']) && $dataTheme['properties']['themebootstrapThemeEngine'] == 'bootstrap' && $dataTheme['properties']['themebootstrap'] == 'Azure') { ?>
+												
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_ICON' ) ); ?>"
+													for="bfElementTypeTextIcon"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_ICON' ); ?></label>
+													<input type="text" value="" id="bfElementTypeTextIcon"/>
+												</div>
+										
+												<?php } ?>
+										
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_TEXTFIELD_SIZE' ) ); ?>"
@@ -3858,7 +4078,23 @@ class QuickModeHtml {
 													<input type="text" value=""
 													       id="bfElementTypeTextareaPlaceholderTrans"/>
 												</div>
+												<?php
+												
+												// Icon for Textarea
+												// This code is only for NEW THEME
 
+												$dataTheme = Zend_Json::decode( $dataObjectString );
+									
+												if(isset($dataTheme['properties']) && isset($dataTheme['properties']['themebootstrap']) && isset($dataTheme['properties']['themebootstrapThemeEngine']) && $dataTheme['properties']['themebootstrapThemeEngine'] == 'bootstrap' && $dataTheme['properties']['themebootstrap'] == 'Azure') { ?>
+												
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_ICON' ) ); ?>"
+													for="bfElementTypeTextareaIcon"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_ICON' ); ?></label>
+													<input type="text" value="" id="bfElementTypeTextareaIcon"/>
+												</div>
+										
+												<?php } ?>
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_TEXTAREA_WIDTH' ) ); ?>"
@@ -3906,6 +4142,7 @@ class QuickModeHtml {
 												</div>
 											</div>
 											<!-- TEXTAREA END -->
+
 											<!-- RADIOGROUP BEGIN -->
 											<div class="bfElementTypeClass" id="bfElementTypeRadioGroup"
 											     style="display:none">
@@ -3964,6 +4201,7 @@ class QuickModeHtml {
 													<input type="text" value="" id="bfElementTypeSubmitButtonValue"/>
 												</div>
 
+												
 												<div class="bfPropertyWrap bfTrans">
 													<label class="bfPropertyLabel hasTip"
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_SUBMIT_VALUE' ) ); ?>"
@@ -4103,6 +4341,12 @@ class QuickModeHtml {
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_PAYPAL_THANKYOUPAGE' ) ); ?>"
 													       for="bfElementTypePayPalThankYouPage"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_THANKYOU_PAGE' ); ?></label>
 													<input type="text" value="" id="bfElementTypePayPalThankYouPage"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+														title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_PAYPAL_CANCEL' ) ); ?>"
+														for="bfElementTypePayPalCancelURL"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_CANCEL_URL' ); ?></label>
+													<input type="text" value="" id="bfElementTypePayPalCancelURL"/>
 												</div>
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
@@ -4265,20 +4509,14 @@ class QuickModeHtml {
 											<div class="bfElementTypeClass" id="bfElementTypeReCaptcha"
 											     style="display:none">
 
-												<br />
-												<?php echo bf_alert('Invisible reCaptcha available in full version only.', 'https://crosstec.org/en/extensions/joomla-forms-download.html', true);?>
-												<br />
-
 												<div class="bfPropertyWrap">
 													<label for="bfElementTypeReCaptchaNew"
 													       class="bfPropertyLabel hasTip"
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_RECAPTCHA_NEW_CAPTCHA_HINT' ) ); ?>">reCaptcha</label>
-													<label>
-													<input type="radio" name="bfElementTypeReCaptchaNew" value="" id="bfElementTypeReCaptchaClassic"
-													       /><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_RECAPTCHA_CLASSIC_CAPTCHA' ); ?></label>
+
 													<label>
 													<input type="radio" name="bfElementTypeReCaptchaNew" value="" id="bfElementTypeReCaptchaNew"
-													       checked="checked"/><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_RECAPTCHA_NEW_CAPTCHA' ); ?></label>
+													       checked="checked"/>Captcha</label>
 													<label>
 													<input type="radio" name="bfElementTypeReCaptchaNew" value="" id="bfElementTypeReCaptchaInvisible"
 													       /><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_RECAPTCHA_INVISIBLE_CAPTCHA' ); ?></label>
@@ -4300,6 +4538,12 @@ class QuickModeHtml {
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_RECAPTCHA_THEME' ) ); ?>"
 													       for=bfElementTypeReCaptchaTheme><?php echo BFText::_( 'COM_BREEZINGFORMS_Theme' ); ?></label>
 													<input type="text" value="red" id="bfElementTypeReCaptchaTheme"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_RECAPTCHA_SIZE' ) ); ?>"
+													       for=bfElementTypeReCaptchaSize><?php echo BFText::_( 'COM_BREEZINGFORMS_RECAPTCHA_SIZE' ); ?></label>
+													<input type="text" value="normal" id="bfElementTypeReCaptchaSize"/>
 												</div>
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
@@ -4353,7 +4597,23 @@ class QuickModeHtml {
 													<input type="text" value=""
 													       id="bfElementTypeCalendarResponsiveValueTrans"/>
 												</div>
+												<?php
+												
+												// Icon for Responsive Calendar
+												// This code is only for NEW THEME
 
+												$dataTheme = Zend_Json::decode( $dataObjectString );
+									
+												if($dataTheme['properties']['themebootstrapThemeEngine'] == 'bootstrap' && $dataTheme['properties']['themebootstrap'] == 'Azure') { ?>
+												
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_ICON' ) ); ?>"
+													for="bfElementTypeCalendarResponsiveIcon"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_ICON' ); ?></label>
+													<input type="text" value="" id="bfElementTypeCalendarResponsiveIcon"/>
+												</div>
+										
+												<?php } ?>
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_SIZE' ) ); ?>"
@@ -4410,6 +4670,24 @@ class QuickModeHtml {
 													<input type="text" value="" id="bfElementTypeCalendarValueTrans"/>
 												</div>
 
+												<?php
+												
+												// Icon for Calendar
+												// This code is only for NEW THEME
+
+												$dataTheme = Zend_Json::decode( $dataObjectString );
+									
+												if($dataTheme['properties']['themebootstrapThemeEngine'] == 'bootstrap' && $dataTheme['properties']['themebootstrap'] == 'Azure') { ?>
+												
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_ICON' ) ); ?>"
+													for="bfElementTypeCalendarIcon"><?php echo BFText::_( 'COM_BREEZINGFORMS_ELEMENT_ICON' ); ?></label>
+													<input type="text" value="" id="bfElementTypeCalendarIcon"/>
+												</div>
+										
+												<?php } ?>
+
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_SIZE' ) ); ?>"
@@ -4435,7 +4713,6 @@ class QuickModeHtml {
 											<!-- SIGNATURE BEGIN -->
 											<div class="bfElementTypeClass" id="bfElementTypeSignature"
 											     style="display:none">
-
 
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
@@ -4692,7 +4969,7 @@ class QuickModeHtml {
 												<div id="bfValidationScriptCustom" style="display:none">
 													<hr/>
 													<div class="bfPropertyWrap">
-														<div class="hasTip"
+														<div class="hasTip btn"
 														     title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_VALIDATION_CODEFRAMEWORK' ) ); ?>"
 														     style="cursor: pointer;"
 														     onclick="createValidationCode()"><?php echo BFText::_( 'COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK' ) ?></div>
@@ -4777,8 +5054,6 @@ class QuickModeHtml {
 											}
 											?>
 											<div id="bfThemeBootstrapDiv" style="display:none;">
-												<?php echo bf_alert('Bootstrap based themes available in full version only.', 'https://crosstec.org/en/extensions/joomla-forms-download.html', true);?>
-												<?php echo bf_alert('Please use BreezingForms based themes or get the full version.', 'https://crosstec.org/en/extensions/joomla-forms-download.html', true);?>
 												<legend><?php echo BFText::_( 'COM_BREEZINGFORMS_ADVANCED_THEME_BOOTSTRAP_ENGINE' ); ?></legend>
 												<br/>
 												<div class="bfPropertyWrap">
@@ -4796,7 +5071,7 @@ class QuickModeHtml {
 														<option value="">Default</option>
 														> <?php
 														$tCount = count( $themesbootstrap );
-														for ( $i = 0; $i < $tCount; $i ++ ) {
+														for ( $i = 0; $i < $tCount; $i ++ ) {														
 															echo '<option value="' . $themesbootstrap[ $i ] . '">' . $themesbootstrap[ $i ] . '</option>' . "\n";
 														}
 														?>
@@ -4963,9 +5238,6 @@ class QuickModeHtml {
 											}
 											?>
 											<legend><?php echo BFText::_( 'COM_BREEZINGFORMS_ADVANCED_FORM_OTHER' ); ?></legend>
-											<br />
-											<?php echo bf_alert('Mobile Forms available in full version only', 'https://crosstec.org/en/extensions/joomla-forms-download.html', true);?>
-											<br />
 											<div class="bfPropertyWrap">
 												<label class="bfPropertyLabel hasTip"
 												       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_MOBILE_FORMS' ) ); ?>"
@@ -5006,7 +5278,7 @@ class QuickModeHtml {
 												<label class="bfPropertyLabel hasTip"
 												       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ERROR_DEFAULT' ) ); ?>"
 												       for="bfElementAdvancedUseDefaultErrors"><?php echo BFText::_( 'COM_BREEZINGFORMS_IF_NOT_USE_ERROR_ALERTS' ); ?></label>
-												<?php echo BFText::_( 'COM_BREEZINGFORMS_IF_USE_DEFAULT_ERRROS' ); ?>
+												<?php echo BFText::_( 'COM_BREEZINGFORMS_IF_USE_DEFAULT_ERRORS' ); ?>
 												<input type="checkbox" value="" id="bfElementAdvancedUseDefaultErrors"/>
 												<?php echo BFText::_( 'COM_BREEZINGFORMS_IF_USE_BALLOON_ERRORS' ); ?>
 												<input type="checkbox" value="" id="bfElementAdvancedUseBalloonErrors"/>
@@ -5073,6 +5345,53 @@ class QuickModeHtml {
 												</div>
 											</div>
 											<!-- HIDDEN END -->
+
+											<!-- NUMBER INPUT BEGIN -->
+											<div class="bfElementTypeClass" id="bfElementTypeNumberInputAdvanced"
+											     style="display:none">
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_HIDE_LABEL' ) ); ?>"
+													       for="bfElementNumberInputAdvancedHideLabel"><?php echo BFText::_( 'COM_BREEZINGFORMS_HIDE_LABEL' ); ?></label>
+													<input checked="checked" type="checkbox" value=""
+													       id="bfElementNumberInputAdvancedHideLabel"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_LOGGING' ) ); ?>"
+													       for="bfElementNumberInputAdvancedLogging"><?php echo BFText::_( 'COM_BREEZINGFORMS_LOGGING' ); ?></label>
+													<input checked="checked" type="checkbox" value=""
+													       id="bfElementNumberInputAdvancedLogging"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_NUMBER_INPUT_STEP_TOOLTIP' ) ); ?>"
+													       for="bfElementNumberInputAdvancedStep"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_NUMBER_INPUT_STEP' ); ?></label>
+													<input type="text" value=""
+													       id="bfElementNumberInputAdvancedStep"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_NUMBER_INPUT_MIN_TOOLTIP' )); ?>"
+													       for="bfElementNumberInputAdvancedMin"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_NUMBER_INPUT_MIN' ); ?></label>
+													<input type="text" value=""
+													       id="bfElementNumberInputAdvancedMin"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_NUMBER_INPUT_MAX_TOOLTIP' )); ?>"
+													       for="bfElementNumberInputAdvancedMax"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_NUMBER_INPUT_MAX' ); ?></label>
+													<input type="text" value=""
+													       id="bfElementNumberInputAdvancedMax"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ELEMENT_ORDER_NUMBER' ) ); ?>"
+													       for="bfElementNumberInputOrderNumber"><?php echo BFText::_( 'COM_BREEZINGFORMS_ORDER_NUMBER' ); ?></label>
+													<input type="text" value="" id="bfElementNumberInputOrderNumber"/>
+												</div>
+											</div>
+											<!-- NUMBER INPUT END -->
 											<!--  SUMMARIZE BEGIN -->
 											<div class="bfElementTypeClass" id="bfElementTypeSummarizeAdvanced"
 											     style="display:none">
@@ -5084,6 +5403,7 @@ class QuickModeHtml {
 												</div>
 											</div>
 											<!--  SUMMARIZE END -->
+
 											<!-- TEXTFIELD BEGIN -->
 											<div class="bfElementTypeClass" id="bfElementTypeTextAdvanced"
 											     style="display:none">
@@ -5166,6 +5486,7 @@ class QuickModeHtml {
 												</div>
 											</div>
 											<!-- TEXTAREA END -->
+
 											<!-- RADIOGROUP BEGIN -->
 											<div class="bfElementTypeClass" id="bfElementTypeRadioGroupAdvanced"
 											     style="display:none">
@@ -5268,6 +5589,13 @@ class QuickModeHtml {
 													       for="bfElementStripeAdvancedDownloadTries"><?php echo BFText::_( 'COM_BREEZINGFORMS_DOWNLOAD_TRIES' ); ?></label>
 													<input type="text" value=""
 													       id="bfElementStripeAdvancedDownloadTries"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+															title="<?php echo bf_tooltiptext( BFText::_( 'COM_BREEZINGFORMS_QM_STRIPE_EMAIL')); ?>"
+															for="bfElementStripeAdvancedEmailField"><?php echo BFText::_( 'COM_BREEZINGFORMS_STRIPE_EMAIL' ); ?></label>
+													<input type="text" value=""
+															id="bfElementStripeAdvancedEmailField"/>
 												</div>
 											</div>
 											<!-- STRIPE END -->
@@ -5444,6 +5772,64 @@ class QuickModeHtml {
 													<input checked="checked" type="checkbox" value=""
 													       id="bfElementCalendarAdvancedHideLabel"/>
 												</div>
+												<?php if ( version_compare( $version->getShortVersion(), '3.7', '>=' ) ) : ?>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_SHOW_TIME_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedShowTime"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_SHOW_TIME' ); ?></label>
+													<input checked="checked" type="checkbox" value=""
+													       id="bfElementCalendarAdvancedShowTime"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_FIRST_DAY_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedFirstDay"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_FIRST_DAY' ); ?></label>
+													<input type="text" value=""
+													       id="bfElementCalendarAdvancedFirstDay"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_24H_TIME_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedTimeFormat"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_24H_TIME' ); ?></label>
+													<input checked="checked" type="checkbox" value=""
+													       id="bfElementCalendarAdvancedTimeFormat"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_SINGLE_HEADER_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedSingleHeader"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_SINGLE_HEADER' ); ?></label>
+													<input checked="checked" type="checkbox" value=""
+													       id="bfElementCalendarAdvancedSingleHeader"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_TODAY_BTN_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedTodayButton"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_TODAY_BTN' ); ?></label>
+													<input checked="checked" type="checkbox" value=""
+													       id="bfElementCalendarAdvancedTodayButton"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_WEEK_NMBR_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedWeekNumbers"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_WEEK_NMBR' ); ?></label>
+													<input checked="checked" type="checkbox" value=""
+													       id="bfElementCalendarAdvancedWeekNumbers"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_MIN_YEAR_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedMinYear"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_MIN_YEAR' ); ?></label>
+													<input type="text" value=""
+													       id="bfElementCalendarAdvancedMinYear"/>
+												</div>
+												<div class="bfPropertyWrap">
+													<label class="bfPropertyLabel hasTip"
+													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_MAX_YEAR_TOOLTIP' ) ); ?>"
+													       for="bfElementCalendarAdvancedShowTime"><?php echo BFText::_( 'COM_BREEZINGFORMS_QM_CALENDAR_MAX_YEAR' ); ?></label>
+													<input type="text" value=""
+													       id="bfElementCalendarAdvancedMaxYear"/>
+												</div>
+											<?php endif; ?>
 											</div>
 											<!-- CALENDAR END -->
 											<!-- SIGNATURE BEGIN -->
@@ -5574,8 +5960,6 @@ class QuickModeHtml {
 											<!-- FILE BEGIN -->
 											<div class="bfElementTypeClass" id="bfElementTypeFileAdvanced"
 											     style="display:none">
-												<?php echo bf_alert('HTML5 Upload in full version only', 'https://crosstec.org/en/extensions/joomla-forms-download.html', true);?>
-												<br/><br/>
 												<div class="bfPropertyWrap">
 													<label class="bfPropertyLabel hasTip"
 													       title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_FILE_HTML5' ) ); ?>"
@@ -5823,7 +6207,7 @@ class QuickModeHtml {
 											<div id="bfInitScriptCustom" style="display:none">
 												<hr/>
 												<div class="bfPropertyWrap">
-													<div class="hasTip"
+													<div class="hasTip btn"
 													     title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_INITSCRIPT_CODEFRAMEWORK' ) ); ?>"
 													     style="cursor: pointer;"
 													     onclick="createInitCode()"><?php echo BFText::_( 'COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK' ) ?></div>
@@ -5896,7 +6280,7 @@ class QuickModeHtml {
 											<div id="bfActionScriptCustom" style="display:none">
 												<hr/>
 												<div class="bfPropertyWrap">
-													<div class="hasTip"
+													<div class="hasTip btn"
 													     title="<?php echo bf_tooltipText( BFText::_( 'COM_BREEZINGFORMS_QM_ACTIONSCRIPT_CODEFRAMEWORK' ) ); ?>"
 													     style="cursor: pointer;"
 													     onclick="createActionCode()"><?php echo BFText::_( 'COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK' ) ?></div>

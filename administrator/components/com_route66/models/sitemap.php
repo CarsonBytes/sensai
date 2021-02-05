@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 class Route66ModelSitemap extends JModelAdmin
@@ -26,9 +28,9 @@ class Route66ModelSitemap extends JModelAdmin
 			return false;
 		}
 
-		JPluginHelper::importPlugin('route66');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onRoute66LoadExtensionForm', array(&$form, 'sitemap'));
+		PluginHelper::importPlugin('route66');
+		$application = Factory::getApplication();
+		$application->triggerEvent('onRoute66LoadExtensionForm', array(&$form, 'sitemap'));
 
 		$data = $this->loadFormData();
 		$form->bind($data);
@@ -74,9 +76,9 @@ class Route66ModelSitemap extends JModelAdmin
 		$params = JComponentHelper::getParams('com_route66');
 		$limit = (int) $params->get('sitemapUrlsLimit', 500);
 
-		JPluginHelper::importPlugin('route66');
-		$dispatcher = JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onRoute66CountSitemapItems', array($sitemap));
+		PluginHelper::importPlugin('route66');
+		$application = Factory::getApplication();
+		$results = $application->triggerEvent('onRoute66CountSitemapItems', array($sitemap));
 
 		$application = JFactory::getApplication();
 		$ssl = $application->get('force_ssl') == 2 ? 1 : 2;
@@ -111,9 +113,9 @@ class Route66ModelSitemap extends JModelAdmin
 
 		if ($sitemap->sources->get($extension))
 		{
-			JPluginHelper::importPlugin('route66', $extension);
-			$dispatcher = JEventDispatcher::getInstance();
-			$results = $dispatcher->trigger('onRoute66GetSitemapItems', array($sitemap, $extension, $offset, $limit));
+			PluginHelper::importPlugin('route66', $extension);
+			$application = Factory::getApplication();
+			$results = $application->triggerEvent('onRoute66GetSitemapItems', array($sitemap, $extension, $offset, $limit));
 
 			foreach ($results as $result)
 			{

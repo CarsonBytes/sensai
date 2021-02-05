@@ -13,7 +13,7 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var $this Html */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $baseUri = Uri::base();
 

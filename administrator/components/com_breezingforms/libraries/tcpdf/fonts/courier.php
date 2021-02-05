@@ -2,7 +2,7 @@
 /**
  * @package     BreezingCommerce
  * @author      Markus Bopp
- * @link        http://www.crosstec.de
+ * @link        https://www.crosstec.org
  * @license     GNU/GPL
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );

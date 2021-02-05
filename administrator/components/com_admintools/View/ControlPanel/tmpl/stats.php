@@ -12,7 +12,7 @@ use Joomla\CMS\Language\Text;
 /** @var $this Html */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $logUrl = 'index.php?option=com_admintools&view=SecurityExceptions&datefrom=%s&dateto=%s&groupbydate=0&groupbytype=0';
 

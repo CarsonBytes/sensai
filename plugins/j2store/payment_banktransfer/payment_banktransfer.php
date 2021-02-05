@@ -186,7 +186,7 @@ class plgJ2StorePayment_banktransfer extends J2StorePaymentPlugin
 
 				$html = '<br />';
 				$html .= $bank_information;
-				$array = array();
+				$array = json_decode($order->order_params,true);
 				$array[$this->_element] = $html;
 				$order->order_params = json_encode($array);
                 if($this->params->get('enable_bank_transfer_strip_tags',0)){

@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Dispatcher;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Model\ConfigureWAF;
 use Akeeba\AdminTools\Admin\Model\MasterPassword;

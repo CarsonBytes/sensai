@@ -7,7 +7,7 @@
 
 // No direct access
 defined('_JEXEC') or die;
-
+$base_path = rtrim(JUri::root(),'/').'/administrator';
 ?>
 
 <div class="j2store-product-configuration-options">
@@ -43,7 +43,8 @@ defined('_JEXEC') or die;
 					</td>
 					<td>
 						<?php if(isset($poption->type) && ($poption->type =='select' || $poption->type =='radio' || $poption->type =='checkbox')):?>
-						<?php echo J2StorePopup::popup("index.php?option=com_j2store&view=products&task=setproductoptionvalues&product_id=".$this->item->j2store_product_id."&productoption_id=".$poption->j2store_productoption_id."&layout=productoptionvalues&tmpl=component", JText::_( "J2STORE_OPTION_SET_VALUES" ), array());?>
+						<?php
+                            echo J2StorePopup::popup($base_path."/index.php?option=com_j2store&view=products&task=setproductoptionvalues&product_id=".$this->item->j2store_product_id."&productoption_id=".$poption->j2store_productoption_id."&layout=productoptionvalues&tmpl=component", JText::_( "J2STORE_OPTION_SET_VALUES" ), array());?>
 						<?php endif;?>
 
 					</td>
@@ -65,7 +66,8 @@ defined('_JEXEC') or die;
 						<td>
 						<?php if(isset($poption->type) && !in_array($poption->type ,array('select','radio','checkbox')) ):?>
 							<?php if(isset($poption->parent_id) && !empty($poption->parent_id)):?>
-								<?php echo J2StorePopup::popup("index.php?option=com_j2store&view=products&task=setparentoptionvalues&productoption_id=".$poption->j2store_productoption_id."&layout=parentproductopvalues&tmpl=component", JText::_( "J2STORE_OPTION_PARENT_OPTION_VALUES" ), array());?>
+								<?php
+                                echo J2StorePopup::popup($base_path."/index.php?option=com_j2store&view=products&task=setparentoptionvalues&productoption_id=".$poption->j2store_productoption_id."&layout=parentproductopvalues&tmpl=component", JText::_( "J2STORE_OPTION_PARENT_OPTION_VALUES" ), array());?>
 							<?php endif;?>
 							<?php endif;?>
 						</td>
@@ -105,7 +107,7 @@ defined('_JEXEC') or die;
 					<tfoot>
 						<tr>
 							<td colspan="7">
-								<?php echo J2StorePopup::popup("index.php?option=com_j2store&view=products&task=setpaimport&product_type=".$this->item->product_type."&product_id=".$this->item->j2store_product_id."&layout=paimport&tmpl=component", JText::_('J2STORE_IMPORT_PRODUCT_OPTIONS'), array('class'=>'btn btn-success','width'=>800 , 'height'=>500));?>
+								<?php echo J2StorePopup::popup($base_path."/index.php?option=com_j2store&view=products&task=setpaimport&product_type=".$this->item->product_type."&product_id=".$this->item->j2store_product_id."&layout=paimport&tmpl=component", JText::_('J2STORE_IMPORT_PRODUCT_OPTIONS'), array('class'=>'btn btn-success','width'=>800 , 'height'=>500));?>
 							</td>
 						</tr>
 					</tfoot>

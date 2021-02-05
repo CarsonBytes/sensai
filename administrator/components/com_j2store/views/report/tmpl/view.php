@@ -16,7 +16,7 @@ JHtml::_('behavior.modal');
 		JFactory::getLanguage()->load('plg_j2store_'.$row->element, JPATH_ADMINISTRATOR, null, true);
 	?>
 	
-	<h3><?php echo JText::_($row->element); ?></h3>
+	<h3><?php echo JText::_('J2STORE_'.strtoupper($row->element)); ?></h3>
 	<?php
 		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin('j2store');

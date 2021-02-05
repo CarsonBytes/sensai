@@ -302,7 +302,7 @@ class J2StoreModelProductsBehaviorConfigurable extends F0FModelBehavior {
 			if (! empty ( $child_opts )) {
 				$options = array ();
 				foreach ( $child_opts as $index => $attr ) {
-					if (count ( $attr ['optionvalue'] ) > 0) 					// if optionvalue exist or not. then only display form.otherwise form display only heading without option name
+                    if (isset($attr ['optionvalue']) ) 				// if optionvalue exist or not. then only display form.otherwise form display only heading without option name
 					{
 						array_push ( $options, $attr );
 					}

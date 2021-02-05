@@ -10,6 +10,6 @@ use Akeeba\AdminTools\Admin\View\ControlPanel\Html;
 /** @var  Html $this For type hinting in the IDE */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 echo $this->changeLog;

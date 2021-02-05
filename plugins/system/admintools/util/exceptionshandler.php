@@ -5,7 +5,7 @@
  * @license   GNU General Public License version 3, or later
  */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Helper\Storage;
 use FOF30\Container\Container;
@@ -134,7 +134,7 @@ class AtsystemUtilExceptionshandler
 
 				if (!$this->container->platform->isCli())
 				{
-					Factory::getSession()->close();
+					$this->container->session->close();
 				}
 
 				$this->container->platform->redirect(Uri::base());
@@ -548,9 +548,9 @@ class AtsystemUtilExceptionshandler
 		if ($this->cparams->getValue('email_throttle', 1))
 		{
 			// Ok I found out the best template, HOWEVER, should I really send out an email? Let's do some checks vs frequency limits
-			$emails       = $best->email_num ? $best->email_num : 5;
-			$numfreq      = $best->email_numfreq ? $best->email_numfreq : 1;
-			$frequency    = $best->email_freq ? $best->email_freq : 'hour';
+			$emails       = $best->email_num ?: 5;
+			$numfreq      = $best->email_numfreq ?: 1;
+			$frequency    = $best->email_freq ?: 'hour';
 			$mindatestamp = 0;
 
 			switch ($frequency)

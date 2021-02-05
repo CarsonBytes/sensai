@@ -131,7 +131,7 @@ class J2StoreModelOrders extends F0FModel {
 		return true;
 	}
 
-	function loadItemsTemplate($order) {
+	function loadItemsTemplate($order,$receiver_type = '*') {
 
 		static $sets;
 		if ( !is_array( $sets ) )
@@ -153,6 +153,7 @@ class J2StoreModelOrders extends F0FModel {
 
 			$view->set( 'order', $order);
 			$view->set( 'params', J2Store::config());
+            $view->set( 'email_receiver', $receiver_type);
 			$view->setDefaultViewPath(JPATH_SITE.'/components/com_j2store/views/myprofile/tmpl');
 			$view->setTemplateOverridePath(JPATH_SITE.'/templates/'.$view->getTemplate().'/html/com_j2store/myprofile');
 			//if templates are assigned to menu, then we got to fetch it.

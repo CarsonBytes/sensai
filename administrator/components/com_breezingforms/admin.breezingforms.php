@@ -1,12 +1,14 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+
+$db = JFactory::getDBO();
 
 if(!function_exists('bf_b64enc')){
     
@@ -289,53 +291,7 @@ if(JFile::exists(JPATH_SITE.DS.'media'.DS.'breezingforms'.DS.'themes-bootstrap'.
  * 
  */
 
-if(JRequest::getBool('bfReCaptcha')){
-
-    @ob_end_clean();
-        require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
-    require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-        $db = JFactory::getDBO();
-        $db->setQuery( "Select * From #__facileforms_forms Where id = " . $db->Quote( JRequest::getInt('form',-1) ) );
-    $list = $db->loadObjectList();
-    if(count($list) == 0){
-        exit;
-    }
-    $form = $list[0];
-    $areas = Zend_Json::decode($form->template_areas);
-        foreach($areas As $area){
-        foreach($area['elements'] As $element){
-
-                    if($element['bfType'] == 'ReCaptcha'){
-                        if(!function_exists('recaptcha_check_answer')){
-                            require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/recaptcha/recaptchalib.php');
-                        }
-                        
-                        $publickey = $element['pubkey']; // you got this from the signup page
-                        $privatekey = $element['privkey'];
-
-                        $resp = recaptcha_check_answer ($privatekey,
-                                                        $_SERVER["REMOTE_ADDR"],
-                                                        isset( $_POST["recaptcha_challenge_field"] ) ? $_POST["recaptcha_challenge_field"] : '' ,
-                                                        isset($_POST["recaptcha_response_field"]) ? $_POST["recaptcha_response_field"] : '' );
-
-                        JFactory::getSession()->set('bfrecapsuccess',false);
-                        if ($resp->is_valid) {
-                            echo 'success';
-                            JFactory::getSession()->set('bfrecapsuccess',true);
-                        }
-                        else
-                        {
-                            die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
-                               "(reCAPTCHA said: " . $resp->error . ")");
-                        }
-                        exit;
-                    }
-                }
-        }
-    
-    exit;
-
-} else if(JRequest::getBool('checkCaptcha')){
+if(JRequest::getBool('checkCaptcha')){
     
     ob_end_clean();
         
@@ -493,18 +449,18 @@ if(isset($tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms'])){
         JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_send_errors` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_text_html_mobile_field` ");
         JFactory::getDBO()->query();
     }
-    if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_update_existing'] )){
-        JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_update_existing` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_send_errors` ");
-        JFactory::getDBO()->query();
-    }
-    if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_replace_interests'] )){
-        JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_replace_interests` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_update_existing` ");
-        JFactory::getDBO()->query();
-    }
-    if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_send_welcome'] )){
-        JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_send_welcome` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_replace_interests` ");
-        JFactory::getDBO()->query();
-    }
+    // if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_update_existing'] )){
+    //     JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_update_existing` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_send_errors` ");
+    //     JFactory::getDBO()->query();
+    // }
+    // if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_replace_interests'] )){
+    //     JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_replace_interests` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_update_existing` ");
+    //     JFactory::getDBO()->query();
+    // }
+    // if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_send_welcome'] )){
+    //     JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_send_welcome` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_replace_interests` ");
+    //     JFactory::getDBO()->query();
+    // }
     if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_default_type'] )){
         JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_default_type` VARCHAR( 255 ) NOT NULL DEFAULT 'text' AFTER `mailchimp_send_welcome` ");
         JFactory::getDBO()->query();
@@ -513,14 +469,14 @@ if(isset($tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms'])){
         JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_delete_member` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `mailchimp_default_type` ");
         JFactory::getDBO()->query();
     }
-    if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_send_goodbye'] )){
-        JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_send_goodbye` TINYINT( 1 ) NOT NULL DEFAULT 1 AFTER `mailchimp_delete_member` ");
-        JFactory::getDBO()->query();
-    }
-    if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_send_notify'] )){
-        JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_send_notify` TINYINT( 1 ) NOT NULL DEFAULT 1 AFTER `mailchimp_send_goodbye` ");
-        JFactory::getDBO()->query();
-    }
+    // if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_send_goodbye'] )){
+    //     JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_send_goodbye` TINYINT( 1 ) NOT NULL DEFAULT 1 AFTER `mailchimp_delete_member` ");
+    //     JFactory::getDBO()->query();
+    // }
+    // if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_send_notify'] )){
+    //     JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_send_notify` TINYINT( 1 ) NOT NULL DEFAULT 1 AFTER `mailchimp_send_goodbye` ");
+    //     JFactory::getDBO()->query();
+    // }
     if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['mailchimp_unsubscribe_field'] )){
         JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `mailchimp_unsubscribe_field` VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `mailchimp_send_notify` ");
         JFactory::getDBO()->query();
@@ -622,6 +578,34 @@ if(isset($tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms'])){
     if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['filter_state'] )){
         JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `filter_state` TEXT NOT NULL");
         JFactory::getDBO()->query();
+    }
+    if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['double_opt'])) {
+        JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `double_opt` tinyint(1) NOT NULL DEFAULT 0");
+        JFactory::getDBO()->query();
+    }
+    if(!isset( $tables[BFJoomlaConfig::get('dbprefix').'facileforms_forms']['opt_mail'])) {
+        JFactory::getDBO()->setQuery("ALTER TABLE `#__facileforms_forms` ADD `opt_mail` varchar(128) NOT NULL DEFAULT ''");
+        JFactory::getDBO()->query();
+    }
+    if(!isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opted'] ) ) {
+        JFactory::getDBO()->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opted` TINYINT(1) NOT NULL DEFAULT '0' AFTER `paypal_download_tries`, ADD INDEX (`opted`)" );
+        JFactory::getDBO()->execute();
+    }
+    if(!isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opt_ip'] ) ) {
+        JFactory::getDBO()->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opt_ip` VARCHAR(255) NOT NULL DEFAULT '' AFTER `opted`, ADD INDEX (`opt_ip`)" );
+        JFactory::getDBO()->execute();
+    }
+	if(!isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opt_date'] ) ){
+        JFactory::getDBO()->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opt_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `opt_ip`, ADD INDEX (`opt_date`)" );
+        JFactory::getDBO()->execute();
+	}
+    if(!isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opt_token'] ) ) {
+        JFactory::getDBO()->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opt_token` VARCHAR(255) NOT NULL DEFAULT '' AFTER `opt_date`, ADD INDEX (`opt_token`)" );
+        JFactory::getDBO()->execute();
+    }
+    if(!isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_forms']['honeypot_settings'] ) ) {
+        JFactory::getDBO()->setQuery( "ALTER TABLE `#__facileforms_forms` ADD `honeypot_settings` LONGTEXT NULL DEFAULT NULL AFTER `opt_mail`" );
+        JFactory::getDBO()->execute();
     }
 }
 
@@ -740,10 +724,16 @@ if (!$ff_compatible) {
 
 // load ff parameters
 $ff_request = array();
-reset($_REQUEST);
-while (list($prop, $val) = each($_REQUEST))
+// reset($_REQUEST);
+foreach($_REQUEST as $prop => $val){
     if (is_scalar($val) && substr($prop,0,9)=='ff_param_')
         $ff_request[$prop] = $val;
+}
+// Deprecated in PHP 7.2 version so code above is used
+
+// while (list($prop, $val) = each($_REQUEST))
+//     if (is_scalar($val) && substr($prop,0,9)=='ff_param_')
+//         $ff_request[$prop] = $val;
 
 if ($ff_install) {
     $act = 'installation';
@@ -929,7 +919,7 @@ function protectedComponentIds()
             } // if
             $ids[] = intval($row->id);
         } // foreach
- return implode($ids, ',');
+ return implode(',', $ids);
 } // protectedComponentIds
 
 function addComponentMenu($row, $parent, $copy = false)
@@ -1140,7 +1130,7 @@ function savePackage($id, $name, $title, $version, $created, $author, $email, $u
 
 function relinkScripts(&$oldscripts)
 {
-    if (count($oldscripts))
+    if (@count($oldscripts))
         foreach ($oldscripts as $row) {
             $newid = _ff_selectValue("select max(id) from #__facileforms_scripts where name = ".JFactory::getDBO()->Quote($row->name)."");
             if ($newid) {
@@ -1155,7 +1145,7 @@ function relinkScripts(&$oldscripts)
 
 function relinkPieces(&$oldpieces)
 {
-    if (count($oldpieces))
+    if (@count($oldpieces))
         foreach ($oldpieces as $row) {
             $newid = _ff_selectValue("select max(id) from #__facileforms_pieces where name = ".JFactory::getDBO()->Quote($row->name)."");
             if ($newid) {

@@ -7,13 +7,13 @@
 
 namespace Akeeba\AdminTools\Admin\Helper;
 
+defined('_JEXEC') || die;
+
 use DateTimeZone;
 use FOF30\Container\Container;
 use FOF30\View\DataView\Raw;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-
-defined('_JEXEC') or die;
 
 class Html
 {

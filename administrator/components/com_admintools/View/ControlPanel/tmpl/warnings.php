@@ -10,7 +10,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var  Html $this For type hinting in the IDE */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $root      = realpath(JPATH_ROOT);
 $root      = trim($root);
@@ -63,7 +63,7 @@ echo $this->loadAnyTemplate('admin:com_admintools/ControlPanel/needsipworkaround
 // Obsolete PHP version check
 echo $this->loadAnyTemplate('admin:com_admintools/ControlPanel/phpversion_warning', [
 	'softwareName'  => 'Admin Tools',
-	'minPHPVersion' => '7.1.0',
+	'minPHPVersion' => '7.2.0',
 ]);
 ?>
 

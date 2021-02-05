@@ -343,23 +343,23 @@ jQuery(function($) {
 					 if($(options.topFilter_id).find('input[name=search]').length != 0 ){
 						 var search = $(options.topFilter_id).find('input[name=search]');						
 						 if(search !=''){
-							 url += '&' + $(search).attr('name') + '='+ $(search).attr('value');						 
+							 url += '&' + $(search).attr('name') + '='+ $(search).val();
 						 }				
 					 }
 					 
 					 if($(options.topFilter_id).find('select[name=sortby]').length !=0){
 						 var sortby = $(options.topFilter_id).find('select[name=sortby] option:selected');
-						 url += '&' + $(options.topFilter_id).find('select[name=sortby]').attr('name') + '='+ $(options.topFilter_id).find('select[name=sortby]').attr('value');
+						 url += '&' + $(options.topFilter_id).find('select[name=sortby]').attr('name') + '='+ $(options.topFilter_id).find('select[name=sortby] option:selected').attr('value');
 					 }
 					
 					//check price slider exists
 					 if( $(options.form_id).find("#j2store-slider-range").length !=0){		 
 							//let us append price filters
-							url +='&pricefrom='+$(options.form_id).find("#min_price_input").attr('value');								
-							url +='&priceto='+$(options.form_id).find("#max_price_input").attr('value');
+							url +='&pricefrom='+$(options.form_id).find("#min_price_input").val();
+							url +='&priceto='+$(options.form_id).find("#max_price_input").val();
 					}
 						
-					 filters.getAbsolutePath(url ,false ,options);				
+					 filters.getAbsolutePath(url ,false ,options);
 				});
 				
 			}

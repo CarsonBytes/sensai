@@ -11,7 +11,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var $this Html */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 if (version_compare(JVERSION, '3.999.999', 'lt'))
 {

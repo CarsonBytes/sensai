@@ -191,9 +191,11 @@ function saveAllVariant(product_id) {
 function j2storesaveinventory(variant){	
 	var qty = jQuery('#quantity_'+variant).val();
 	var availability = jQuery('#availability_'+variant).val();
-	var manage_stock = jQuery('#manage_stock_'+variant).val();		
+	var manage_stock = jQuery('#manage_stock_'+variant).val();
+	var search = jQuery('#search').val();
+	var inventry_stock = jQuery('#adminForm input[name="inventry_stock"').val();
 	jQuery.ajax({
-		url: 'index.php?option=com_j2store&view=inventories&task=update_inventory&manage_stock='+manage_stock+'&availability='+availability+'&quantity='+qty+'&variant_id='+variant,
+		url: 'index.php?option=com_j2store&view=inventories&task=update_inventory&manage_stock='+manage_stock+'&availability='+availability+'&quantity='+qty+'&variant_id='+variant+'&search='+search+'&inventry_stock='+inventry_stock,
 		type: 'post',
 		dataType: 'json',		
 		cache: false,

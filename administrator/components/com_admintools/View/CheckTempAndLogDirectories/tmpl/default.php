@@ -9,7 +9,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var $this \Akeeba\AdminTools\Admin\View\CheckTempAndLogDirectories\Html */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 ?>
 <h1 id="check-header">

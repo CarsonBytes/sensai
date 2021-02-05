@@ -43,8 +43,10 @@ $upsell_image_width = $this->params->get('item_product_upsell_image_width', '100
 	
 		      				?>
 			   				<?php if(isset($thumb_image) &&  JFile::exists(JPATH::clean(JPATH_SITE.'/'.$thumb_image))):?>
-			   					<img title="<?php echo $upsell_product_name;?>" alt="<?php echo $upsell_product_name ;?>" class="j2store-product-thumb-image-<?php echo $upsell_product->j2store_product_id; ?>"  src="<?php echo JUri::root().JPath::clean($thumb_image);?>" width="<?php echo intval($upsell_image_width);?>"/>
-						   	<?php endif; ?>
+			   					<a href="<?php echo $upsell_product->product_link; ?>">
+                                    <img title="<?php echo $upsell_product_name;?>" alt="<?php echo $upsell_product_name ;?>" class="j2store-product-thumb-image-<?php echo $upsell_product->j2store_product_id; ?>"  src="<?php echo JUri::root().JPath::clean($thumb_image);?>" width="<?php echo intval($upsell_image_width);?>"/>
+                                </a>
+                            <?php endif; ?>
 	
 							</span>
 							<h3 class="upsell-product-title">

@@ -2,8 +2,8 @@
 <extension version="3.9" type="plugin" group="system" method="upgrade">
 	<name>plg_system_cachecleaner</name>
 	<description>PLG_SYSTEM_CACHECLEANER_DESC</description>
-	<version>7.2.2</version>
-	<creationDate>February 2020</creationDate>
+	<version>7.3.3</version>
+	<creationDate>October 2020</creationDate>
 	<author>Regular Labs (Peter van Westen)</author>
 	<authorEmail>info@regularlabs.com</authorEmail>
 	<authorUrl>https://www.regularlabs.com</authorUrl>
@@ -40,14 +40,14 @@
 				<field name="@loadlanguage_regularlabs" type="rl_loadlanguage" extension="plg_system_regularlabs" />
 				<field name="@loadlanguage_mod" type="rl_loadlanguage" extension="mod_cachecleaner" />
 				<field name="@loadlanguage_plg" type="rl_loadlanguage" extension="plg_system_cachecleaner" />
-				<field name="@license" type="rl_license" extension="CACHE_CLEANER" />
-				<field name="@version" type="rl_version" extension="CACHE_CLEANER" />
+				<field name="@license" type="rl_license" extension="CACHECLEANER" />
+				<field name="@version" type="rl_version" extension="CACHECLEANER" />
 				<field name="@dependency" type="rl_dependency"
 					   label="CC_THE_MODULE"
 					   file="/administrator/modules/mod_cachecleaner/mod_cachecleaner.php" />
 				<field name="@header" type="rl_header"
-					   label="CACHE_CLEANER"
-					   description="CACHE_CLEANER_DESC"
+					   label="CACHECLEANER"
+					   description="CACHECLEANER_DESC"
 					   url="https://www.regularlabs.com/cachecleaner" />
 			</fieldset>
 

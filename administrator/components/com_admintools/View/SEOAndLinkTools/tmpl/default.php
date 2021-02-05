@@ -11,7 +11,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var $this Akeeba\AdminTools\Admin\View\SEOAndLinkTools\Html */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $lang = Factory::getLanguage();
 ?>

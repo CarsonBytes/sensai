@@ -1,107 +1,13 @@
 <?php
 /**
  * BreezingForms - A Joomla Forms Application
- * @version 1.8
+ * @version 1.9
  * @package BreezingForms
- * @copyright (C) 2008-2012 by Markus Bopp
+ * @copyright (C) 2008-2020 by Markus Bopp
  * @license Released under the terms of the GNU General Public License
  **/
 
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
-
-function bf_alert($content, $url = '#', $enabled = false){
-
-	if( !$enabled ){
-
-		return '';
-	}
-
-	static $css;
-
-	if(!$css){
-
-		JFactory::getDocument()->addStyleDeclaration('
-        .bfAlert {
-            background-color: #c4453c;
-            background-image: -webkit-linear-gradient(135deg, transparent,
-                              transparent 25%, hsla(0,0%,0%,.05) 25%,
-                              hsla(0,0%,0%,.05) 50%, transparent 50%,
-                              transparent 75%, hsla(0,0%,0%,.05) 75%,
-                              hsla(0,0%,0%,.05));
-            background-image: -moz-linear-gradient(135deg, transparent,
-                              transparent 25%, hsla(0,0%,0%,.1) 25%,
-                              hsla(0,0%,0%,.1) 50%, transparent 50%,
-                              transparent 75%, hsla(0,0%,0%,.1) 75%,
-                              hsla(0,0%,0%,.1));
-            background-image: -ms-linear-gradient(135deg, transparent,
-                              transparent 25%, hsla(0,0%,0%,.1) 25%,
-                              hsla(0,0%,0%,.1) 50%, transparent 50%,
-                              transparent 75%, hsla(0,0%,0%,.1) 75%,
-                              hsla(0,0%,0%,.1));
-            background-image: -o-linear-gradient(135deg, transparent,
-                              transparent 25%, hsla(0,0%,0%,.1) 25%,
-                              hsla(0,0%,0%,.1) 50%, transparent 50%,
-                              transparent 75%, hsla(0,0%,0%,.1) 75%,
-                              hsla(0,0%,0%,.1));
-            background-image: linear-gradient(135deg, transparent,
-                              transparent 25%, hsla(0,0%,0%,.1) 25%,
-                              hsla(0,0%,0%,.1) 50%, transparent 50%,
-                              transparent 75%, hsla(0,0%,0%,.1) 75%,
-                              hsla(0,0%,0%,.1));
-            background-size: 20px 20px;
-            box-shadow: 0 5px 0 hsla(0,0%,0%,.1);
-            color: #000000 !important;
-            display: block;
-            font: bold 16px/40px sans-serif;
-            height: 40px;
-            position: relative;
-            text-align: center;
-            text-decoration: none;
-            top: -45px;
-            width: 95%;
-            -webkit-animation: bfAlert 1s ease forwards;
-               -moz-animation: bfAlert 1s ease forwards;
-                -ms-animation: bfAlert 1s ease forwards;
-                 -o-animation: bfAlert 1s ease forwards;
-                    animation: bfAlert 1s ease forwards;
-        }
-
-        @-webkit-keyframes bfAlert {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 0; } 
-        }
-        @-moz-keyframes bfAlert {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 0; }
-        }
-        @-ms-keyframes bfAlert {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 0; }
-        }
-        @-o-keyframes bfAlert {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 0; }
-        }
-        @keyframes bfAlert {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 0; }
-        }');
-
-		$css = true;
-
-	}
-
-	return '
-    <div style="clear:both;"><a class="bfAlert" href="'.$url.'" rel="nofollow">'.htmlentities($content, ENT_QUOTES,'UTF-8').'</a></div>
-    ';
-
-	return '';
-}
 
 function bf_sanitizeFilename( $fileName, $defaultIfEmpty = 'upload', $separator = '_', $lowerCase = true ) {
 	// Gather file informations and store its extension
@@ -333,6 +239,8 @@ function bf_is_mobile() {
  * @return JMail
  */
 
+
+
 function bf_getFieldSelectorList( $form_id, $element_target_id ) {
 	$db = JFactory::getDBO();
 	$db->setQuery( "Select `name` From #__facileforms_elements Where form = " . intval( $form_id ) . " And `name` Not In ('bfFakeName','bfFakeName2','bfFakeName3','bfFakeName4','bfFakeName5','bfFakeName6') Order by `ordering`" );
@@ -374,6 +282,39 @@ myField.value += myValue;
 
 	return $out;
 }
+
+ /*
+	additional function for inserting fields to editor
+ */
+ function bf_getFieldSelectorListEditor( $form_id, $editor, $element_target_id) {
+	 $db = JFactory::getDBO();
+	 $db->setQuery( "Select `name` From #__facileforms_elements Where form = " . intval( $form_id ) . " And `name` Not In ('bfFakeName','bfFakeName2','bfFakeName3','bfFakeName4','bfFakeName5','bfFakeName6') Order by `ordering`" );
+	 jimport( 'joomla.version' );
+	 $version = new JVersion();
+	 if ( version_compare( $version->getShortVersion(), '3.0', '>=' ) ) {
+		 $rows = $db->loadColumn();
+	 } else {
+		 $rows = $db->loadResultArray();
+	 }
+	 $out = '<script type="text/javascript">
+    function insertAtCursor_' . $element_target_id . '_Editor(myValue) {
+        var content = ' . $editor->getContent( $element_target_id ) . '
+        var splitPos = content.lastIndexOf("<");
+        var combined = content.substring(0, splitPos) + myValue + content.substring(splitPos);
+        jQuery("#'. $element_target_id . '_div iframe").contents().find("body").html(combined);
+    }
+    </script>';
+
+	 if ( $rows ) {
+ 		foreach ( $rows As $row ) {
+ 			$out .= '<a href="javascript: insertAtCursor_' . $element_target_id . '_Editor(\'{' . $row . ':label}\');void(0);">{' . $row . ':label}</a><br/>';
+ 			$out .= '<a href="javascript: insertAtCursor_' . $element_target_id . '_Editor(\'{' . $row . ':value}\');void(0);">{' . $row . ':value}</a><br/><br/>';
+ 		}
+ 	}
+
+ 	return $out;
+
+ }
 
 function bf_getFieldSelectorListHTML( $form_id, $editor, $element_target_id ) {
 	$db = JFactory::getDBO();
@@ -460,10 +401,14 @@ function bf_createMail( $from = '', $fromname = '', $subject, $body, $alt_sender
 
 	$prev_from = $alt_sender ? $alt_sender : $_mailfrom;
 
+
 	try {
 
-		$mail->SetFrom( $prev_from, $fromname ? $fromname : $_fromname );
+		//$mail->SetFrom( $prev_from, $fromname ? $fromname : $_fromname );
 		//$mail->SetFrom( $from ? $from : '', $fromname ? $fromname : '' );
+		//$mail->setSender( array( $prev_from, $fromname ? $fromname : $_fromname ) );
+        //$mail->setSender( array( $from ? $from : $prev_from, $fromname ? $fromname : $_fromname ) );
+        $mail->setSender( array( $prev_from, $fromname ? $fromname : $_fromname ) );
 
 	} catch ( Exception $e ) {
 
@@ -635,7 +580,7 @@ function bf_isUTF8( $string ) {
  * @return string cleaned
  */
 function bf_stripslashes_deep( $value ) {
-	if ( get_magic_quotes_gpc() ) {
+	if ( @get_magic_quotes_gpc() ) {
 		$value = is_array( $value ) ?
 			array_map( 'bf_stripslashes_deep', $value ) :
 			stripslashes( $value );

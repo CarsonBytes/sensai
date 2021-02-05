@@ -37,7 +37,7 @@ class Jch_optimizeHelper{
                         return true;
                 }
 
-		include_once JPATH_PLUGINS . '/system/jch_optimize/jchoptimize/loader.php';
+		include_once JPATH_PLUGINS . '/system/jch_optimize/autoload.php';
 
 		$params = Plugin::getPluginParams();
                 // Get the download ID

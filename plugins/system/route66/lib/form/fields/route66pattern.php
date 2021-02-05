@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\LanguageHelper;
+
 JFormHelper::loadFieldClass('text');
 
 class JFormFieldRoute66Pattern extends JFormFieldText
@@ -36,8 +38,8 @@ class JFormFieldRoute66Pattern extends JFormFieldText
 		}
 
 		// Set the languages fields
-		$siteLanguages = JLanguageMultilang::getSiteLangs();
-		$languages = JLanguageHelper::getLanguages();
+		$siteLanguages = LanguageHelper::getInstalledLanguages(0);
+		$languages = LanguageHelper::getLanguages();
 
 		// Get the input for each language
 		foreach ($languages as $language)

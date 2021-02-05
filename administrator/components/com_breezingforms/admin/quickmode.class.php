@@ -1,9 +1,9 @@
 <?php
 /**
  * BreezingForms - A Joomla Forms Application
- * @version 1.7.3
+ * @version 1.9
  * @package BreezingForms
- * @copyright (C) 2008-2011 by Markus Bopp
+ * @copyright (C) 2008-2020 by Markus Bopp
  * @license Released under the terms of the GNU General Public License
  **/
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
@@ -266,6 +266,10 @@ class QuickMode {
 						$element['bfType'] = 'Captcha';
 						$element['width']  = isset( $mdata['width'] ) ? intval( $mdata['width'] ) : 230;
 						break;
+					case 'bfNumberInput':
+						$element['bfType'] = 'Number Input';
+						$element['data1'] = $mdata['value'];
+						break;
 					case 'bfReCaptcha':
 						$element['bfType']  = 'ReCaptcha';
 						$element['pubkey']  = $mdata['pubkey'];
@@ -296,6 +300,7 @@ class QuickMode {
 						$element['options']['amount']                       = $mdata['amount'];
 						$element['options']['tax']                          = $mdata['tax'];
 						$element['options']['thankYouPage']                 = $mdata['thankYouPage'];
+						$element['options']['cancelURL'] 					= isset($mdata['cancelURL']) ? $mdata['cancelURL'] : '';
 						$element['options']['locale']                       = $mdata['locale'];
 						$element['options']['currencyCode']                 = $mdata['currencyCode'];
 						$element['options']['image']                        = $mdata['image'];
@@ -315,6 +320,7 @@ class QuickMode {
 						$element['options']['currencyCode']                 = $mdata['currencyCode'];
 						$element['options']['sendNotificationAfterPayment'] = $mdata['sendNotificationAfterPayment'];
 						$element['options']['image']                        = $mdata['image'];
+						$element['options']['emailfield']					= isset($mdata['emailfield']) ? $mdata['emailfield'] : '';
 						$element['data1']                                   = $mdata['image'];
 						break;
 					case 'bfSofortueberweisung':
@@ -361,20 +367,20 @@ class QuickMode {
 				// init
 				$element['script1id']           = $mdata['initId'];
 				$element['script1code']         = $mdata['initCode'];
-				$element['script1flag1']        = $mdata['initFormEntry'];
-				$element['script1flag2']        = $mdata['initPageEntry'];
+				$element['script1flag1']        = isset($mdata['initFormEntry']) ? $mdata['initFormEntry'] : '';
+				$element['script1flag2']        = isset($mdata['initPageEntry']) ? $mdata['initPageEntry'] : '';
 				$element['functionNameScript1'] = $mdata['initFunctionName'];
 				$element['script1cond']         = $mdata['initCondition'];
 				// action
 				$element['script2id']           = $mdata['actionId'];
-				$element['script2code']         = $mdata['actionCode'];
-				$element['script2flag1']        = $mdata['actionClick'];
-				$element['script2flag2']        = $mdata['actionBlur'];
-				$element['script2flag3']        = $mdata['actionChange'];
-				$element['script2flag4']        = $mdata['actionFocus'];
-				$element['script2flag5']        = $mdata['actionSelect'];
+				$element['script2code']         = isset($mdata['actionCode']) ? $mdata['actionCode'] : '';
+				$element['script2flag1']        = isset($mdata['actionClick']) ? $mdata['actionClick'] : '';
+				$element['script2flag2']        = isset($mdata['actionBlur']) ? $mdata['actionBlur'] : '';
+				$element['script2flag3']        = isset($mdata['actionChange']) ? $mdata['actionChange'] : '';
+				$element['script2flag4']        = isset($mdata['actionFocus']) ? $mdata['actionFocus'] : '';
+				$element['script2flag5']        = isset($mdata['actionSelect']) ? $mdata['actionSelect'] : '';
 				$element['functionNameScript2'] = $mdata['actionFunctionName'];
-				$element['script2cond']         = $mdata['actionCondition'];
+				$element['script2cond']         = isset($mdata['actionCondition']) ?  $mdata['actionCondition'] : '';
 				$element['hideInMailback']      = isset( $mdata['hideInMailback'] ) ? $mdata['hideInMailback'] : false;
 				$element['page']                = $page;
 				$element['dbId']                = $mdata['dbId'];

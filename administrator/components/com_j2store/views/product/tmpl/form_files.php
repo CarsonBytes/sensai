@@ -13,7 +13,9 @@ defined('_JEXEC') or die;
 	<div class="control-group">
 		<?php echo J2Html::label(JText::_('J2STORE_SET_PRODUCT_FILES') ,'product_files_option',array('class'=>'control-label')); ?>
 		<div class="controls">
-			<?php echo J2StorePopup::popup("index.php?option=com_j2store&view=products&task=setproductfiles&product_id=".$this->item->j2store_product_id."&layout=productfiles&tmpl=component", JText::_( "J2STORE_PRODUCT_SET_FILES" ), array('class'=>'btn btn-success'));?>
+			<?php
+            $base_path = rtrim(JUri::root(),'/').'/administrator';
+            echo J2StorePopup::popup($base_path."/index.php?option=com_j2store&view=products&task=setproductfiles&product_id=".$this->item->j2store_product_id."&layout=productfiles&tmpl=component", JText::_( "J2STORE_PRODUCT_SET_FILES" ), array('class'=>'btn btn-success'));?>
 		</div>
 	</div>
 	<div class="control-group">

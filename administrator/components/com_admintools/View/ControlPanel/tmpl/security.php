@@ -11,7 +11,7 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var  Html $this For type hinting in the IDE */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $uriBase = rtrim(Uri::base(), '/');
 ?>

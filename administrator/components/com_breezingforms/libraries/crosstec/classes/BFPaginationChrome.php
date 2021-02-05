@@ -4,7 +4,7 @@
  * 
  * @package     BreezingForms
  * @author      Markus Bopp
- * @link        http://www.crosstec.de
+ * @link        https://www.crosstec.org
  * @license     GNU/GPL
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.

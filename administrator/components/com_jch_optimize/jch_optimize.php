@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 use Joomla\Event\Dispatcher;
 use JchOptimize\Platform\Plugin;
 
-include_once JPATH_PLUGINS . '/system/jch_optimize/jchoptimize/loader.php';
+include_once JPATH_PLUGINS . '/system/jch_optimize/autoload.php';
 
 $app = JFactory::getApplication();
 

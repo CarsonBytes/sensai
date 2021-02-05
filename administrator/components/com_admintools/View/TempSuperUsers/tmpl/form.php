@@ -11,7 +11,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var Html $this */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 ?>
 <section class="akeeba-panel">

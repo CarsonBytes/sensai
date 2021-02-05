@@ -8,7 +8,7 @@
 namespace Akeeba\AdminTools\Admin\Model;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 use AtsystemFeatureNonewadmins;
 use DateInterval;

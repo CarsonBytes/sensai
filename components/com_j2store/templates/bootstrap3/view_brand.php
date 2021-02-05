@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 <?php if($this->params->get('item_show_product_manufacturer_name', 1) && !empty($this->product->manufacturer)): ?>
 	<span class="manufacturer-brand">
-		<?php echo JText::_('J2STORE_PRODUCT_MANUFACTURER_NAME'); ?> :
+		<?php echo JText::_('J2STORE_PRODUCT_MANUFACTURER_NAME'); ?>:
 		<?php if(isset($this->product->brand_desc_id) && !empty($this->product->brand_desc_id)):?>
 			<?php $url = JRoute::_('index.php?option=com_content&view=article&id='.$this->product->brand_desc_id);?>
 			<a href="<?php echo $url;?>" target="_blank"><?php echo $this->escape($this->product->manufacturer);?></a>

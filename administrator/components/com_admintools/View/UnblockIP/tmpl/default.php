@@ -10,7 +10,7 @@ use Joomla\CMS\Language\Text;
 /** @var    $this   Akeeba\AdminTools\Admin\View\UnblockIP\Html */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 ?>
 <form action="index.php" name="adminForm" id="adminForm" method="post" class="akeeba-form--horizontal">

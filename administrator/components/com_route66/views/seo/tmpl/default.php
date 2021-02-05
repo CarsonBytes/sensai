@@ -9,10 +9,13 @@ defined('_JEXEC') or die;
 
 <form action="<?php echo JRoute::_('index.php?option=com_route66&view=seo'); ?>" method="post" name="adminForm" id="adminForm">
 
-		<div id="j-sidebar-container" class="span2">
-				<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="span10">
+	<?php if(version_compare(JVERSION, '4', 'lt')): ?>
+	<div id="j-sidebar-container" class="span2">
+			<?php echo $this->sidebar; ?>
+	</div>
+	<?php endif; ?>
+	<div id="j-main-container" class="span10">
+
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<div class="clearfix"> </div>
@@ -20,7 +23,7 @@ defined('_JEXEC') or die;
 		<table class="table table-striped" id="seoList">
 				<thead>
 						<tr>
-								<th width="1%" class="nowrap center">
+								<th width="1%" class="nowrap center text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_ROUTE66_SCORE', 'score', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 								</th>
 								<th width="1%" class="nowrap">
@@ -37,11 +40,11 @@ defined('_JEXEC') or die;
 				<tbody>
 				<?php foreach ($this->items as $i => $item): ?>
 						<tr class="row<?php echo $i % 2; ?>">
-								<td class="center">
+								<td class="center text-center">
 									<?php if($item->keyword): ?>
 									<span class="badge badge-<?php echo $item->badgeClass; ?>"><?php echo $item->score; ?></span>
 									<?php else: ?>
-									<span class="badge"><?php echo JText::_('COM_ROUTE66_NA'); ?></span>
+									<span class="badge badge-light"><?php echo JText::_('COM_ROUTE66_NA'); ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="nowrap"><?php echo $item->keyword; ?></td>

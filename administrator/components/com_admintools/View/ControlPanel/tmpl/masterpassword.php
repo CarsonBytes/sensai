@@ -10,7 +10,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var  Html $this For type hinting in the IDE */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 ?>
 <div class="akeeba-block--info">

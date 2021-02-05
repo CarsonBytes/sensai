@@ -106,7 +106,9 @@ JHtml::_('behavior.modal');
 
                             <div class="control-group">
                                 <?php echo J2Html::label(JText::_('J2STORE_PRODUCT_SET_ADVANCED_PRICING'), 'sale_price',array('class'=>'control-label')); ?>
-                                <?php $url ="index.php?option=com_j2store&view=products&task=setproductprice&variant_id=".$this->variant->j2store_variant_id."&layout=productpricing&tmpl=component";?>
+                                <?php
+                                $base_path = rtrim(JUri::root(),'/').'/administrator';
+                                $url = $base_path."/index.php?option=com_j2store&view=products&task=setproductprice&variant_id=".$this->variant->j2store_variant_id."&layout=productpricing&tmpl=component";?>
                                 <?php echo J2StorePopup::popup($url , JText::_( "J2STORE_PRODUCT_SET_PRICES" ), array('class'=>'btn btn-success btn-small'));?>
                             </div>
                             <div class="control-group">

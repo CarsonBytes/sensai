@@ -5,7 +5,7 @@
  * @license   GNU General Public License version 3, or later
  */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 /**
  * Allows Joomla! to use MySQL's UTF8MB4 connection type, supporting proper multibyte UTF-8 characters such as Emoji

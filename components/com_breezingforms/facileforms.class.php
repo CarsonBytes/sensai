@@ -1,16 +1,16 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 global $ff_version, $ff_resnames, $ff_request, $ff_target;
 
-$ff_version = 'Free (build 926)';
+$ff_version = 'Free (build 939)';
 $ff_target  = 0;
 
 $ff_resnames = array(
@@ -134,10 +134,13 @@ function initFacileForms()
 
 
 	if (!isset($ff_mossite)) {
-		if ($ff_config->livesite) {
-			$ff_mossite = str_replace('\\','/', JURI::root());
+		if ($ff_config->livesite == 0) {
+			//$ff_mossite = str_replace('\\','/', JURI::root());
+			$ff_mossite = JUri::root();
 		} else {
-			$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+			$s = empty($_SERVER["HTTPS"]) ? '' : ( ($_SERVER["HTTPS"] == "on") ? "s" : "" );
+			$s = !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) ? 's' : $s;
+
 			$protocol = strtolower($_SERVER["SERVER_PROTOCOL"]);
 			$protocol = substr($protocol, 0, strpos($protocol, '/')).$s;
 			$port = ":".$_SERVER["SERVER_PORT"];
@@ -150,7 +153,7 @@ function initFacileForms()
 			$ff_mossite = str_replace('\\','/',$protocol."://".$domain.$port.$path);
 		} // if
 		$len = strlen($ff_mossite);
-		if ($len>0 && $ff_mossite{$len-1}=='/') $ff_mossite = substr($ff_mossite,0,$len-1);
+		if ($len>0 && $ff_mossite[$len-1]=='/') $ff_mossite = substr($ff_mossite,0,$len-1);
 	} // if
 
 	if (!isset($ff_comsite))
@@ -220,6 +223,8 @@ class facileFormsConf {
         var $cellnewline = 1;
 
         var $enable_classic = 0;
+        
+        var $disable_ip = 0;
 
 	function __construct()
 	{
@@ -238,8 +243,10 @@ class facileFormsConf {
 		} else {
                         $arr = get_object_vars($this);
 			$ids = array();
-			while (list($prop, $val) = each($arr)) $ids[] = "'".$prop."'";
-                        $rep = 0;
+
+			foreach ( $arr as $prop => $val ) $ids[] = "'".$prop."'";
+
+            $rep = 0;
 			$olderr = error_reporting($rep);
 			$database->setQuery(
 				"select id, value from #__facileforms_config ".
@@ -271,7 +278,7 @@ class facileFormsConf {
 		$config = "<?php\n";
 		$arr = get_object_vars($this);
 
-		while (list($prop, $val) = each($arr)) {
+        foreach ( $arr as $prop => $val ) {
 			$config .= "\$this->".$prop." = \"".addslashes($val)."\";\n";
 
 			$database->setQuery(
@@ -328,7 +335,7 @@ class facileFormsConf {
 	function bindRequest($request)
 	{
 		$arr = get_object_vars($this);
-		while (list($prop, $val) = each($arr))
+        foreach($arr as $prop => $val)
 			$this->$prop = @JRequest::getVar($prop, $val);
 	} // bindRequest
 } // class facileFormsConf
@@ -361,7 +368,7 @@ class facileFormsMenus extends JTable {
 		if ($rows) {
 			$row = $rows[0];
 			$arr = get_object_vars($this);
-			while (list($prop, $val) = each($arr))
+            foreach($arr as $prop => $val)
 				if ($prop[0] != '_')
 					$this->$prop = $row->$prop;
 			return true;
@@ -456,7 +463,9 @@ class facileFormsForms extends JTable {
         var $dropbox_password = '';
         var $dropbox_folder = '';
         var $dropbox_submission_enabled = 0;
-        var $dropbox_submission_types = 'pdf';
+		var $dropbox_submission_types = 'pdf';
+	var $double_opt = '';
+	var $opt_mail = '';
 
 	function __construct(&$db)
 	{
@@ -473,10 +482,17 @@ class facileFormsForms extends JTable {
 		if ($rows) {
 			$row = $rows[0];
 			$arr = get_object_vars($this);
-			while (list($prop, $val) = each($arr))
+			foreach($arr as $prop => $val) {
 				if ($prop[0] != '_'){
 					@$this->$prop = $row->$prop;
 				}
+			}
+			// Deprecated in PHP 7.2 version so code above is used
+			
+			// while (list($prop, $val) = each($arr))
+			// 	if ($prop[0] != '_'){
+			// 		@$this->$prop = $row->$prop;
+			// 	}
 			return true;
 		} // if
 		return false;
@@ -573,7 +589,7 @@ Query List Settings: border / cellspacing / cellpadding / <tr(h)>class / <tr(1)>
 		if ($rows) {
 			$row = $rows[0];
 			$arr = get_object_vars($this);
-			while (list($prop, $val) = each($arr))
+            foreach($arr as $prop => $val)
 				if ($prop[0] != '_')
 					@$this->$prop = $row->$prop;
 			return true;
@@ -607,9 +623,16 @@ class facileFormsScripts extends JTable {
 		if ($rows) {
 			$row = $rows[0];
 			$arr = get_object_vars($this);
-			while (list($prop, $val) = each($arr))
-				if ($prop[0] != '_')
-					$this->$prop = $row->$prop;
+			foreach($arr as $prop => $val) {
+				if ($prop[0] != '_'){
+					@$this->$prop = $row->$prop;
+				}
+			}
+			// Deprecated in PHP 7.2 version so code above is used
+
+			// while (list($prop, $val) = each($arr))
+			// 	if ($prop[0] != '_')
+			// 		$this->$prop = $row->$prop;
 			return true;
 		} // if
 		return false;
@@ -641,9 +664,16 @@ class facileFormsPieces extends JTable {
 		if ($rows) {
 			$row = $rows[0];
 			$arr = get_object_vars($this);
-			while (list($prop, $val) = each($arr))
-				if ($prop[0] != '_')
-					$this->$prop = $row->$prop;
+			foreach($arr as $prop => $val) {
+				if ($prop[0] != '_'){
+					@$this->$prop = $row->$prop;
+				}
+			}
+			// Deprecated in PHP 7.2 version so code above is used
+			
+			// while (list($prop, $val) = each($arr))
+			// 	if ($prop[0] != '_')
+			// 		$this->$prop = $row->$prop;
 			return true;
 		} // if
 		return false;
@@ -683,7 +713,7 @@ class facileFormsRecords extends JTable {
 		if ($rows) {
 			$row = $rows[0];
 			$arr = get_object_vars($this);
-			while (list($prop, $val) = each($arr))
+            foreach($arr as $prop => $val)
 				if ($prop[0] != '_')
 					$this->$prop = $row->$prop;
 			return true;
@@ -715,7 +745,7 @@ class facileFormsSubrecords extends JTable {
 		if ($rows) {
 			$row = $rows[0];
 			$arr = get_object_vars($this);
-			while (list($prop, $val) = each($arr))
+            foreach($arr as $prop => $val)
 				if ($prop[0] != '_')
 					$this->$prop = $row->$prop;
 			return true;

@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -130,11 +130,11 @@ class facileFormsForm
 			$row->heightmode = 0;
 			$row->pages = 1;
 			$row->emailntf = 1;
-                        $row->mb_emailntf = 1;
+            $row->mb_emailntf = 1;
 			$row->emaillog = 1;
-                        $row->mb_emaillog = 1;
+            $row->mb_emaillog = 1;
 			$row->emailxml = 0;
-                        $row->mb_emailxml = 0;
+            $row->mb_emailxml = 0;
 			$row->dblog = 1;
 			$row->script1cond = 0;
 			$row->script2cond = 0;
@@ -147,41 +147,42 @@ class facileFormsForm
 			$row->prevmode = 2;
 			$row->prevwidth = 400;
 			$row->custom_mail_subject = '';
-                        $row->mb_custom_mail_subject = '';
-                        $row->alt_mailfrom = '';
-                        $row->mb_alt_mailfrom = '';
-                        $row->alt_fromname = '';
-                        $row->mb_alt_fromname = '';
-                        $row->email_type = 0;
-                        $row->mb_email_type = 0;
-                        $row->email_custom_html = 0;
-                        $row->mb_email_custom_html = 0;
-                        $row->email_custom_template = '';
-                        $row->mb_email_custom_template = '';
-                        $row->salesforce_token = '';
-                        $row->salesforce_enabled = 0;
-                        $row->salesforce_fields = '';
-                        $row->salesforce_username = '';
-                        $row->salesforce_password = '';
-                        $row->dropbox_email = '';
-                        $row->dropbox_password = '';
-                        $row->dropbox_folder = '';
-                        $row->dropbox_submission_enabled = 0;
-                        $row->dropbox_submission_types = 'pdf';
-                        $row->tags_form = '';
-                        $row->tags_content = '';
-                        $row->tags_content_template = '';
-                        $row->tags_content_template_default_element = 0;
-                        $row->tags_content_default_category = 1;
-                        $row->tags_content_default_state = 1;
-                        $row->tags_content_default_access = 1;
-                        $row->tags_content_default_language = '*';
-                        $row->tags_content_default_featured = 0;
-                        $row->tags_content_default_publishup = '';
-                        $row->tags_content_default_publishdown = '';
-                        $row->autoheight = 0;
+            $row->mb_custom_mail_subject = '';
+            $row->alt_mailfrom = '';
+            $row->mb_alt_mailfrom = '';
+            $row->alt_fromname = '';
+            $row->mb_alt_fromname = '';
+            $row->email_type = 0;
+            $row->mb_email_type = 0;
+            $row->email_custom_html = 0;
+            $row->mb_email_custom_html = 0;
+            $row->email_custom_template = '';
+            $row->mb_email_custom_template = '';
+            $row->salesforce_token = '';
+            $row->salesforce_enabled = 0;
+            $row->salesforce_fields = '';
+            $row->salesforce_username = '';
+            $row->salesforce_password = '';
+            $row->dropbox_email = '';
+            $row->dropbox_password = '';
+            $row->dropbox_folder = '';
+            $row->dropbox_submission_enabled = 0;
+            $row->dropbox_submission_types = 'pdf';
+            $row->tags_form = '';
+            $row->tags_content = '';
+            $row->tags_content_template = '';
+            $row->tags_content_template_default_element = 0;
+            $row->tags_content_default_category = 1;
+            $row->tags_content_default_state = 1;
+            $row->tags_content_default_access = 1;
+            $row->tags_content_default_language = '*';
+            $row->tags_content_default_featured = 0;
+            $row->tags_content_default_publishup = '';
+            $row->tags_content_default_publishdown = '';
+            $row->autoheight = 0;
+            $row->honeypot_settings = '';
                         
-                        $database->setQuery("select max(ordering)+1 from #__facileforms_forms");
+            $database->setQuery("select max(ordering)+1 from #__facileforms_forms");
 			$row->ordering = $database->loadResult();
 		} // if
 
@@ -376,6 +377,11 @@ class facileFormsForm
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		} // if
+
+        if(!isset($_POST['honeypot_settings'])){
+
+            $_POST['honeypot_settings'] = '';
+        }
 
 		// store it in the db
 		if (!$row->store()) {

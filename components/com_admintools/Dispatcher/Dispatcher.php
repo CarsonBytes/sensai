@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Site\Dispatcher;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Dispatcher\Dispatcher as AdminDispatcher;
 use Akeeba\AdminTools\Admin\Model\ConfigureWAF;
@@ -28,17 +28,6 @@ class Dispatcher extends AdminDispatcher
 	 * @var  array
 	 */
 	protected $viewNameAliases = [];
-
-	/**
-	 * If set to true, any GET request to the alias view will result in an HTTP 301 permanent redirection to the real
-	 * view name.
-	 *
-	 * This does NOT apply to POST, PUT, DELETE etc URLs. When you submit form data you cannot have a redirection. The
-	 * browser will _typically_ not resend the submitted data.
-	 *
-	 * @var  bool
-	 */
-	protected $permanentAliasRedirectionOnGET = false;
 
 	public function __construct(Container $container, array $config)
 	{

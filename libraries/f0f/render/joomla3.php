@@ -79,7 +79,7 @@ class F0FRenderJoomla3 extends F0FRenderStrapper
 			$layout = $input->getCmd('layout', '');
 			$task = $input->getCmd('task', '');
 
-			$classes = ' class="' . implode(array(
+			$classes = ' class="' . implode(' ',array(
 				'joomla-version-' . $majorVersion,
 				'joomla-version-' . $minorVersion,
 				'admin',
@@ -87,7 +87,7 @@ class F0FRenderJoomla3 extends F0FRenderStrapper
 				'view-' . $view,
 				'layout-' . $layout,
 				'task-' . $task,
-			), ' ') . '"';
+			)) . '"';
 		}
 		else
 		{

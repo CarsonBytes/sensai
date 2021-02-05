@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 ?>
 <?php if($this->params->get('item_show_product_sku', 1) && !empty($this->product->variant->sku)) : ?>
 	<div class="product-sku">
-		<span class="sku-text"><?php echo JText::_('J2STORE_SKU')?> :</span>
+		<span class="sku-text"><?php echo JText::_('J2STORE_SKU')?>:</span>
 		<span itemprop="sku" class="sku"> <?php echo $this->escape($this->product->variant->sku); ?> </span>
 	</div>
 <?php endif; ?>

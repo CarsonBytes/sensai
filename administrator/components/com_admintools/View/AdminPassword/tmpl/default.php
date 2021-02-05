@@ -9,7 +9,7 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 /** @var \Akeeba\AdminTools\Admin\View\AdminPassword\Html $this */
 

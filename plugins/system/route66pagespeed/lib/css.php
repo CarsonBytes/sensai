@@ -43,7 +43,7 @@ class Route66Css
 			return false;
 		}
 
-		$buffer = JFile::read(JPATH_SITE . '/' . $filepath);
+		$buffer = file_get_contents(JPATH_SITE . '/' . $filepath);
 
 		$this->addStyle($buffer, $href);
 

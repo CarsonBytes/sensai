@@ -6,6 +6,9 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
+
 class Route66SefRouter
 {
 	private $rules = array();
@@ -41,7 +44,7 @@ class Route66SefRouter
 
 		$application = JFactory::getApplication();
 
-		if ($application->isSite() && $application->getLanguageFilter())
+		if ($application->isClient('site') && $application->getLanguageFilter())
 		{
 			$uri = JUri::getInstance();
 			$path = ltrim($uri->getPath(), '/');
@@ -68,7 +71,7 @@ class Route66SefRouter
 		$attributes = array();
 		$values = array();
 
-		if ($application->isSite() && $application->getLanguageFilter())
+		if ($application->isClient('site') && $application->getLanguageFilter())
 		{
 			$languages = array('*');
 
@@ -111,9 +114,9 @@ class Route66SefRouter
 
 	private function loadPlugins()
 	{
-		JPluginHelper::importPlugin('route66');
-		$dispatcher = JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onRoute66AddRules');
+		PluginHelper::importPlugin('route66');
+		$application = Factory::getApplication();
+		$results = $application->triggerEvent('onRoute66AddRules');
 
 		foreach ($results as $result)
 		{
@@ -158,7 +161,7 @@ class Route66SefRouter
 		$application = JFactory::getApplication();
 		$path = $uri->getPath();
 
-		if ($application->isSite() && $application->getLanguageFilter())
+		if ($application->isClient('site') && $application->getLanguageFilter())
 		{
 			if ($path == $this->currentLanguage->sef)
 			{
@@ -311,6 +314,12 @@ class Route66SefRouter
 	{
 		$router->setVars($this->vars);
 
+		if (version_compare(JVERSION, '4', '>=') && count($this->vars))
+		{
+			$uri->setPath('');
+			$uri->setQuery($this->vars);
+		}
+
 		if (isset($this->vars['Itemid']))
 		{
 			$this->menu->setActive($this->vars['Itemid']);
@@ -339,7 +348,7 @@ class Route66SefRouter
 		{
 
 			// Filter by language
-			if ($application->isSite() && $application->getLanguageFilter())
+			if ($application->isClient('site') && $application->getLanguageFilter())
 			{
 				if (!isset($query['lang']) || !$query['lang'])
 				{
@@ -451,7 +460,7 @@ class Route66SefRouter
 
 		$application = JFactory::getApplication();
 
-		if ($application->isSite() && $application->getLanguageFilter())
+		if ($application->isClient('site') && $application->getLanguageFilter())
 		{
 			$languages = array('*');
 
@@ -468,6 +477,11 @@ class Route66SefRouter
 		foreach ($items as $item)
 		{
 			$vars = $item->query;
+
+			/*if (isset($vars['layout']))
+			{
+				unset($vars['layout']);
+			}*/
 			$total = count($vars);
 			$matching = 0;
 

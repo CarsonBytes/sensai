@@ -11,7 +11,7 @@ use FOF30\Toolbar\Toolbar as FOFToolbar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 class Toolbar extends FOFToolbar
 {

@@ -47,7 +47,7 @@ $order_status = $params->get('order_status',array('*'));
 			echo $currency->format(
 				F0FModel::getTmpInstance('Orders', 'J2StoreModel')->clearState()
 									->since( $yesterday )
-									->until( $yesterday )
+									->until( $yesterday.' 23:59:59' )
 									->orderstatus($order_status)
 									->nozero(1)
 									->moneysum(1)

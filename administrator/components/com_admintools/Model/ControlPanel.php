@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Model;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Helper\Storage;
 use Akeeba\AdminTools\Admin\Model\Scanner\Complexify;
@@ -199,6 +199,7 @@ class ControlPanel extends Model
 	public function isMyIPBlocked($externalIp = null)
 	{
 		// First let's get the current IP of the user
+		$ipList = [];
 		$ipList[] = $this->getVisitorIP();
 
 		if ($externalIp)

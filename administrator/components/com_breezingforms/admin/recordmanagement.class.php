@@ -1,9 +1,9 @@
 <?php
 /**
  * BreezingForms - A Joomla Forms Application
- * @version 1.8
+ * @version 1.9
  * @package BreezingForms
- * @copyright (C) 2008-2012 by Markus Bopp
+ * @copyright (C) 2008-2020 by Markus Bopp
  * @license Released under the terms of the GNU General Public License
  * */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -181,14 +181,23 @@ class bfRecordManagement {
 		$out .= '</td>';
 		$out .= '</tr>';
 		$out .= '<tr>';
-		$out .= '<td colspan="3">';
 
-		$out .= '<span id="bfrecordsearchintextspan">';
-		$out .= '<input type="checkbox" checked="checked" value="1" name="bfrecordsearchintext" id="bfrecordsearchintext" /> <label for="bfrecordsearchintext">' . htmlentities(BFText::_('COM_BREEZINGFORMS_SEARCHFILTERINTEXT'), ENT_QUOTES, 'UTF-8') . '</label> ';
-		$out .= '</span>';
+        $out .= '<td>';
 
-		$out .= '</td>';
-		$out .= '</tr>';
+        $out .= '<input type="checkbox" value="1" name="bfrecordsearchinopted" id="bfrecordsearchinopted" /> <label for="bfrecordsearchinopted">' . htmlentities(BFText::_('COM_BREEZINGFORMS_SEARCHFILTERINOPTED'), ENT_QUOTES, 'UTF-8') . '</label> ';
+
+        $out .= '</td>';
+
+        $out .= '<td colspan="2">';
+
+        $out .= '<span id="bfrecordsearchintextspan">';
+        $out .= '<input type="checkbox" checked="checked" value="1" name="bfrecordsearchintext" id="bfrecordsearchintext" /> <label for="bfrecordsearchintext">' . htmlentities(BFText::_('COM_BREEZINGFORMS_SEARCHFILTERINTEXT'), ENT_QUOTES, 'UTF-8') . '</label> ';
+        $out .= '</span>';
+
+        $out .= '</td>';
+        $out .= '</tr>';
+
+
 		$out .= '</table>';
 
 		$out .= '<br/>';
@@ -239,7 +248,7 @@ class bfRecordManagement {
 
 		$out .= '<div id="bfAvailableFieldsMenu">';
 		$out .= '<div id="bfAvailableFieldsWrapper"><div id="bfAvailableFieldsOpen">' . htmlentities(BFText::_('COM_BREEZINGFORMS_OPENFIELDS'), ENT_QUOTES, 'UTF-8') . '</div>';
-		$out .= '<div id="bfAvailableFields">'.bf_alert('Column selection in full version, only', 'https://crosstec.org/en/extensions/joomla-forms-download.html', true).'</div>' . "\n";
+		$out .= '<div id="bfAvailableFields"></div>' . "\n";
 		$out .= '</div>';
 		$out .= '</div>';
 
@@ -317,7 +326,7 @@ class bfRecordManagement {
 				<option value="EUC-JP">EUC-JP</option>
 			</select><br>            
 		<?php echo BFText::_('COM_BREEZINGFORMS_CSV_ENCODING_MSG') . '<br><br>'; ?>
-			<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+			<input type="hidden" name="form_id" value="<?php echo JRequest::getInt('form_selection',0);?>" />
 		<?php echo BFText::_('COM_BREEZINGFORMS_UPLOAD_MSG'); ?> <input type="file" name="csv_file" accept=".csv" />
 			<input type="submit" value="<?php echo BFText::_('COM_BREEZINGFORMS_UPLOAD_FILE_MSG'); ?>" />
 		</form>
@@ -340,7 +349,7 @@ class bfRecordManagement {
 		<?php
 	}
 
-	function setCsvImport() {
+	function setCsvImport() { 
 
 		$db = JFactory::getDbo();
 
@@ -376,6 +385,9 @@ class bfRecordManagement {
 
 		fclose($handle);
 
+
+
+
 		$title = array();
 		$record = array();
 		$first = true;
@@ -391,7 +403,6 @@ class bfRecordManagement {
 				$first = false;
 			} else {
 				$records[$j] = str_replace('"', '', explode('";"', $line));
-
 				$j++;
 			}
 		}
@@ -401,18 +412,26 @@ class bfRecordManagement {
 			return;
 		}
 
+		$db->setQuery("Select `title`,`name` From #__facileforms_forms Where id = " . JRequest::getInt('form_id',0));
+		$the_form = $db->loadObject();
+
 		$recordcolumns = 'id, submitted, form, title, name, ip, browser, opsys, provider, viewed, exported, archived, user_id, username, user_full_name, paypal_tx_id, paypal_payment_date, paypal_testaccount, paypal_download_tries';
 		$columns = explode(', ', strtolower($recordcolumns));
+		$columns[3] = 'bf_form_title';
+		$columns[4] = 'bf_form_name';
 
 		foreach ($records as $record) { // Insert in Record Table
+			if (count($record) <= 1) {
+				continue;
+			}
+
 			$query = 'Insert Into #__facileforms_records (' . $recordcolumns . ') VALUES (';
 
 			$first = true;
 
-			$formname = '';
-
+            //Adding empty variable which will contain form name later while exporting specific form
+            $formname = '';
 			for ($i = 0; $i < count($columns); $i++) {
-
 				if (!$first) {
 					$query = $query . ', ';
 				}
@@ -425,18 +444,34 @@ class bfRecordManagement {
 						$query = $query . $db->Quote($form);
 					}
 				} else {
-					if (in_array($columns[$i], $title)) {
-						if ($columns[$i] === 'title') {
+					if (in_array($columns[$i], $title) ) {
+						if ($columns[$i] === 'bf_form_title') {
 							$j = array_search($columns[$i], $title);
-							$query = $query . $db->Quote($record[$j]) . ', ' . $db->Quote($record[$j]);
+							$query = $query . $db->Quote($record[$j]);
+							// $i++;
+						}
+							else if ($columns[$i] === 'bf_form_name') {
+							$query = $query . $db->Quote($record[$j]);
 							$formname = $record[$j];
-							$i++;
-						} else {
+							// $i++;
+						}
+						else {
 							$j = array_search($columns[$i], $title);
 							$query = $query . $db->Quote($record[$j]);
 						}
 					} else {
-						$query = $query . '""';
+
+						$value = '';
+						switch($columns[$i]){
+							case 'bf_form_title': $value = $the_form->title; break;
+							case 'bf_form_name': $value = $the_form->name; break;
+							case 'submitted': $value = date('Y-m-d H:i:s'); break;
+							case 'ip': $value = $_SERVER['REMOTE_ADDR']; break;
+							case 'user_id': $value = JFactory::getUser()->get('id',0); break;
+							case 'username': $value = JFactory::getUser()->get('username',''); break;
+						}
+
+						$query = $query . '"'.$value.'"';
 					}
 				}
 
@@ -458,7 +493,6 @@ class bfRecordManagement {
 			$record_size = count($record);
 
 			for ($i = array_search('download_tries', $title) + 1; $i < $record_size; $i++) {
-
 				$db->setQuery("Select * From #__facileforms_elements Where form = " . $db->Quote($form) . " And `name` = " . $db->Quote(trim($title[$i])));
 				$values = $db->loadAssoc();
 
@@ -477,6 +511,7 @@ class bfRecordManagement {
 				$query = $query . ' ,';
 				$query = $query . $db->Quote($record[$i]);
 				$query = $query . ')';
+
 				$db->setQuery($query);
 				$db->query();
 
@@ -484,6 +519,7 @@ class bfRecordManagement {
 			}
 		} // End Insert
 		// Start Cleanup
+
 		$query = 'SELECT id FROM #__facileforms_records WHERE title = "" AND name = ""';
 		$db->setQuery($query);
 		$delID = $db->loadAssocList();
@@ -962,6 +998,15 @@ class bfRecordManagement {
                                                     out += "</td>";
                                                     out += "</tr>";
                                                     
+                                                    // opted;
+                                                    out += "<td class=\"bfDetailsTableLabelCol\"><strong>";
+                                                    out += ' . json_encode(BFText::_('COM_BREEZINGFORMS_RECORDS_OPTED')) . ';
+                                                    out += "</strong></td>";
+                                                    out += "<td class=\"bfDetailsTableValueCol\">";
+                                                    out += data.record["bfrecord_opted"] == 1 ? ' . json_encode(BFText::_('COM_BREEZINGFORMS_RECORDS_YES')) . ' : ' . json_encode(BFText::_('COM_BREEZINGFORMS_RECORDS_NO')) . ' ;
+                                                    out += "</td>";
+                                                    out += "</tr>";
+                                                    
                                                     // payment info
 
                                                     out += "<tr>";
@@ -1084,7 +1129,9 @@ class bfRecordManagement {
                                                 fields: detail_fields
                                             }, 
                                             function (data) { //opened handler
-                                            data.childTable.jtable("load");
+                                            setTimeout(function(){
+                                                data.childTable.jtable("load");
+                                            }, 500);
                                         });
                                     }
                                 });
@@ -1104,6 +1151,7 @@ class bfRecordManagement {
                     },
                     paging: true, //Enable paging
                     pageSize: 10, //Set page size (default: 10)
+                    pageSizes: [10, 25, 50, 100, 250, 500, 1000, 5000, 10000, 100000],
                     sorting: true, //Enable sorting
                     defaultSorting: "id DESC", //Set default sorting,
                     selecting: true, //Enable selecting
@@ -1155,7 +1203,10 @@ class bfRecordManagement {
                     jQuery("#bfRecordsTableContainer").jtable({});
                     jQuery("#bfRecordsTableContainer").jtable("destroy");
                     jQuery("#bfRecordsTableContainer").jtable(default_object);
-                    jQuery("#bfRecordsTableContainer").jtable("load");
+                    
+                    setTimeout(function(){
+                        jQuery("#bfRecordsTableContainer").jtable("load");
+                    }, 500);
                     
                     // populating available fields options
                     
@@ -1198,7 +1249,7 @@ class bfRecordManagement {
                             var field13 = {id: "bfDisplayFieldIDbfrecord_viewed", title: ' . json_encode(BFText::_('COM_BREEZINGFORMS_RECORDS_VIEWED')) . ', name: "bfrecord_viewed"};
                             var field14 = {id: "bfDisplayFieldIDbfrecord_exported", title: ' . json_encode(BFText::_('COM_BREEZINGFORMS_RECORDS_EXPORTED')) . ', name: "bfrecord_exported"};
                             var field15 = {id: "bfDisplayFieldIDbfrecord_archived", title: ' . json_encode(BFText::_('COM_BREEZINGFORMS_RECORDS_ARCHIVED')) . ', name: "bfrecord_archived"};
-
+                            var field16 = {id: "bfDisplayFieldIDbfrecord_opted", title: ' . json_encode(BFText::_('COM_BREEZINGFORMS_RECORDS_OPTED')) . ', name: "bfrecord_opted"};
 
                             var jsondata = jQuery.parseJSON(data);
                             var fields = jsondata.fields;
@@ -1223,6 +1274,7 @@ class bfRecordManagement {
                                 fields.bfinsert(fields.length, field13);
                                 fields.bfinsert(fields.length, field14);
                                 fields.bfinsert(fields.length, field15);
+                                fields.bfinsert(fields.length, field16);
                                 
                                 for(var i = 0; i < fields.length; i++){
                                     if(i%3 == 0){
@@ -1248,7 +1300,7 @@ class bfRecordManagement {
                             html += "</table>";
                             html += "&nbsp;<br /><br /><br /><br />";
 
-                            
+                            jQuery("#bfAvailableFields").html(html);
                             
                             if(form_selection > 0){
                                 jQuery("#bfAvailableFieldsWrapper").css("display","block");
@@ -1329,6 +1381,13 @@ class bfRecordManagement {
                             }else{
                                 jQuery("#bfrecordsearchinpayment").get(0).checked = false;
                             }
+                            
+                            if(typeof filter_state.searchinopted != "undefined"){
+                                jQuery("#bfrecordsearchinopted").get(0).checked = filter_state.searchinopted == "false" ? false : true;
+                            }else{
+                                jQuery("#bfrecordsearchinopted").get(0).checked = false;
+                            }
+                            
                             if(typeof filter_state.searchdatefrom != "undefined"){
                                 jQuery("#bfrecordsearchdatefrom").val(filter_state.searchdatefrom);
                             }else{
@@ -1419,6 +1478,10 @@ class bfRecordManagement {
                     
                     if(jQuery("#bfrecordsearchinpayment").get(0).checked){
                         searchterm += "&searchinpayment=1";
+                    }
+                    
+                    if(jQuery("#bfrecordsearchinopted").get(0).checked){
+                        searchterm += "&searchinopted=1";
                     }
 
                     // date / time from
@@ -1549,6 +1612,7 @@ class bfRecordManagement {
                             searchinexported: jQuery("#bfrecordsearchinexported").get(0).checked,
                             searchinarchived: jQuery("#bfrecordsearchinarchived").get(0).checked,
                             searchinpayment: jQuery("#bfrecordsearchinpayment").get(0).checked,
+                            searchinopted: jQuery("#bfrecordsearchinopted").get(0).checked,
                             searchdatefrom: jQuery("#bfrecordsearchdatefrom").val(),
                             searchtimefrom: jQuery("#bfrecordsearchtimefrom").val(),
                             searchdateto: jQuery("#bfrecordsearchdateto").val(),
@@ -1574,7 +1638,10 @@ class bfRecordManagement {
                     }else{
                         jQuery("#bfRecordsTableContainer").jtable(default_object);
                     }
-                    jQuery("#bfRecordsTableContainer").jtable("load");
+                    
+                    setTimeout(function(){
+                        jQuery("#bfRecordsTableContainer").jtable("load");
+                    }, 500);
                     
                 }
 
@@ -1601,7 +1668,7 @@ class bfRecordManagement {
 			$elements = $db->loadAssocList();
 
 			foreach ($elements As $element) {
-				$value = JRequest::getVar('bfrecord_custom_' . $element['name'], null, 'REQUEST', 'STRING', JREQUEST_ALLOWRAW);
+				$value = JRequest::getVar('bfrecord_custom_' . $element['name'], null, 'REQUEST', 'HTML', JREQUEST_ALLOWHTML);
 
 				if ($value !== null) {
 					if ($element['type'] == 'Checkbox' || $element['type'] == 'Checkbox Group' || $element['type'] == 'Select List') {
@@ -1779,7 +1846,8 @@ class bfRecordManagement {
 				JRequest::getBool('searchinviewed', false) ||
 				JRequest::getBool('searchinexported', false) ||
 				JRequest::getBool('searchinarchived', false) ||
-				JRequest::getBool('searchinpayment', false)
+				JRequest::getBool('searchinpayment', false) ||
+                JRequest::getBool('searchinopted', false)
 		) {
 
 			foreach ($elements As $element) {
@@ -1794,6 +1862,7 @@ class bfRecordManagement {
 			$the_search_term .= JRequest::getBool('searchinviewed', false) ? " records.`viewed` = 1 Or " : '';
 			$the_search_term .= JRequest::getBool('searchinexported', false) ? " records.`exported` = 1 Or " : '';
 			$the_search_term .= JRequest::getBool('searchinarchived', false) ? " records.`archived` = 1 Or " : '';
+            $the_search_term .= JRequest::getBool('searchinopted', false) ? " records.`opted` = 1 Or " : '';
 			if ($searchterm && JRequest::getBool('searchinpayment', false)) {
 				$the_search_term .= " records.`paypal_tx_id` Like " . $db->quote('%' . $searchterm . '%') . " Or ";
 				$the_search_term .= " records.`paypal_payment_date` Like " . $db->quote('%' . $searchterm . '%') . " Or ";
@@ -1828,7 +1897,7 @@ class bfRecordManagement {
 		//echo $searchdate;
 
 		$db->setQuery(
-				"   Select SQL_CACHE SQL_CALC_FOUND_ROWS "
+				"   Select SQL_CALC_FOUND_ROWS "
 				. $selectors
 				. " records.user_id As bfrecord_user_id, "
 				. " records.username As bfrecord_username, "
@@ -1845,6 +1914,7 @@ class bfRecordManagement {
 				. " records.paypal_testaccount As bfrecord_payment_test, "
 				. " records.paypal_download_tries As bfrecord_payment_download_tries, "
 				. " records.archived As bfrecord_archived, "
+                . " records.opted As bfrecord_opted, "
 				. " forms.title As bfrecord_title, "
 				. " forms.name As bfrecord_name, "
 				. " forms.id As bfrecord_form_id "
@@ -1866,7 +1936,9 @@ class bfRecordManagement {
 				. " Order By `" . $order[0] . "` " . ( isset($order[1]) && strtolower($order[1]) == 'asc' ? 'Asc' : 'Desc' )
 				. " Limit " . JRequest::getInt('jtStartIndex', 0) . ", " . JRequest::getInt('jtPageSize', 10)
 		);
+
 		//echo $db->getQuery();
+
 		$result = array();
 		$result['Result'] = 'OK';
 
@@ -1876,23 +1948,61 @@ class bfRecordManagement {
 
 			$result['Records'] = $db->loadAssocList();
 			$i = 0;
-			foreach ($result['Records'] As $record) {
+
+			foreach ($result['Records'] As $rec_key => $record) {
 				$name = '';
 				foreach ($record As $key => $val) {
 					$name = explode('bfrecord_custom_element_id_', $key);
 					if (isset($name[1])) {
 						$name = $name[1];
+                        //echo $result['Records'][$rec_key]['bfrecord_custom_' . $name];
+                        //$result['Records'][$rec_key]['bfrecord_custom_' . $name] = $this->removeDangerousHtml($record['bfrecord_custom_' . $name]);
+
+                        JRequest::setVar('san_bfrecord_custom', $result['Records'][$rec_key]['bfrecord_custom_' . $name]);
+                        $result['Records'][$rec_key]['bfrecord_custom_' . $name] = JRequest::getVar('san_bfrecord_custom', '', '', 'HTML', JREQUEST_ALLOWHTML);
+
 						if ($record['bfrecord_custom_element_type_' . $name] == 'File Upload' && trim($record['bfrecord_custom_' . $name])) {
 							$out = '';
 							$out .= '<div style="white-space: nowrap; overflow: auto; max-height: 300px; width: 100%;">';
 							$files = explode("\n", str_replace("\r", "", $record['bfrecord_custom_' . $name]));
 							$fileIdx = 0;
 							foreach ($files As $file) {
-								$out .= bf_alert('Image/File/Signature Preview available', 'http://crosstec.de/en/extensions/joomla-forms-download.html', true);
-								$out .= bf_alert('in full version only', 'http://crosstec.de/en/extensions/joomla-forms-download.html', true);
-								break;
+
+								if (strpos(strtolower($file), '{cbsite}') === 0) {
+									$file = str_replace(array('{cbsite}', '{CBSite}'), array(JPATH_SITE, JPATH_SITE), $file);
+								}
+
+								if (strpos(strtolower($file), '{site}') === 0) {
+									$file = str_replace(array('{site}', '{site}'), array(JPATH_SITE, JPATH_SITE), $file);
+								}
+
+								if (!JFile::exists($file)) {
+									$out .= 'file not found on server:<br/>' . basename($file) . '<br/>';
+								} else {
+									$out .= $this->renderFile($file, $record['bfrecord_id'], $record['bfrecord_custom_element_id_' . $name], $fileIdx);
+								}
+								$out .= '<br/>';
 								$fileIdx++;
 							}
+							$out .= '</div>';
+							$result['Records'][$i]['bfrecord_custom_file_upload_raw_' . $name] = $result['Records'][$i]['bfrecord_custom_' . $name];
+							$result['Records'][$i]['bfrecord_custom_' . $name] = $out;
+						}
+						else
+						if ($record['bfrecord_custom_element_type_' . $name] == 'Signature' && trim($record['bfrecord_custom_' . $name])) {
+							$out = '';
+							$out .= '<div style="white-space: nowrap; overflow: auto; max-height: 300px; width: 100%;">';
+							$file = trim($record['bfrecord_custom_' . $name]);
+							$fileIdx = 0;
+
+							$file = JPATH_SITE . '/media/breezingforms/signatures/' . $file;
+
+							if (!JFile::exists($file)) {
+								$out .= 'file not found on server:<br/>' . basename($file) . '<br/>';
+							} else {
+								$out .= $this->renderFile($file, $record['bfrecord_id'], $record['bfrecord_custom_element_id_' . $name], $fileIdx);
+							}
+
 							$out .= '</div>';
 							$result['Records'][$i]['bfrecord_custom_file_upload_raw_' . $name] = $result['Records'][$i]['bfrecord_custom_' . $name];
 							$result['Records'][$i]['bfrecord_custom_' . $name] = $out;
@@ -2065,13 +2175,14 @@ class bfRecordManagement {
 
 		if ($image !== false) {
 
+		    /*
 			if ($image[0] > 16384) {
 				return;
 			}
 
 			if ($image[1] > 16384) {
 				return;
-			}
+			}*/
 
 			$col_ = $bgcolor;
 			if ($bgcolor !== null) {
@@ -2251,14 +2362,20 @@ class bfRecordManagement {
 	public function returnBytes($val) {
 		$val = trim($val);
 		$last = strtolower($val[strlen($val) - 1]);
+		$val = str_replace($val[strlen($val) - 1],'',$val);
 		switch ($last) {
 			// The 'G' modifier is available since PHP 5.1.0
 			case 'g':
-				$val *= 1024;
+				$val *= 1024 * 1048576;
+				break;
 			case 'm':
-				$val *= 1024;
+				$val *= 1048576;
+				break;
 			case 'k':
 				$val *= 1024;
+				break;
+            default:
+                $val = 8 * 1048576;
 		}
 
 		return $val;
@@ -2334,15 +2451,11 @@ class bfRecordManagement {
 			);
 			$db->query();
 		}
-		@ob_end_clean();
-		ob_start();
-		require_once($file);
-		$c = ob_get_contents();
-		ob_end_clean();
 
-		if (!class_exists('TCPDF')) {
-			require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/tcpdf/tcpdf.php');
-		}
+        if(!class_exists('BFPDF')){
+
+            require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/crosstec/classes/BFPDF.php');
+        }
 
 		jimport('joomla.version');
 		$version = new JVersion();
@@ -2365,10 +2478,19 @@ class bfRecordManagement {
 			$date_stamp = $date_->format('YmdHis', true);
 		}
 
-		$pdf = new TCPDF();
+		$pdf = new BFPDF();
+        $pdf->setFormName($form_name);
+        $pdf->setWhich('export');
+
+        @ob_end_clean();
+        ob_start();
+        require_once($file);
+        $c = ob_get_contents();
+        ob_end_clean();
 
 		$active_found = false;
 		$font_loaded = false;
+        $ttf_name = '';
 
 		if (JFolder::exists(JPATH_SITE . '/media/breezingforms/pdftpl/fonts/')) {
 
@@ -2387,7 +2509,7 @@ class bfRecordManagement {
 						$file_sep = explode('.', $file);
 						if (count($file_sep) > 1) {
 							unset($file_sep[count($file_sep) - 1]);
-							TCPDF_FONTS::addTTFfont($sourcePath . $file, 'TrueTypeUnicode');
+                            $ttf_name = TCPDF_FONTS::addTTFfont($sourcePath . $file, 'TrueTypeUnicode');
 							$font_loaded = true;
 						}
 					}
@@ -2395,7 +2517,13 @@ class bfRecordManagement {
 						$active = explode('_', $file);
 						if (count($active) > 1) {
 							unset($active[count($active) - 1]);
-							$pdf->SetFont(implode('_', $active));
+                            $font_name = '';
+                            if( $ttf_name != '' ){
+                                $font_name = $ttf_name;
+                            }else{
+                                $font_name = implode('_',$active);
+                            }
+							$pdf->SetFont($font_name);
 							if ($font_loaded) {
 								$active_found = true;
 							}
@@ -2411,7 +2539,24 @@ class bfRecordManagement {
 			$pdf->SetFont('verdana');
 		}
 
-		$pdf->setPrintHeader(false);
+        if($pdf->getFooterTemplate() == '') {
+
+            $pdf->setPrintFooter(false);
+
+        }else{
+
+            $pdf->setPrintFooter(true);
+        }
+
+        if($pdf->getHeaderTemplate() == '') {
+
+            $pdf->setPrintHeader(false);
+
+        }else{
+
+            $pdf->setPrintHeader(true);
+        }
+
 		$pdf->AddPage();
 		$pdf->writeHTML($c);
 		$pdfname = ( $form_name != '' ? $form_name . '-' : '' ).'ffexport-pdf-' . $date_stamp . '.pdf';
@@ -2432,7 +2577,8 @@ class bfRecordManagement {
 		return $db->loadObjectList();
 	}
 
-	function exportCsv() {
+	function exportCsv() { 
+		// echo '<pre>';
 		global $ff_config;
 
 		$inverted = isset($ff_config->csvinverted) ? $ff_config->csvinverted : false;
@@ -2514,15 +2660,15 @@ class bfRecordManagement {
 		$fields['DATE'] = true;
 		$fields['TEST_ACCOUNT'] = true;
 		$fields['DOWNLOAD_TRIES'] = true;
+        $fields['DOUBLE_OPT_IN'] = true;
 
 		$head_keys = array();
 
 		foreach ($element_fields As $element_field) {
-
-			if (!isset($fields[strip_tags($element_field->title)])) {
-				$field_key = md5(strip_tags($element_field->title));
+			if (!isset($fields[strip_tags($element_field->name)])) {
+				$field_key = md5(strip_tags($element_field->name));
 				$fields[$field_key] = true;
-				$head_keys[$field_key] = strip_tags($element_field->title);
+				$head_keys[$field_key] = strip_tags($element_field->name);
 			}
 		}
 
@@ -2530,6 +2676,8 @@ class bfRecordManagement {
 		for ($r = 0; $r < $recsSize; $r++) {
 
 			$rec = $recs[$r];
+
+
 
 			if (version_compare($this->version, '3.2', '>=')) {
 				$date_ = JFactory::getDate($rec->submitted, $this->tz);
@@ -2560,6 +2708,7 @@ class bfRecordManagement {
 			$lines[$lineNum]['DATE'][] = $rec->paypal_payment_date;
 			$lines[$lineNum]['TEST_ACCOUNT'][] = $rec->paypal_testaccount;
 			$lines[$lineNum]['DOWNLOAD_TRIES'][] = $rec->paypal_download_tries;
+            $lines[$lineNum]['DOUBLE_OPT_IN'][] = $rec->opted;
 
 			foreach ($fields As $fieldName => $null) {
 				switch ($fieldName) {
@@ -2576,6 +2725,7 @@ class bfRecordManagement {
 					case 'DATE':
 					case 'TEST_ACCOUNT':
 					case 'DOWNLOAD_TRIES':
+                    case 'DOUBLE_OPT_IN':
 						break;
 					default:
 						$lines[$lineNum][$fieldName] = array();
@@ -2588,13 +2738,14 @@ class bfRecordManagement {
 			);
 
 			$subs = $db->loadObjectList();
+			
 
 			$subsSize = count($subs);
 			for ($s = 0; $s < $subsSize; $s++) {
 				$sub = $subs[$s];
 				if ($sub->name != 'bfFakeName' && $sub->name != 'bfFakeName2' && $sub->name != 'bfFakeName3' && $sub->name != 'bfFakeName4') {
-					if (!isset($fields[ md5( strip_tags( $sub->title ) ) ])) {
-						$fields[ md5( strip_tags( $sub->title ) ) ] = true;
+					if (!isset($fields[ md5( strip_tags( $sub->name ) ) ])) { 
+						$fields[ md5( strip_tags( $sub->name ) ) ] = true; 
 					}
 					if ($sub->type == 'File Upload' && strpos(strtolower($sub->value), '{cbsite}') === 0) {
 						$out = '';
@@ -2613,7 +2764,7 @@ class bfRecordManagement {
 						}
 						$sub->value = $out;
 					}
-					$lines[$lineNum][md5( strip_tags( $sub->title ) )][] = $sub->value;
+					$lines[$lineNum][md5( strip_tags( $sub->name ) )][] = $sub->value; 
 				}
 			}
 		}
@@ -2839,7 +2990,8 @@ class bfRecordManagement {
 					indent(2) . '<pptxid>' . $rec->paypal_tx_id . '</pptxid>' . nl() .
 					indent(2) . '<pppdate>' . $rec->paypal_payment_date . '</pppdate>' . nl() .
 					indent(2) . '<pptestacc>' . $rec->paypal_testaccount . '</pptestacc>' . nl() .
-					indent(2) . '<ppdltries>' . $rec->paypal_download_tries . '</ppdltries>' . nl();
+					indent(2) . '<ppdltries>' . $rec->paypal_download_tries . '</ppdltries>' . nl() .
+                    indent(2) . '<opted>' . $rec->opted . '</opted>' . nl();
 			$database->setQuery(
 					"select subs.* from #__facileforms_subrecords As subs, #__facileforms_elements As els where els.id=subs.element And subs.record = $rec->id order by ordering"
 			);
@@ -2903,6 +3055,70 @@ class bfRecordManagement {
 		echo $xml;
 		exit;
 	}
+
+    function removeDangerousHtml($value){
+
+	    if(trim($value) == '') return '';
+
+        $doc = new DOMDocument();
+        $ret = @$doc->loadHTML('<div>'.$value.'</div>');
+        if($ret) {
+            $script_tags = $doc->getElementsByTagName('script');
+            $length = $script_tags->length;
+            for ($ii = 0; $ii < $length; $ii++) {
+                $script_tags->item($ii)->parentNode->removeChild($script_tags->item($ii));
+            }
+            $style_tags = $doc->getElementsByTagName('style');
+            $length = $style_tags->length;
+            for ($ii = 0; $ii < $length; $ii++) {
+                $style_tags->item($ii)->parentNode->removeChild($style_tags->item($ii));
+            }
+            $iframe_tags = $doc->getElementsByTagName('iframe');
+            $length = $iframe_tags->length;
+            for ($ii = 0; $ii < $length; $ii++) {
+                $iframe_tags->item($ii)->parentNode->removeChild($iframe_tags->item($ii));
+            }
+            $applet_tags = $doc->getElementsByTagName('applet');
+            $length = $applet_tags->length;
+            for ($ii = 0; $ii < $length; $ii++) {
+                $applet_tags->item($ii)->parentNode->removeChild($applet_tags->item($ii));
+            }
+            $link_tags = $doc->getElementsByTagName('link');
+            $length = $link_tags->length;
+            for ($ii = 0; $ii < $length; $ii++) {
+                $link_tags->item($ii)->parentNode->removeChild($link_tags->item($ii));
+            }
+
+            $mock = new DOMDocument;
+            $body = $doc->getElementsByTagName('body')->item(0);
+            foreach ($body->childNodes as $child) {
+                $mock->appendChild($mock->importNode($child, true));
+            }
+
+            $container = $mock->getElementsByTagName('div')->item(0);
+
+            if ($container && $container->parentNode) {
+                $container = $container->parentNode->removeChild($container);
+            }
+
+            if ($mock) {
+                while ($mock->firstChild) {
+                    $mock->removeChild($mock->firstChild);
+                }
+            }
+
+            if ($container) {
+                while ($container->firstChild) {
+                    $mock->appendChild($container->firstChild);
+                }
+            }
+
+            return $mock->saveHTML();
+
+        }
+
+        return strip_tags($value);
+    }
 
 // expxml
 }

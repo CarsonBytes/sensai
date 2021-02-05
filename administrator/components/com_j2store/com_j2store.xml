@@ -2,11 +2,11 @@
 <extension version="2.5" type="component" method="upgrade">
 	<name>J2Store</name>
 	<author>Ramesh Elamathi</author>
-	<creationDate>May 2020</creationDate>
+	<creationDate>December 2020</creationDate>
 	<copyright>Copyright (c) 2020 Cartrabbit. All rights reserved.</copyright>
 	<authorEmail>support@j2store.org</authorEmail>
 	<authorUrl>https://www.j2store.org</authorUrl>
-	<version>3.3.13</version>
+	<version>3.3.16</version>
 	<license>https://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description><![CDATA[<h3>J2 Store V3 Core</h3>
       Flexible and native Joomla shopping cart solution. <br />

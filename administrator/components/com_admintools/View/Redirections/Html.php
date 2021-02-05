@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\View\Redirections;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Model\Redirections;
 use Akeeba\AdminTools\Admin\View\Mixin\SystemPluginExists;

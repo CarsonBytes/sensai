@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2011 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -38,13 +38,22 @@ class HTML_facileFormsConf
 		<form action="index.php" method="post" name="adminForm" id="adminForm">
 		<table cellpadding="4" cellspacing="1" border="0" class="adminform" style="width:300px;">
 			<tr><th colspan="6" class="title" >BreezingForms <?php echo $ff_version.' - '.BFText::_('COM_BREEZINGFORMS_CONFIG'); ?></th></tr>
-			
+            
                         <tr>
 				<td></td>
                                 <td nowrap><label class="hasTip" title="<?php echo bf_tooltipText(BFText::_('COM_BREEZINGFORMS_CONFIG_ENABLE_CLASSIC_TIP'));?>"><?php echo BFText::_('COM_BREEZINGFORMS_CONFIG_ENABLE_CLASSIC'); ?></label></td>
                                 <td nowrap colspan="3">
 <?php
 					echo JHTML::_('select.booleanlist', "enable_classic", "", $ff_config->enable_classic);
+?>                                    
+                                <td></td>
+			</tr>
+                         <tr>
+				<td></td>
+                                <td nowrap><label class="hasTip" title="<?php echo bf_tooltipText(BFText::_('COM_BREEZINGFORMS_CONFIG_DISABLE_IP_ADDRESS_STORING'));?>"><?php echo BFText::_('COM_BREEZINGFORMS_CONFIG_DISABLE_IP_ADDRESS_STORING'); ?></label></td>
+                                <td nowrap colspan="3">
+<?php
+					echo JHTML::_('select.booleanlist', "disable_ip", "", $ff_config->disable_ip);
 ?>                                    
                                 <td></td>
 			</tr>

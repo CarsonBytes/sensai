@@ -8,8 +8,11 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
+if (version_compare(JVERSION, '4', 'lt'))
+{
+	require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+}
 require_once JPATH_SITE . '/plugins/system/route66/lib/plugin.php';
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 class plgRoute66Content extends Route66Plugin
 {
@@ -40,7 +43,6 @@ class plgRoute66Content extends Route66Plugin
 		$application = JFactory::getApplication();
 		$timezone = new DateTimeZone($application->get('offset'));
 		$ssl = $application->get('force_ssl') == 2 ? 1 : 2;
-		require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 		foreach ($items as $item)
 		{

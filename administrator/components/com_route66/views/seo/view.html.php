@@ -34,7 +34,14 @@ class Route66ViewSeo extends JViewLegacy
 
 		if ($user->authorise('core.edit', 'com_plugins'))
 		{
-			$customButton = '<a class="btn btn-small" href="' . JRoute::_('index.php?option=com_plugins&filter[search]=Route+66+SEO') . '"><i class="icon-power-cord plugin"></i>' . JText::_('COM_ROUTE66_ROUTE66_SEO_PLUGINS') . '</a>';
+			if(version_compare(JVERSION, '4.0', 'ge'))
+			{
+				$customButton = '<joomla-toolbar-button><a class="btn btn-small" href="' . JRoute::_('index.php?option=com_plugins&filter[search]=Route+66+SEO') . '"><span class="fas fa-plug" aria-hidden="true"></span>' . JText::_('COM_ROUTE66_ROUTE66_SEO_PLUGINS') . '</a></joomla-toolbar-button>';
+			}
+			else
+			{
+				$customButton = '<a class="btn btn-small" href="' . JRoute::_('index.php?option=com_plugins&filter[search]=Route+66+SEO') . '"><i class="icon-power-cord plugin"></i>' . JText::_('COM_ROUTE66_ROUTE66_SEO_PLUGINS') . '</a>';
+			}
 			$toolbar = JToolBar::getInstance('toolbar');
 			$toolbar->appendButton('Custom', $customButton);
 		}
@@ -43,7 +50,10 @@ class Route66ViewSeo extends JViewLegacy
 		$this->sidebar = Route66HelperHtml::getSidebar('seo');
 		Route66HelperHtml::addOptionsButton();
 
-		JHtml::_('formbehavior.chosen', 'select');
+		if (version_compare(JVERSION, '4.0', 'lt'))
+		{
+			JHtml::_('formbehavior.chosen', 'select');
+		}
 
 		if (!JPluginHelper::isEnabled('content', 'route66seo') && !JPluginHelper::isEnabled('k2', 'route66seo'))
 		{

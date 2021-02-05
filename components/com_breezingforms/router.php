@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 /**
  * @package     BreezingForms
  * @author      Markus Bopp
- * @link        http://www.crosstec.de
+ * @link        https://www.crosstec.org
  * @license     GNU/GPL
  */
 jimport('joomla.version');

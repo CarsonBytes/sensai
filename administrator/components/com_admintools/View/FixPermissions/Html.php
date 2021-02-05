@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\View\FixPermissions;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Model\FixPermissions;
 use FOF30\View\DataView\Html as BaseView;

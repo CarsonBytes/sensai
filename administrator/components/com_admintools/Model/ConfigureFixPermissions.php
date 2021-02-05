@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Model;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Helper\Storage;
 use FOF30\Container\Container;
@@ -182,7 +182,7 @@ class ConfigureFixPermissions extends DataModel
 
 	public function getPerms($path)
 	{
-		if (count($this->list))
+		if (is_array($this->list) || $this->list instanceof \Countable ? count($this->list) : 0)
 		{
 			foreach ($this->list as $item)
 			{

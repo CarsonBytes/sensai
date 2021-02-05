@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Cache Cleaner
- * @version         7.2.2
+ * @version         7.3.3
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
@@ -15,7 +15,7 @@ require_once __DIR__ . '/script.install.helper.php';
 
 class Mod_CacheCleanerInstallerScript extends Mod_CacheCleanerInstallerScriptHelper
 {
-	public $name            = 'CACHE_CLEANER';
+	public $name            = 'CACHECLEANER';
 	public $alias           = 'cachecleaner';
 	public $extension_type  = 'module';
 	public $module_position = 'status';

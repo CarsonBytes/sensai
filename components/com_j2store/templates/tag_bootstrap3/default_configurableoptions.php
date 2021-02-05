@@ -18,7 +18,7 @@ $product_id = $this->product->j2store_product_id;
         <?php echo J2Store::plugin()->eventWithHtml('BeforeDisplaySingleProductOption', array($this->product, &$option)); ?>
         
         <?php //var_dump($option); ?>
-        <?php if ($option['type'] == 'select') { ?>
+        <?php if ($option['type'] == 'select' && isset($option['optionvalue']) && !empty($option['optionvalue'])) { ?>
         <!-- select -->
         <div id="option-<?php echo $option['productoption_id']; ?>" class="option">
           <?php if ($option['required']) { ?>
@@ -53,7 +53,7 @@ $product_id = $this->product->j2store_product_id;
         <br />
         <?php } ?>
 
-        <?php if ($option['type'] == 'radio') { ?>
+        <?php if ($option['type'] == 'radio' && isset($option['optionvalue']) && !empty($option['optionvalue'])) { ?>
           <!-- radio -->
         <div id="option-<?php echo $option['productoption_id']; ?>" class="option">
           <?php if ($option['required']) { ?>
@@ -97,7 +97,7 @@ $product_id = $this->product->j2store_product_id;
         <br />
         <?php } ?>
 
-        <?php if ($option['type'] == 'checkbox') { ?>
+        <?php if ($option['type'] == 'checkbox' && isset($option['optionvalue']) && !empty($option['optionvalue'])) { ?>
           <!-- checkbox-->
 
         <div id="option-<?php echo $option['productoption_id']; ?>" class="option">
@@ -107,7 +107,15 @@ $product_id = $this->product->j2store_product_id;
           <b><?php echo $this->escape(JText::_($option['option_name'])); ?>:</b><br />
           <?php foreach ($option['optionvalue'] as $option_value) { ?>
           <input type="checkbox" name="product_option[<?php echo $option['productoption_id']; ?>][]" value="<?php echo $option_value['product_optionvalue_id']; ?>" id="option-value-<?php echo $option_value['product_optionvalue_id']; ?>" />
-          <label for="option-value-<?php echo $option_value['product_optionvalue_id']; ?>"><?php echo stripslashes($this->escape(JText::_($option_value['optionvalue_name']))); ?>
+              <?php if(
+                  $this->params->get('image_for_product_options', 0) &&
+                  isset($option_value['optionvalue_image']) &&
+                  !empty($option_value['optionvalue_image'])
+              ):
+                  ?>
+                  <img class="optionvalue-image-<?php echo $option_value['product_optionvalue_id']; ?>" src="<?php echo JUri::root(true).'/'.$option_value['optionvalue_image']; ?>" />
+              <?php endif; ?>
+              <label for="option-value-<?php echo $option_value['product_optionvalue_id']; ?>"><?php echo stripslashes($this->escape(JText::_($option_value['optionvalue_name']))); ?>
             <?php if ($option_value['product_optionvalue_price'] > 0 && $this->params->get('product_option_price', 1)) { ?>
                (
                <?php if($this->params->get('product_option_price_prefix', 1)): ?>

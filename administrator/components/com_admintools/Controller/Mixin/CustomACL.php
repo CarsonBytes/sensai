@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Controller\Mixin;
 
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 use FOF30\Inflector\Inflector;
 use Joomla\CMS\Language\Text;

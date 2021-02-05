@@ -26,7 +26,9 @@ class J2StoreControllerEmailtemplates extends F0FController {
 			
 			if(!JFile::exists(JPath::clean($defaultphp))) {				
 				//file does not exist. so we need to rename				
-				JFile::copy($defaulttpl, $defaultphp);
+                if(JFile::exists(JPath::clean($defaulttpl)) ) {
+                    JFile::copy($defaulttpl, $defaultphp);
+                }
 			}
 			
 			return true;

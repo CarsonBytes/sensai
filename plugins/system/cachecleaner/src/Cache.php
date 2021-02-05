@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Cache Cleaner
- * @version         7.2.2
+ * @version         7.3.3
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
@@ -234,9 +234,9 @@ class Cache
 			return $result;
 		}
 
-		if ($show_size && Cache\Cache::getSize())
+		if ($show_size && $size = Cache\Cache::getSize())
 		{
-			$result->message .= ' (' . Cache\Cache::getSize() . ')';
+			$result->message .= ' (' . $size . ')';
 		}
 
 		return $result;

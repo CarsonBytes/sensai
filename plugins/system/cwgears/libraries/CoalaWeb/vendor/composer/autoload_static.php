@@ -11,6 +11,10 @@ class ComposerStaticInit784b975369fd0b7ab45e916492886a39
         array (
             'splitbrain\\PHPArchive\\' => 22,
         ),
+        'M' => 
+        array (
+            'Michelf\\' => 8,
+        ),
         'C' => 
         array (
             'CoalaWeb\\' => 9,
@@ -22,21 +26,44 @@ class ComposerStaticInit784b975369fd0b7ab45e916492886a39
         array (
             0 => __DIR__ . '/..' . '/splitbrain/php-archive/src',
         ),
+        'Michelf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/michelf/php-markdown/Michelf',
+        ),
         'CoalaWeb\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'D' => 
+        array (
+            'Detection' => 
+            array (
+                0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'CoalaWeb\\Cache' => __DIR__ . '/../..' . '/src/Cache.php',
         'CoalaWeb\\Config' => __DIR__ . '/../..' . '/src/Config.php',
+        'CoalaWeb\\Github' => __DIR__ . '/../..' . '/src/Github.php',
         'CoalaWeb\\Messages' => __DIR__ . '/../..' . '/src/Messages.php',
         'CoalaWeb\\Parameters' => __DIR__ . '/../..' . '/src/Parameters.php',
         'CoalaWeb\\RegEx' => __DIR__ . '/../..' . '/src/RegEx.php',
+        'CoalaWeb\\Secure' => __DIR__ . '/../..' . '/src/Secure.php',
+        'CoalaWeb\\SessionHelper' => __DIR__ . '/../..' . '/src/SessionHelper.php',
         'CoalaWeb\\StringHelper' => __DIR__ . '/../..' . '/src/StringHelper.php',
+        'CoalaWeb\\SubExtensions' => __DIR__ . '/../..' . '/src/SubExtensions.php',
         'CoalaWeb\\UpdateKey' => __DIR__ . '/../..' . '/src/UpdateKey.php',
         'CoalaWeb\\Xml' => __DIR__ . '/../..' . '/src/Xml.php',
+        'Detection\\MobileDetect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced/Detection/MobileDetect.php',
+        'Michelf\\Markdown' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/Markdown.php',
+        'Michelf\\MarkdownExtra' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownExtra.php',
+        'Michelf\\MarkdownInterface' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownInterface.php',
+        'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'splitbrain\\PHPArchive\\Archive' => __DIR__ . '/..' . '/splitbrain/php-archive/src/Archive.php',
         'splitbrain\\PHPArchive\\ArchiveCorruptedException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveCorruptedException.php',
         'splitbrain\\PHPArchive\\ArchiveIOException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveIOException.php',
@@ -52,6 +79,7 @@ class ComposerStaticInit784b975369fd0b7ab45e916492886a39
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit784b975369fd0b7ab45e916492886a39::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit784b975369fd0b7ab45e916492886a39::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit784b975369fd0b7ab45e916492886a39::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit784b975369fd0b7ab45e916492886a39::$classMap;
 
         }, null, ClassLoader::class);

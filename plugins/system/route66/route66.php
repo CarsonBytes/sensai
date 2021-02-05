@@ -7,6 +7,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
+
+JLoader::register('Route66ModelMetadata', JPATH_ADMINISTRATOR . '/components/com_route66/models/metadata.php');
 
 class plgSystemRoute66 extends JPlugin
 {
@@ -33,7 +36,7 @@ class plgSystemRoute66 extends JPlugin
 	{
 		$application = JFactory::getApplication();
 
-		if ($application->isSite() && $application->get('sef'))
+		if ($application->isClient('site') && $application->get('sef'))
 		{
 
 			// Get document
@@ -127,36 +130,39 @@ class plgSystemRoute66 extends JPlugin
 			}
 		}
 
-		/*$document = JFactory::getDocument();
+		$user = JFactory::getUser();
+		$document = JFactory::getDocument();
 		$option = $application->input->getCmd('option');
 		$view = $application->input->getCmd('view');
 
-		if ($option == 'com_easyblog' && $view == 'composer' && $document->getType() == 'html')
+		if (!$user->guest && $option == 'com_easyblog' && $view == 'composer' && $document->getType() == 'html' && $this->params->get('seo', true))
 		{
-			$data = array();
-			$options = array();
-			$options['site'] = JUri::root(false);
-			$options['sitename'] = $application->get('sitename');
-			$options['sitename_in_title'] = $application->get('sitename_pagetitles');
-			$options['url'] = '';
-			$options['aliasToken'] = '';
-			$options['overrides'] = array();
-			$options['fields'] = array(
-				'keyword' => '#jform_route66seo_keyword',
-				'score' => '#jform_route66seo_score',
-				'title' => '[data-post-title]',
-				'pagetitle' => '#custom_title',
-				'alias' => '[data-permalink-input]',
-				'description' => '[data-meta-description]', );
-			$options['keywordValue'] = isset($data['keyword']) ? $data['keyword'] : '';
-			$options['scoreValue'] = isset($data['score']) ? $data['score'] : 0;
-			$options['worker'] = JUri::root(false).'media/route66/js/seo/worker.min.js';
-			$document->addStyleSheet(JUri::root() . '/media/route66/css/route66seo.css');
-			$document->addScriptOptions('Route66SeoOptions', $options);
-			$document->addScript(JUri::root() . '/media/route66/js/seo/main.min.js');
-			$document->addScript(JUri::root() . '/media/route66/js/route66seoeasyblog.js');
-		}*/
-
+			if (File::exists(JPATH_SITE . '/plugins/k2/route66seo/media/js/route66seoeasyblog.js'))
+			{
+				$data = array();
+				$options = array();
+				$options['site'] = JUri::root(false);
+				$options['sitename'] = $application->get('sitename');
+				$options['sitename_in_title'] = $application->get('sitename_pagetitles');
+				$options['url'] = '';
+				$options['aliasToken'] = '';
+				$options['overrides'] = array();
+				$options['fields'] = array(
+					'keyword' => '#jform_route66seo_keyword',
+					'score' => '#jform_route66seo_score',
+					'title' => '[data-post-title]',
+					'pagetitle' => '#custom_title',
+					'alias' => '[data-permalink-input]',
+					'description' => '[data-meta-description]', );
+				$options['keywordValue'] = isset($data['keyword']) ? $data['keyword'] : '';
+				$options['scoreValue'] = isset($data['score']) ? $data['score'] : 0;
+				$options['worker'] = JUri::root(false) . 'media/route66/js/seo/worker.min.js';
+				$document->addStyleSheet(JUri::root() . '/media/route66/css/route66seo.css');
+				$document->addScriptOptions('Route66SeoAnalyzerOptions', $options);
+				$document->addScript(JUri::root() . '/media/route66/js/seo/main.min.js');
+				$document->addScript(JUri::root() . '/plugins/k2/route66seo/media/js/route66seoeasyblog.js');
+			}
+		}
 	}
 
 	public function onBeforeCompileHead()
@@ -164,7 +170,7 @@ class plgSystemRoute66 extends JPlugin
 		$application = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		if ($application->isSite() && $document->getType() == 'html')
+		if ($application->isClient('site') && $document->getType() == 'html')
 		{
 			if ($this->params->get('canonical', 1) && $this->canonical)
 			{
@@ -191,9 +197,8 @@ class plgSystemRoute66 extends JPlugin
 		$view = $application->input->getCmd('view');
 		$id = $application->input->getInt('id');
 
-		if ($application->isSite() && $option == 'com_content' && $view == 'article' && $document->getType() == 'html')
+		if ($application->isClient('site') && $option == 'com_content' && $view == 'article' && $document->getType() == 'html')
 		{
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
 			$model = JModelLegacy::getInstance('Metadata', 'Route66Model');
 			$result = $model->fetch('com_content.article', $id);
 
@@ -210,6 +215,7 @@ class plgSystemRoute66 extends JPlugin
 
 			if ($metadata->get('og_type', 'article'))
 			{
+				$document->setMetadata('twitter:card', 'summary');
 				$document->setMetadata('og:type', $metadata->get('og_type', 'article'), 'property');
 				$document->setMetadata('og:url', JUri::current(), 'property');
 				$document->setMetadata('og:title', $metadata->get('og_title', $document->getTitle()), 'property');

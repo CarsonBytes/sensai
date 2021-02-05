@@ -1,5 +1,20 @@
 ## Change Log
 
+### Version 0.6.2 February 2021
+- **(B)** Fixed update URL
+- **(A)** New class dependency MobileDetect for the CoalaWeb library
+- **(C)** Code updates and improvements
+
+### Version 0.6.1 December 2020
+- **(A)** New modal article picker form field
+- **(A)** Four new classes for the CoalaWeb library
+- **(A)** New database table to help with ciphers
+- **(C)** Code updates and improvements to support PHP 7.4
+- **(C)** Code updates and improvements for CSS loading fields
+- **(C)** Code updates and improvements for base, alert and upgrade fields
+- **(C)** Code updates and improvements
+- **(L)** New and updated language strings
+
 ### Version 0.6.0 April 2020
 - **(C)** Improved text cleaning to remove page builder tags
 - **(C)** Code updates and improvements

@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
@@ -83,13 +83,8 @@ $_9 = "CREATE TABLE `#__facileforms_forms` (
   `mailchimp_mergevars` TEXT,
   `mailchimp_text_html_mobile_field` VARCHAR( 255 ) NOT NULL DEFAULT '',
   `mailchimp_send_errors` TINYINT( 1 ) NOT NULL DEFAULT 0,
-  `mailchimp_update_existing` TINYINT( 1 ) NOT NULL DEFAULT 0,
-  `mailchimp_replace_interests` TINYINT( 1 ) NOT NULL DEFAULT 0,
-  `mailchimp_send_welcome` TINYINT( 1 ) NOT NULL DEFAULT 0,
   `mailchimp_default_type` VARCHAR( 255 ) NOT NULL DEFAULT 'text',
   `mailchimp_delete_member` TINYINT( 1 ) NOT NULL DEFAULT 0,
-  `mailchimp_send_goodbye` TINYINT( 1 ) NOT NULL DEFAULT 1,
-  `mailchimp_send_notify` TINYINT( 1 ) NOT NULL DEFAULT 1,
   `mailchimp_unsubscribe_field` VARCHAR( 255 ) NOT NULL DEFAULT '',
   
     `salesforce_token` VARCHAR( 255 ) NOT NULL DEFAULT '',
@@ -170,9 +165,22 @@ $_9 = "CREATE TABLE `#__facileforms_forms` (
   `piece4code` text,
   `prevmode` tinyint(1) NOT NULL default '2',
   `prevwidth` int(11),
+  `honeypot_settings` longtext,
+  `double_opt` tinyint(1) NOT NULL DEFAULT '0',
+  `opt_mail` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=1  DEFAULT CHARACTER SET utf8   
  COLLATE utf8_general_ci";
+
+$_9_1 = "ALTER TABLE `#__facileforms_forms`
+  ADD KEY `double_opt` (`double_opt`),
+  ADD KEY `opt_mail` (`opt_mail`)";
+
+$_9_2 = "ALTER TABLE `#__facileforms_records`
+  ADD KEY `opted` (`opted`),
+  ADD KEY `opt_ip` (`opt_ip`),
+  ADD KEY `opt_date` (`opt_date`),
+  ADD KEY `opt_token` (`opt_token`)";
 
 $_10 = "DROP TABLE IF EXISTS `#__facileforms_elements`";
 
@@ -276,6 +284,10 @@ $_17 = "CREATE TABLE `#__facileforms_records` (
   `paypal_payment_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `paypal_testaccount` tinyint(1) NOT NULL default '0',
   `paypal_download_tries` int(11) NOT NULL default '0',
+  `opted` tinyint(1) NOT NULL DEFAULT '0',
+  `opt_ip` varchar(255) NOT NULL DEFAULT '',
+  `opt_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `opt_token` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=1  DEFAULT CHARACTER SET utf8   
  COLLATE utf8_general_ci";
@@ -447,4 +459,10 @@ $db->setQuery($_28);
 $db->query();
 
 $db->setQuery($_29);
+$db->query();
+
+$db->setQuery($_9_1);
+$db->query();
+
+$db->setQuery($_9_2);
 $db->query();

@@ -150,8 +150,8 @@ class J2StoreModelTaxprofiles extends F0FModel {
 			//first get rates
 			foreach($rates as $rate) {
 				if($rate['rate'] > 0) {
-					$divider = 1 + (($rate['rate'] / 100));
-					$tax_total += $value - ($value / $divider);
+					$amount = $this->getInclusiveTaxAmount($value, $rates, $rate);
+					$tax_total += $amount;
 				}
 			}
 			$amount = $tax_total;
@@ -180,9 +180,7 @@ class J2StoreModelTaxprofiles extends F0FModel {
 			//first get rates
 			foreach($rates as $rate) {
 				if($rate['rate'] > 0) {
-					$divider = 1 + (($rate['rate'] / 100));
-					$amount = 0;
-					$amount = $value - ($value / $divider);
+					$amount = $this->getInclusiveTaxAmount($value, $rates, $rate);
 					$total += $amount;
 					$return[$rate['taxrate_id']]['name'] = $rate['name'];
 					$return[$rate['taxrate_id']]['rate'] = $rate['rate'];
@@ -347,9 +345,7 @@ class J2StoreModelTaxprofiles extends F0FModel {
 				//first get rates
 				foreach($rates as $rate) {
 					if($rate['rate'] > 0) {
-						$divider = 1 + (($rate['rate'] / 100));
-						$amount = 0;
-						$amount = $value - ($value / $divider);
+						$amount = $this->getInclusiveTaxAmount($value, $rates, $rate);
 						$total += $amount;
 						$return[$rate['taxrate_id']]['name'] = $rate['name'];
 						$return[$rate['taxrate_id']]['rate'] = $rate['rate'];
@@ -376,5 +372,22 @@ class J2StoreModelTaxprofiles extends F0FModel {
 			return (object) $result;
 	}
 
+	public function getInclusiveTaxAmount($value, $all_rates, $rate) {
+
+		$regular_rates  = array();
+		foreach ( $all_rates as $key => $single_rate ) {
+			if($single_rate['rate'] > 0) {
+				$regular_rates[ $key ] = $single_rate['rate'];
+			}
+		}
+		
+		$regular_tax_rate = 1 + ( array_sum( $regular_rates ) / 100 );
+
+		$the_rate       = ( $rate['rate'] / 100 ) / $regular_tax_rate;
+		$net_price      = $value - ( $the_rate * $value );
+		$amount = 0;
+		$amount = $value - $net_price;
+		return $amount;
+	}
 }
 

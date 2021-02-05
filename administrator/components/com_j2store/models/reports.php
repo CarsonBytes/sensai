@@ -43,6 +43,7 @@ class J2StoreModelReports extends F0FModel {
 
 	protected function onProcessList(&$resultArray){
 		foreach($resultArray as &$res){
+		    $res->name = JText::_($res->name);
 			$res->create_text = JText::_('J2STORE_CREATE');
 			$res->view_text = JText::_('J2STORE_VIEW');
 			$xmlfile = JPATH_SITE.'/plugins/j2store/'.$res->element.'/'.$res->element.'.xml';

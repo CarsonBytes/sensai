@@ -1,45 +1,17 @@
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.4.4
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2004-2005 by Peter Koch
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
+function swal(msg){
 
+	alert(msg);
+
+}
 function ff_traceWindow()
 {
-    /*
-	var dwin = window.open(
-		'components/com_breezingforms/index.html',
-		'TraceDumpWindow',
-		'dependent,status,scrollbars,resizable,left=50,width=700'
-	);
-	dwin.document.write(
-		'<!doctype html public "-//W3C//DTD HTML 3.2 //EN">\n'+
-		'<html>'+
-		'<head><title>FacileForms Trace Dump</title></head>\n'+
-		'<body text="#000000" bgcolor="#FFFFFF" link="#FF0000" alink="#FF0000" vlink="#FF0000">\n'+
-		'<script type="text/javascript">\n'+
-		'<!--\n'+
-		'function ff_redirectParent(url)\n'+
-		'{\n'+
-		'    var method = \'post\';\n'+
-		'    if (arguments.length>1) method = arguments[1].toLowerCase();\n'+
-		'    window.opener.ff_redirectParent(url, method);\n'+
-		'    window.close();\n'+
-		'} // ff_redirectParent\n'+
-		'-->\n'+
-		'</script>\n'+
-		'<pre>\n'
-	);
-	dwin.document.write(ff_processor.traceBuffer);
-	dwin.document.write(
-		'</pre>\n'+
-		'</body>\n'+
-		'</html>\n'
-	);
-	dwin.document.close();
-        */
        if(typeof console != "undefined" && typeof console.log == "function" ){
            console.log("BF-Trace", ff_processor.traceBuffer);
        }

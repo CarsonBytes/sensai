@@ -261,6 +261,8 @@ class J2StorePluginBase extends JPlugin
 
 			if (!class_exists('J2StoreModel' . $name))
 				JLoader::import('plugins.' . $group . '.' . $plugin . '.' . $plugin . '.models.' . strtolower($name), JPATH_SITE);
+
+        F0FModel::addIncludePath(JPATH_SITE . '/plugins/j2store/' . $this->_element . '/' . $this->_element . '/models');
 	}
 
 	/**

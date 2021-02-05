@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+JLoader::register('Route66ModelMetadata', JPATH_ADMINISTRATOR . '/components/com_route66/models/metadata.php');
+
 class PlgContentRoute66Metadata extends JPlugin
 {
 	protected $autoloadLanguage = true;
@@ -24,14 +26,12 @@ class PlgContentRoute66Metadata extends JPlugin
 
 		if ($name == 'com_content.article' && $application->input->getMethod() == 'GET')
 		{
-
-			// Cast to object
-			if (is_array($data))
+			// Add data
+			if (is_array($data) && !isset($data['route66metadata']))
 			{
-				$data = (object) $data;
+				$data['route66metadata'] = array();
 			}
-
-			if (!isset($data->route66metadata))
+			elseif (is_object($data) && !isset($data->route66metadata))
 			{
 				$data->route66metadata = array();
 			}
@@ -51,7 +51,6 @@ class PlgContentRoute66Metadata extends JPlugin
 			if (isset($data['route66metadata']) && is_array($data['route66metadata']))
 			{
 				$resourceId = (int) $article->id;
-				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
 				$model = JModelLegacy::getInstance('Metadata', 'Route66Model');
 				$model->delete($context, $article->id);
 				$model->save($context, $article->id, $data['route66metadata']);
@@ -69,7 +68,6 @@ class PlgContentRoute66Metadata extends JPlugin
 
 		if ($id)
 		{
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
 			$model = JModelLegacy::getInstance('Metadata', 'Route66Model');
 			$result = $model->fetch($context, $id);
 
@@ -99,7 +97,6 @@ class PlgContentRoute66Metadata extends JPlugin
 	{
 		if ($context == 'com_content.article')
 		{
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
 			$model = JModelLegacy::getInstance('Metadata', 'Route66Model');
 			$model->delete($context, $data->id);
 		}

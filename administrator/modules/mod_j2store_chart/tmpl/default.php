@@ -11,11 +11,11 @@ defined ( '_JEXEC' ) or die ();
   */
 $document = JFactory::getDocument();
 
-$document->addScript(JUri::root().'administrator/modules/mod_j2store_chart/media/chart_api.js');
+$document->addScript('https://www.gstatic.com/charts/loader.js');
 $currency = J2Store::currency();
 //chart script.
 $script = '
- google.load("visualization", "1", {packages:["corechart"]});
+google.charts.load("current", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
 
          function drawChart() {

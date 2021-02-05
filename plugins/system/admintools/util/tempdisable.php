@@ -8,7 +8,7 @@
 use Akeeba\AdminTools\Admin\Helper\ServerTechnology;
 use FOF30\Container\Container;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 trait AtsystemUtilTempdisable
 {

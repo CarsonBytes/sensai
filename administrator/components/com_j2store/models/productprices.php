@@ -75,7 +75,7 @@ class J2StoreModelProductPrices extends F0FModel {
 
 	protected function _buildQueryOrder($query) {
 		$state = $this->getFilterValues();
-        if(isset($state->orderby) && !empty($state->orderby) && in_array($state->orderby,array('variant_id','price'))) {
+        if(isset($state->orderby) && !empty($state->orderby) && in_array($state->orderby,array('variant_id','price','quantity_from'))) {
             $db = $this->getDbo();
             if(!in_array(strtolower($state->direction),array('asc','desc'))){
                 $state->direction = 'desc';

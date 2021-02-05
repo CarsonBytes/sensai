@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.7.3
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2011 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -70,6 +70,70 @@ this.createTextfield = function(id){
 						actionFocus : 0,
 						actionSelect : 0,
                                                 hideInMailback: false
+					}
+		};
+};
+
+this.createNumberInput = function(id){
+		return {
+				  attributes : {
+
+					"class" : "bfQuickModeElementClass",
+
+					id : id,
+					mdata : JQuery.toJSON(
+						{
+							deletable : true,
+							type : 'element'
+						}
+					)
+				  },
+				  data: { title: "untitled element", icon: '<?php echo $iconBase . 'icon_text-field.png' ?>' },
+				  properties : {
+						type : 'element',
+						bfType: 'bfNumberInput',
+						label: 'untitled element',
+						labelPosition: 'left',
+						bfName : id,
+						dbId : 0,
+						orderNumber : -1,
+						tabIndex : -1,
+						logging : true,
+						hideLabel : false,
+						required : false,
+						hint: '',
+						off: false,
+
+                        placeholder: '',
+						value : '',
+						maxLength : '',
+						size : '',
+
+						validationCondition : 0,
+						validationId : 0,
+						validationCode : '',
+						validationMessage : '',
+						validationFunctionName : '',
+						initCondition : 0,
+						initId : 0,
+						initCode : '',
+						initFunctionName : '',
+						initFormEntry : 0,
+						initPageEntry : 0,
+						actionCondition : 0,
+						actionId : 0,
+						actionCode : '',
+						actionFunctionName : '',
+						actionClick : 0,
+						actionBlur : 0,
+						actionChange : 0,
+						actionFocus : 0,
+						actionSelect : 0,
+                        hideInMailback: false,
+
+						step: 1,
+						max: '',
+						min: ''
 					}
 		};
 };
@@ -780,7 +844,15 @@ this.createCalendar = function(id){
 						actionChange : 0,
 						actionFocus : 0,
 						actionSelect : 0,
-                                                hideInMailback: false
+                        hideInMailback: false,
+						showTime : 0,
+						timeFormat : 1,
+						singleHeader : '',
+						todayButton : 1,
+						weekNumbers : 1,
+						minYear : '',
+						maxYear : '',
+						firstDay : '6'
 					}
 		};
 };
@@ -887,9 +959,10 @@ this.createPayPal = function(id){
 						amount: '',
 						tax: '',
 						thankYouPage: '',
+						cancelURL: '',
 						locale: 'us',
 						currencyCode: 'USD',
-						image: 'http://www.paypal.com/en_US/i/btn/btn_paynowCC_LG.gif',
+						image: 'https://crosstec.org/media/contentbuilder/upload/paypal.gif',
 						sendNotificationAfterPayment: false,
                                                 useIpn: false,
 
@@ -1090,6 +1163,7 @@ this.createSummarize = function(id){
 				currencyCode: 'USD',
 				image: '<?php echo JURI::root()?>components/com_breezingforms/images/stripe.png',
 				sendNotificationAfterPayment: false,
+				emailfield: '',
 
 				validationCondition : 0,
 				validationId : 0,

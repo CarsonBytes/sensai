@@ -33,7 +33,7 @@ class plgSystemCwgearsInstallerScript
     /**
      * @var string The Gears version that is being installed
      */
-    private $gears_version = '0.6.0';
+    private $gears_version = '0.6.2';
 
     /**
      * @var string Possible duplicate update info

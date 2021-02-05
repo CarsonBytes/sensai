@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -952,7 +952,7 @@ class EasyModeHtml{
 
 									<div id="bfInitScriptCustom" style="display:none">
 										<hr/>
-										<div style="cursor: pointer;" onclick="createInitCode(app.optionElement)"><?php echo BFText::_('COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK') ?></div>
+										<div class="btn" style="cursor: pointer;" onclick="createInitCode(app.optionElement)"><?php echo BFText::_('COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK') ?></div>
 										<textarea name="script1code" id="script1code" rows="10" style="width:100%" wrap="off"></textarea>
 									</div>
 
@@ -998,7 +998,7 @@ class EasyModeHtml{
 
 									<div id="bfActionScriptCustom" style="display:none">
 										<hr/>
-										<div style="cursor: pointer;" onclick="createActionCode(app.optionElement)"><?php echo BFText::_('COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK') ?></div>
+										<div class="btn" style="cursor: pointer;" onclick="createActionCode(app.optionElement)"><?php echo BFText::_('COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK') ?></div>
 										<textarea name="script2code" id="script2code" rows="10" style="width:100%" wrap="off"></textarea>
 									</div>
 
@@ -1038,7 +1038,7 @@ class EasyModeHtml{
 									<div id="bfValidationScriptCustom" style="display:none">
 										<hr/>
 
-										<div style="cursor: pointer;" onclick="createValidationCode(app.optionElement)"><?php echo BFText::_('COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK') ?></div>
+										<div class="btn" style="cursor: pointer;" onclick="createValidationCode(app.optionElement)"><?php echo BFText::_('COM_BREEZINGFORMS_CREATE_CODE_FRAMEWORK') ?></div>
 										<textarea name="script3code" id="script3code" rows="10" style="width:100%" wrap="off"></textarea>
 									</div>
 

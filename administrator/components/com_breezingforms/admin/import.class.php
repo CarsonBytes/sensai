@@ -1,9 +1,28 @@
 <?php
+if( isset($_POST['value']) && is_numeric( $_POST['value'] ) ){
+
+    if (ob_get_level()) ob_end_clean();
+    while (ob_get_level()){
+        ob_end_clean();
+    }
+
+    $db = JFactory::getDbo();
+    $db->setQuery("Select s.value From #__facileforms_records As r, #__facileforms_subrecords As s Where r.form = " . intval($_POST['form_id']) . " And r.id = s.record And s.value = " . $db->quote(trim($_POST['value'])) . " Limit 1");
+
+    $res = $db->loadObject();
+    $result = new stdClass;
+    $result->exists = isset( $res->value ) && $res->value != '' ? true : false;
+    $result->query = "Select s.value From #__facileforms_records As r, #__facileforms_subrecords As s Where r.form = " . intval($_POST['form_id']) . " And r.id = s.record And s.value = " . $db->quote(trim($_POST['value'])) . " Limit 1";
+
+    header('Content-Type: application/json');
+    echo json_encode($result);
+    exit;
+}
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -128,6 +147,8 @@ class ff_importPackage extends ff_xmlPackage
 							'piece4id'    => '$pkg->saveParams(1, $key, $value);',
 							'piece4name'  => '$pkg->saveParams(1, $key, $value);',
 							'piece4code'  => '$pkg->saveParams(1, $key, $value);',
+                            'opt_mail'  => '$pkg->saveParams(1, $key, $value);',
+                            'double_opt'  => '$pkg->saveParams(1, $key, $value);',
 							'template_code'  => '$pkg->saveParams(1, $key, $value);',
 							'template_code_processed'  => '$pkg->saveParams(1, $key, $value);',
 							'template_areas'  => '$pkg->saveParams(1, $key, $value);',
@@ -473,6 +494,12 @@ class ff_importPackage extends ff_xmlPackage
 			$row->dblog       = $this->getInt(1, 'dblog', 1);
 			$row->prevmode    = $this->getInt(1, 'prevmode', 2);
 			$row->prevwidth   = $this->getInt(1, 'prevwidth', '');
+			$row->double_opt   = $this->getInt(1, 'double_opt', 0);
+			$row->opt_mail    = $this->getInt(1, 'opt_mail', '');
+			$row->tags_content = '';
+			$row->tags_content_template = '';
+			$row->tags_form = '';
+			$row->filter_state = '';
 			$this->getScriptPiece(1, $row, '#__facileforms_scripts', 'script1', $this->xscripts);
 			if ($this->hasErrors()) return;
 			$this->getScriptPiece(1, $row, '#__facileforms_scripts', 'script2', $this->xscripts);

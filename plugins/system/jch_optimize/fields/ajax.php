@@ -1,20 +1,12 @@
 <?php
 
 /**
- * JCH Optimize - Joomla! plugin to aggregate and minify external resources for
- * optmized downloads
- * @author Samuel Marshall <sdmarshall73@gmail.com>
- * @copyright Copyright (c) 2010 Samuel Marshall
- * @license GNU/GPLv3, See LICENSE file
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * JCH Optimize - Performs several front-end optimizations for fast downloads
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * @package   jchoptimize/joomla-platform
+ * @author    Samuel Marshall <samuel@jch-optimize.net>
+ * @copyright Copyright (c) 2020 Samuel Marshall / JCH Optimize
+ * @license   GNU/GPLv3, or later. See LICENSE file
  *
  * If LICENSE file missing, see <http://www.gnu.org/licenses/>.
  */
@@ -26,7 +18,7 @@ use JchOptimize\Platform\Plugin;
 use JchOptimize\Platform\Utility;
 use Joomla\CMS\HTML\HTMLHelper;
 
-include_once dirname(dirname(__FILE__)) . '/jchoptimize/loader.php';
+include_once dirname(dirname(__FILE__)) . '/autoload.php';
 
 class JFormFieldAjax extends JFormField
 {
@@ -38,7 +30,7 @@ class JFormFieldAjax extends JFormField
 
 		if (!defined('JCH_VERSION'))
 		{
-			define('JCH_VERSION', '6.1.1');
+			define('JCH_VERSION', '6.3.1');
 		}
 
 		$params = Plugin::getPluginParams();
@@ -68,6 +60,7 @@ class JFormFieldAjax extends JFormField
 
 			$options = array('version' => JCH_VERSION);
 			$oDocument->addStyleSheet(JUri::root(true) . '/media/plg_jchoptimize/css/admin.css', $options);
+			//$oDocument->addStyleSheet(JUri::root(true) . '/media/plg_jchoptimize/css/admin-joomla.css', $options);
 			$oDocument->addScript(JUri::root(true) . '/media/plg_jchoptimize/js/admin-joomla.js', $options);
 			$oDocument->addScript(JUri::root(true) . '/media/plg_jchoptimize/js/admin-utility.js', $options);
 

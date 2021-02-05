@@ -2157,12 +2157,7 @@ class F0FTable extends F0FUtilsObject implements JTableInterface
 				$checkName = $name;
 			}
 
-			if (!in_array($checkName, self::$tableCache))
-			{
-				// The table doesn't exist. Return false.
-				self::$tableFieldCache[$tableName] = false;
-			}
-			elseif (version_compare(JVERSION, '3.0', 'ge'))
+			if (version_compare(JVERSION, '3.0', 'ge'))
 			{
 				$fields = $this->_db->getTableColumns($name, false);
 

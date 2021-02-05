@@ -9,10 +9,13 @@ defined('_JEXEC') or die;
 
 <form action="<?php echo JRoute::_('index.php?option=com_route66&view=sitemaps'); ?>" method="post" name="adminForm" id="adminForm">
 
-		<div id="j-sidebar-container" class="span2">
-				<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="span10">
+	<?php if(version_compare(JVERSION, '4', 'lt')): ?>
+	<div id="j-sidebar-container" class="span2">
+			<?php echo $this->sidebar; ?>
+	</div>
+	<?php endif; ?>
+	<div id="j-main-container" class="span10">
+
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<div class="clearfix"> </div>

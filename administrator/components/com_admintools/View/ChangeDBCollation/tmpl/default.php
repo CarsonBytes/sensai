@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 ?>
 
 <div class="akeeba-block--info">

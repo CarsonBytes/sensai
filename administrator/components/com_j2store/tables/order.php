@@ -2201,7 +2201,7 @@ class J2StoreTableOrder extends F0FTable
 	{
 		//remove coupon from the cancelled order
 		if ( empty( $this->order_id ) ) return;
-		$table = F0FTable::getInstance ( 'Ordercoupon', 'J2StoreTable' )->getClone ();
+		$table = F0FTable::getInstance ( 'Orderdiscount', 'J2StoreTable' )->getClone ();
 		if ( $table->load ( array( 'order_id' => $this->order_id ) ) ) {
 			$table->delete ();
 		}
@@ -2473,10 +2473,11 @@ class J2StoreTableOrder extends F0FTable
 	/**
 	 * Get line item name .
 	 * @param $item - order item object
+     * @param string $receiver_type
 	 * @return string - item name
 	 *
 	*/
-	function get_formatted_lineitem_name ( $item )
+	function get_formatted_lineitem_name ( $item, $receiver_type = '*' )
 	{
 		$html = '<span class="cart-product-name">'.$item->orderitem_name.'</span><br />';
 		if ( isset( $item->orderitemattributes ) ) {
@@ -2495,9 +2496,10 @@ class J2StoreTableOrder extends F0FTable
 				}
 				$html .= $this->get_formatted_lineitem_attribute_value($attribute, $attribute_value);
 				//$html .= '<small>'.JText::_( $attribute->orderitemattribute_name ).' : '.$attribute_value.'</small><br />';
-				if(JFactory::getApplication()->isAdmin() && $attribute->orderitemattribute_type=='file' && JFactory::getApplication()->input->getString('task')!='printOrder'){
+				if(JFactory::getApplication()->isAdmin() && $receiver_type == 'admin' && $attribute->orderitemattribute_type=='file' && JFactory::getApplication()->input->getString('task')!='printOrder'){
 					$html .= '<a target="_blank" class="btn btn-primary"';
-					$html .= 'href="'.JRoute::_("index.php?option=com_j2store&view=orders&task=download&ftoken=".$attribute->orderitemattribute_value).'"';
+					$url = JUri::base()."index.php?option=com_j2store&view=orders&task=download&ftoken=".$attribute->orderitemattribute_value;
+					$html .= 'href="'.$url.'"';
 					$html .= '<i class="icon icon-download"></i>';
 					$html .= JText::_('J2STORE_DOWNLOAD');
 					$html .= '</a>';
@@ -2506,7 +2508,7 @@ class J2StoreTableOrder extends F0FTable
 			}
 			$html .= '</span>';
 		}
-		J2Store::plugin ()->event ( 'LineItemName', array($item,&$html) );
+		J2Store::plugin ()->event ( 'LineItemName', array($item,&$html,$receiver_type) );
 		return $html;
 	}
 

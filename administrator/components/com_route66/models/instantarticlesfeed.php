@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 class Route66ModelInstantArticlesFeed extends JModelAdmin
@@ -26,9 +28,9 @@ class Route66ModelInstantArticlesFeed extends JModelAdmin
 			return false;
 		}
 
-		JPluginHelper::importPlugin('route66');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onRoute66LoadExtensionForm', array(&$form, 'instantarticles'));
+		PluginHelper::importPlugin('route66');
+		$application = Factory::getApplication();
+		$application->triggerEvent('onRoute66LoadExtensionForm', array(&$form, 'instantarticles'));
 
 		$data = $this->loadFormData();
 		$form->bind($data);
@@ -76,7 +78,7 @@ class Route66ModelInstantArticlesFeed extends JModelAdmin
 			}
 			$application = JFactory::getApplication();
 
-			if ($application->isSite())
+			if ($application->isClient('site'))
 			{
 				$item->siteName = $application->get('sitename');
 				$item->siteDescription = $application->get('MetaDesc');
@@ -97,9 +99,9 @@ class Route66ModelInstantArticlesFeed extends JModelAdmin
 	public function getInstantArticlesFeedItems($feed)
 	{
 		$items = array();
-		JPluginHelper::importPlugin('route66');
-		$dispatcher = JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onRoute66GetInstantArticles', array($feed));
+		PluginHelper::importPlugin('route66');
+		$application = Factory::getApplication();
+		$results = $application->triggerEvent('onRoute66GetInstantArticles', array($feed));
 
 		foreach ($results as $result)
 		{

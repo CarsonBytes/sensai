@@ -39,6 +39,7 @@ class J2StoreModelMyProfiles extends F0FModel {
 		$user = JFactory::getUser();
         if($user->id){
             $query->where('a.user_id='.$db->quote($user->id));
+            $query->where('a.email='.$db->quote($user->email));
         }else{
             $query->where('a.email='.$db->quote($user->email))
                 ->where('a.user_id='.$db->quote($user->id));

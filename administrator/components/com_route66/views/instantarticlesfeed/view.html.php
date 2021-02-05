@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 class Route66ViewInstantArticlesFeed extends JViewLegacy
 {
 	protected $form;
@@ -29,17 +31,22 @@ class Route66ViewInstantArticlesFeed extends JViewLegacy
 		$this->loadHelper('html');
 
 		JToolBarHelper::title(JText::_('COM_ROUTE66_FACEBOOK_INSTANT_ARTICLES_FEED_TITLE'), 'lightning');
-		JRequest::setVar('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		JToolBarHelper::apply('instantarticlesfeed.apply');
 		JToolBarHelper::save('instantarticlesfeed.save');
 		JToolbarHelper::save2copy('instantarticlesfeed.save2copy');
 		JToolBarHelper::cancel('instantarticlesfeed.cancel');
 
-		JHtml::_('behavior.tooltip');
-		JHtml::_('behavior.formvalidation');
+		JHtml::_('jquery.framework');
+		JHtml::_('behavior.formvalidator');
 		JHtml::_('behavior.keepalive');
-		JHtml::_('formbehavior.chosen', 'select');
+
+		if (version_compare(JVERSION, '4.0', 'lt'))
+		{
+			JHtml::_('behavior.tooltip');
+			JHtml::_('formbehavior.chosen', 'select');
+		}
 
 		parent::display($tpl);
 	}

@@ -1,4 +1,10 @@
 <?php die() ?>
+Admin Tools 5.9.1
+================================================================================
+- Dropped support for PHP 7.1.0
+~ Add PHP 8.0 in the list of known PHP versions, recommend PHP 7.4 or later
+# [LOW] Fixed HTML block page when original request format wasn't HTML
+
 Admin Tools 5.9.0
 ================================================================================
 + .htaccess and NginX Conf Maker: Better support for more file types in setting the expiration time

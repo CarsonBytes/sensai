@@ -24,7 +24,7 @@ if(typeof(j2store.jQuery) == 'undefined') {
 	$(document).ready(function(){
 		$('#j2store-postconfig-apply').click(function(e){
 		$.ajax({
-				url : 'index.php?option=com_j2store&view=postconfig&task=save',
+				url : 'index.php?option=com_j2store&view=postconfig&task=saveConfig',
 				type: 'post',
 				data: $('#j2store-postconfig-form input[type=\'text\'], #j2store-postconfig-form input[type=\'checkbox\']:checked, #j2store-postconfig-form input[type=\'radio\']:checked, #j2store-postconfig-form input[type=\'hidden\'], #j2store-postconfig-form select, #j2store-postconfig-form textarea'),
   				dataType: 'json',
@@ -65,7 +65,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 	class="form-horizontal">
 	<input type="hidden" name="option" value="com_j2store" /> <input
 		type="hidden" name="view" value="postconfig" /> <input type="hidden"
-		name="task" id="task" value="save" /> <input type="hidden"
+		name="task" id="task" value="saveConfig" /> <input type="hidden"
 		name="<?php echo JFactory::getSession()->getFormToken()?>" value="1" />
 
 	<div class="hero-unit">

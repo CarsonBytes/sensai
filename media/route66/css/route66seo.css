@@ -3,6 +3,7 @@
   padding: 20px;
   border: 1px dashed #dddddd;
   max-width: 600px;
+	background-color: #fff;
 }
 
 .route66-seo-preview-title {
@@ -37,8 +38,20 @@
   margin-right: 8px;
 }
 
+.route66-seo-analysis-score-bad span.route66-seo-analysis-icon {
+  color: #942a25;
+}
+
 .route66-seo-analysis-score-ok span.route66-seo-analysis-icon {
   color: #c67605;
+}
+
+.route66-seo-analysis-score-good span.route66-seo-analysis-icon {
+  color: #378137;
+}
+
+#route66-seo-analysis.j4 .route66-seo-analysis-icon.icon-not-ok::before {
+  content: "\f05e";
 }
 
 .route66-seo-analysis-score span.route66-seo-analysis-text {
@@ -173,4 +186,10 @@ body.route66-seo-dropdown-opened #route66-seo-dropdown, body.route66-seo-dropdow
 #route66-seo-score-badge {
   min-width: 12px;
   text-align: center;
+  color: #fff;
+  pointer-events: none;
+}
+
+#route66-seo-analysis a[target="_blank"]::before {
+  content: "";
 }

@@ -17,7 +17,7 @@
 		<field name="fullordering" type="list" label="JGLOBAL_LIST_FULL_ORDERING" onchange="this.form.submit();" default="id DESC">
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="score ASC">COM_ROUTE66_SCORE_ASC</option>
-			<option value="score DESC">COM_ROUTE66_SCORE_DESC</option>
+			<option value="score DESC">COM_ROUTE66_SCORE_DESCENDING</option>
 			<option value="title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="id ASC">JGRID_HEADING_ID_ASC</option>

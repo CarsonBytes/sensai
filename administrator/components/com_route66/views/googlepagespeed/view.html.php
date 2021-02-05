@@ -19,15 +19,24 @@ class Route66ViewGooglePageSpeed extends JViewLegacy
 		$this->sidebar = Route66HelperHtml::getSidebar('googlepagespeed');
 
 		JToolBarHelper::title(JText::_('COM_ROUTE66_GOOGLE_PAGESPEED'), 'dashboard');
-		$customButton = '<a class="btn btn-small" target="_blank" href="https://developers.google.com/speed/pagespeed/insights/?url=' . urlencode(JUri::root(false)) . '"><i class="icon-new-tab"></i>' . JText::_('COM_ROUTE66_ANALYZE_YOUR_SITE') . '</a>';
 		$toolbar = JToolBar::getInstance('toolbar');
+
+		if (version_compare(JVERSION, '4', '>='))
+		{
+			$customButton = '<joomla-toolbar-button><a class="btn btn-primary" href="https://developers.google.com/speed/pagespeed/insights/?url=' . urlencode(JUri::root(false)) . '"><span class="fa fa-link" aria-hidden="true"></span>' . JText::_('COM_ROUTE66_ANALYZE_YOUR_SITE') . '</a></joomla-toolbar-button>';
+		}
+		else
+		{
+			$customButton = '<a class="btn btn-small" target="_blank" href="https://developers.google.com/speed/pagespeed/insights/?url=' . urlencode(JUri::root(false)) . '"><i class="icon-new-tab"></i>' . JText::_('COM_ROUTE66_ANALYZE_YOUR_SITE') . '</a>';
+		}
 		$toolbar->appendButton('Custom', $customButton);
+
 		JToolBarHelper::help(null, false, 'https://www.firecoders.com/documentation/route-66');
 		Route66HelperHtml::addOptionsButton();
 
 		if (JPluginHelper::isEnabled('system', 'route66pagespeed'))
 		{
-			Route66HelperExtension::checkPluginsOrdering();
+			Route66HelperExtension::fixPluginsOrdering();
 		}
 		else
 		{

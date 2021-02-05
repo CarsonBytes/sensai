@@ -11,7 +11,10 @@ $config = J2Store::config();
 $J2gridRow = ($config->get('bootstrap_version', 2) == 2) ? 'row-fluid' : 'row';
 $J2gridCol = ($config->get('bootstrap_version', 2) == 2) ? 'span' : 'col-md-';
 if(!empty($this->address_type)){
-	$this->address->type = $this->address_type;
+    $this->address->type = $this->address_type;
+}
+if(empty($this->address->type)){
+    $this->address->type = 'billing';
 }
 $back_url = JRoute::_('index.php?option=com_j2store&view=myprofile');
 $user = JFactory::getUser();

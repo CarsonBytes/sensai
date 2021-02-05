@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -114,7 +114,15 @@ for($r = 0; $r < $recsSize; $r++) {
 	<strong><?php echo BFText::_('COM_BREEZINGFORMS_PAYMENT_DOWNLOAD_TRIES') ?>:</strong>
 </td>
 <td>
-	<?php echo $rec->paypal_download_tries; ?> 
+	<?php echo $rec->paypal_download_tries; ?>
+</td>
+</tr>
+<tr>
+<td>
+    <strong><?php echo BFText::_('COM_BREEZINGFORMS_RECORDS_OPTED') ?>:</strong>
+</td>
+<td>
+    <?php echo $rec->opted; ?>
 </td>
 </tr>
 <tr>

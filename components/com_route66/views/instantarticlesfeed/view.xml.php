@@ -11,7 +11,7 @@ class Route66ViewInstantArticlesFeed extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$application = JFactory::getApplication();
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
+		JLoader::register('Route66ModelInstantArticlesFeed', JPATH_ADMINISTRATOR . '/components/com_route66/models/instantarticlesfeed.php');
 		$model = JModelLegacy::getInstance('InstantArticlesFeed', 'Route66Model', array('ignore_request' => true));
 		$this->feed = $model->getItem($application->input->getInt('id'));
 

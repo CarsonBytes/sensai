@@ -50,8 +50,12 @@ class plgJ2StoreReport_itemised extends J2StoreReportPlugin
     	JToolBarHelper::title(JText::_('J2STORE_REPORT').'-'.JText::_('PLG_J2STORE_'.strtoupper($this->_element)),'j2store-logo');
 
 	   	$vars = new JObject();
-	   	$this->includeCustomModel('Reportitemised');
-    	$this->includeCustomTables();
+	   	//$this->includeCustomModel('Reportitemised');
+    	//$this->includeCustomTables();
+        F0FModel::addIncludePath(JPATH_SITE . '/plugins/j2store/' . $this->_element . '/' . $this->_element . '/models');
+        F0FModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_j2store/models');
+        F0FTable::addIncludePath(JPATH_SITE . '/plugins/j2store/' . $this->_element . '/' . $this->_element . '/tables');
+        F0FTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_j2store/tables');
 
     	$model = F0FModel::getTmpInstance('ReportItemised', 'J2StoreModel');
     	$model->setState('limit',$app->input->getInt('limit',0));
@@ -102,11 +106,15 @@ class plgJ2StoreReport_itemised extends J2StoreReportPlugin
     	$app = JFactory::getApplication();
 
     	$ignore_column =array('sum','count','orderitem_quantity','product_source_id','id');
-    	$this->includeCustomModel('Reportitemised');
+    	//$this->includeCustomModel('Reportitemised');
     	if (!$this->_isMe($row))
     	{
     		return null;
     	}
+        F0FModel::addIncludePath(JPATH_SITE . '/plugins/j2store/' . $this->_element . '/' . $this->_element . '/models');
+        F0FModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_j2store/models');
+        F0FTable::addIncludePath(JPATH_SITE . '/plugins/j2store/' . $this->_element . '/' . $this->_element . '/tables');
+        F0FTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_j2store/tables');
     	$model = F0FModel::getTmpInstance('ReportItemised', 'J2StoreModel');
     	$items = $model->getData();
   		foreach($items as &$item){

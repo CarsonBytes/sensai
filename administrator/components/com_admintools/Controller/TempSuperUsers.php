@@ -8,7 +8,7 @@
 namespace Akeeba\AdminTools\Admin\Controller;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 use Akeeba\AdminTools\Admin\Model\TempSuperUsers as TempSuperUsersModel;
 use DateInterval;

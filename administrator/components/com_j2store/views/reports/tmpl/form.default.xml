@@ -15,7 +15,7 @@
 		<header name="name" type="fieldsearchable" 	sortable="true" label="J2STORE_REPORT_PLUGIN_NAME"/>	
 		<header name="version" type="field" filterclass="input-small" sortable="true" label="J2STORE_PLUGIN_VERSION" />
 		<header name="view" type="field" filterclass="input-small"	sortable="true"	label="J2STORE_VIEW" />		 		
-		<header name="enabled" type="published" sortable="true" tdwidth="8%" />
+		<header name="enabled" type="published" sortable="true" tdwidth="8%" label="J2STORE_ENABLE"/>
 	</headerset>	
 	<fieldset name="items">
 		<field name="ordering" type="ordering" labelclass="order"/>		

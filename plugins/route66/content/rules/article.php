@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 require_once JPATH_SITE . '/plugins/system/route66/lib/rule.php';
 
 class Route66RuleContentArticle extends Route66Rule
@@ -151,15 +153,19 @@ class Route66RuleContentArticle extends Route66Rule
 		$article = $db->loadObject();
 
 		// Joomla! 3.7 broke it
-		if (version_compare(JVERSION, '3.7.0', 'ge'))
+		if (version_compare(JVERSION, '4', 'lt'))
 		{
 			include_once JPATH_SITE . '/plugins/route66/content/helpers/route.php';
 			$route = Route66ContentHelperRoute::getArticleRoute($article->id, $article->catid, $article->language);
 		}
 		else
 		{
-			include_once JPATH_SITE . '/components/com_content/helpers/route.php';
 			$route = ContentHelperRoute::getArticleRoute($article->id, $article->catid, $article->language);
+			$application = Factory::getApplication();
+			$router = $application->getRouter('site');
+			$uri = new JUri($route);
+			$router->buildComponentPreprocess($router, $uri);
+			$route = $uri->toString();
 		}
 
 		parse_str($route, $result);
@@ -181,7 +187,7 @@ class Route66RuleContentArticle extends Route66Rule
 
 		$application = JFactory::getApplication();
 
-		if ($application->isSite() && $application->getLanguageFilter())
+		if ($application->isClient('site') && $application->getLanguageFilter())
 		{
 			$query->where($db->qn('language') . ' IN(' . $db->q('*') . ', ' . $db->q($this->getLanguage()) . ')');
 		}

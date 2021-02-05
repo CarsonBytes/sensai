@@ -230,14 +230,19 @@ class J2StoreModelCartadmins extends F0FModel {
 				}
 				
 				//product option 
-				$product_option_data = $product_helper->getOptionPrice ( $product_option_array, $product->j2store_product_id );				
-				
+				$product_option_data = $product_helper->getOptionPrice ( $product_option_array, $product->j2store_product_id );
+                if(isset($item->product_type) && $item->product_type == 'flexivariable'){
+                    $product_option_data = array();
+                    $product_option_data ['option_data'] = $item->options;
+                    $product_option_data ['option_price'] = $item->option_price;
+                    $product_option_data ['option_weight'] = 0;
+                }
 				$orderitem->orderitem_option_price = $item->option_price;
 				// price which is not processed
 				$orderitem->orderitem_price = $item->pricing->price;
 				$orderitem->orderitem_baseprice = $item->pricing->base_price;
 				//weight
-				$orderitem->orderitem_weight = ($product->variant->weight) && ! empty ( $product->variant->weight ) ? $product->variant->weight : 0;
+				$orderitem->orderitem_weight = isset($product->variant) && ($product->variant->weight) && ! empty ( $product->variant->weight ) ? $product->variant->weight : 0;
 				//tax profile
 				$orderitem->orderitem_taxprofile_id = $product->taxprofile_id;				
 				// just a placeholder and also used as reference for product options
@@ -253,6 +258,7 @@ class J2StoreModelCartadmins extends F0FModel {
 				//echo "<pre>";print_r($orderitem);exit;
 				//tax calculation
 				////////////////////////
+                $insert_item_attributes = true;
 				F0FModel::getTmpInstance ( 'Orderitem', 'J2StorModel' )->getOrderItemParams ( $orderitem, $item );
 				if ($orderitemTable->load ( array (
 						'order_id' => $order->order_id,
@@ -262,6 +268,7 @@ class J2StoreModelCartadmins extends F0FModel {
 				) )) {
 					$orderitemTable->orderitem_quantity += $item->product_qty;
 					$orderitem->orderitem_quantity = $orderitemTable->orderitem_quantity;
+                    $insert_item_attributes = false;
 				}
 				$orderitem->orderitemattributes = array ();
 				foreach ( $product_option_data ['option_data'] as $product_option ) {
@@ -280,7 +287,9 @@ class J2StoreModelCartadmins extends F0FModel {
 				$orderitem->orderitem_weight_total = ($orderitem->orderitem_weight + (! empty ( $product_option_data ['option_weight'] ) ? $product_option_data ['option_weight'] : 0)) * $item->product_qty;
 								
 				if ($orderitemTable->save ( $orderitem )) {
-					$order->saveOrderItemAttributes ( $orderitem->orderitemattributes, $orderitemTable );		
+				    if($insert_item_attributes){
+                        $order->saveOrderItemAttributes ( $orderitem->orderitemattributes, $orderitemTable );
+                    }
 					$order->cart_id = $cart->j2store_cart_id;			
 					$order->getAdminTotals ( );	
 					//return true;

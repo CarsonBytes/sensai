@@ -2,8 +2,8 @@
 <extension version="3.9" type="module" client="administrator" method="upgrade">
 	<name>mod_cachecleaner</name>
 	<description>MOD_CACHECLEANER_DESC</description>
-	<version>7.2.2</version>
-	<creationDate>February 2020</creationDate>
+	<version>7.3.3</version>
+	<creationDate>October 2020</creationDate>
 	<author>Regular Labs (Peter van Westen)</author>
 	<authorEmail>info@regularlabs.com</authorEmail>
 	<authorUrl>https://www.regularlabs.com</authorUrl>
@@ -30,14 +30,14 @@
 		<fields name="params" addfieldpath="/libraries/regularlabs/fields">
 			<fieldset name="description">
 				<field name="@loadlanguage" type="rl_loadlanguage" extension="mod_cachecleaner" admin="1" />
-				<field name="@license" type="rl_license" extension="CACHE_CLEANER" />
-				<field name="@version" type="rl_version" extension="CACHE_CLEANER" />
+				<field name="@license" type="rl_license" extension="CACHECLEANER" />
+				<field name="@version" type="rl_version" extension="CACHECLEANER" />
 				<field name="@dependency" type="rl_dependency"
 					   label="CC_THE_SYSTEM_PLUGIN"
 					   file="/plugins/system/cachecleaner/cachecleaner.php" />
 				<field name="@header" type="rl_header"
-					   label="CACHE_CLEANER"
-					   description="CACHE_CLEANER_DESC"
+					   label="CACHECLEANER"
+					   description="CACHECLEANER_DESC"
 					   url="https://www.regularlabs.com/cachecleaner" />
 
 				<field name="@notice_settings" type="note" class="alert alert-info"

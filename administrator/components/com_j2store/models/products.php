@@ -1405,10 +1405,18 @@ class J2StoreModelProducts extends F0FModel {
             // Add subcategory check
             $includeSubcategories = $this->getState('filter.subcategories', false);
             //$categoryEquals = 'a.catid ' . $type . ' REGEXP BINARY '. $db->q('[[:<:]]'.$categoryId.'[[:>:]]') ;
-            if ($this->checkTable () ) {
-                $categoryEquals = 'mc.catid ' . $type . ' REGEXP BINARY '. $db->q('[[:<:]]'.$categoryId.'[[:>:]]') ;
+            if(version_compare($db->getConnection()->server_info,'7.9.9','>')){
+                if ($this->checkTable () ) {
+                    $categoryEquals = 'mc.catid ' . $type . ' REGEXP BINARY '. $db->q('\\b'.$categoryId.'\\b') ;
+                }else{
+                    $categoryEquals = 'a.catid ' . $type . ' REGEXP BINARY '. $db->q('\\b'.$categoryId.'\\b') ;
+                }
             }else{
-                $categoryEquals = 'a.catid ' . $type . ' REGEXP BINARY '. $db->q('[[:<:]]'.$categoryId.'[[:>:]]') ;
+                if ($this->checkTable () ) {
+                    $categoryEquals = 'mc.catid ' . $type . ' REGEXP BINARY '. $db->q('[[:<:]]'.$categoryId.'[[:>:]]') ;
+                }else{
+                    $categoryEquals = 'a.catid ' . $type . ' REGEXP BINARY '. $db->q('[[:<:]]'.$categoryId.'[[:>:]]') ;
+                }
             }
             if ($includeSubcategories)
             {
@@ -1448,8 +1456,11 @@ class J2StoreModelProducts extends F0FModel {
         elseif (is_array($categoryId) && (count($categoryId) > 0))
         {
             JArrayHelper::toInteger($categoryId);
-            $categoryIds = '[[:<:]]'. implode('[[:>:]]|[[:<:]]', $categoryId) .'[[:>:]]';
-
+            if(version_compare($db->getConnection()->server_info,'7.9.9','>')){
+                $categoryIds = '\\b'. implode('\\b|\\b', $categoryId) .'\\b';
+            }else{
+                $categoryIds = '[[:<:]]'. implode('[[:>:]]|[[:<:]]', $categoryId) .'[[:>:]]';
+            }
             if (!empty($categoryId))
             {
                 $type = $this->getState('filter.category_id.include', true) ? '' : 'NOT ';
@@ -1487,11 +1498,19 @@ class J2StoreModelProducts extends F0FModel {
                     foreach($sub_data as $k=> $sub_cat){
                         $sub_cats [] = $sub_cat['id'];
                     }
+                    if(!empty($sub_cats)){
+                        if(version_compare($db->getConnection()->server_info,'7.9.9','>')){
+                            $regSubcats = '\\b'. implode('\\b|\\b', $sub_cats) .'\\b';
+                        }else{
+                            $regSubcats = '[[:<:]]'. implode('[[:>:]]|[[:<:]]', $sub_cats) .'[[:>:]]';
+                        }
+                        $subCategoryEquals = 'a.catid ' . $type . ' REGEXP BINARY '. $db->q($regSubcats) ;
+                        // Add the subquery to the main query
+                        $query->where('(' . $categoryEquals . ' OR '.$subCategoryEquals.' )');
+                    }else{
+                        $query->where($categoryEquals);
+                    }
 
-                    $regSubcats = '[[:<:]]'. implode('[[:>:]]|[[:<:]]', $sub_cats) .'[[:>:]]';
-                    $subCategoryEquals = 'a.catid ' . $type . ' REGEXP BINARY '. $db->q($regSubcats) ;
-                    // Add the subquery to the main query
-                    $query->where('(' . $categoryEquals . ' OR '.$subCategoryEquals.' )');
                     // Add the subquery to the main query
                     //$query->where('(' . $categoryEquals . ' OR a.catid IN (' . $subQuery->__toString() . '))');
 
@@ -1503,7 +1522,6 @@ class J2StoreModelProducts extends F0FModel {
 
             }
         }
-
         //access
         $groups = implode(',', $user->getAuthorisedViewLevels());
         $query->where('a.access IN (' . $groups . ')')
@@ -2012,7 +2030,9 @@ class J2StoreModelProducts extends F0FModel {
      * Method to return list of all manufacturers
      */
     public function getManufacturers(){
-        return F0FModel::getTmpInstance('Manufacturers','J2StoreModel')->enabled(1)->getList();
+        $model = F0FModel::getTmpInstance('Manufacturers','J2StoreModel');
+        $model->setState('filter_enabled',1);
+        return $model->getList();
     }
 
     /**

@@ -10,7 +10,7 @@ class J2StoreControllerPostconfig extends F0FController {
 
 	public function execute($task)
 	{
-		if ($task != 'save')
+		if ($task != 'saveConfig')
 		{
 			$task = 'browse';
 		}
@@ -30,7 +30,7 @@ class J2StoreControllerPostconfig extends F0FController {
 		return false;
 	}
 
-	public function save() {
+	public function saveConfig() {
 
 		//first CSRF check
 		JSession::checkToken() or die( 'Invalid Token' );

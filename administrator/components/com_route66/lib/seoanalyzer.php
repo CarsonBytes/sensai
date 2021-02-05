@@ -6,6 +6,9 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Application\CMSApplication;
+
 class Route66SeoAnalyzer
 {
 	private $message = null;
@@ -54,9 +57,9 @@ class Route66SeoAnalyzer
 
 		foreach ($files as $file)
 		{
-			if (JFile::exists($path . '/' . $file))
+			if (File::exists($path . '/' . $file))
 			{
-				$buffer = JFile::read($path . '/' . $file);
+				$buffer = file_get_contents($path . '/' . $file);
 				$buffer = str_replace('wordpress-seo', 'js-text-analysis', $buffer);
 				$this->i18n = json_decode($buffer);
 
@@ -74,7 +77,7 @@ class Route66SeoAnalyzer
 	{
 		$application = JFactory::getApplication();
 
-		if ($application->isSite())
+		if ($application->isClient('site'))
 		{
 			$position = 'form';
 		}
@@ -122,7 +125,7 @@ class Route66SeoAnalyzer
 		$view = $this->options['view'];
 		$id = $this->options['id'];
 
-		$application = JApplication::getInstance('site');
+		$application = CMSApplication::getInstance('site');
 		$menu = $application->getMenu();
 		$component = JComponentHelper::getComponent($option);
 		$conditions = array('component_id', 'language');
@@ -187,9 +190,13 @@ class Route66SeoAnalyzer
 
 	private static function getUrlFromRoute($route)
 	{
-		$site = JApplicationCms::getInstance('site');
+		$site = CMSApplication::getInstance('site');
 		$router = $site->getRouter('site');
-		$router->setMode(JROUTER_MODE_SEF);
+
+		if (version_compare(JVERSION, '4', 'lt'))
+		{
+			$router->setMode(JROUTER_MODE_SEF);
+		}
 		$uri = $router->build($route);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 		$url = substr($url, strlen(JUri::root(true)) + 1);

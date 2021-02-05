@@ -1,9 +1,9 @@
 <?php
 /**
  * BreezingForms - A Joomla Forms Application
- * @version 1.8
+ * @version 1.9
  * @package BreezingForms
- * @copyright (C) 2008-2012 by Markus Bopp
+ * @copyright (C) 2008-2020 by Markus Bopp
  * @license Released under the terms of the GNU General Public License
  *
  * This is the main component entry point that will be called by joomla or mambo
@@ -17,25 +17,25 @@
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 if(!defined('DS')){
-    define('DS', DIRECTORY_SEPARATOR);
+	define('DS', DIRECTORY_SEPARATOR);
 }
 
 if(!function_exists('bf_b64enc')){
-    
-    function bf_b64enc($str){
-        $base = 'base';
-        $sixty_four = '64_encode';
-        return call_user_func($base.$sixty_four, $str);
-    }
+
+	function bf_b64enc($str){
+		$base = 'base';
+		$sixty_four = '64_encode';
+		return call_user_func($base.$sixty_four, $str);
+	}
 
 }
 
 if(!function_exists('bf_b64dec')){
-    function bf_b64dec($str){
-        $base = 'base';
-        $sixty_four = '64_decode';
-        return call_user_func($base.$sixty_four, $str);
-    }
+	function bf_b64dec($str){
+		$base = 'base';
+		$sixty_four = '64_decode';
+		return call_user_func($base.$sixty_four, $str);
+	}
 }
 
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_breezingforms'.DS.'libraries'.DS.'crosstec'.DS.'classes'.DS.'BFJoomlaConfig.php');
@@ -125,27 +125,28 @@ $ff_request = array();
 if(
 	!JRequest::getBool('showSecImage') &&
 	!JRequest::getBool('bfCaptcha') &&
-        !JRequest::getBool('bfReCaptcha') &&
 	!JRequest::getBool('checkCaptcha') &&
 	!JRequest::getBool('confirmStripe')  &&
 	!JRequest::getBool('confirmPayPal')  &&
-        !JRequest::getBool('confirmPayPalIpn')  &&
+	!JRequest::getBool('confirmPayPalIpn')  &&
 	!JRequest::getBool('paypalDownload') &&
 	!JRequest::getBool('stripeDownload') &&
 	!JRequest::getBool('showPayPalConnectMsg') &&
 	!JRequest::getBool('successSofortueberweisung') &&
 	!JRequest::getBool('confirmSofortueberweisung') &&
 	!JRequest::getBool('sofortueberweisungDownload') &&
-	!JRequest::getBool('flashUpload')
+	!JRequest::getBool('flashUpload') &&
+	JRequest::getVar('opt_in') != 'true' &&
+	JRequest::getVar('opt_out') != 'true'
 ) {
 
 	JRequest::setVar('format', 'html');
-	
+
 	if ($runmode==_FF_RUNMODE_FRONTEND) {
-		
+
 		// is this called by a module?
 		if (isset($ff_applic) && $ff_applic=='mod_facileforms') {
-			
+
 			// get the module parameters
 			$formname = $params->get('ff_mod_name');
 			$page     = intval($params->get('ff_mod_page', $page));
@@ -158,10 +159,10 @@ if(
 			$parprv   = $params->get('ff_mod_parprv', '');
 			addRequestParams($params->get('ff_mod_parpub', ''));
 			$pagetitle = false;
-			
+
 			JFactory::getSession()->set('ff_editableMod'. $xModuleId . $formname, intval($params->get('ff_mod_editable', $editable)));
 			JFactory::getSession()->set('ff_editable_overrideMod'. $xModuleId . $formname, intval($params->get('ff_mod_editable_override', $editable_override)));
-				
+
 		} else if (isset($ff_applic) && $ff_applic=='plg_facileforms') {
 
 			$formname = htmlentities(JRequest::getVar('ff_name',''), ENT_QUOTES, 'UTF-8');
@@ -176,64 +177,64 @@ if(
 			$suffix   = htmlentities(JRequest::getVar('ff_suffix',''), ENT_QUOTES, 'UTF-8');
 			$parprv   = '';
 			addRequestParams('');
-				
+
 		} else {
-			
+
 			// is this called with an Itemid?
 			if (JRequest::getInt( 'Itemid', 0) > 0 && JRequest::getVar('ff_applic','') != 'com_tags' && JRequest::getVar('ff_applic','') != 'mod_facileforms' && JRequest::getVar('ff_applic','') != 'plg_facileforms') {
 				jimport('joomla.version');
-                                $version = new JVersion();
-                                if(version_compare($version->getShortVersion(), '3.0', '>=')){
-                                    $menu = JFactory::getApplication()->getMenu()->getActive();
-                                    $params = $menu->params;
-                                }else{
-                                    // get parameters from menu
-                                    $menu = JTable::getInstance('menu');
-                                    $menu->load(JRequest::getInt( 'Itemid', 0));
-                                    jimport( 'joomla.html.parameter' );
-                                    $params   = new JParameter($menu->params);
-                                }
-                                
-                                if($params !== null){
-                                    
-                                    $menu_item_title = $params->get('page_title','');
-                                    $menu_item_show_page_heading = $params->get('show_page_heading',0);
-                                    $menu_item_page_heading = $params->get('page_heading','');
+				$version = new JVersion();
+				if(version_compare($version->getShortVersion(), '3.0', '>=')){
+					$menu = JFactory::getApplication()->getMenu()->getActive();
+					$params = @$menu->params;
+				}else{
+					// get parameters from menu
+					$menu = JTable::getInstance('menu');
+					$menu->load(JRequest::getInt( 'Itemid', 0));
+					jimport( 'joomla.html.parameter' );
+					$params   = new JParameter($menu->params);
+				}
 
-                                    $menu_item_meta_description = $params->get('menu-meta_description','');
-                                    $menu_item_meta_keywords = $params->get('menu-meta_keywords','');
-                                    $menu_item_robots = $params->get('robots','');
+				if($params !== null){
 
-                                    if($menu_item_meta_description){
-                                        JFactory::getDocument()->setMetaData('description', $menu_item_meta_description);
-                                    }
+					$menu_item_title = $params->get('page_title','');
+					$menu_item_show_page_heading = $params->get('show_page_heading',0);
+					$menu_item_page_heading = $params->get('page_heading','');
 
-                                    if($menu_item_meta_keywords){
-                                        JFactory::getDocument()->setMetaData('keywords', $menu_item_meta_keywords);
-                                    }
+					$menu_item_meta_description = $params->get('menu-meta_description','');
+					$menu_item_meta_keywords = $params->get('menu-meta_keywords','');
+					$menu_item_robots = $params->get('robots','');
 
-                                    if($menu_item_robots){
-                                        JFactory::getDocument()->setMetaData('robots', $menu_item_robots);
-                                    }
+					if($menu_item_meta_description){
+						JFactory::getDocument()->setMetaData('description', $menu_item_meta_description);
+					}
 
-                                    $formname = $params->get('ff_com_name');
-                                    $page     = intval($params->get('ff_com_page', $page));
-                                    $inframe  = intval($params->get('ff_com_frame', $inframe));
-                                    $border   = intval($params->get('ff_com_border', $border));
-                                    $align    = intval($params->get('ff_com_align', $align));
-                                    $left     = intval($params->get('ff_com_left', $left));
-                                    $top      = intval($params->get('ff_com_top', $top));
-                                    $editable = intval($params->get('ff_com_editable', $editable));
-                                    $editable_override = intval($params->get('ff_com_editable_override', $editable_override));
-                                    $suffix   = $params->get('ff_com_suffix', '');
-                                    $parprv   = $params->get('ff_com_parprv', '');
-                                    addRequestParams($params->get('ff_com_parpub', ''));
-                                
-                                }
+					if($menu_item_meta_keywords){
+						JFactory::getDocument()->setMetaData('keywords', $menu_item_meta_keywords);
+					}
+
+					if($menu_item_robots){
+						JFactory::getDocument()->setMetaData('robots', $menu_item_robots);
+					}
+
+					$formname = $params->get('ff_com_name');
+					$page     = intval($params->get('ff_com_page', $page));
+					$inframe  = intval($params->get('ff_com_frame', $inframe));
+					$border   = intval($params->get('ff_com_border', $border));
+					$align    = intval($params->get('ff_com_align', $align));
+					$left     = intval($params->get('ff_com_left', $left));
+					$top      = intval($params->get('ff_com_top', $top));
+					$editable = intval($params->get('ff_com_editable', $editable));
+					$editable_override = intval($params->get('ff_com_editable_override', $editable_override));
+					$suffix   = $params->get('ff_com_suffix', '');
+					$parprv   = $params->get('ff_com_parprv', '');
+					addRequestParams($params->get('ff_com_parpub', ''));
+
+				}
 			} // if
 		}
 	} // if
-	
+
 	if ($my_ff_params) {
 		// allow overriding by url params
 		$formid = @JRequest::getVar( 'ff_form', $formid);
@@ -242,7 +243,7 @@ if(
 			$formname = @JRequest::getVar('ff_name', $formname);
 		else
 			$formname = null;
-			
+
 		$task = @JRequest::getVar('ff_task', $task);
 		$page = @JRequest::getVar('ff_page', $page);
 		$inframe = @JRequest::getVar('ff_frame', $inframe);
@@ -256,7 +257,7 @@ if(
 		$top = @JRequest::getVar('ff_top',$top);
 		$suffix = @JRequest::getVar('ff_suffix',$suffix);
 	}
-	
+
 	// load form
 	$ok = true;
 	if (is_numeric($formid)) {
@@ -269,37 +270,43 @@ if(
 			echo '[Form '.intval($formid).' not found!]';
 			$ok = false;
 		} else
-		$form = $forms[0];
+			$form = $forms[0];
 	} else
-	if ($formname != null) {
-		$database->setQuery(
+		if ($formname != null) {
+			$database->setQuery(
 				"select * from #__facileforms_forms ".
 				"where name=".$database->Quote($formname)." and published=1 ".
 				"order by ordering, id"
-				);
-				$forms = $database->loadObjectList();
-				if (count($forms) < 1) {
-					echo '[Form '.htmlentities($formname, ENT_QUOTES, 'UTF-8').' not found!]';
-					$ok = false;
-				} else
+			);
+			$forms = $database->loadObjectList();
+			if (count($forms) < 1) {
+				echo '[Form '.htmlentities($formname, ENT_QUOTES, 'UTF-8').' not found!]';
+				$ok = false;
+			} else
 				$form = $forms[0];
-	} else {
-		echo '[No form id or name provided!]';
-		$ok = false;
-	} // if
+		} else {
+
+		    if( JRequest::getVar('option', '') != 'com_breezingforms' ) {
+                JError::raiseError(404, JText::_('No form id or name provided!'));
+            } else {
+                echo '[No form id or name provided!]';
+            }
+
+			$ok = false;
+		} // if
 
 	if ($ok) {
-		 
+
 		// set by plugin
 		if(isset($_SESSION['ff_editablePlg'.$form->name]) && $_SESSION['ff_editablePlg'.JRequest::getInt('ff_contentid',0) . $form->name] != 0 && ( JRequest::getVar('ff_applic')=='plg_facileforms' || ( isset($ff_applic) && $ff_applic == 'plg_facileforms' )) ){
 			$editable = $_SESSION['ff_editablePlg'.JRequest::getInt('ff_contentid',0) . $form->name];
 		}
-		
+
 		// set by plugin
 		if(isset($_SESSION['ff_editable_overridePlg'.$form->name]) && $_SESSION['ff_editable_overridePlg'.JRequest::getInt('ff_contentid',0) . $form->name] != 0 && ( JRequest::getVar('ff_applic')=='plg_facileforms' || ( isset($ff_applic) && $ff_applic == 'plg_facileforms' )) ){
 			$editable_override = $_SESSION['ff_editable_overridePlg'.JRequest::getInt('ff_contentid',0) . $form->name];
 		}
-		
+
 		// set by module
 		if(( JRequest::getVar('ff_applic')=='mod_facileforms' || ( isset($ff_applic) && $ff_applic == 'mod_facileforms' )) ){
 			if(JFactory::getSession()->get('ff_editableMod'. $xModuleId . $form->name, 0) != 0){
@@ -308,7 +315,7 @@ if(
 				$editable = JFactory::getSession()->get('ff_editableMod'.JRequest::getInt('ff_module_id',0) . $form->name, 0);
 			}
 		}
-			
+
 		// set by module
 		if(( JRequest::getVar('ff_applic')=='mod_facileforms' || ( isset($ff_applic) && $ff_applic == 'mod_facileforms' )) ){
 			if(JFactory::getSession()->get('ff_editable_overrideMod'. $xModuleId . $form->name, 0) != 0){
@@ -317,29 +324,34 @@ if(
 				$editable_override = JFactory::getSession()->get('ff_editable_overrideMod'.JRequest::getInt('ff_module_id',0) . $form->name, 0);
 			}
 		}
-			
-                if ( (!isset($ff_applic) || $ff_applic!='plg_facileforms') && $pagetitle && $form->title != '' && !(JRequest::getInt('cb_form_id',0) || JRequest::getCmd('cb_record_id','') )) 
-                { 
-                    if($menu_item_title != '') 
-                    { 
-                        JFactory::getDocument()->setTitle($menu_item_title);
-                    }
-                    else if($pagetitle) // being set by module, false implies no change at all
-                    { 
-                        JFactory::getDocument()->setTitle($form->title); 
-                    }
-                }
-                
+
+		if ( (!isset($ff_applic) || $ff_applic!='plg_facileforms') && $pagetitle && $form->title != '' && !(JRequest::getInt('cb_form_id',0) || JRequest::getCmd('cb_record_id','') ))
+		{
+			if($menu_item_title != '')
+			{
+				JFactory::getDocument()->setTitle($menu_item_title);
+			}
+			else if($pagetitle) // being set by module, false implies no change at all
+			{
+				JFactory::getDocument()->setTitle($form->title);
+			}
+		}
+
 		if ($form->name==$formname) addRequestParams($parprv);
 		if ($my_ff_params) {
-			reset($_REQUEST);
-			while (list($prop, $val) = each($_REQUEST))
-			if (!is_array($val) && substr($prop,0,9)=='ff_param_')
-			$ff_request[$prop] = $val;
+			// reset($_REQUEST);
+			foreach($_REQUEST as $prop => $val) {
+				if (!is_array($val) && substr($prop,0,9)=='ff_param_')
+					$ff_request[$prop] = $val;
+			}
+			// Deprecated in PHP 7.2 version so code above is used
+			// while (list($prop, $val) = each($_REQUEST))
+			// 	if (!is_array($val) && substr($prop,0,9)=='ff_param_')
+			// 		$ff_request[$prop] = $val;
 		} // if
 
 		if ($inframe && !$plainform) {
-			
+
 			// open frame and detach processing
 			$divstyle = 'width:100%;';
 			switch ($align) {
@@ -354,62 +366,64 @@ if(
 			$frameheight = '';
 			if (!$form->heightmode) $frameheight = 'height="'.htmlentities ($form->height, ENT_QUOTES,'UTF-8').'" ';
 			$url = $ff_mossite.'/index.php'
-			.'?option=com_breezingforms'
-			.'&amp;Itemid='.((JRequest::getInt( 'Itemid', 0) > 0 && JRequest::getInt( 'Itemid', 0) < 99999999) ? JRequest::getInt( 'Itemid', 0) : 0)
-			.'&amp;ff_form='.htmlentities($form->id, ENT_QUOTES,'UTF-8')
-			.'&amp;ff_applic='.htmlentities($ff_applic, ENT_QUOTES,'UTF-8')
-			.'&amp;ff_module_id='.htmlentities($xModuleId, ENT_QUOTES,'UTF-8')
-			.'&amp;format=html'
-                        .'&amp;tmpl=component'
-			.'&amp;ff_frame=1';
+			       .'?option=com_breezingforms'
+			       .'&amp;Itemid='.((JRequest::getInt( 'Itemid', 0) > 0 && JRequest::getInt( 'Itemid', 0) < 99999999) ? JRequest::getInt( 'Itemid', 0) : 0)
+			       .'&amp;ff_form='.htmlentities($form->id, ENT_QUOTES,'UTF-8')
+			       .'&amp;ff_applic='.htmlentities($ff_applic, ENT_QUOTES,'UTF-8')
+			       .'&amp;ff_module_id='.htmlentities($xModuleId, ENT_QUOTES,'UTF-8')
+			       .'&amp;format=html'
+			       .'&amp;tmpl=component'
+			       .'&amp;ff_frame=1';
 			if ($page != 1) $url .= '&amp;ff_page='.htmlentities($page, ENT_QUOTES,'UTF-8');
 			if ($border) $url .= '&amp;ff_border=1';
 			if ($parent_target > 1) $url .= '&amp;ff_target='.htmlentities($parent_target, ENT_QUOTES,'UTF-8');
 			reset($ff_request);
-			while (list($prop, $val) = each($ff_request)) $url .= '&amp;'.htmlentities($prop, ENT_QUOTES,'UTF-8').'='.htmlentities(urlencode($val), ENT_QUOTES,'UTF-8');
+
+            foreach($ff_request as $prop => $val) $url .= '&amp;'.htmlentities($prop, ENT_QUOTES,'UTF-8').'='.htmlentities(urlencode($val), ENT_QUOTES,'UTF-8');
+
 			$params =   'id="ff_frame'.$form->id.'" '.
-						'src="'.$url.'" '.
-			$framewidth.
-			$frameheight.
-						'frameborder="'.htmlentities($border, ENT_QUOTES,'UTF-8').'" '.
-						'allowtransparency="true" '.
-						'scrolling="no" ';
-                        if($form->autoheight == 1){
-                            JFactory::getDocument()->addScript(JURI::root(true) . '/components/com_breezingforms/libraries/jquery/jq.min.js');     	
-                            JFactory::getDocument()->addScript(JURI::root(true).'/components/com_breezingforms/libraries/jquery/jq.iframeautoheight.js');     	
-                            JFactory::getDocument()->addScriptDeclaration("<!--
+			            'src="'.$url.'" '.
+			            $framewidth.
+			            $frameheight.
+			            'frameborder="'.htmlentities($border, ENT_QUOTES,'UTF-8').'" '.
+			            'allowtransparency="true" '.
+			            'scrolling="no" ';
+			if($form->autoheight == 1){
+				JFactory::getDocument()->addScript(JURI::root(true) . '/components/com_breezingforms/libraries/jquery/jq.min.js');
+				JFactory::getDocument()->addScript(JURI::root(true).'/components/com_breezingforms/libraries/jquery/jq.iframeautoheight.js');
+				JFactory::getDocument()->addScriptDeclaration("<!--
                             JQuery(document).ready(function() {
                                 //JQuery(\".breezingforms_iframe\").css(\"width\",\"100%\");
                                 JQuery(\".breezingforms_iframe\").iframeAutoHeight({heightOffset: 15, debug: false, diagnostics: false});
                             });
                             //-->");
-                        }
-                        
+			}
+
 			// DO NOT REMOVE OR CHANGE OR OTHERWISE MAKE INVISIBLE THE FOLLOWING COPYRIGHT MESSAGE
 			// FAILURE TO COMPLY IS A DIRECT VIOLATION OF THE GNU GENERAL PUBLIC LICENSE
 			// http://www.gnu.org/copyleft/gpl.html
 			echo "\n<!-- BreezingForms V".$ff_version." Copyright(c) 2008-2013 by Markus Bopp | FacileForms Copyright 2004-2006 by Peter Koch, Chur, Switzerland.  All rights reserved. -->\n";
 			// END OF COPYRIGHT
 			echo '<div class="bfClearfix" style="'.$divstyle.'">'."\n".
-				 "<iframe class=\"breezingforms_iframe\" ".$params." sandbox=\"allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-popups allow-top-navigation\">\n".
-				 "<p>Sorry, your browser cannot display frames!</p>\n".
-				 "</iframe>\n".
-				 "</div>\n";
+			     "<iframe class=\"breezingforms_iframe\" ".$params." sandbox=\"allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-popups allow-top-navigation\">\n".
+			     "<p>Sorry, your browser cannot display frames!</p>\n".
+			     "</iframe>\n".
+			     "</div>\n";
 		} else {
-                   
-                        
-                        if($menu_item_show_page_heading || JRequest::getVar('ff_applic','') == 'com_tags'){
-                            echo '<h1>'.( $menu_item_title != '' ? ( $menu_item_page_heading != '' ? $menu_item_page_heading : $menu_item_title ) : $form->title ).'</h1>'."\n";
-                        }
-                    
+
+
+			if($menu_item_show_page_heading || JRequest::getVar('ff_applic','') == 'com_tags'){
+				echo '<h1>'.( $menu_item_title != '' ? ( $menu_item_page_heading != '' ? $menu_item_page_heading : $menu_item_title ) : $form->title ).'</h1>'."\n";
+			}
+
 			// process inline
 			$myUser = JFactory::getUser();
-				
+
 			$database->setQuery("select id from #__users where lower(username)=lower('".$myUser->get('username','')."')");
 			$id = $database->loadResult();
 			if ($id) $myUser->get('id',-1);
-			require_once($ff_compath.'/facileforms.process.php');
-			if ($task == 'view') {
+            require_once($ff_compath.'/facileforms.process.php');
+            if ($task == 'view') {
 				$div1style = '';
 				$div2style = '';
 				if ($form->template_code == '') {
@@ -461,8 +475,7 @@ if(
 				}
 			} // if task = view
 			if ($left > 3) $align = $left;
-				
-			// remove temporary flash upload files if any	
+            // remove temporary flash upload files if any
 			$sourcePath = JPATH_SITE . '/components/com_breezingforms/uploads/';
 			if (@file_exists($sourcePath) && @is_readable($sourcePath) && @is_dir($sourcePath) && $handle = @opendir($sourcePath)) {
 				while (false !== ($file = @readdir($handle))) {
@@ -472,7 +485,7 @@ if(
 							if($parts[count($parts)-1] == 'flashtmp'){
 								if (@JFile::exists($sourcePath.$file) && @is_readable($sourcePath.$file)){
 									$fileCreationTime = @filectime($sourcePath.$file);
-	 								$fileAge = time() - $fileCreationTime; 
+									$fileAge = time() - $fileCreationTime;
 									if($fileAge >= 86400){
 										@JFile::delete($sourcePath.$file);
 									}
@@ -483,7 +496,7 @@ if(
 				}
 				@closedir($handle);
 			}
-                        // remove temporary chunked upload files if any	
+			// remove temporary chunked upload files if any
 			$sourcePath = JPATH_SITE . '/components/com_breezingforms/uploads/chunks';
 			if (@file_exists($sourcePath) && @is_readable($sourcePath) && @is_dir($sourcePath) && $handle = @opendir($sourcePath)) {
 				while (false !== ($file = @readdir($handle))) {
@@ -493,7 +506,7 @@ if(
 							if($parts[count($parts)-1] == 'chunktmp'){
 								if (@JFile::exists($sourcePath.$file) && @is_readable($sourcePath.$file)){
 									$fileCreationTime = @filectime($sourcePath.$file);
-	 								$fileAge = time() - $fileCreationTime; 
+									$fileAge = time() - $fileCreationTime;
 									if($fileAge >= 86400){
 										@JFile::delete($sourcePath.$file);
 									}
@@ -504,48 +517,49 @@ if(
 				}
 				@closedir($handle);
 			}
-                        // purge payment cache
-                        $sourcePath = JPATH_SITE . '/media/breezingforms/payment_cache/';
-                        if (@file_exists($sourcePath) && @is_readable($sourcePath) && @is_dir($sourcePath) && $handle = @opendir($sourcePath)) {
-                            while (false !== ($file = @readdir($handle))) {
-                                if($file!="." && $file!="..") {
-                                    $parts = explode('_', $file);
-                                    if(count($parts)==4) {
-                                        if (@JFile::exists($sourcePath.$file) && @is_readable($sourcePath.$file)) {
-                                            $fileCreationTime = @filectime($sourcePath.$file);
-                                            $fileAge = time() - $fileCreationTime;
-                                            if($fileAge >= 86400) {
-                                                @JFile::delete($sourcePath.$file);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            @closedir($handle);
-                        }
+			// purge payment cache
+			$sourcePath = JPATH_SITE . '/media/breezingforms/payment_cache/';
+			if (@file_exists($sourcePath) && @is_readable($sourcePath) && @is_dir($sourcePath) && $handle = @opendir($sourcePath)) {
+				while (false !== ($file = @readdir($handle))) {
+					if($file!="." && $file!="..") {
+						$parts = explode('_', $file);
+						if(count($parts)==4) {
+							if (@JFile::exists($sourcePath.$file) && @is_readable($sourcePath.$file)) {
+								$fileCreationTime = @filectime($sourcePath.$file);
+								$fileAge = time() - $fileCreationTime;
+								if($fileAge >= 86400) {
+									@JFile::delete($sourcePath.$file);
+								}
+							}
+						}
+					}
+				}
+				@closedir($handle);
+			}
 
 			$ff_processor = new HTML_facileFormsProcessor(
 				$runmode, $inframe, $form->id, $page, $border,
 				$align, $top, $ff_target, $suffix, $editable, $editable_override
 			);
-			
+
 			if ($task == 'submit'){
 				$ff_processor->submit();
 			} else {
-                            
+
 				$ff_processor->view();
+
 				if(trim($form->template_code_processed) == ''){
 					echo "</div>\n";
 				}
 
-				if(trim($form->template_code_processed) == 'QuickMode'){
-					//echo '<div style="clear:both; display: block; text-align: center; margin-top: 20px;"><span style="margin: 0 auto;">Powered by BreezingForms</span></div>';
-				}
+                if(trim($form->template_code_processed) == 'QuickMode'){
+                    echo '<div style="clear:both; display: block; text-align: center; margin-top: 20px;"><span style="margin: 0 auto;">Powered by BreezingForms</span></div>';
+                }
 
 				if (!$plainform) echo "</div>\n";
 
 				if ($runmode==_FF_RUNMODE_PREVIEW) {
-						
+
 					$mouseOvers = '';
 					$draggableIds = '';
 					$draggableSize = count($ff_processor->draggableDivIds);
@@ -604,7 +618,7 @@ if(
 							}
 						';
 					}
-						
+
 					echo '
 					<script>
 					
@@ -662,7 +676,7 @@ if(
 } else if(JRequest::getBool('showSecImage')) {
 
 	JRequest::setVar('format', 'raw');
-	
+
 	header("Content-Type: image/png");
 
 	$captchaDir = JPATH_SITE . '/administrator/components/com_breezingforms/captchas';
@@ -673,7 +687,7 @@ if(
 		$sizeAvailableCaptchas = $sizeAvailableCaptchas > mt_getrandmax() ? mt_getrandmax() : $sizeAvailableCaptchas;
 		mt_srand();
 		$captchaBgNum = mt_rand(0, $sizeAvailableCaptchas-1);
-			
+
 		$i = 0;
 		$handle = opendir($captchaDir);
 		while (false!==($file = readdir($handle))) {
@@ -701,56 +715,11 @@ if(
 	}
 	exit;
 
-} else if(JRequest::getBool('bfReCaptcha')){
-
-	ob_end_clean();
-        require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
-	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-        $db->setQuery( "Select * From #__facileforms_forms Where id = " . $db->Quote( JRequest::getInt('form',-1) ) );
-	$list = $db->loadObjectList();
-	if(count($list) == 0){
-		exit;
-	}
-	$form = $list[0];
-	$areas = Zend_Json::decode($form->template_areas);
-        foreach($areas As $area){
-		foreach($area['elements'] As $element){
-
-                    if($element['bfType'] == 'ReCaptcha'){
-                        if(!function_exists('recaptcha_check_answer')){
-                            require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/recaptcha/recaptchalib.php');
-                        }
-                        
-                        $publickey = $element['pubkey']; // you got this from the signup page
-                        $privatekey = $element['privkey'];
-
-                        $resp = recaptcha_check_answer ($privatekey,
-                                                        $_SERVER["REMOTE_ADDR"],
-                                                        isset( $_POST["recaptcha_challenge_field"] ) ? $_POST["recaptcha_challenge_field"] : '' ,
-                                                        isset($_POST["recaptcha_response_field"]) ? $_POST["recaptcha_response_field"] : '' );
-
-                        JFactory::getSession()->set('bfrecapsuccess',false);
-                        if ($resp->is_valid) {
-                            echo 'success';
-                            JFactory::getSession()->set('bfrecapsuccess',true);
-                        }
-                        else
-                        {
-                            die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
-                               "(reCAPTCHA said: " . $resp->error . ")");
-                        }
-                        exit;
-                    }
-                }
-        }
-	
-	exit;
-
 } else if(JRequest::getBool('checkCaptcha')){
-	
-        @ob_end_clean();
-   
-        require_once(JPATH_SITE . '/components/com_breezingforms/images/captcha/securimage.php');
+
+	@ob_end_clean();
+
+	require_once(JPATH_SITE . '/components/com_breezingforms/images/captcha/securimage.php');
 	$securimage = new Securimage();
 	if(!$securimage->check(str_replace('?','',JRequest::getVar('value', '')))){
 		echo 'capResult=>false';
@@ -758,7 +727,7 @@ if(
 		echo 'capResult=>true';
 	}
 	exit;
-	
+
 } else if(JRequest::getBool('confirmPayPalIpn') && ( !isset($ff_applic) || $ff_applic == '' ) ){
 
 	JRequest::setVar('format', 'html');
@@ -778,7 +747,7 @@ if(
 	$areas = Zend_Json::decode($form->template_areas);
 	if(!is_array($areas)){
 		header("Status: 200 OK");
-                exit;
+		exit;
 	}
 
 	foreach($areas As $area){
@@ -799,25 +768,25 @@ if(
 
 				$tx_token = JRequest::getVar('txn_id', 0 );
 				foreach ($_POST as $key => $value) {
-                                    $value = urlencode(stripslashes($value));
-                                    $req .= "&$key=$value";
-                                }
+					$value = urlencode(stripslashes($value));
+					$req .= "&$key=$value";
+				}
 
 				$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
 				$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
 				$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
 
-                                $pointer = null;
-                                $res = '';
-                                
+				$pointer = null;
+				$res = '';
+
 				if (function_exists('curl_init')) {
 					$ch = curl_init();
-                                        $pointer = $ch;
+					$pointer = $ch;
 					curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
 					curl_setopt($ch,CURLOPT_URL, $paypal.'/cgi-bin/webscr');
 					curl_setopt($ch,CURLOPT_POST,1);
 					curl_setopt($ch,CURLOPT_POSTFIELDS,$req);
-                                        curl_setopt($ch, CURLOPT_SSLVERSION, 6); //6 is for TLSV1.2
+					curl_setopt($ch, CURLOPT_SSLVERSION, 6); //6 is for TLSV1.2
 
 					ob_start();
 					curl_exec($ch);
@@ -826,7 +795,7 @@ if(
 				} else {
 					// try fsockopen
 					$fp = fsockopen ($paypal, 80, $errno, $errstr, 30);
-                                        $pointer = $fp;
+					$pointer = $fp;
 					fputs ($fp, $header . $req);
 					$headerdone = false;
 					while (!feof($fp)) {
@@ -839,22 +808,22 @@ if(
 							$res .= $line;
 						}
 					}
-					
+
 				}
 
 				$lines = explode("\n", $res);
 
 				if (strcmp ($lines[0], "VERIFIED") == 0) {
 
-                                        $query = "SELECT * FROM #__facileforms_records WHERE id = '".JRequest::getInt('record_id', -1)."' LIMIT 1";
-                                        $db->setQuery($query);
-                                        $txid = $db->loadObjectList();
+					$query = "SELECT * FROM #__facileforms_records WHERE id = '".JRequest::getInt('record_id', -1)."' LIMIT 1";
+					$db->setQuery($query);
+					$txid = $db->loadObjectList();
 
-                                        if (count($txid) != 0) {
+					if (count($txid) != 0) {
 
-                                            if($txid[0]->paypal_tx_id == ''){
+						if($txid[0]->paypal_tx_id == ''){
 
-                                                $db->setQuery("
+							$db->setQuery("
 										Update
 											#__facileforms_records
 										Set
@@ -866,35 +835,35 @@ if(
 											id = '".JRequest::getInt('record_id', -1)."'
 											");
 
-                                                $db->query();
+							$db->query();
 
-                                                // trigger a script after succeeded payment?
-                                                if(JFile::exists(JPATH_SITE . '/bf_paypalipn_success.php')){
-                                                    require_once(JPATH_SITE . '/bf_paypalipn_success.php');
-                                                }
+							// trigger a script after succeeded payment?
+							if(JFile::exists(JPATH_SITE . '/bf_paypalipn_success.php')){
+								require_once(JPATH_SITE . '/bf_paypalipn_success.php');
+							}
 
-                                                // send mail after succeeded payment?
-						if( isset( $options['sendNotificationAfterPayment'] ) && $options['sendNotificationAfterPayment'] ) {
-                                                    bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'admin');
-                                                    bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'mailback');
-                                                }
-                                            }
-                                            
-                                            header("Status: 200 OK");
-                                        }
+							// send mail after succeeded payment?
+							if( isset( $options['sendNotificationAfterPayment'] ) && $options['sendNotificationAfterPayment'] ) {
+								bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'admin');
+								bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'mailback');
+							}
+						}
 
-                                        header("Status: 200 OK");
-					
+						header("Status: 200 OK");
+					}
+
+					header("Status: 200 OK");
+
 				}
 				else if (strcmp ($lines[0], "INVALID") == 0) {
 
-                                    $query = "SELECT * FROM #__facileforms_records WHERE id = '".JRequest::getInt('record_id', -1)."' LIMIT 1";
-                                    $db->setQuery($query);
-                                    $txid = $db->loadObjectList();
+					$query = "SELECT * FROM #__facileforms_records WHERE id = '".JRequest::getInt('record_id', -1)."' LIMIT 1";
+					$db->setQuery($query);
+					$txid = $db->loadObjectList();
 
-                                    if (count($txid) != 0) {
+					if (count($txid) != 0) {
 
-                                            $db->setQuery("
+						$db->setQuery("
 										Update
 											#__facileforms_records
 										Set
@@ -906,23 +875,23 @@ if(
 											id = '".JRequest::getInt('record_id', -1)."'
 											");
 
-                                            $db->query();
-                                    }
+						$db->query();
+					}
 
-                                    header("Status: 200 OK");
+					header("Status: 200 OK");
 				}
 
-                                header("Status: 200 OK");
+				header("Status: 200 OK");
 
-                                // should be kept open until sending the status headers
-                                if (function_exists('curl_init')) {
-                                    curl_close($pointer);
-                                    ob_end_clean();
-                                }
-                                else
-                                {
-                                    fclose ($pointer);
-                                }
+				// should be kept open until sending the status headers
+				if (function_exists('curl_init')) {
+					curl_close($pointer);
+					ob_end_clean();
+				}
+				else
+				{
+					fclose ($pointer);
+				}
 
 				break;
 			}
@@ -991,7 +960,8 @@ if(
 							exit;
 						}
 
-						$charge = \Stripe\Charge::create( array(
+						$stripearray = array();
+						$stripearray = [
 							"amount"      => JFactory::getSession()->get( 'bf_stripe_last_payment_amount' . $record_id, null ),
 							// amount in cents, again
 							"currency"    => strtolower( $options['currencyCode'] ),
@@ -999,12 +969,18 @@ if(
 							"description" => $options['itemname'],
 							"metadata"    => array()
 							//,"metadata" => array("Order ID" => $_session_cart['order_id'])
-						) );
+						];
+						if (JFactory::getSession()->get('emailfield', '') !== '') {
+							$stripearray += ['receipt_email' => JFactory::getSession()->get('emailfield', '')];
+							JFactory::getSession()->clear('emailfield');
+						}
+						$charge = \Stripe\Charge::create( $stripearray );
+
 
 						JFactory::getSession()->clear('bf_stripe_last_payment_amount'.$record_id);
 					}
 					else
-						{
+					{
 
 						$exploded = explode(':', $exists);
 						$charge = \Stripe\Charge::retrieve(trim($exploded[1]));
@@ -1173,27 +1149,27 @@ if(
 	}
 
 } else if(JRequest::getBool('confirmPayPal') && ( !isset($ff_applic) || $ff_applic == '' ) ){
-	
+
 	JRequest::setVar('format', 'html');
-	
+
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-	
+
 	$db->setQuery( "Select * From #__facileforms_forms Where id = " . $db->Quote( JRequest::getInt('form_id',-1) ) );
 	$list = $db->loadObjectList();
 	if(count($list) == 0){
 		BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_FORM_DOES_NOT_EXIST'));
 		exit;
 	}
-	
+
 	$form = $list[0];
-	
+
 	$areas = Zend_Json::decode($form->template_areas);
 	if(!is_array($areas)){
 		BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_COULD_NOT_FIND_PAYPAL_DATA'));
-                exit;
+		exit;
 	}
-	
+
 	foreach($areas As $area){
 		$checkPP = true;
 		foreach($area['elements'] As $element){
@@ -1222,7 +1198,7 @@ if(
 				$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
 				$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
 				$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-					
+
 				if (function_exists('curl_init')) {
 					$ch = curl_init();
 
@@ -1230,7 +1206,7 @@ if(
 					curl_setopt($ch,CURLOPT_URL, $paypal.'/cgi-bin/webscr');
 					curl_setopt($ch,CURLOPT_POST,1);
 					curl_setopt($ch,CURLOPT_POSTFIELDS,$req);
-                                        curl_setopt($ch, CURLOPT_SSLVERSION, 6); //6 is for TLSV1.2
+					curl_setopt($ch, CURLOPT_SSLVERSION, 6); //6 is for TLSV1.2
 
 					ob_start();
 					curl_exec($ch);
@@ -1259,7 +1235,7 @@ if(
 
 				$lines = explode("\n", $res);
 				$keyarray = array();
-                                
+
 				if (strcmp ($lines[0], "SUCCESS") == 0) {
 					for ($i=1; $i<count($lines);$i++){
 						if ($lines[$i] != "") {
@@ -1269,21 +1245,21 @@ if(
 					}
 
 					if ($checkPP && ( ( $options['amount'] > 0 && $keyarray['mc_gross'] != (doubleval($options['amount'])+doubleval($options['tax'])) ) || $keyarray['mc_currency'] != strtoupper($options['currencyCode']) ) ) {
-						
+
 						$success = false;
 						$msg = JText::_("Payment was not correct (amount/currency)");
 						require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/error.php');
-						
+
 					}else{
 
 						$query = "SELECT * FROM #__facileforms_records WHERE id = '".JRequest::getInt('record_id', -1)."' LIMIT 1";
 						$db->setQuery($query);
 						$txid = $db->loadObjectList();
-	
+
 						if (count($txid) != 0) {
-								
+
 							if($txid[0]->paypal_tx_id == ''){
-									
+
 								$db->setQuery("
 										Update 
 											#__facileforms_records 
@@ -1295,68 +1271,68 @@ if(
 										Where 
 											id = '".JRequest::getInt('record_id', -1)."'
 											");
-	
+
 								$db->query();
 
-                                                                // trigger a script after succeeded payment?
-                                                                if(JFile::exists(JPATH_SITE . '/bf_paypal_success.php')){
-                                                                    require_once(JPATH_SITE . '/bf_paypal_success.php');
-                                                                }
+								// trigger a script after succeeded payment?
+								if(JFile::exists(JPATH_SITE . '/bf_paypal_success.php')){
+									require_once(JPATH_SITE . '/bf_paypal_success.php');
+								}
 
 								// send mail after succeeded payment?
 								if( isset( $options['sendNotificationAfterPayment'] ) && $options['sendNotificationAfterPayment'] ){
-                                                                        bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'admin');
-                                                                        bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'mailback');
+									bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'admin');
+									bf_sendNotificationByPaymentCache(JRequest::getInt('form_id',-1),JRequest::getInt('record_id', -1),'mailback');
 								}
-								
+
 								if($options['downloadableFile']){
-	
+
 									$record_id = JRequest::getInt('record_id', -1);
 									$tries     = $options['downloadTries'];
 									$form_id   = JRequest::getInt('form_id',-1);
 									require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/download.php');
-	
+
 								} else {
-										
+
 									if($options['thankYouPage'] != ''){
 										BFRedirect($options['thankYouPage']);
 									} else {
 										BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_THANK_YOU_FOR_PAYING_WITH_PAYPAL'));
 									}
 								}
-	
-								$success = true;
-	
-							} else {
-                                                                if($options['downloadableFile']){
 
-                                                                    $record_id = JRequest::getInt('record_id', -1);
-                                                                    $tries     = $options['downloadTries'];
-                                                                    $form_id   = JRequest::getInt('form_id',-1);
-                                                                    require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/download.php');
+								$success = true;
+
+							} else {
+								if($options['downloadableFile']){
+
+									$record_id = JRequest::getInt('record_id', -1);
+									$tries     = $options['downloadTries'];
+									$form_id   = JRequest::getInt('form_id',-1);
+									require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/download.php');
 
 								}
-                                                                else
-                                                                {
-                                                                    if($options['useIpn'])
-                                                                    {
-                                                                        if($options['thankYouPage'] != ''){
-										BFRedirect($options['thankYouPage']);
-									} else {
-										BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_THANK_YOU_FOR_PAYING_WITH_PAYPAL'));
+								else
+								{
+									if($options['useIpn'])
+									{
+										if($options['thankYouPage'] != ''){
+											BFRedirect($options['thankYouPage']);
+										} else {
+											BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_THANK_YOU_FOR_PAYING_WITH_PAYPAL'));
+										}
 									}
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        $success = false;
-                                                                        $msg = JText::_("This transaction was already processed");
-                                                                        require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/error.php');
-                                                                    }
-                                                                }
+									else
+									{
+										$success = false;
+										$msg = JText::_("This transaction was already processed");
+										require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/error.php');
+									}
+								}
 							}
 						}
 						else
-                                                {
+						{
 							$success = false;
 							$msg = JText::_("Could not find record!");
 							require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/error.php');
@@ -1377,40 +1353,40 @@ if(
 
 				break;
 			}
-		}	
-	} 
-	
+		}
+	}
+
 } else if(JRequest::getBool('paypalDownload') && ( !isset($ff_applic) || $ff_applic == '' ) ){
 
 	JRequest::setVar('format', 'raw');
-	
+
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-	
+
 	$db->setQuery( "Select * From #__facileforms_forms Where id = " . $db->Quote( JRequest::getInt('form',-1) ) );
 	$list = $db->loadObjectList();
 	if(count($list) == 0){
 		BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_FORM_DOES_NOT_EXIST'));
 		exit;
 	}
-	
+
 	$form = $list[0];
-	
+
 	$areas = Zend_Json::decode($form->template_areas);
 	if(!is_array($areas)){
 		BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_COULD_NOT_FIND_PAYPAL_DATA'));
 	}
-	
+
 	foreach($areas As $area){
 		foreach($area['elements'] As $element){
 			if($element['internalType'] == 'bfPayPal'){
-	
+
 				$options = $element['options'];
 
 				if($options['downloadableFile']){
-				
+
 					$file = $options['filepath'];
-				
+
 					$db->setQuery("
 									Select paypal_download_tries From 
 										#__facileforms_records 
@@ -1423,13 +1399,13 @@ if(
                                                                                     paypal_tx_id = ".$db->Quote('PayPal: ' . JRequest::getVar('tx','') . ' (VALID)')."
                                                                                 )
 									");
-					
+
 					$downloads = $db->loadObjectList();
-					
+
 					if(count($downloads) == 1){
-						
+
 						if($downloads[0]->paypal_download_tries < $options['downloadTries']){
-						
+
 							$db->setQuery("
 											Update 
 												#__facileforms_records 
@@ -1444,13 +1420,13 @@ if(
                                                                                                     paypal_tx_id = ".$db->Quote('PayPal: ' . JRequest::getVar('tx','') . ' (VALID)')."
                                                                                                 )
 											");
-										
+
 							$db->query();
-							
+
 							if(!file_exists($file)) {
 								BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_COULD_NOT_FIND_DOWNLOAD_FILE'));
 							}
-							
+
 							header('Content-Description: File Transfer');
 							header('Content-Type: application/octet-stream');
 							header('Content-Disposition: attachment; filename='.basename($file));
@@ -1463,33 +1439,33 @@ if(
 							flush();
 							readfile($file) or die("Error reading the file ".$file);
 							exit;
-				
+
 						} else {
-							
+
 							BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_MAX_DOWNLOAD_TRIES_REACHED'));
 						}
-						
+
 					} else {
-						
+
 						BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_DOWNLOAD_NOT_POSSIBLE'));
 					}
-					
+
 				} else {
 
 					BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_NO_DOWNLOADABLE_PRODUCT'));
 				}
-				
+
 				break;
 			}
 		}
 	}
-	
+
 } else if(JRequest::getBool('showPayPalConnectMsg')){
 
 	JRequest::setVar('format', 'html');
-	
+
 	$style = '<link rel="stylesheet" href="'.JURI::root().'templates/'.$mainframe->getTemplate().'/css/template.css" type="text/css" />';
-						
+
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.strtolower(JFactory::getLanguage()->getTag()).'" lang="'.strtolower(JFactory::getLanguage()->getTag()).'" >
 <head>'.$style.'</head>
@@ -1499,40 +1475,40 @@ if(
 </div>
 </div>
 </body>';
-	
+
 } else if(JRequest::getBool('successSofortueberweisung')){
-	
+
 	JRequest::setVar('format', 'html');
-	
+
 	$tx_token = JRequest::getVar('tx','');
 	if($tx_token == ''){
 		$msg = JText::_("This transaction id is empty!");
 		require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/error.php');
 	}
 	else {
-		
+
 		$formId = JRequest::getInt('user_variable_0','');
 		$recordId = JRequest::getInt('user_variable_1','');
-		
+
 		if($formId != '' && $recordId != ''){
-			
+
 			require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
 			require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-			
+
 			$db->setQuery( "Select * From #__facileforms_forms Where id = " . $db->Quote( $formId ) );
 			$list = $db->loadObjectList();
 			if(count($list) == 0){
 				BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_FORM_DOES_NOT_EXIST'));
 				exit;
 			}
-			
+
 			$form = $list[0];
-			
+
 			$areas = Zend_Json::decode($form->template_areas);
 			if(!is_array($areas)){
 				BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_COULD_NOT_FIND_SU_DATA'));
 			}
-			
+
 			foreach($areas As $area){
 				foreach($area['elements'] As $element){
 					if($element['internalType'] == 'bfSofortueberweisung'){
@@ -1540,7 +1516,7 @@ if(
 						if($options['downloadableFile']){
 							$tx_token = JRequest::getVar('tx','');
 							$tries    = $options['downloadTries'];
-							
+
 							$db->setQuery("
 									Select paypal_download_tries From 
 										#__facileforms_records 
@@ -1549,14 +1525,14 @@ if(
 									And
 										paypal_tx_id = ".$db->Quote('Sofortüberweisung: ' . JRequest::getVar('tx',''))."
 									");
-					
+
 							$downloads = $db->loadObjectList();
-					
+
 							$confirmed = false;
 							if(count($downloads) == 1){
-								$confirmed = true;	
+								$confirmed = true;
 							}
-							
+
 							require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/sofort_download.php');
 						}
 						else {
@@ -1566,98 +1542,98 @@ if(
 								BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_THANK_YOU_FOR_PAYING_WITH_SU'));
 							}
 						}
-						
+
 						break;
 					}
 				}
 			}
-			
+
 		} else {
 			$msg = JText::_("COM_BREEZINGFORMS_MISSING_PAYMENT_INFORMATION");
 			$tx_token = JText::_("COM_BREEZINGFORMS_NOT_AVAILABLE");
 			if(JRequest::getVar('tx','') != ''){
 				$tx_token = JRequest::getVar('tx','');
-			} 
+			}
 			require_once(JPATH_SITE . '/media/breezingforms/downloadtpl/error.php');
 		}
 	}
-	
+
 } else if( JRequest::getBool('confirmSofortueberweisung') ){
-	
+
 	JRequest::setVar('format', 'raw');
-	
+
 	$formId = JRequest::getInt('user_variable_0',-1);
 	$recordId = JRequest::getInt('user_variable_1',-1);
 
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-	
+
 	$db->setQuery( "Select * From #__facileforms_forms Where id = " . $db->Quote( $formId ) );
 	$list = $db->loadObjectList();
 	if(count($list) == 0){
 		exit;
 	}
-	
+
 	$form = $list[0];
-	
+
 	$areas = Zend_Json::decode($form->template_areas);
 	if(!is_array($areas)){
 		exit;
 	}
-	
+
 	foreach($areas As $area){
 		foreach($area['elements'] As $element){
 			if($element['internalType'] == 'bfSofortueberweisung'){
 
 				$options = $element['options'];
-				
+
 				$data = array(
-				        'transaction' => JRequest::getVar('transaction',''),
-				        'user_id' => JRequest::getVar('user_id',''),
-				        'project_id' => JRequest::getVar('project_id',''),
-				        'sender_holder' => JRequest::getVar('sender_holder',''),
-				        'sender_account_number' => JRequest::getVar('sender_account_number',''),
-				        'sender_bank_code' => JRequest::getVar('sender_bank_code',''),
-				        'sender_bank_name' => JRequest::getVar('sender_bank_name',''),
-				        'sender_bank_bic' => JRequest::getVar('sender_bank_bic',''),
-				        'sender_iban' => JRequest::getVar('sender_iban',''),
-				        'sender_country_id' => JRequest::getVar('sender_country_id',''),
-				        'recipient_holder' => JRequest::getVar('recipient_holder',''),
-				        'recipient_account_number' => JRequest::getVar('recipient_account_number',''),
-				        'recipient_bank_code' => JRequest::getVar('recipient_bank_code',''),
-				        'recipient_bank_name' => JRequest::getVar('recipient_bank_name',''),
-				        'recipient_bank_bic' => JRequest::getVar('recipient_bank_bic',''),
-				        'recipient_iban' => JRequest::getVar('recipient_iban',''),
-				        'recipient_country_id' => JRequest::getVar('recipient_country_id',''),
-				        'international_transaction' => JRequest::getVar('international_transaction',''),
-				        'amount' => JRequest::getVar('amount',''),
-				        'currency_id' => JRequest::getVar('currency_id',''),
-				        'reason_1' => JRequest::getVar('reason_1',''),
-				        'reason_2' => JRequest::getVar('reason_2',''),
-				        'security_criteria' => JRequest::getVar('security_criteria',''),
-				        'user_variable_0' => JRequest::getVar('user_variable_0',''),
-				        'user_variable_1' => JRequest::getVar('user_variable_1',''),
-				        'user_variable_2' => JRequest::getVar('user_variable_2',''),
-				        'user_variable_3' => JRequest::getVar('user_variable_3',''),
-				        'user_variable_4' => JRequest::getVar('user_variable_4',''),
-				        'user_variable_5' => JRequest::getVar('user_variable_5',''),
-				        'created' => JRequest::getVar('created',''),
-				        'project_password' => $options['project_password']
+					'transaction' => JRequest::getVar('transaction',''),
+					'user_id' => JRequest::getVar('user_id',''),
+					'project_id' => JRequest::getVar('project_id',''),
+					'sender_holder' => JRequest::getVar('sender_holder',''),
+					'sender_account_number' => JRequest::getVar('sender_account_number',''),
+					'sender_bank_code' => JRequest::getVar('sender_bank_code',''),
+					'sender_bank_name' => JRequest::getVar('sender_bank_name',''),
+					'sender_bank_bic' => JRequest::getVar('sender_bank_bic',''),
+					'sender_iban' => JRequest::getVar('sender_iban',''),
+					'sender_country_id' => JRequest::getVar('sender_country_id',''),
+					'recipient_holder' => JRequest::getVar('recipient_holder',''),
+					'recipient_account_number' => JRequest::getVar('recipient_account_number',''),
+					'recipient_bank_code' => JRequest::getVar('recipient_bank_code',''),
+					'recipient_bank_name' => JRequest::getVar('recipient_bank_name',''),
+					'recipient_bank_bic' => JRequest::getVar('recipient_bank_bic',''),
+					'recipient_iban' => JRequest::getVar('recipient_iban',''),
+					'recipient_country_id' => JRequest::getVar('recipient_country_id',''),
+					'international_transaction' => JRequest::getVar('international_transaction',''),
+					'amount' => JRequest::getVar('amount',''),
+					'currency_id' => JRequest::getVar('currency_id',''),
+					'reason_1' => JRequest::getVar('reason_1',''),
+					'reason_2' => JRequest::getVar('reason_2',''),
+					'security_criteria' => JRequest::getVar('security_criteria',''),
+					'user_variable_0' => JRequest::getVar('user_variable_0',''),
+					'user_variable_1' => JRequest::getVar('user_variable_1',''),
+					'user_variable_2' => JRequest::getVar('user_variable_2',''),
+					'user_variable_3' => JRequest::getVar('user_variable_3',''),
+					'user_variable_4' => JRequest::getVar('user_variable_4',''),
+					'user_variable_5' => JRequest::getVar('user_variable_5',''),
+					'created' => JRequest::getVar('created',''),
+					'project_password' => $options['project_password']
 				);
-				
+
 				$data_implode = implode('|', $data);
 				$hash = sha1($data_implode);
-				
+
 				$query = "SELECT * FROM #__facileforms_records WHERE id = '".$recordId."' And paypal_tx_id = '' LIMIT 1";
 				$db->setQuery($query);
 				$txid = $db->loadObjectList();
 
 				if($hash == JRequest::getVar('hash','')){
-					
+
 					if (count($txid) != 0) {
-							
+
 						if($txid[0]->paypal_tx_id == ''){
-								
+
 							$db->setQuery("
 										Update 
 											#__facileforms_records 
@@ -1669,9 +1645,9 @@ if(
 										Where 
 											id = '".$recordId."'
 											");
-	
+
 							$db->query();
-							
+
 							$recipients = explode('###', JRequest::getVar('user_variable_2',''));
 							$recipientsSize = count($recipients);
 							$mailer = JFactory::getMailer();
@@ -1690,22 +1666,22 @@ if(
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_BIC').': '.JRequest::getVar('sender_bank_bic','')."\n";
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_IBAN').': '.JRequest::getVar('sender_iban','')."\n";
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_PAYMENT_DATE').': '.JRequest::getVar('created','')."\n\n";
-							
+
 							$mailer->Body 	.= '--------------------------------------'."\n\n";
 							$mailer->Body 	.= BFText::_('COM_BREEZINGFORMS_RECEIPT_FOR_YOUR_PAYMENT')."\n\n";
 							$mailer->Body 	.= '--------------------------------------'."\n\n";
-							
+
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_ACCOUNT_HOLDER').': '.JRequest::getVar('recipient_holder','')."\n";
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_ACCOUNT_NUMBER').': '.JRequest::getVar('recipient_account_number','')."\n";
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_BANK_CODE').': '.JRequest::getVar('recipient_bank_code','')."\n";
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_BANK_NAME').': '.JRequest::getVar('recipient_bank_name','')."\n";
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_BIC').': '.JRequest::getVar('recipient_bank_bic','')."\n";
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_IBAN').': '.JRequest::getVar('recipient_iban','')."\n\n";
-							
+
 							$mailer->Body 	.= '--------------------------------------'."\n\n";
-							
+
 							$mailer->Body   .= BFText::_('COM_BREEZINGFORMS_PAYMENT_GATEWAY_SU');
-							
+
 							for($i = 0; $i < $recipientsSize;$i++){
 								if(bf_is_email($recipients[$i])){
 									$mailer->AddAddress($recipients[$i]);
@@ -1713,56 +1689,56 @@ if(
 								}
 							}
 
-                                                        // trigger a script after succeeded payment?
-                                                        if(JFile::exists(JPATH_SITE . '/bf_sofortueberweisung_success.php')){
-                                                            require_once(JPATH_SITE . '/bf_sofortueberweisung_success.php');
-                                                        }
+							// trigger a script after succeeded payment?
+							if(JFile::exists(JPATH_SITE . '/bf_sofortueberweisung_success.php')){
+								require_once(JPATH_SITE . '/bf_sofortueberweisung_success.php');
+							}
 
 							// send mail after succeeded payment?
-                                                        if( isset( $options['sendNotificationAfterPayment'] ) && $options['sendNotificationAfterPayment'] ) {
-                                                            bf_sendNotificationByPaymentCache($formId,$recordId,'admin');
-                                                            bf_sendNotificationByPaymentCache($formId,$recordId,'mailback');
-                                                        }
+							if( isset( $options['sendNotificationAfterPayment'] ) && $options['sendNotificationAfterPayment'] ) {
+								bf_sendNotificationByPaymentCache($formId,$recordId,'admin');
+								bf_sendNotificationByPaymentCache($formId,$recordId,'mailback');
+							}
 						}
 					}
-					
+
 				}
-				
-				break;	
+
+				break;
 			}
 		}
-	}	
+	}
 }  else if(JRequest::getBool('sofortueberweisungDownload')  && ( !isset($ff_applic) || $ff_applic == '' ) ){
 
 	JRequest::setVar('format', 'raw');
-	
+
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
 	require_once(JPATH_SITE.'/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-	
+
 	$db->setQuery( "Select * From #__facileforms_forms Where id = " . $db->Quote( JRequest::getInt('form',-1) ) );
 	$list = $db->loadObjectList();
 	if(count($list) == 0){
 		BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_FORM_DOES_NOT_EXIST'));
 		exit;
 	}
-	
+
 	$form = $list[0];
-	
+
 	$areas = Zend_Json::decode($form->template_areas);
 	if(!is_array($areas)){
 		BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_COULD_NOT_FIND_PAYMENT_DATA'));
 	}
-	
+
 	foreach($areas As $area){
 		foreach($area['elements'] As $element){
 			if($element['internalType'] == 'bfSofortueberweisung'){
-	
+
 				$options = $element['options'];
 
 				if($options['downloadableFile']){
-				
+
 					$file = $options['filepath'];
-				
+
 					$db->setQuery("
 									Select paypal_download_tries From 
 										#__facileforms_records 
@@ -1771,13 +1747,13 @@ if(
 									And
 										paypal_tx_id = ".$db->Quote('Sofortüberweisung: ' . JRequest::getVar('tx',''))."
 									");
-					
+
 					$downloads = $db->loadObjectList();
-					
+
 					if(count($downloads) == 1){
-						
+
 						if($downloads[0]->paypal_download_tries < $options['downloadTries']){
-						
+
 							$db->setQuery("
 											Update 
 												#__facileforms_records 
@@ -1788,13 +1764,13 @@ if(
 											And
 												paypal_tx_id = ".$db->Quote('Sofortüberweisung: ' . JRequest::getVar('tx',''))."
 											");
-										
+
 							$db->query();
-							
+
 							if(!file_exists($file)) {
 								BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_COULD_NOT_FIND_DOWNLOAD_FILE'));
 							}
-							
+
 							header('Content-Description: File Transfer');
 							header('Content-Type: application/octet-stream');
 							header('Content-Disposition: attachment; filename='.basename($file));
@@ -1807,97 +1783,97 @@ if(
 							flush();
 							readfile($file) or die("Error reading the file ".$file);
 							exit;
-				
+
 						} else {
-							
+
 							BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_MAX_DOWNLOAD_TRIES_REACHED'));
 						}
-						
+
 					} else {
-						
+
 						BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_DOWNLOAD_NOT_POSSIBLE'));
 					}
-					
+
 				} else {
 
 					BFRedirect(JURI::root(), BFText::_('COM_BREEZINGFORMS_NO_DOWNLOADABLE_PRODUCT'));
 				}
-				
+
 				break;
 			}
 		}
 	}
-	
+
 } else if( JRequest::getBool('flashUpload') ){
-    
-        function bfProcess(&$dataObject, $finaltargetFile, $parent = null, $index = 0, $childrenLength = 0){
-            $mdata = $dataObject['properties'];
-            if($mdata['type'] == 'element'){
-                switch($mdata['bfType']){
-                    case 'bfFile':
-                        if (isset($mdata['flashUploaderBytes']) && intval($mdata['flashUploaderBytes']) > 0 && isset($mdata['bfName']) && trim($mdata['bfName']) == trim(JRequest::getVar('itemName',''))) {
-                            if(JFile::exists($finaltargetFile) && @filesize($finaltargetFile) > intval($mdata['flashUploaderBytes'])){
-                                @JFile::delete($finaltargetFile);
-                                echo trim($mdata['label']) . ': ' . BFText::_('COM_BREEZINGFORMS_FLASH_UPLOADER_TOO_LARGE');
-                                exit;
-                            }
-                            break;
-                        }
-                        break;
-                }
-            }
-            if(isset($dataObject['children']) && count($dataObject['children']) != 0){
-                    $childrenAmount = count($dataObject['children']);
-                    for($i = 0; $i < $childrenAmount; $i++){
-                            bfProcess( $dataObject['children'][$i], $finaltargetFile, $mdata, $i, $childrenAmount );
-                    }
-            }
-        }
-        
-        @ob_end_clean();
-        if (is_numeric(JRequest::getVar('form','')) && !empty($_FILES) && JRequest::getVar('bfFlashUploadTicket','') != '') {
+
+	function bfProcess(&$dataObject, $finaltargetFile, $parent = null, $index = 0, $childrenLength = 0){
+		$mdata = $dataObject['properties'];
+		if($mdata['type'] == 'element'){
+			switch($mdata['bfType']){
+				case 'bfFile':
+					if (isset($mdata['flashUploaderBytes']) && intval($mdata['flashUploaderBytes']) > 0 && isset($mdata['bfName']) && trim($mdata['bfName']) == trim(JRequest::getVar('itemName',''))) {
+						if(JFile::exists($finaltargetFile) && @filesize($finaltargetFile) > intval($mdata['flashUploaderBytes'])){
+							@JFile::delete($finaltargetFile);
+							echo trim($mdata['label']) . ': ' . BFText::_('COM_BREEZINGFORMS_FLASH_UPLOADER_TOO_LARGE');
+							exit;
+						}
+						break;
+					}
+					break;
+			}
+		}
+		if(isset($dataObject['children']) && count($dataObject['children']) != 0){
+			$childrenAmount = count($dataObject['children']);
+			for($i = 0; $i < $childrenAmount; $i++){
+				bfProcess( $dataObject['children'][$i], $finaltargetFile, $mdata, $i, $childrenAmount );
+			}
+		}
+	}
+
+	@ob_end_clean();
+	if (is_numeric(JRequest::getVar('form','')) && !empty($_FILES) && JRequest::getVar('bfFlashUploadTicket','') != '') {
 		$db->setQuery("Select form.id, form.template_code_processed, form.template_code From #__facileforms_forms as form, #__facileforms_elements as element Where form.id = ".$db->Quote(JRequest::getInt('form',-1)) . " And element.name = " . $db->Quote(JRequest::getVar('itemName','')) . " And element.form = " . $db->Quote(JRequest::getInt('form',-1)));
 		$objectList = $db->loadObjectList();
-                $formIdCount = count($objectList);
+		$formIdCount = count($objectList);
 		if($formIdCount > 0){
 			$tempFile = $_FILES['Filedata']['tmp_name'];
 			$targetPath = JPATH_SITE . '/components/com_breezingforms/uploads/';
 			if( @file_exists( $targetPath ) && @is_dir( $targetPath ) ){
 				$secureTicket = JFactory::getSession()->get('secure_ticket', '', 'com_breezingforms');
-                                if($secureTicket == ''){
-                                    mt_srand();
-                                    $secureTicket = md5( strtotime('now') .  mt_rand( 0, mt_getrandmax() ) );
-                                    JFactory::getSession()->set('secure_ticket', $secureTicket, 'com_breezingforms');
-                                }
-                                
-                                $targetFile = str_replace('//','/',$targetPath). 'chunks' . DS . JRequest::getInt('offset',0) . '_' . bf_sanitizeFilename(JRequest::getVar('name','unknown')) . '_' . JRequest::getVar('itemName','') . '_' . JRequest::getVar('bfFlashUploadTicket') . '_' . $secureTicket . '_chunktmp';
+				if($secureTicket == ''){
+					mt_srand();
+					$secureTicket = md5( strtotime('now') .  mt_rand( 0, mt_getrandmax() ) );
+					JFactory::getSession()->set('secure_ticket', $secureTicket, 'com_breezingforms');
+				}
+
+				$targetFile = str_replace('//','/',$targetPath). 'chunks' . DS . JRequest::getInt('offset',0) . '_' . bf_sanitizeFilename(JRequest::getVar('name','unknown')) . '_' . JRequest::getVar('itemName','') . '_' . JRequest::getVar('bfFlashUploadTicket') . '_' . $secureTicket . '_chunktmp';
 				$finaltargetFile = str_replace('//','/',$targetPath) . bf_sanitizeFilename(JRequest::getVar('name','unknown')) . '_' . JRequest::getVar('itemName','') . '_' . JRequest::getVar('bfFlashUploadTicket') . '_' . $secureTicket . '_flashtmp';
-                                if(@JFile::upload($tempFile,$targetFile)){
-                                        $chunky = @JFile::read($targetFile);
-                                        // ok, here we try native PHP file operation 
-                                        // to prevent opening and readin the file
-                                        if(@is_writable(str_replace('//','/',$targetPath))){
-                                            $fp = @fopen($finaltargetFile, 'ab');
-                                            @fwrite($fp, $chunky);
-                                            @fclose($fp);
-                                        }else{
-                                            // as last resort, we use the 
-                                            // joomla api that uses FTP if possible
-                                            // and if the folder is not writable 
-                                            // and hope the file is not exceeding the
-                                            // php memory limit
-                                            $final = '';
-                                            if(@JFile::exists($finaltargetFile)){
-                                                $final = @JFile::read($finaltargetFile);
-                                            }
-                                            $newbuf = $final.$chunky;
-                                            @JFile::write($finaltargetFile, $newbuf);
-                                        }
-                                        require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
-                                        require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
-                                        $dataObject = Zend_Json::decode(bf_b64dec($objectList[0]->template_code));
-                                        bfProcess($dataObject, $finaltargetFile);
-                                        @JFile::delete($targetFile);
+				if(@JFile::upload($tempFile,$targetFile)){
+					$chunky = @JFile::read($targetFile);
+					// ok, here we try native PHP file operation
+					// to prevent opening and readin the file
+					if(@is_writable(str_replace('//','/',$targetPath))){
+						$fp = @fopen($finaltargetFile, 'ab');
+						@fwrite($fp, $chunky);
+						@fclose($fp);
+					}else{
+						// as last resort, we use the
+						// joomla api that uses FTP if possible
+						// and if the folder is not writable
+						// and hope the file is not exceeding the
+						// php memory limit
+						$final = '';
+						if(@JFile::exists($finaltargetFile)){
+							$final = @JFile::read($finaltargetFile);
+						}
+						$newbuf = $final.$chunky;
+						@JFile::write($finaltargetFile, $newbuf);
+					}
+					require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/Zend/Json/Decoder.php');
+					require_once(JPATH_SITE . '/administrator/components/com_breezingforms/libraries/Zend/Json/Encoder.php');
+					$dataObject = Zend_Json::decode(bf_b64dec($objectList[0]->template_code));
+					bfProcess($dataObject, $finaltargetFile);
+					@JFile::delete($targetFile);
 				} else {
 					echo 'Could not upload file '.addslashes($_FILES['Filedata']['name']).'!';
 				}
@@ -1908,7 +1884,41 @@ if(
 			echo 'Form id and element do not match!';
 		}
 	}
-        exit;
+	exit;
+}
+else if( JRequest::getVar('opt_in') == 'true' ){
+
+	// DOUBLE OPT IN
+
+	jimport( 'joomla.html.html' );
+
+	$jinput = JFactory::getApplication()->input;
+	$ip = $jinput->server->get('REMOTE_ADDR');
+
+	$userSubmitedID = JRequest::getVar('id');
+	$token = JRequest::getVar('token');
+	$database->setQuery("UPDATE #__facileforms_records SET opted=1, opt_ip = " . $database->quote($ip) . ", opt_date = " . $database->quote(JHtml::date('now' , 'Y-m-d H:i:s'))  . " WHERE opt_token = ".$database->quote($token)." And id=" . $database->quote($userSubmitedID) . " And opted = 0");
+	$database->execute();
+
+	echo JText::_("COM_BREEZINGFORMS_FORMS_DOUBLE_OPT_EMAIL_THANK_YOU");
+
+	// DOUBLE OPT IN END
+
+}
+else if( JRequest::getVar('opt_out') == 'true' ){
+
+	jimport( 'joomla.html.html' );
+
+	$jinput = JFactory::getApplication()->input;
+	$ip = $jinput->server->get('REMOTE_ADDR');
+
+	$userSubmitedID = JRequest::getVar('id');
+	$token = JRequest::getVar('token');
+	$database->setQuery("UPDATE #__facileforms_records SET opted=0, opt_ip = " . $database->quote($ip) . ", opt_date = " . $database->quote(JHtml::date('now' , 'Y-m-d H:i:s'))  . " WHERE opt_token = ".$database->quote($token)." And id=" . $database->quote($userSubmitedID) . " And opted = 1");
+	$database->execute();
+
+	echo JText::_("COM_BREEZINGFORMS_FORMS_DOUBLE_OPT_OUT_EMAIL_THANK_YOU");
+
 }
 
 if( JRequest::getBool('raw', false) )

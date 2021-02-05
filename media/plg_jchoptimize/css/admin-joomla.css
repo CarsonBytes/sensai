@@ -1,10 +1,15 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Apr 13, 2016, 6:24:42 PM
-    Author     : Barnaby Engineering
-*/
+/**
+ * JCH Optimize - Performs several front-end optimizations for fast downloads
+ *
+ * @package   jchoptimize/joomla-platform
+ * @author    Samuel Marshall <samuel@jch-optimize.net>
+ * @copyright Copyright (c) 2020 Samuel Marshall / JCH Optimize
+ * @license   GNU/GPLv3, or later. See LICENSE file
+ *
+ * If LICENSE file missing, see <http://www.gnu.org/licenses/>.
+ */
 
+
+div#attrib-basic_options  > div.well.well-small:nth-child(2) > div:nth-child(2) > div.control-group:nth-child(5){
+    display: none;
+}

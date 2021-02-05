@@ -7,7 +7,7 @@
 
 use Joomla\CMS\Uri\Uri;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 class AtsystemFeatureLinkmigration extends AtsystemFeatureAbstract
 {

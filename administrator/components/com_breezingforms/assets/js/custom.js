@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
     breezingforms logo
     */
 
-    jQuery('#sidebar .sidebar-nav').prepend('<div class="bfs-logo" align="center"><a href="https://crosstec.org" target="_blank"><img src="../administrator/components/com_breezingforms/assets/images/bf_logo.png" border="0" alt="logo"></a></div>');
+    jQuery('#sidebar .sidebar-nav').prepend('<div class="bfs-logo" align="center"><a href="https://crosstec.org" target="_blank"><img src="../administrator/components/com_breezingforms/assets/images/bf_logo_free.png" border="0" alt="logo"></a></div>');
 
     setTimeout(function () {
 

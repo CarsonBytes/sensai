@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.8
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2012 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -2989,7 +2989,8 @@ class HTML_facileFormsElement
 									.'&amp;ff_runmode='._FF_RUNMODE_PREVIEW
 									.'&amp;ff_page='.$page;
 							reset($ff_request);
-							while (list($prop, $val) = each($ff_request))
+							//while (list($prop, $val) = each($ff_request))
+                            foreach($ff_request As $prop => $val)
 								$url .= '&amp;'.$prop.'='.urlencode($val);
 
 							// prepare iframe width

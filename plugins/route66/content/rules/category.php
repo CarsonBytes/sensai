@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 require_once JPATH_SITE . '/plugins/system/route66/lib/rule.php';
 
 class Route66RuleContentCategory extends Route66Rule
@@ -115,15 +117,19 @@ class Route66RuleContentCategory extends Route66Rule
 		$category = $db->loadObject();
 
 		// Joomla! 3.7 broke it
-		if (version_compare(JVERSION, '3.7.0', 'ge'))
+		if (version_compare(JVERSION, '4', 'lt'))
 		{
 			include_once JPATH_SITE . '/plugins/route66/content/helpers/route.php';
 			$route = Route66ContentHelperRoute::getCategoryRoute($category->id, $category->language);
 		}
 		else
 		{
-			include_once JPATH_SITE . '/components/com_content/helpers/route.php';
 			$route = ContentHelperRoute::getCategoryRoute($category->id, $category->language);
+			$application = Factory::getApplication();
+			$router = $application->getRouter('site');
+			$uri = new JUri($route);
+			$router->buildComponentPreprocess($router, $uri);
+			$route = $uri->toString();
 		}
 
 		parse_str($route, $result);
@@ -139,7 +145,7 @@ class Route66RuleContentCategory extends Route66Rule
 		$query->select('id')->from('#__categories')->where('alias = ' . $db->q($alias));
 		$application = JFactory::getApplication();
 
-		if ($application->isSite() && $application->getLanguageFilter())
+		if ($application->isClient('site') && $application->getLanguageFilter())
 		{
 			$query->where($db->qn('language') . ' IN(' . $db->q('*') . ', ' . $db->q($this->getLanguage()) . ')');
 		}
@@ -161,7 +167,7 @@ class Route66RuleContentCategory extends Route66Rule
 		{
 			$application = JFactory::getApplication();
 
-			if ($application->isSite() && $application->getLanguageFilter() && $path != '/')
+			if ($application->isClient('site') && $application->getLanguageFilter() && $path != '/')
 			{
 				$parts = explode('/', $path);
 				$parts = array_filter($parts);

@@ -152,7 +152,7 @@ $html = $html.$phtml;
 
   <?php if ($this->showShipping) { ?>
   <div class="<?php echo $J2gridRow; ?>">
-  <div class="<?php echo $J2gridCol; ?> shipping-make-same" style="clear: both; padding-top: 15px;">
+  <div class="<?php echo $J2gridCol; ?>12 shipping-make-same" style="clear: both; padding-top: 15px;">
 	  <input type="checkbox" name="shipping_address" value="1" id="shipping" checked="checked" />
 	  <label for="shipping"><?php echo JText::_('J2STORE_MAKE_SHIPPING_SAME'); ?></label>	  
   </div>

@@ -1,9 +1,9 @@
 <?php
 /**
  * BreezingForms - A Joomla Forms Application
- * @version 1.8
+ * @version 1.9
  * @package BreezingForms
- * @copyright (C) 2008-2012 by Markus Bopp
+ * @copyright (C) 2008-2020 by Markus Bopp
  * @license Released under the terms of the GNU General Public License
  * */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -81,6 +81,9 @@ display:none;
 			JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/components/com_breezingforms/libraries/jquery/tooltip.css');
 			JFactory::getDocument()->addScript(JURI::root(true) . '/components/com_breezingforms/libraries/jquery/tooltip.js');
 		}
+		if($this->useErrorAlerts) {
+			JFactory::getDocument()->addScript(JURI::root(true) . '/components/com_breezingforms/libraries/js/sweetalert.min.js');
+		}
 		if ($this->useBalloonErrors) {
 			JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/components/com_breezingforms/libraries/jquery/validationEngine.jquery.css');
 			JFactory::getDocument()->addScript(JURI::root(true) . '/components/com_breezingforms/libraries/jquery/jquery.validationEngine-en.js');
@@ -89,360 +92,391 @@ display:none;
 		$toggleCode = '';
 		if ($this->toggleFields != '[]') {
 			$toggleCode = '
-			var toggleFieldsArray = ' . $this->toggleFields . ';
-			String.prototype.beginsWith = function(t, i) { if (i==false) { return
-			(t == this.substring(0, t.length)); } else { return (t.toLowerCase()
-			== this.substring(0, t.length).toLowerCase()); } } 
-			function bfDeactivateSectionFields(){
-				for( var i = 0; i < bfDeactivateSection.length; i++ ){
-                                        bfSetFieldValue(bfDeactivateSection[i], "off");
-					JQuery("#"+bfDeactivateSection[i]+" .ff_elem").each(function(i){
-                                            if( JQuery(this).get(0).name && JQuery(this).get(0).name.beginsWith("ff_nm_", true) ){
-                                                bfDeactivateField[JQuery(this).get(0).name] = true;
-                                            }
-					});
-				}
-                                for( var i = 0; i < toggleFieldsArray.length; i++ ){
-                                    if(toggleFieldsArray[i].state == "turn"){
-                                        bfSetFieldValue(toggleFieldsArray[i].tName, "off");
-                                    }
-                                }
-			}
-			function bfToggleFields(state, tCat, tName, thisBfDeactivateField){
-                                if(state == "on"){
-					if(tCat == "element"){
-                                                JQuery("[name=\"ff_nm_"+tName+"[]\"]").closest(".bfElemWrap").css("display","");
-						thisBfDeactivateField["ff_nm_"+tName+"[]"] = false;
-                                                bfSetFieldValue(tName, "on");
-					} else {
-						JQuery("#"+tName).css("display", "");
-                                                bfSetFieldValue(tName, "on");
-						JQuery("#"+tName).find(".ff_elem").each(function(i){
-                                                    if( JQuery(this).get(0).name && JQuery(this).get(0).name.beginsWith("ff_nm_", true) ){
-                                                        thisBfDeactivateField[JQuery(this).get(0).name] = false;
-                                                    }
-						});
-					}
-				} else {
-					if(tCat == "element"){
-                                                JQuery("[name=\"ff_nm_"+tName+"[]\"]").closest(".bfElemWrap").css("display","none");
-						thisBfDeactivateField["ff_nm_"+tName+"[]"] = true;
-                                                bfSetFieldValue(tName, "off");
-					} else {
-						JQuery("#"+tName).css("display", "none");
-                                                bfSetFieldValue(tName, "off");
-						JQuery("#"+tName+" .ff_elem").each(function(i){
-                                                    if( JQuery(this).get(0).name && JQuery(this).get(0).name.beginsWith("ff_nm_", true) ){
-                                                        thisBfDeactivateField[JQuery(this).get(0).name] = true;
-                                                    }
-						});
-					}
-				}
-                                if(typeof bfRefreshAll != "undefined"){
-                                    bfRefreshAll();
-                                }
-			}
-                        function bfSetFieldValue(name, condition){
-                            for( var i = 0; i < toggleFieldsArray.length; i++ ){
-                                if( toggleFieldsArray[i].action == "if" ) {
-                                    if(name == toggleFieldsArray[i].tCat && condition == toggleFieldsArray[i].statement){
+			var toggleFieldsArray = '.$this->toggleFields.';
+String.prototype.beginsWith = function(t, i) {
+  if (i == false) {
+    return (t == this.substring(0, t.length));
+  } else {
+    return (t.toLowerCase() ==
+      this.substring(0, t.length).toLowerCase());
+  }
+}
 
-                                        var element = JQuery("[name=\"ff_nm_"+toggleFieldsArray[i].condition+"[]\"]");
-                                        
-                                        switch(element.get(0).type){
-                                            case "text":
-                                            case "textarea":
-                                                if(toggleFieldsArray[i].value == "!empty"){
-                                                    element.val("");
-                                                } else {
-                                                    element.val(toggleFieldsArray[i].value);
-                                                }
-                                            break;
-                                            case "select-multiple":
-                                            case "select-one":
-                                                if(toggleFieldsArray[i].value == "!empty"){
-                                                    for(var j = 0; j < element.get(0).options.length; j++){
-                                                        element.get(0).options[j].selected = false;
-                                                    }
-                                                }
-                                                for(var j = 0; j < element.get(0).options.length; j++){
-                                                    if(element.get(0).options[j].value == toggleFieldsArray[i].value){
-                                                        element.get(0).options[j].selected = true;
-                                                    }
-                                                }
-                                            break;
-                                            case "radio":
-                                            case "checkbox":
-                                                var radioLength = element.size();
-                                                if(toggleFieldsArray[i].value == "!empty"){
-                                                    for(var j = 0; j < radioLength; j++){
-                                                        element.get(j).checked = false;
-                                                    }
-                                                }
-						for(var j = 0; j < radioLength; j++){
-                                                    if( element.get(j).value == toggleFieldsArray[i].value ){
-                                                        element.get(j).checked = true;
-                                                    }
-                                                }
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
+function bfDeactivateSectionFields() {
+  for (var i = 0; i < bfDeactivateSection.length; i++) {
+    bfSetFieldValue(bfDeactivateSection[i], "off");
+    JQuery("#" + bfDeactivateSection[i] + " .ff_elem").each(function(i) {
+      if (JQuery(this).get(0).name && JQuery(this).get(0).name.beginsWith("ff_nm_", true)) {
+        bfDeactivateField[JQuery(this).get(0).name] = true;
+      }
+    });
+  }
+  for (var i = 0; i < toggleFieldsArray.length; i++) {
+    if (toggleFieldsArray[i].state == "turn") {
+      bfSetFieldValue(toggleFieldsArray[i].tName, "off");
+    }
+  }
+  
+  bfSectionFieldsDeactivated = true;
+}
+
+function bfToggleFields(state, tCat, tName, thisBfDeactivateField) {
+  if (state == "on") {
+    if (tCat == "element") {
+      JQuery("[name=\"ff_nm_" + tName + "[]\"]").closest(".bfElemWrap").css("display", "");
+      thisBfDeactivateField["ff_nm_" + tName + "[]"] = false;
+      bfSetFieldValue(tName, "on");
+    } else {
+      JQuery("#" + tName).css("display", "");
+      bfSetFieldValue(tName, "on");
+      JQuery("#" + tName).find(".ff_elem").each(function(i) {
+        if (JQuery(this).get(0).name && JQuery(this).get(0).name.beginsWith("ff_nm_", true)) {
+          thisBfDeactivateField[JQuery(this).get(0).name] = false;
+        }
+      });
+    }
+  } else {
+    if (tCat == "element") {
+      JQuery("[name=\"ff_nm_" + tName + "[]\"]").closest(".bfElemWrap").css("display", "none");
+      thisBfDeactivateField["ff_nm_" + tName + "[]"] = true;
+      bfSetFieldValue(tName, "off");
+    } else {
+      JQuery("#" + tName).css("display", "none");
+      bfSetFieldValue(tName, "off");
+      JQuery("#" + tName + " .ff_elem").each(function(i) {
+        if (JQuery(this).get(0).name && JQuery(this).get(0).name.beginsWith("ff_nm_", true)) {
+          thisBfDeactivateField[JQuery(this).get(0).name] = true;
+        }
+      });
+    }
+  }
+  if (typeof bfRefreshAll != "undefined") {
+    bfRefreshAll();
+  }
+}
+
+function bfSetFieldValue(name, condition) {
+  for (var i = 0; i < toggleFieldsArray.length; i++) {
+    if (toggleFieldsArray[i].action == "if") {
+      if (name == toggleFieldsArray[i].tCat && condition == toggleFieldsArray[i].statement) {
+
+        var element = JQuery("[name=\"ff_nm_" + toggleFieldsArray[i].condition + "[]\"]");
+
+        switch (element.get(0).type) {
+          case "text":
+          case "textarea":
+            if (toggleFieldsArray[i].value == "!empty") {
+              element.val("");
+            } else {
+              element.val(toggleFieldsArray[i].value);
+            }
+            element.trigger("change");
+            break;
+          case "select-multiple":
+          case "select-one":
+            if (toggleFieldsArray[i].value == "!empty") {
+              for (var j = 0; j < element.get(0).options.length; j++) {
+                element.get(0).options[j].selected = false;
+                JQuery(element.get(0).options[j]).trigger("change");
+              }
+            }
+            for (var j = 0; j < element.get(0).options.length; j++) {
+              if (element.get(0).options[j].value == toggleFieldsArray[i].value) {
+                element.get(0).options[j].selected = true;
+                JQuery(element.get(0).options[j]).trigger("change");
+              }
+            }
+            break;
+          case "radio":
+          case "checkbox":
+            var radioLength = element.size();
+            if (toggleFieldsArray[i].value == "!empty") {
+              for (var j = 0; j < radioLength; j++) {
+                element.get(j).checked = false;
+                JQuery(element.get(j)).trigger("change");
+              }
+            }
+            for (var j = 0; j < radioLength; j++) {
+              if (element.get(j).value == toggleFieldsArray[i].value) {
+                element.get(j).checked = true;
+                JQuery(element.get(j)).trigger("change");
+              }
+            }
+            break;
+        }
+      }
+    }
+  }
+}
+
+function bfRegisterToggleFields() {
+
+  var offset = 0;
+  var last_offset = 0;
+  var limit = 10;
+  var limit_cnt = 0;
+
+  if (arguments.length == 1) {
+    offset = arguments[0];
+  }
+
+  var thisToggleFieldsArray = toggleFieldsArray;
+  var thisBfDeactivateField = bfDeactivateField;
+  var thisBfToggleFields = bfToggleFields;
+
+  for (var i = offset; limit_cnt < limit && i < toggleFieldsArray.length; i++) {
+    // console.log(toggleFieldsArray[i]);
+    //  for( var i = 0; i < toggleFieldsArray.length; i++ ){
+    if (toggleFieldsArray[i].action == "turn" && (toggleFieldsArray[i].tCat == "element" || toggleFieldsArray[i].tCat == "section")) {
+      var toggleField = toggleFieldsArray[i];
+      var element = JQuery("[name=\"ff_nm_" + toggleFieldsArray[i].sName + "[]\"]");
+      if (element.get(0)) {
+        switch (element.get(0).type) {
+          case "text":
+          case "textarea":
+            JQuery("[name=\"ff_nm_" + toggleField.sName + "[]\"]").unbind("blur");
+            JQuery("[name=\"ff_nm_" + toggleField.sName + "[]\"]").blur(
+              function() {
+                for (var k = 0; k < thisToggleFieldsArray.length; k++) {
+                  var regExp = "";
+                  var testRegExp = null;
+                  if (thisToggleFieldsArray[k].value.beginsWith("!", true) && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]") {
+                    regExp = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length);
+                    testRegExp = new RegExp(regExp);
+                  }
+
+                  if (thisToggleFieldsArray[k].condition == "isnot") {
+                    if (
+                      ((regExp != "" && testRegExp.test(JQuery(this).val()) == false) || JQuery(this).val() != thisToggleFieldsArray[k].value) && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]"
+                    ) {
+                      var names = thisToggleFieldsArray[k].tName.split(",");
+                      for (var n = 0; n < names.length; n++) {
+                        thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
+                      }
+                      //break;
+                    }
+                  } else if (thisToggleFieldsArray[k].condition == "is") {
+                    if (
+                      ((regExp != "" && testRegExp.test(JQuery(this).val()) == true) || JQuery(this).val() == thisToggleFieldsArray[k].value) && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]"
+                    ) {
+                      var names = thisToggleFieldsArray[k].tName.split(",");
+                      for (var n = 0; n < names.length; n++) {
+                        thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
+                      }
+                      //break;
+                    }
+                  }
+                }
+              }
+            );
+            break;
+          case "select-multiple":
+          case "select-one":
+            JQuery("[name=\"ff_nm_" + toggleField.sName + "[]\"]").unbind("change");
+            JQuery("[name=\"ff_nm_" + toggleField.sName + "[]\"]").change(
+              function() {
+                var res = JQuery.isArray(JQuery(this).val()) == false ? [JQuery(this).val()] : JQuery(this).val();
+                for (var k = 0; k < thisToggleFieldsArray.length; k++) {
+
+                  // The or-case in lists
+                  var found = false;
+                  var chkGrpValues = new Array();
+                  if (thisToggleFieldsArray[k].value.beginsWith("#", true) && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]") {
+                    chkGrpValues = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length).split("|");
+                    for (var l = 0; l < chkGrpValues.length; l++) {
+                      if (JQuery.inArray(chkGrpValues[l], res) != -1) {
+                        found = true;
+                        break;
+                      }
+                    }
+                  }
+                  // the and-case in lists
+                  var foundCount = 0;
+                  chkGrpValues2 = new Array();
+                  if (thisToggleFieldsArray[k].value.beginsWith("#", true) && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]") {
+                    chkGrpValues2 = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length).split(";");
+                    for (var l = 0; l < res.length; l++) {
+                      if (JQuery.inArray(res[l], chkGrpValues2) != -1) {
+                        foundCount++;
+                      }
+                    }
+                  }
+
+                  if (thisToggleFieldsArray[k].condition == "isnot") {
+
+                    if (
+                      (!JQuery.isArray(res) && JQuery(this).val() != thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]") ||
+                      (
+                        JQuery.isArray(res) && (JQuery.inArray(thisToggleFieldsArray[k].value, res) == -1 || !found || (foundCount == 0 || foundCount != chkGrpValues2.length)) && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]"
+                      )
+                    ) {
+                      var names = thisToggleFieldsArray[k].tName.split(",");
+                      for (var n = 0; n < names.length; n++) {
+                        thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
+                      }
+                      //break;
+                    }
+                  } else if (thisToggleFieldsArray[k].condition == "is") {
+                    if (
+                      (!JQuery.isArray(res) && JQuery(this).val() == thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]") ||
+                      (
+                        JQuery.isArray(res) && (JQuery.inArray(thisToggleFieldsArray[k].value, res) != -1 || found || (foundCount != 0 && foundCount == chkGrpValues2.length)) && JQuery(this).get(0).name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]"
+                      )
+                    ) {
+                      var names = thisToggleFieldsArray[k].tName.split(",");
+                      for (var n = 0; n < names.length; n++) {
+                        thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
+                      }
+                      //break;
+                    }
+                  }
+                }
+              }
+            );
+            break;
+          case "radio":
+          case "checkbox": // needs revision
+            var radioLength = JQuery("[name=\"ff_nm_" + toggleField.sName + "[]\"]").size();
+            for (var j = 0; j < radioLength; j++) {
+              JQuery("#" + JQuery("[name=\"ff_nm_" + toggleField.sName + "[]\"]").get(j).id).off("click");
+              JQuery("#" + JQuery("[name=\"ff_nm_" + toggleField.sName + "[]\"]").get(j).id).on("click",
+                function() {
+                  // NOT O(n^2) since its ony executed on click event!
+                  var tarElem = JQuery(this).get(0);
+
+                  for (var k = 0; k < thisToggleFieldsArray.length; k++) {
+
+                    if (tarElem.name == "ff_nm_" + thisToggleFieldsArray[k].sName + "[]" && (tarElem.type == "checkbox" || tarElem.type == "radio")) {
+                      var checkedOpts = JQuery("[name=\"" + JQuery(this).get(0).name + "\"]:checked");
+                      var selectedVals = [];
+                      for (var i = 0; i < checkedOpts.length; i++) {
+                        selectedVals.push(checkedOpts[i].value);
+                      }
+
+                      var thisGrpVals = [];
+                      var found = false;
+                      var foundCount = 0;
+                      var delimiter = "";
+
+                      if (thisToggleFieldsArray[k].value.beginsWith("#", true)) {
+                        if (thisToggleFieldsArray[k].value.indexOf("|") > -1) {
+                          delimiter = "|";
+                        } else if (thisToggleFieldsArray[k].value.indexOf(";") > -1) {
+                          delimiter = ";";
                         }
-			function bfRegisterToggleFields(){
-                        
-                                var offset = 0;
-                                var last_offset = 0;
-                                var limit  = 10;
-                                var limit_cnt = 0;
-                                
-                                if( arguments.length == 1 ){
-                                    offset = arguments[0];
-                                }
+                        thisGrpVals = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length).split(delimiter);
 
-                                var thisToggleFieldsArray = toggleFieldsArray;
-				var thisBfDeactivateField = bfDeactivateField;
-                                var thisBfToggleFields = bfToggleFields;
-                                
-				for( var i = offset; limit_cnt < limit && i < toggleFieldsArray.length; i++ ){
-                                //  for( var i = 0; i < toggleFieldsArray.length; i++ ){
-                                              if( toggleFieldsArray[i].action == "turn" && (toggleFieldsArray[i].tCat == "element" || toggleFieldsArray[i].tCat == "section") ){
-						var toggleField = toggleFieldsArray[i];
-						var element = JQuery("[name=\"ff_nm_"+toggleFieldsArray[i].sName+"[]\"]");
-						if(element.get(0)){
-							switch(element.get(0).type){
-								case "text":
-								case "textarea":
-                                                                        JQuery("[name=\"ff_nm_"+toggleField.sName+"[]\"]").unbind("blur");
-									JQuery("[name=\"ff_nm_"+toggleField.sName+"[]\"]").blur(
-										function(){
-											for( var k = 0; k < thisToggleFieldsArray.length; k++ ){
-												var regExp = "";
-                                                                                                var testRegExp = null;
-												if(thisToggleFieldsArray[k].value.beginsWith("!", true) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"){
-										 			regExp = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length);
-                                                                                                        testRegExp = new RegExp(regExp);
-                                                                                                }
+                        for (var l = 0; l < selectedVals.length; l++) {
+                          if (JQuery.inArray(selectedVals[l], thisGrpVals) != -1) {
+                            foundCount++;
+                            found = true;
+                            continue;
+                          }
+                        }
+                      }
+                      var names = thisToggleFieldsArray[k].tName.split(",");
+                      var n = names.length;
 
-                                                                                                if(thisToggleFieldsArray[k].condition == "isnot"){
-                                                                                                    if(
-                                                                                                            ( ( regExp != "" && testRegExp.test(JQuery(this).val()) == false ) || JQuery(this).val() != thisToggleFieldsArray[k].value ) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                    ){
-                                                                                                            var names = thisToggleFieldsArray[k].tName.split(",");
-                                                                                                            for(var n = 0; n < names.length; n++){
-                                                                                                                thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
-                                                                                                            }
-                                                                                                            //break;
-                                                                                                    }
-                                                                                                } else if(thisToggleFieldsArray[k].condition == "is"){
-                                                                                                    if(
-                                                                                                            ( ( regExp != "" && testRegExp.test(JQuery(this).val()) == true ) || JQuery(this).val() == thisToggleFieldsArray[k].value ) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                    ){
-                                                                                                            var names = thisToggleFieldsArray[k].tName.split(",");
-                                                                                                            for(var n = 0; n < names.length; n++){
-                                                                                                                thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
-                                                                                                            }
-                                                                                                            //break;
-                                                                                                    }
-                                                                                                }
-											}
-										}
-									);
-									break;
-								case "select-multiple":
-								case "select-one":
-                                                                        JQuery("[name=\"ff_nm_"+toggleField.sName+"[]\"]").unbind("change");
-									JQuery("[name=\"ff_nm_"+toggleField.sName+"[]\"]").change(
-										function(){
-											var res = JQuery.isArray( JQuery(this).val() ) == false ? [ JQuery(this).val() ] : JQuery(this).val();
-											for( var k = 0; k < thisToggleFieldsArray.length; k++ ){
-												
-												// The or-case in lists 
-												var found = false;
-												var chkGrpValues = new Array();
-										 		if(thisToggleFieldsArray[k].value.beginsWith("#", true) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"){
-										 			chkGrpValues = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length).split("|");
-										 			for(var l = 0; l < chkGrpValues.length; l++){
-										 				if( JQuery.inArray(chkGrpValues[l], res) != -1 ){
-										 					found = true;
-										 					break;
-										 				}
-										 			}
-										 		}
-												// the and-case in lists
-												var foundCount = 0;
-												chkGrpValues2 = new Array();
-										 		if(thisToggleFieldsArray[k].value.beginsWith("#", true) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"){
-										 			chkGrpValues2 = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length).split(";");
-										 			for(var l = 0; l < res.length; l++){
-										 				if( JQuery.inArray(res[l], chkGrpValues2) != -1 ){
-										 					foundCount++;
-										 				}
-										 			}
-										 		}
-                                                                                                
-                                                                                                if(thisToggleFieldsArray[k].condition == "isnot"){
-                                                                                                
-                                                                                                    if(
-                                                                                                            (
-                                                                                                                    !JQuery.isArray(res) && JQuery(this).val() != thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                            )
-                                                                                                            ||
-                                                                                                            (
-                                                                                                                    JQuery.isArray(res) && ( JQuery.inArray(thisToggleFieldsArray[k].value, res) == -1 || !found || ( foundCount == 0 || foundCount != chkGrpValues2.length ) ) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                            )
-                                                                                                     ){
-                                                                                                            var names = thisToggleFieldsArray[k].tName.split(",");
-                                                                                                            for(var n = 0; n < names.length; n++){
-                                                                                                                thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
-                                                                                                            }
-                                                                                                            //break;
-                                                                                                    }
-                                                                                                } else if(thisToggleFieldsArray[k].condition == "is"){
-                                                                                                    if(
-                                                                                                            (
-                                                                                                                    !JQuery.isArray(res) && JQuery(this).val() == thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                            )
-                                                                                                            ||
-                                                                                                            (
-                                                                                                                    JQuery.isArray(res) && ( JQuery.inArray(thisToggleFieldsArray[k].value, res) != -1 || found || ( foundCount != 0 && foundCount == chkGrpValues2.length ) ) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                            )
-                                                                                                     ){
-                                                                                                            var names = thisToggleFieldsArray[k].tName.split(",");
-                                                                                                            for(var n = 0; n < names.length; n++){
-                                                                                                                thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
-                                                                                                            }
-                                                                                                            //break;
-                                                                                                    }
-                                                                                                }
-											}
-										}
-									);
-									break;
-								case "radio":
-								case "checkbox":
-									var radioLength = JQuery("[name=\"ff_nm_"+toggleField.sName+"[]\"]").size();
-									for(var j = 0; j < radioLength; j++){
-                                                                                 JQuery("#" + JQuery("[name=\"ff_nm_"+toggleField.sName+"[]\"]").get(j).id ).unbind("click");
-										 JQuery("#" + JQuery("[name=\"ff_nm_"+toggleField.sName+"[]\"]").get(j).id ).click(										 	
-										 	function(){
-										 		// NOT O(n^2) since its ony executed on click event!
-                                                                                                var res = [];
-                                                                                                
-                                                                                                if(JQuery(this).is(":checked")){
-                                                                                                  res.push(JQuery(this).val());
-                                                                                                }
-                                                                                                
-										 		for( var k = 0; k < thisToggleFieldsArray.length; k++ ){
-										 			
-										 			// used for complex checkbox group case below
-										 			var chkGrpValues = new Array();
-                                                                                                        var found = false;
-										 			if(JQuery(this).get(0).checked && thisToggleFieldsArray[k].value.beginsWith("#", true) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"){
-										 				chkGrpValues = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length).split("|");
-                                                                                                                for(var l = 0; l < chkGrpValues.length; l++){
-                                                                                                                    if( JQuery.inArray(chkGrpValues[l], res) != -1 ){
-                                                                                                                            found = true;
-                                                                                                                            break;
-                                                                                                                    }
-                                                                                                                }
-										 			}
-                                                                                                        
-                                                                                                        // the and-case
-                                                                                                        var foundCount = 0;
-                                                                                                        chkGrpValues2 = new Array();
-                                                                                                        if(thisToggleFieldsArray[k].value.beginsWith("#", true) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"){
-                                                                                                                chkGrpValues2 = thisToggleFieldsArray[k].value.substring(1, thisToggleFieldsArray[k].value.length).split(";");
-                                                                                                                for(var l = 0; l < res.length; l++){
-                                                                                                                        if( JQuery.inArray(res[l], chkGrpValues2) != -1 ){
-                                                                                                                                foundCount++;
-                                                                                                                        }
-                                                                                                                }
-                                                                                                        }
+                      if (thisToggleFieldsArray[k].condition == "isnot" && // check the condition 
+                        (
+                          ( // The simple checked or unchecked
+                            (thisToggleFieldsArray[k].value == "!checked" && tarElem.checked == false) ||
+                            (thisToggleFieldsArray[k].value == "!unchecked" && tarElem.checked)
+                          ) ||
+                          ( // simple check using only single value
+                            JQuery.inArray(thisToggleFieldsArray[k].value, selectedVals) == -1 ||
+                            (JQuery.inArray(thisToggleFieldsArray[k].value, selectedVals) != -1 && selectedVals.length != 1)
+                          ) ||
+                          ( // multiple values rule using either OR or AND
+                            thisToggleFieldsArray[k].value.beginsWith("#", true) &&
+                            (
+                              (delimiter == "|" && found == false) || (delimiter == ";" && foundCount == thisGrpVals.length)
+                            )
+                          )
+                        )) {
+                        n = 0;
+                      } else if (thisToggleFieldsArray[k].condition == "is" && // check the condition
+                        (
+                          ( // the simple checked or unchecked for a single checkbox
+                            (thisToggleFieldsArray[k].value == "!checked" && tarElem.checked) ||
+                            (thisToggleFieldsArray[k].value == "!unchecked" && tarElem.checked == false)
+                          ) ||
+                          ( // the simple check using only single value
+                            JQuery.inArray(thisToggleFieldsArray[k].value, selectedVals) != -1
+                          ) ||
+                          ( // multiple values rule using either OR or AND
+                            thisToggleFieldsArray[k].value.beginsWith("#", true) &&
+                            (
+                              delimiter == "|" && found || (delimiter == ";" && foundCount == thisGrpVals.length)
+                            )
+                          )
+                        )
+                      ) {
+                        n = 0;
+                      }
+                      for (n; n < names.length; n++) {
+                        thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
+                      }
+                    }
+                  }
+                });
+            }
+            break;
+        }
+      }
+    }
 
-                                                                                                        if(thisToggleFieldsArray[k].condition == "isnot"){
+    limit_cnt++;
+    last_offset = i;
+  }
 
-                                                                                                            if(
-                                                                                                                    // simple radio case for selected value
-                                                                                                                    ( JQuery(this).get(0).type == "radio" && JQuery(this).get(0).checked && JQuery(this).val() != thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]" )
-                                                                                                                    ||
-                                                                                                                    // single checkbox case for checked/unchecked
-                                                                                                                    (
-                                                                                                                            JQuery(this).get(0).type == "checkbox" &&
-                                                                                                                            JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]" &&
-                                                                                                                            ( JQuery(this).get(0).checked && thisToggleFieldsArray[k].value != "!checked"
-                                                                                                                             ||
-                                                                                                                              JQuery(this).get(0).checked && thisToggleFieldsArray[k].value == "!unchecked"
-                                                                                                                            )
-                                                                                                                    )
-                                                                                                                    ||
-                                                                                                                    // complex checkbox/radio group case by multiple values
-                                                                                                                    (
-                                                                                                                            JQuery.isArray(res) && ( JQuery.inArray(thisToggleFieldsArray[k].value, res) == -1 || !found || ( foundCount == 0 || foundCount != chkGrpValues2.length ) ) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                                    )
-                                                                                                                    ||
-                                                                                                                    // simple checkbox group case by single value
-                                                                                                                    (
-                                                                                                                            JQuery(this).get(0).type == "checkbox" && JQuery(this).get(0).checked && JQuery(this).val() != thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                                    )
-                                                                                                            ){
-                                                                                                                    var names = thisToggleFieldsArray[k].tName.split(",");
-                                                                                                                    for(var n = 0; n < names.length; n++){
-                                                                                                                        thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
-                                                                                                                    }
-                                                                                                                    //break;
-                                                                                                            }
-                                                                                                        }
-                                                                                                        else
-                                                                                                        if(thisToggleFieldsArray[k].condition == "is"){
-                                                                                                            if(
-                                                                                                                    // simple radio case for selected value
-                                                                                                                    ( JQuery(this).get(0).type == "radio" && JQuery(this).get(0).checked && JQuery(this).val() == thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]" )
-                                                                                                                    ||
-                                                                                                                    // single checkbox case for checked/unchecked
-                                                                                                                    (
-                                                                                                                            JQuery(this).get(0).type == "checkbox" &&
-                                                                                                                            JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]" &&
-                                                                                                                            ( JQuery(this).get(0).checked && thisToggleFieldsArray[k].value == "!checked"
-                                                                                                                             ||
-                                                                                                                              !JQuery(this).get(0).checked && thisToggleFieldsArray[k].value == "!unchecked"
-                                                                                                                            )
-                                                                                                                    )
-                                                                                                                    ||
-                                                                                                                    // complex checkbox/radio group case by multiple values
-                                                                                                                    (
-                                                                                                                            JQuery.isArray(res) && ( JQuery.inArray(thisToggleFieldsArray[k].value, res) != -1 || found || ( foundCount != 0 && foundCount == chkGrpValues2.length ) ) && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                                    )
-                                                                                                                    ||
-                                                                                                                    // simple checkbox group case by single value
-                                                                                                                    (
-                                                                                                                            JQuery(this).get(0).type == "checkbox" && JQuery(this).get(0).checked && JQuery(this).val() == thisToggleFieldsArray[k].value && JQuery(this).get(0).name == "ff_nm_"+thisToggleFieldsArray[k].sName+"[]"
-                                                                                                                    )
-                                                                                                            ){
-                                                                                                                    var names = thisToggleFieldsArray[k].tName.split(",");
-                                                                                                                    for(var n = 0; n < names.length; n++){
-                                                                                                                        thisBfToggleFields(thisToggleFieldsArray[k].state, thisToggleFieldsArray[k].tCat, JQuery.trim(names[n]), thisBfDeactivateField);
-                                                                                                                    }
-                                                                                                                    //break;
-                                                                                                            }
-                                                                                                        }
-												}
-												
-											}
-										 );
-									}
-									break;
-							}
-						}
-					}
-                                        
-                                        limit_cnt++;
-                                        last_offset = i;
-                                }
-                                
-                                if( last_offset+1 < toggleFieldsArray.length ){ setTimeout("bfRegisterToggleFields( "+last_offset+" )", 350); }
-                        }';
+  if (last_offset + 1 < toggleFieldsArray.length) {
+    setTimeout("bfRegisterToggleFields( " + last_offset + " )", 100);
+  }
+  if (last_offset + 1 == toggleFieldsArray.length) {
+    bfTriggerRules();
+  }
+}
+
+function bfTriggerRules() {
+  for (var i = 0; i < toggleFieldsArray.length; i++) {
+    var curElem = toggleFieldsArray[i];
+    if (curElem.action == "turn") {
+      if (JQuery("[name=\"ff_nm_" + curElem.sName + "[]\"]").length < 1) {
+        break;
+      } 
+
+      var elemType = JQuery("[name=\"ff_nm_" + curElem.sName + "[]\"]")[0].type;
+
+      switch (elemType) {
+        case "text":
+        case "textarea":
+          JQuery("[name=\"ff_nm_" + curElem.sName + "[]\"]").triggerHandler("blur");
+          break;
+        case "radio":
+          JQuery("[name=\"ff_nm_" + curElem.sName + "[]\"]").triggerHandler("click");
+          break;
+        case "checkbox":
+          var el = (JQuery("[name=\"ff_nm_" + curElem.sName + "[]\"]"));
+          for (count = 0; count < el.length; count++) {
+            if (count == 0) {
+              JQuery("#" + el.get(0).id).triggerHandler("click");
+            } else {
+              JQuery("#" + el.get(0).id + "_" + count).triggerHandler("click");
+            }
+          }
+          break;
+        case "select-one":
+        case "select-multiple":
+          JQuery("[name=\"ff_nm_" + curElem.sName + "[]\"]").triggerHandler("change");
+          break;
+      }
+    }
+  }
+  
+  bfToggleFieldsLoaded = true;
+}
+         ';
 		}
 
 		JFactory::getDocument()->addScriptDeclaration(
@@ -452,7 +486,7 @@ display:none;
 			var bfDeactivateField = new Array();
 			var bfDeactivateSection = new Array();
 			' . $toggleCode . '
-                        
+
                         function bf_validate_nextpage(element, action)
                         {
                             if(typeof bfUseErrorAlerts != "undefined"){
@@ -470,9 +504,9 @@ display:none;
                                 ff_validationFocus("");
                             } else {
                                 ff_switchpage(ff_currentpage+1);
-                                self.scrollTo(0,0);   
+                                self.scrollTo(0,0);
                             }
-                        } 
+                        }
 
 			function bfCheckMaxlength(id, maxlength, showMaxlength){
 				if( JQuery("#ff_elem"+id).val().length > maxlength ){
@@ -533,7 +567,7 @@ display:none;
 			}
 			function populateSummarizers(){
 				// cleaning first
-                                
+
 				for(var i = 0; i < bfSummarizers.length; i++){
 					JQuery("#"+bfSummarizers[i].id).parent().css("display", "");
 					JQuery("#"+bfSummarizers[i].id).html("<span class=\"bfNotAvailable\">"+bfSummarizers[i].emptyMessage+"</span>");
@@ -545,12 +579,13 @@ display:none;
 						case "bfTextarea":
 						case "bfHidden":
 						case "bfCalendar":
-                                                case "bfCalendarResponsive":
+						case "bfNumberInput":
+                        case "bfCalendarResponsive":
 						case "bfFile":
 							if(JQuery("[name=\"ff_nm_"+bfSummarizers[i].connectWith+"[]\"]").val() != ""){
 								JQuery("#"+bfSummarizers[i].id).text( JQuery("[name=\"ff_nm_"+bfSummarizers[i].connectWith+"[]\"]").val() ).html();
 								var breakableText = JQuery("#"+bfSummarizers[i].id).html().replace(/\\r/g, "").replace(/\\n/g, "<br/>");
-								
+
 								if(breakableText != ""){
 									var calc = null;
 									eval( "calc = typeof bfFieldCalc"+bfSummarizers[i].id+" != \"undefined\" ? bfFieldCalc"+bfSummarizers[i].id+" : null" );
@@ -558,7 +593,7 @@ display:none;
 										breakableText = calc(breakableText);
 									}
 								}
-								
+
 								JQuery("#"+bfSummarizers[i].id).html(breakableText);
 								summVal = breakableText;
 							}
@@ -582,7 +617,7 @@ display:none;
 						case "bfSelect":
 							var val = "";
 							var nodeList = document["' . $this->p->form_id . '"]["ff_nm_"+bfSummarizers[i].connectWith+"[]"];
-							
+
 							for(var j = 0; j < nodeList.length; j++){
 								if(nodeList[j].checked || nodeList[j].selected){
 									val += nodeList[j].value + ", ";
@@ -602,9 +637,11 @@ display:none;
 							}
 						break;
 					}
-					
+
 					if( ( bfSummarizers[i].hideIfEmpty && summVal == "" ) || ( typeof bfDeactivateField != "undefined" && bfDeactivateField["ff_nm_"+bfSummarizers[i].connectWith+"[]"] ) ){
-                                            JQuery("#"+bfSummarizers[i].id).parent().css("display", "none");
+                        JQuery("#"+bfSummarizers[i].id).parent().css("display", "none");
+					} else {
+                        JQuery("#"+bfSummarizers[i].id).parent().css("display", "block");
 					}
 				}
 			}
@@ -643,7 +680,7 @@ display:none;
                                                 if(inlineErrorElements[i][1] != "")
                                                 {
                                                     var prompt = null;
-                                                    
+
                                                     if(inlineErrorElements[i][0] == "bfCaptchaEntry"){
                                                         prompt = JQuery.bfvalidationEngine.buildPrompt("#bfCaptchaEntry",inlineErrorElements[i][1],"error");
                                                     }
@@ -656,6 +693,11 @@ display:none;
                                                         alert(inlineErrorElements[i][1]);
                                                         //prompt = JQuery.bfvalidationEngine.buildPrompt("#"+JQuery("#bfUploader"+inlineErrorElements[i][0]).val(),inlineErrorElements[i][1],"error");
                                                     }
+                                                    else if(typeof JQuery(".bfSignature"+inlineErrorElements[i][0]).get(0) != "undefined")
+                                                    {
+                                                    	//alert(inlineErrorElements[i][1]);
+                                                    	prompt = JQuery.bfvalidationEngine.buildPrompt(".bfSignature",inlineErrorElements[i][1],"error");
+                                                    }
                                                     else
                                                     {
                                                         if(ff_getElementByName(inlineErrorElements[i][0])){
@@ -664,7 +706,7 @@ display:none;
                                                             alert(inlineErrorElements[i][1]);
                                                         }
                                                     }
-                                                    
+
                                                     JQuery(prompt).mouseover(
                                                         function(){
                                                             var inlineError = JQuery(this).attr("class").split(" ");
@@ -764,34 +806,42 @@ display:none;
 			}
 		}
 		JFactory::getDocument()->addScriptDeclaration('
+		    bfToggleFieldsLoaded = false;
+		    bfSectionFieldsDeactivated = false;
 			JQuery(document).ready(function() {
-				if(typeof bfFade != "undefined")bfFade();
+			    if(typeof bfFade != "undefined")bfFade();
 				if(typeof bfSetElemWrapBg != "undefined")bfSetElemWrapBg();
 				if(typeof bfRollover != "undefined")bfRollover();
 				if(typeof bfRollover2 != "undefined")bfRollover2();
-				if(typeof bfRegisterToggleFields != "undefined")bfRegisterToggleFields();
-				if(typeof bfDeactivateSectionFields != "undefined")bfDeactivateSectionFields();
-                                if(JQuery.bfvalidationEngine)
-                                {
-                                    JQuery.bfvalidationEngineLanguage.newLang();
-                                    JQuery(".ff_elem").change(
-                                        function(){
-                                            JQuery.bfvalidationEngine.closePrompt(this);
-                                        }
-                                    );
-                                }
-				JQuery(".hasTip").css("color","inherit"); // fixing label text color issue
-				JQuery(".bfTooltip").css("color","inherit"); // fixing label text color issue
-    
-                                JQuery("input[type=text]").bind("keypress", function(evt) {
-                                    if(evt.keyCode == 13) {
-                                        evt.preventDefault();
-                                    }
-                                });
+				if(typeof bfRegisterToggleFields != "undefined"){ 
+				    bfRegisterToggleFields(); 
+                }else{
+                    bfToggleFieldsLoaded = true;
+                }
+				if(typeof bfDeactivateSectionFields != "undefined"){ 
+				    bfDeactivateSectionFields(); 
+				}else{
+				    bfSectionFieldsDeactivated = true;
+				}
+                if(JQuery.bfvalidationEngine)
+                {
+                    JQuery.bfvalidationEngineLanguage.newLang();
+                    JQuery(".ff_elem").change(
+                        function(){
+                            JQuery.bfvalidationEngine.closePrompt(this);
+                        }
+                    );
+                }
+				JQuery(".bfQuickMode .hasTip").css("color","inherit"); // fixing label text color issue
+				JQuery(".bfQuickMode .bfTooltip").css("color","inherit"); // fixing label text color issue
+                JQuery("input[type=text]").bind("keypress", function(evt) {
+                    if(evt.keyCode == 13) {
+                        evt.preventDefault();
+                    }
+                });
 			});
 		');
 		// loading system css
-
 		if (method_exists($obj = JFactory::getDocument(), 'addCustomTag')) {
 
 			$stylelink = '<link rel="stylesheet" href="' . JURI::root(true) . '/components/com_breezingforms/themes/quickmode/system.css" />' . "\n";
@@ -827,7 +877,8 @@ display:none;
 		$version = new JVersion();
 
 		if (version_compare($version->getShortVersion(), '2.5', '>=')) {
-			$this->language_tag = JFactory::getLanguage()->getTag() != JFactory::getLanguage()->getDefault() ? JFactory::getLanguage()->getTag() : 'zz-ZZ';
+			$default = JComponentHelper::getParams( 'com_languages' )->get( 'site' );
+			$this->language_tag = JFactory::getLanguage()->getTag() != $default ? JFactory::getLanguage()->getTag() : 'zz-ZZ';
 		}
 
 		JFactory::getDocument()->addScriptDeclaration('<!--');
@@ -1002,25 +1053,25 @@ display:none;
 				}
 			} else if ($mdata['type'] == 'element') {
 
-				$onclick = '';
-				if ($mdata['actionClick'] == 1) {
-					$onclick = 'onclick="' . $mdata['actionFunctionName'] . '(this,\'click\');" ';
-				}
+                $onclick = '';
+                if(isset($mdata['actionClick']) && $mdata['actionClick'] == 1){
+                    $onclick = 'onclick="'.$mdata['actionFunctionName'] . '(this,\'click\');" ';
+                }
 
-				$onblur = '';
-				if ($mdata['actionBlur'] == 1) {
-					$onblur = 'onblur="' . $mdata['actionFunctionName'] . '(this,\'blur\');" ';
-				}
+                $onblur = '';
+                if(isset($mdata['actionBlur']) && $mdata['actionBlur'] == 1){
+                    $onblur = 'onblur="'.$mdata['actionFunctionName'] . '(this,\'blur\');" ';
+                }
 
-				$onchange = '';
-				if ($mdata['actionChange'] == 1) {
-					$onchange = 'onchange="' . $mdata['actionFunctionName'] . '(this,\'change\');" ';
-				}
+                $onchange = '';
+                if(isset($mdata['actionChange']) && $mdata['actionChange'] == 1){
+                    $onchange = 'onchange="'.$mdata['actionFunctionName'] . '(this,\'change\');" ';
+                }
 
-				$onfocus = '';
-				if ($mdata['actionFocus'] == 1) {
-					$onfocus = 'onfocus="' . $mdata['actionFunctionName'] . '(this,\'focus\');" ';
-				}
+                $onfocus = '';
+                if(isset($mdata['actionFocus']) && $mdata['actionFocus'] == 1){
+                    $onfocus = 'onfocus="'.$mdata['actionFunctionName'] . '(this,\'focus\');" ';
+                }
 
 				$onselect = '';
 				if (isset($mdata['actionSelect']) && $mdata['actionSelect'] == 1) {
@@ -1052,6 +1103,15 @@ display:none;
 				}
 
 				if (!$mdata['hideLabel']) {
+
+                    $badge = '';
+
+                    if(isset($mdata['theme'])) {
+
+                        $badge = str_replace('invisible_', '', trim($mdata['theme']));
+                    }
+
+					if( !( $mdata['bfType'] == 'bfReCaptcha' && isset($mdata['invisibleCaptcha']) && $mdata['invisibleCaptcha'] && $badge != 'inline' ) ) {
 
 						$maxlengthCounter = '';
 						if ( $mdata['bfType'] == 'bfTextarea' && isset( $mdata['maxlength'] ) && $mdata['maxlength'] > 0 && isset( $mdata['showMaxlengthCounter'] ) && $mdata['showMaxlengthCounter'] ) {
@@ -1111,9 +1171,10 @@ display:none;
 						     $mdata['bfType'] == 'bfTextarea' ||
 						     $mdata['bfType'] == 'bfCheckbox' ||
 						     $mdata['bfType'] == 'bfCheckboxGroup' ||
-						     $mdata['bfType'] == 'bfCalendar' ||
+							 $mdata['bfType'] == 'bfCalendar' ||
+							 $mdata['bfType'] == 'bfNumberInput' ||
 						     $mdata['bfType'] == 'bfCalendarResponsive' ||
-						     $mdata['bfType'] == 'bfSelect' ||
+							 $mdata['bfType'] == 'bfSelect' ||
 						     $mdata['bfType'] == 'bfRadioGroup' ||
 						     ( $mdata['bfType'] == 'bfFile' && ( ( ! isset( $mdata['flashUploader'] ) && ! isset( $mdata['html5'] ) ) || ( isset( $mdata['flashUploader'] ) && ! $mdata['flashUploader'] ) && ( isset( $mdata['html5'] ) && ! $mdata['html5'] ) ) )
 						) {
@@ -1131,7 +1192,7 @@ display:none;
 						}
 						echo '<label id="bfLabel' . $mdata['dbId'] . '" ' . $for . '>' . $tipOpen . $tipClose . str_replace( "***", "\"", $labelText ) . $required . '</label>' . $tipScript . "\n";
 
-
+					}
 				}
 
 				$readonly = '';
@@ -1157,33 +1218,31 @@ display:none;
 								$mdata['bfType'] == 'bfSubmitButton' ||
 								$mdata['bfType'] == 'bfHidden' ||
 								$mdata['bfType'] == 'bfCalendar' ||
+								$mdata['bfType'] == 'bfNumberInput' ||
 								$mdata['bfType'] == 'bfCalendarResponsive' ||
 								$mdata['bfType'] == 'bfSelect' ||
 								$mdata['bfType'] == 'bfRadioGroup'
 								)
 						) {
 
-							$trans_value = '';
 							if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
-								$trans_value = $mdata['value_translation' . $this->language_tag];
+								$mdata['value_translation' . $this->language_tag] = $this->p->replaceCode($mdata['value_translation' . $this->language_tag], "data1 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
 							}
 
-							$group_value = '';
 							if (isset($mdata['group_translation' . $this->language_tag]) && $mdata['group_translation' . $this->language_tag] != '') {
-								$group_value = $mdata['group_translation' . $this->language_tag];
-							}
+								$mdata['group_translation' . $this->language_tag] = $this->p->replaceCode($mdata['group_translation' . $this->language_tag], "data2 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
+                            }
 
-							$list_value = '';
 							if (isset($mdata['list_translation' . $this->language_tag]) && $mdata['list_translation' . $this->language_tag] != '') {
-								$list_value = $mdata['list_translation' . $this->language_tag];
-							}
+								$mdata['list_translation' . $this->language_tag] = $this->p->replaceCode($mdata['list_translation' . $this->language_tag], "data2 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
+                            }
 
 							if ($mdata['bfType'] == 'bfSelect') {
-								$mdata['list'] = $this->p->replaceCode($list_value ? $list_value : $row->data2, "data2 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
+								$mdata['list'] = $this->p->replaceCode($row->data2, "data2 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
 							} else if ($mdata['bfType'] == 'bfCheckboxGroup' || $mdata['bfType'] == 'bfRadioGroup') {
-								$mdata['group'] = $this->p->replaceCode($group_value ? $group_value : $row->data2, "data2 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
+								$mdata['group'] = $this->p->replaceCode($row->data2, "data2 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
 							} else {
-								$mdata['value'] = $this->p->replaceCode($trans_value ? $trans_value : $row->data1, "data1 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
+								$mdata['value'] = $this->p->replaceCode($row->data1, "data1 of " . $mdata['bfName'], 'e', $mdata['dbId'], 0);
 							}
 						}
 						if (isset($mdata['checked']) && $mdata['bfType'] == 'bfCheckbox') {
@@ -1196,6 +1255,32 @@ display:none;
 				$flashUploader = '';
 
 				switch ($mdata['bfType']) {
+
+					case 'bfNumberInput':
+						$type = 'number';
+						$maxlength = '';
+						if(is_numeric($mdata['maxLength'])){
+							$maxlength = 'max="'.intval($mdata['maxLength']).'" ';
+						}
+
+						/* translatables */
+
+						if (isset($mdata['placeholder_translation' . $this->language_tag]) && $mdata['placeholder_translation' . $this->language_tag] != '') {
+							$mdata['placeholder'] = $mdata['placeholder_translation' . $this->language_tag];
+						}
+						/* translatables end */
+
+						echo '<input '.(isset($mdata['placeholder']) && $mdata['placeholder'] ? 'placeholder="'.htmlentities($mdata['placeholder'], ENT_QUOTES, 'UTF-8').'" ' : '').'class="ff_elem inputbox" '.$tabIndex.$maxlength.$onclick.$onblur.$onchange.$onfocus.$onselect.$readonly.'type="'.$type.'" name="ff_nm_'.$mdata['bfName'].'[]" value="'.htmlentities(trim($mdata['value']), ENT_QUOTES, 'UTF-8').'" id="ff_elem'.$mdata['dbId'].'" step="' . $mdata['step'] . '" max="' . $mdata['max'] . '" min="' . $mdata['min'] . '"/>'."\n";
+
+						// set size of element, number input doesn't allow size attr
+						
+						if ($mdata['size'] != '') {
+							echo '<script type="text/javascript">
+							JQuery(document).ready(
+								JQuery("#ff_elem' . $mdata['dbId'] . '").css("width", "' . $mdata["size"] . '")
+							);</script>';
+						}
+						break;
 
 					case 'bfTextfield':
 						$type = 'text';
@@ -1213,9 +1298,9 @@ display:none;
 						}
 
 						/* translatables */
-						//if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
-						//	$mdata['value'] = $mdata['value_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
+							$mdata['value'] = $mdata['value_translation' . $this->language_tag];
+						}
 
 						if (isset($mdata['placeholder_translation' . $this->language_tag]) && $mdata['placeholder_translation' . $this->language_tag] != '') {
 							$mdata['placeholder'] = $mdata['placeholder_translation' . $this->language_tag];
@@ -1252,9 +1337,9 @@ display:none;
 						if (isset($mdata['placeholder_translation' . $this->language_tag]) && $mdata['placeholder_translation' . $this->language_tag] != '') {
 							$mdata['placeholder'] = $mdata['placeholder_translation' . $this->language_tag];
 						}
-						//if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
-						//	$mdata['value'] = $mdata['value_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
+							$mdata['value'] = $mdata['value_translation' . $this->language_tag];
+						}
 						/* translatables end */
 
 						if (isset($mdata['is_html']) && $mdata['is_html']) {
@@ -1272,9 +1357,9 @@ display:none;
 
 					case 'bfRadioGroup':
 						/* translatables */
-						//if (isset($mdata['group_translation' . $this->language_tag]) && $mdata['group_translation' . $this->language_tag] != '') {
-						//	$mdata['group'] = $mdata['group_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['group_translation' . $this->language_tag]) && $mdata['group_translation' . $this->language_tag] != '') {
+							$mdata['group'] = $mdata['group_translation' . $this->language_tag];
+						}
 						/* translatables end */
 						if ($mdata['group'] != '') {
 							$wrapOpen = '';
@@ -1291,6 +1376,7 @@ display:none;
 							$lines = count($gEx);
 							echo $wrapOpen;
 							for ($i = 0; $i < $lines; $i++) {
+								
 								$idExt = $i != 0 ? '_' . $i : '';
 								$iEx = explode(";", $gEx[$i]);
 								$iCnt = count($iEx);
@@ -1306,17 +1392,19 @@ display:none;
 										echo '<br/>' . "\n";
 									}
 								}
+								
 							}
 							echo $wrapClose;
 						}
 
 						break;
 
+
 					case 'bfCheckboxGroup':
 						/* translatables */
-						//if (isset($mdata['group_translation' . $this->language_tag]) && $mdata['group_translation' . $this->language_tag] != '') {
-						//	$mdata['group'] = $mdata['group_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['group_translation' . $this->language_tag]) && $mdata['group_translation' . $this->language_tag] != '') {
+							$mdata['group'] = $mdata['group_translation' . $this->language_tag];
+						}
 						/* translatables end */
 						if ($mdata['group'] != '') {
 							$wrapOpen = '';
@@ -1365,9 +1453,9 @@ display:none;
 
 					case 'bfSelect':
 						/* translatables */
-						//if (isset($mdata['list_translation' . $this->language_tag]) && $mdata['list_translation' . $this->language_tag] != '') {
-						//	$mdata['list'] = $mdata['list_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['list_translation' . $this->language_tag]) && $mdata['list_translation' . $this->language_tag] != '') {
+							$mdata['list'] = $mdata['list_translation' . $this->language_tag];
+						}
 						/* translatables end */
 						if ($mdata['list'] != '') {
 
@@ -1424,10 +1512,10 @@ display:none;
 							}
 							$bytes = (isset($mdata['flashUploaderBytes']) && is_numeric($mdata['flashUploaderBytes']) && $mdata['flashUploaderBytes'] > 0 ? "max_file_size : '" . intval($mdata['flashUploaderBytes']) . "'," : '');
 							$flashUploader = "
-                                                        <span id=\"bfUploadContainer" . $mdata['dbId'] . "\">
+                                                        <label id=\"bfUploadContainer" . $mdata['dbId'] . "\">
 							<img alt=\"\" style=\"cursor: pointer;\" id=\"bfPickFiles" . $mdata['dbId'] . "\" src=\"" . $this->uploadImagePath . "\" width=\"" . (isset($mdata['flashUploaderWidth']) && is_numeric($mdata['flashUploaderWidth']) && $mdata['flashUploaderWidth'] > 0 ? intval($mdata['flashUploaderWidth']) : '64') . "\" height=\"" . (isset($mdata['flashUploaderHeight']) && is_numeric($mdata['flashUploaderHeight']) && $mdata['flashUploaderHeight'] > 0 ? intval($mdata['flashUploaderHeight']) : '64') . "\"/>
                                                         <div id=\"bfPickFiles" . $mdata['dbId'] . "holder\" style=\"display:none;\">&nbsp;</div>
-                                                        </span>
+                                                        </label>
                                                         <span id=\"bfUploader" . $mdata['bfName'] . "\"></span>
                                                         <div class=\"bfFlashFileQueueClass\" id=\"bfFlashFileQueue" . $mdata['dbId'] . "\"></div>
                                                         <script type=\"text/javascript\">
@@ -1438,9 +1526,9 @@ display:none;
                                                                 var img;
                                                                 img = new ctplupload.Image;
                                                                 img.onload = function() {
-                                                                        img.embed(JQuery('#' + file.id+'thumb').get(0), { 
-                                                                                width: 100, 
-                                                                                height: 60, 
+                                                                        img.embed(JQuery('#' + file.id+'thumb').get(0), {
+                                                                                width: 100,
+                                                                                height: 60,
                                                                                 crop: true,
                                                                                 swf_url: mOxie.resolveUrl('" . $base . "components/com_breezingforms/libraries/jquery/plupload/Moxie.swf')
                                                                         });
@@ -1451,25 +1539,26 @@ display:none;
                                                                 };
 
                                                                 img.onerror = function() {
-                                                                        
+
                                                                 };
-                                                                
+
                                                                 img.load(file.getSource());
-                                                                
+
                                                         }
                                                         JQuery(document).ready(
                                                             function() {
                                                                 var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false );
                                                                 var uploader = new plupload.Uploader({
+                                                                        max_retries: 10,
                                                                         multi_selection: " . ( isset($mdata['flashUploaderMulti']) && $mdata['flashUploaderMulti'] ? 'true' : 'false' ) . ",
                                                                         unique_names: iOS,
                                                                         chunk_size: '100kb',
-                                                                        runtimes : 'flash,html4',
+                                                                        runtimes : '" . ( isset($mdata['html5']) && $mdata['html5'] ? 'html5,' : '' ) . ( isset($mdata['flashUploader']) && $mdata['flashUploader'] ? 'flash,' : '') . "html4',
                                                                         browse_button : 'bfPickFiles" . $mdata['dbId'] . "',
                                                                         container: 'bfUploadContainer" . $mdata['dbId'] . "',
                                                                         file_data_name: 'Filedata',
                                                                         multipart_params: { form: " . $this->p->form . ", itemName : '" . $mdata['bfName'] . "', bfFlashUploadTicket: '" . $this->flashUploadTicket . "', option: 'com_breezingforms', format: 'html', flashUpload: 'true', Itemid: 0 },
-                                                                        url : '" . $base . (BFJoomlaConfig::get('config.sef') && !BFJoomlaConfig::get('config.sef_rewrite') ? 'index.php/' : '') . (JRequest::getCmd('lang', '') && BFJoomlaConfig::get('config.sef') ? JRequest::getCmd('lang', '') . ( BFJoomlaConfig::get('config.sef_rewrite') ? 'index.php' : '' ) : 'index.php') . "',
+                                                                        url : '" . $base . (BFJoomlaConfig::get('config.sef') && !BFJoomlaConfig::get('config.sef_rewrite') ? 'index.php/' : '') . (JRequest::getCmd('lang', '') && BFJoomlaConfig::get('config.sef') ? ( BFJoomlaConfig::get('config.sef_rewrite') ? 'index.php' : '' ) : 'index.php') . "',
                                                                         flash_swf_url : '" . $base . "components/com_breezingforms/libraries/jquery/plupload/Moxie.swf',
                                                                         filters : [
                                                                                 {title : '" . addslashes(BFText::_('COM_BREEZINGFORMS_CHOOSE_FILE')) . "', extensions : '" . $exts . "'}
@@ -1485,7 +1574,7 @@ display:none;
                                                                                     if(typeof bfUploadFileAdded == 'function'){
                                                                                         bfUploadFileAdded(files[i]);
                                                                                     }
-                                                                                    JQuery('#bfFileQueue').append( '<div id=\"' + files[i].id + 'queue\">' + (iOS ? '' : files[i].name) + ' '+fsize+'<b></b></div>' );
+                                                                                    JQuery('#bfFileQueue').append( '<div id=\"' + files[i].id + 'queue\">' + (iOS ? '' : files[i].name.replace(/[/\\?%*:|\"<>]/g, '')) + ' '+fsize+'<b></b></div>' );
                                                                                 }
                                                                         }
                                                                         for (var i in files) {
@@ -1495,11 +1584,11 @@ display:none;
                                                                                 if(typeof files[i].size != 'undefined'){
                                                                                     fsize = '(' + plupload.formatSize(files[i].size) + ') ';
                                                                                 }
-                                                                                JQuery('#bfFlashFileQueue" . $mdata['dbId'] . "').append('<div class=\"bfFileQueueItem\" id=\"' + files[i].id + 'queueitem\"><div id=\"' + files[i].id + 'thumb\"></div><div id=\"' + files[i].id + '\"><img id=\"' + files[i].id + 'cancel\" src=\"" . $this->cancelImagePath . "\" style=\"cursor: pointer; padding-right: 10px;\" />' + (iOS ? '' : files[i].name) + ' ' + fsize + '<b id=\"' + files[i].id + 'msg\" style=\"color:red;\"></b></div></div>');
+                                                                                JQuery('#bfFlashFileQueue" . $mdata['dbId'] . "').append('<div class=\"bfFileQueueItem\" id=\"' + files[i].id + 'queueitem\"><div id=\"' + files[i].id + 'thumb\"></div><div id=\"' + files[i].id + '\"><img id=\"' + files[i].id + 'cancel\" src=\"" . $this->cancelImagePath . "\" style=\"cursor: pointer; padding-right: 10px;\" />' + (iOS ? '' : files[i].name.replace(/[/\\?%*:|\"<>]/g, '')) + ' ' + fsize + '<b id=\"' + files[i].id + 'msg\" style=\"color:red;\"></b></div></div>');
                                                                                 var file_ = files[i];
                                                                                 var uploader_ = uploader;
                                                                                 var bfUploaders_ = bfUploaders;
-                                                                                JQuery('#' + files[i].id + 'cancel').click( 
+                                                                                JQuery('#' + files[i].id + 'cancel').click(
                                                                                     function(){
                                                                                         for( var i = 0; i < bfUploaders_.length; i++ ){
                                                                                             bfUploaders_[i].stop();
@@ -1521,14 +1610,14 @@ display:none;
                                                                                                 JQuery('#bfPickFiles" . $mdata['dbId'] . "holder').css('display','none');
                                                                                             }
                                                                                         }
-                                                                                    } 
+                                                                                    }
                                                                                 );
                                                                                 var thebytes = " . (isset($mdata['flashUploaderBytes']) && is_numeric($mdata['flashUploaderBytes']) && $mdata['flashUploaderBytes'] > 0 ? intval($mdata['flashUploaderBytes']) : '0') . ";
                                                                                 if(thebytes > 0 && typeof files[i].size != 'undefined' && files[i].size > thebytes){
                                                                                      alert(' " . addslashes(BFText::_('COM_BREEZINGFORMS_FLASH_UPLOADER_TOO_LARGE')) . "');
                                                                                      error = true;
                                                                                 }
-                                                                                var ext = files[i].name.split('.').pop().toLowerCase();
+                                                                                var ext = files[i].name.replace(/[/\\?%*:|\"<>]/g, '').split('.').pop().toLowerCase();
                                                                                 var exts = '" . strtolower($exts) . "'.split(',');
                                                                                 var found = 0;
                                                                                 for (var x in exts){
@@ -1595,9 +1684,9 @@ display:none;
 						if (isset($mdata['src_translation' . $this->language_tag]) && $mdata['src_translation' . $this->language_tag] != '') {
 							$mdata['src'] = $mdata['src_translation' . $this->language_tag];
 						}
-						//if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
-						//	$mdata['value'] = $mdata['value_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
+							$mdata['value'] = $mdata['value_translation' . $this->language_tag];
+						}
 						/* translatables end */
 
 						$value = '';
@@ -1611,7 +1700,7 @@ display:none;
 						if ($mdata['value'] != '') {
 							$value = 'value="' . htmlentities(trim($mdata['value']), ENT_QUOTES, 'UTF-8') . '" ';
 						}
-						if ($mdata['actionClick'] == 1) {
+						if (isset($mdata['actionClick']) && $mdata['actionClick'] == 1) {
 							$onclick = 'onclick="if(typeof bf_htmltextareainit != \'undefined\'){ bf_htmltextareainit() }populateSummarizers();if(document.getElementById(\'bfPaymentMethod\')){document.getElementById(\'bfPaymentMethod\').value=\'\';};' . $mdata['actionFunctionName'] . '(this,\'click\');return false;" ';
 						} else {
 							$onclick = 'onclick="if(typeof bf_htmltextareainit != \'undefined\'){ bf_htmltextareainit() }populateSummarizers();if(document.getElementById(\'bfPaymentMethod\')){document.getElementById(\'bfPaymentMethod\').value=\'\';};return false;" ';
@@ -1656,118 +1745,116 @@ display:none;
 
 						if (isset($mdata['pubkey']) && $mdata['pubkey'] != '') {
 
-							if (isset($mdata['newCaptcha']) && $mdata['newCaptcha']) {
+							if ((!isset($mdata['invisibleCaptcha']) || !$mdata['invisibleCaptcha'])) {
 
-								$http = 'http';
-								if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
-									$http .= 's';
+								$http = 'https'; // forcing https now
+
+								$lang = JRequest::getVar('lang', '');
+
+                                $getLangTag = JFactory::getLanguage()->getTag();
+                                $getLangSlug = explode('-', $getLangTag);
+                                $reCaptchaLang = 'hl='. $getLangSlug[0];
+
+								if ($lang != '') {
+									$lang = ',lang: ' . json_encode($lang) . '';
 								}
+								$size = '';
+                                if($mdata['size'] != '') {
+                                   $size = json_encode($mdata['size']);
+                                } else {
+                                    $normal = 'normal';
+                                    $size = json_encode($normal);
+
+                                }
+								JFactory::getDocument()->addScript($http.'://www.google.com/recaptcha/api.js?'.$reCaptchaLang.'&onload=onloadBFNewRecaptchaCallback&render=explicit', $type = "text/javascript", array('data-usercentrics' => 'reCAPTCHA'));
+
+								echo '
+                                                    <div style="display: inline-block !important; vertical-align: middle;">
+                                                        <div id="newrecaptcha"></div>
+                                                    </div>
+                                                    <script data-usercentrics="reCAPTCHA" type="text/javascript">
+                                                    <!--
+                                                    var onloadBFNewRecaptchaCallback = function() {
+                                                      grecaptcha.render(document.getElementById("newrecaptcha"), {
+                                                        "sitekey" : "' . $mdata['pubkey'] . '",
+                                                        "theme" : "' . (trim($mdata['theme']) == '' ? 'light' : trim($mdata['theme'])) . '",
+                                                        "size"	: ' . $size . ',
+                                                      },true);
+                                                    };
+                                                    JQuery(document).ready(function(){
+
+                                                        var rc_loaded = JQuery("script").filter(function () {
+														    return ((typeof JQuery(this).attr("src") != "undefined" && JQuery(this).attr("src").indexOf("recaptcha\/api.js") > 0) ? true : false);
+														}).length;
+
+														if (rc_loaded === 0) {
+															//JQuery.getScript("'.$http.'://www.google.com/recaptcha/api.js?'.$reCaptchaLang.'&onload=onloadBFNewRecaptchaCallback&render=explicit");
+														}
+                                                    });
+                                                    -->
+                                                  </script>';
+							}
+							else
+							if (isset($mdata['invisibleCaptcha']) && $mdata['invisibleCaptcha']) {
+
+								$http = 'https';
+
 								$lang = JRequest::getVar('lang', '');
 								if ($lang != '') {
 									$lang = ',lang: ' . json_encode($lang) . '';
 								}
 
-								//JFactory::getDocument()->addScript($http.'://www.google.com/recaptcha/api.js?onload=onloadBFNewRecaptchaCallback&render=explicit', $type = "text/javascript", true, true);
-
-								echo '
-                                                    <div style="display: inline-block !important; vertical-align: middle;">
-                                                        <div id="newrecaptcha"></div>
-                                                        <div class="g-recaptcha" data-sitekey="' . $mdata['pubkey'] . '"></div>
-                                                    </div>
-                                                    <script type="text/javascript">
-                                                    <!--
-                                                    var onloadBFNewRecaptchaCallback = function() {
-                                                      grecaptcha.render("newrecaptcha", {
-                                                        "sitekey" : "' . $mdata['pubkey'] . '",
-                                                        "theme" : "' . (trim($mdata['theme']) == '' ? 'light' : trim($mdata['theme'])) . '",
-                                                      });
-                                                    };
-                                                    JQuery(document).ready(function(){
-                                                        
-                                                        var rc_loaded = JQuery("script").filter(function () {
-														    return ((typeof JQuery(this).attr("src") != "undefined" && JQuery(this).attr("src").indexOf("recaptcha\/api.js") > 0) ? true : false);
-														}).length;
-														
-														if (rc_loaded === 0) {
-															JQuery.getScript("'.$http.'://www.google.com/recaptcha/api.js?onload=onloadBFNewRecaptchaCallback&render=explicit");
-														}
-                                                    });
-                                                    -->
-                                                  </script>';
-							} else {
-
-								if (strtolower(trim($mdata['theme'])) == 'custom') {
-
-									$http = 'http';
-
-									if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
-										$http .= 's';
-									}
-									$lang = JRequest::getVar('lang', '');
-									if ($lang != '') {
-										$lang = ',lang: ' . json_encode($lang) . '';
-									}
-									JFactory::getDocument()->addScript($http . '://www.google.com/recaptcha/api/js/recaptcha.js');
-									echo '<div class="bfRecaptchaCustom" id="recaptcha_widget" style="display: inline-block !important;">
-
-                                                            <div id="recaptcha_image"></div>
-
-                                                            <div class="bfRecaptchaCustomResponseField" style="clear:both;">
-                                                                <input type="text" value="" id="recaptcha_response_field" name="recaptcha_response_field" />
-                                                            </div>
-
-                                                            <div class="bfRecaptchaCustomControls" style="clear:both;">
-
-                                                                <button type="button" class="button bfRecaptchaCustomRefresh" onclick="Recaptcha.reload()"><span>' . BFText::_('COM_BREEZINGFORMS_RC_REFRESH') . '</span></button>
-                                                                <button type="button" class="button recaptcha_only_if_image bfRecaptchaCustomAudio" onclick="Recaptcha.switch_type(\'audio\')"><span>' . BFText::_('COM_BREEZINGFORMS_RC_AUDIO') . '</span></button>
-                                                                <button type="button" class="button recaptcha_only_if_audio bfRecaptchaCustomPicture" onclick="Recaptcha.switch_type(\'image\')"><span>' . BFText::_('COM_BREEZINGFORMS_RC_PICTURE') . '</span></button>
-                                                                <button type="button" class="button bfRecaptchaCustomHelp" onclick="Recaptcha.showhelp()"><span>' . BFText::_('COM_BREEZINGFORMS_RC_HELP') . '</span></button>
-
-                                                            </div>
-
-                                                        </div>
-                                                        <script type="text/javascript">
-                                                        <!--
-                                                        Recaptcha.create("' . $mdata['pubkey'] . '",
-                                                            "bfReCaptchaDiv", {
-                                                            theme: "custom",
-                                                            custom_theme_widget: "recaptcha_widget"
-                                                            ' . $lang . '
-                                                            }
-                                                        );
-                                                        -->
-                                                        </script>' . "\n";
-								} else {
-
-									$http = 'http';
-									if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
-										$http .= 's';
-									}
-									$lang = JRequest::getVar('lang', '');
-									if ($lang != '') {
-										$lang = ',lang: ' . json_encode($lang) . '';
-									}
-									JFactory::getDocument()->addScript($http . '://www.google.com/recaptcha/api/js/recaptcha.js');
-									JFactory::getDocument()->addScriptDeclaration(
-											'   
-                                                            JQuery(document).ready(
-                                                                function() {
-                                                                    document.getElementById("bfReCaptchaWrap").style.display = "";
-                                                                    Recaptcha.create("' . $mdata['pubkey'] . '",
-                                                                        "bfReCaptchaDiv", {
-                                                                        theme: ' . json_encode($mdata['theme']) . '
-                                                                        ' . $lang . '
-                                                                        }
-                                                                    );
-                                                                    setTimeout("document.getElementById(\"bfReCaptchaSpan\").appendChild(document.getElementById(\"bfReCaptchaWrap\"))",100);
-                                                                }
-                                                            );
-                                                        ');
-
-									echo '<span id="bfReCaptchaSpan" class="bfCaptcha">' . "\n";
-									echo '</span>' . "\n";
+								$callSubmit = 'ff_validate_submit(this, \'click\')';
+								if ($this->hasFlashUpload) {
+									$callSubmit = 'if(typeof bfAjaxObject101 == \'undefined\' && typeof bfReCaptchaLoaded == \'undefined\'){bfDoFlashUpload()}else{ff_validate_submit(this, \'click\')}';
 								}
+
+                                $badge = str_replace('invisible_','', trim($mdata['theme']));
+
+								if($badge == 'inline') {
+                                ?>
+                                    <div style="display: inline-block !important; vertical-align: middle;"
+                                    <div id="bfInvisibleReCaptchaContainer"></div>
+                                    <div id="bfInvisibleReCaptcha"></div>
+                                    </div>
+                                    <?php
+                                }else{
+                                ?>
+                                    <div id="bfInvisibleReCaptchaContainer"></div>
+                                    <div id="bfInvisibleReCaptcha"></div>
+                                <?php
+                                }
+								?>
+									<script data-usercentrics="reCAPTCHA" type="text/javascript">
+										bfInvisibleRecaptcha = true;
+										var onloadBFNewRecaptchaCallback = function (){
+											grecaptcha.render('bfInvisibleReCaptchaContainer', {
+												'sitekey': '<?php echo $mdata['pubkey'] ?>',
+												'expired-callback': recaptchaExpiredCallback,
+												'callback': recaptchaCheckedCallback,
+                                                "badge" : "<?php echo $badge == 'red' ? '' : $badge; ?>",
+												'size': 'invisible'
+											});
+										};
+										
+										function recaptchaCheckedCallback(token){
+											if(token!=''){
+												bfInvisibleRecaptcha = false;
+											}
+											if(typeof bf_htmltextareainit != 'undefined'){
+												bf_htmltextareainit();
+											}
+											<?php echo $callSubmit; ?>;
+										};
+										
+										function recaptchaExpiredCallback(){
+											grecaptcha.reset();
+										};
+									</script>
+									<script data-usercentrics="reCAPTCHA" src="https://www.google.com/recaptcha/api.js?onload=onloadBFNewRecaptchaCallback&render=explicit" async defer></script>
+									<?php
 							}
+
 						} else {
 							echo '<span class="bfCaptcha">' . "\n";
 							echo 'WARNING: No public key given for ReCaptcha element!';
@@ -1797,17 +1884,15 @@ display:none;
 					case 'bfCalendar':
 
 						/* translatables */
-						//if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
-						//	$mdata['value'] = $mdata['value_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
+							$mdata['value'] = $mdata['value_translation' . $this->language_tag];
+						}
 						if (isset($mdata['format_translation' . $this->language_tag]) && $mdata['format_translation' . $this->language_tag] != '') {
 							$mdata['format'] = $mdata['format_translation' . $this->language_tag];
 						}
 						/* translatables end */
-
-						JHTML::_('behavior.calendar');
-
-						$size = 'style="width: 65%;min-width: 65%;max-width: 65%;" ';
+						/* params define */
+						$size = '';
 						if ($mdata['size'] != '') {
 							$size = 'style="width:' . htmlentities(strip_tags($mdata['size'])) . ';max-width:' . htmlentities(strip_tags($mdata['size'])) . ';min-width:' . htmlentities(strip_tags($mdata['size'])) . ';" ';
 						}
@@ -1820,34 +1905,134 @@ display:none;
 							$left = trim($exploded[0]);
 							$right = trim($exploded[1]);
 						} else {
-							$right = trim($exploded[0]);
+							$left = trim($exploded[0]);
 						}
 
-						echo '<span class="bfElementGroupNoWrap" id="bfElementGroupNoWrap' . $mdata['dbId'] . '">' . "\n";
-						echo '<input autocomplete="off" class="ff_elem bfCalendarInput" ' . $size . 'type="text" name="ff_nm_' . $mdata['bfName'] . '[]"  id="ff_elem' . $mdata['dbId'] . '" value="' . htmlentities($left, ENT_QUOTES, 'UTF-8') . '"/>' . "\n";
-						echo '<button type="button" id="ff_elem' . $mdata['dbId'] . '_calendarButton" type="submit" class="bfCalendar" value="' . htmlentities($right, ENT_QUOTES, 'UTF-8') . '"><span>' . htmlentities($right, ENT_QUOTES, 'UTF-8') . '</span></button>' . "\n";
-						echo '</span>' . "\n";
+						$version = new JVersion;
+						if (version_compare($version->getShortVersion(), '3.7', '>=')) {
+							/* include calendar */
+							$tag       = JFactory::getLanguage()->getTag();
+							$calendar  = JFactory::getLanguage()->getCalendar();
+							$direction = strtolower(JFactory::getDocument()->getDirection());
 
-						echo '<script type="text/javascript">
-                                                <!--
-                                                Calendar.setup({
-                                                        inputField     :    "ff_elem' . $mdata['dbId'] . '",
-                                                        ifFormat       :    "' . $mdata['format'] . '",
-                                                        button         :    "ff_elem' . $mdata['dbId'] . '_calendarButton",
-                                                        align          :    "Bl",
-                                                        singleClick    :    true
-                                                    });
-                                                //-->
-                                                </script>' . "\n";
+							// Get the appropriate file for the current language date helper
+							$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
 
+							if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+							{
+							    $helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
+							}
+
+							// Get the appropriate locale file for the current language
+							$localesPath = 'system/fields/calendar-locales/en.js';
+
+							if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
+							{
+							    $localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
+							}
+							elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
+							{
+							    $localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
+							}
+							$cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
+
+							// Load polyfills for older IE
+							JHtml::_('behavior.polyfill', array('event', 'classlist', 'map'), 'lte IE 11');
+
+							// The static assets for the calendar
+							JHtml::_('script', $localesPath, false, true, false, false, true);
+							JHtml::_('script', $helperPath, false, true, false, false, true);
+							JHtml::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
+							JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
+
+ 							$calAttr = [
+								'showTime' => (isset($mdata['showTime']) && $mdata['showTime'] != '') ? '1' : '0',
+								'timeFormat' => (isset($mdata['timeFormat']) && $mdata['timeFormat'] != '') ? '24' : '12',
+								'singleHeader' => (isset($mdata['singleHeader']) && $mdata['singleHeader'] != '') ? '1' : '0',
+								'todayBtn' => (isset($mdata['todayButton']) && $mdata['todayButton'] != '') ? '1' : '0',
+								'weekNumbers' => (isset($mdata['weekNumbers']) && $mdata['weekNumbers'] != '') ? '1' : '0',
+								'minYear' => (isset($mdata['minYear']) && $mdata['minYear'] != '') ? '-'.$mdata['minYear'] : '',
+								'maxYear' => (isset($mdata['maxYear']) && $mdata['maxYear'] != '') ? '+'.$mdata['maxYear'] : '',
+								'firstDay' => (isset($mdata['firstDay']) && $mdata['firstDay'] != '') ? $mdata['firstDay'] : '7',
+							];
+							echo '<span class="bfElementGroupNoWrap" id="bfElementGroupNoWrap' . $mdata['dbId'] . '">' . "\n";
+								echo '<div class="field-calendar">' . "\n";
+									echo '<div class="input-append">' . "\n";
+									echo '<input type="text"
+											id="ff_elem' . $mdata['dbId'] . '"
+											name="ff_nm_' . $mdata['bfName'] . '[]"
+											autocomplete="off"
+											class="ff_elem bfCalendarInput"
+											data-alt-value="' . htmlentities($left, ENT_QUOTES, 'UTF-8') . '"
+											' . $size . '
+											value="' . htmlentities($left, ENT_QUOTES, 'UTF-8') . '"/>' . "\n";
+									echo '<button type="button"
+											id="ff_elem' . $mdata['dbId'] . '_calendarButton"
+											class="bfCalendar btn btn-secondary"
+											value="' . htmlentities($right, ENT_QUOTES, 'UTF-8') . '"
+											data-inputfield="ff_elem' . $mdata['dbId'] . '"
+											data-dayformat="' . $mdata['format'] . '"
+											data-button="ff_elem' . $mdata['dbId'] . '_calendarButton"
+											data-firstday="' . $calAttr["firstDay"] . '"
+											data-weekend="0,6"
+											data-today-btn="' . $calAttr["todayBtn"] . '"
+											data-week-numbers="' . $calAttr["weekNumbers"] . '"
+									        data-show-time="' . $calAttr["showTime"] . '"
+									        data-show-others="1"
+									        data-time-24="' . $calAttr["timeFormat"] . '"
+									        data-only-months-nav="' . $calAttr["singleHeader"] . '"
+											data-min-year="' . $calAttr["minYear"] . '"
+											data-max-year="' . $calAttr["maxYear"] . '">
+												<span class="icon-calendar"> ' . htmlentities($left, ENT_QUOTES, 'UTF-8') . '</span>
+										</button>' . "\n";
+							echo '</div>
+								</div>
+							</span>
+
+							<script>
+							var elements = document.querySelectorAll(".field-calendar"); 
+							    for (i = 0; i < elements.length; i++) {            
+							        JoomlaCalendar.init(elements[i]); 
+							 } 
+							 JQuery(document).ready(JQuery("#ff_elem' . $mdata['dbId'] . '_calendarButton").click(() => {
+								JQuery(".js-calendar").css("position", "inherit");
+								JQuery(".js-calendar").css("box-shadow", "none");
+								JQuery(".calendar-container").css("box-shadow", "rgba(0, 0, 0, 0.67) 0px 0px 20px 0px");
+							}));
+							</script>' . "\n";
+							echo '<style>thead.calendar-header { font-size: initial; }
+							.calendar-container td.time select.time { max-width: 100%; }
+							.calendar-container td.ampm-select .time-ampm { width: unset !important; max-width: 250%; }
+							.calendar-container { text-align: center; }
+							.js-calendar { box-shadow: none !important; }</style>';
+						} else {
+							JHTML::_('behavior.calendar');
+
+							echo '<span class="bfElementGroupNoWrap" id="bfElementGroupNoWrap' . $mdata['dbId'] . '">' . "\n";
+							echo '<input autocomplete="off" class="ff_elem bfCalendarInput" ' . $size . 'type="text" name="ff_nm_' . $mdata['bfName'] . '[]"  id="ff_elem' . $mdata['dbId'] . '" value="' . htmlentities($left, ENT_QUOTES, 'UTF-8') . '"/>' . "\n";
+							echo '<button type="button" id="ff_elem' . $mdata['dbId'] . '_calendarButton" type="submit" class="bfCalendar" value="' . htmlentities($right, ENT_QUOTES, 'UTF-8') . '"><span>' . htmlentities($right, ENT_QUOTES, 'UTF-8') . '</span></button>' . "\n";
+							echo '</span>' . "\n";
+
+							echo '<script type="text/javascript">
+	                                                <!--
+	                                                Calendar.setup({
+	                                                        inputField     :    "ff_elem' . $mdata['dbId'] . '",
+	                                                        ifFormat       :    "' . $mdata['format'] . '",
+	                                                        button         :    "ff_elem' . $mdata['dbId'] . '_calendarButton",
+	                                                        align          :    "Bl",
+	                                                        singleClick    :    true
+	                                                    });
+	                                                //-->
+	                                                </script>' . "\n";
+                        }                        
 						break;
 
 					case 'bfCalendarResponsive':
 
 						/* translatables */
-						//if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
-						//	$mdata['value'] = $mdata['value_translation' . $this->language_tag];
-						//}
+						if (isset($mdata['value_translation' . $this->language_tag]) && $mdata['value_translation' . $this->language_tag] != '') {
+							$mdata['value'] = $mdata['value_translation' . $this->language_tag];
+						}
 						if (isset($mdata['format_translation' . $this->language_tag]) && $mdata['format_translation' . $this->language_tag] != '') {
 							$mdata['format'] = $mdata['format_translation' . $this->language_tag];
 						}
@@ -1869,7 +2054,7 @@ display:none;
 							$right = trim($exploded[0]);
 						}
 
-						echo '<span class="bfElementGroupNoWrap" id="bfElementGroupNoWrap' . $mdata['dbId'] . '">' . "\n";
+                        echo '<span class="bfElementGroupNoWrap" id="bfElementGroupNoWrap' . $mdata['dbId'] . '">' . "\n";
 						echo '<input autocomplete="off" class="ff_elem bfCalendarInput" ' . $size . 'type="text" name="ff_nm_' . $mdata['bfName'] . '[]"  id="ff_elem' . $mdata['dbId'] . '" value="' . htmlentities($left, ENT_QUOTES, 'UTF-8') . '"/>' . "\n";
 						echo '<button type="button" id="ff_elem' . $mdata['dbId'] . '_calendarButton" type="submit" class="bfCalendar" value="' . htmlentities($right, ENT_QUOTES, 'UTF-8') . '"><span>' . htmlentities($right, ENT_QUOTES, 'UTF-8') . '</span></button>' . "\n";
 						echo '</span>' . "\n";
@@ -1927,27 +2112,32 @@ display:none;
 
 						echo $c;
 
-						echo '<script type="text/javascript">
+                        echo '<script type="text/javascript">
                                                 <!--
                                                 JQuery(document).ready(function () {
-                                                    ' . $container . '
-                                                    JQuery("#ff_elem' . $mdata['dbId'] . '_calendarButton").pickadate({
-                                                        format: "' . $mdata['format'] . '", 
-                                                        selectYears: 60, 
+                                                    '.$container.'
+                                                    JQuery(".bfCalendar").on("mousedown",function(event){
+                                                    event.preventDefault();})
+                                                    JQuery("#ff_elem'.$mdata['dbId'].'_calendarButton").pickadate({
+                                                        format: "'.$mdata['format'].'",
+                                                        selectYears: 60,
                                                         selectMonths: true,
                                                         editable: true,
                                                         firstDay: 1,
-                                                        container: ".bfCalendarResponsiveContainer' . $mdata['dbId'] . '",
+                                                        container: ".bfCalendarResponsiveContainer'.$mdata['dbId'].'",
+                                                        onClose: function() {
+                                                            JQuery(".bfCalendar").blur();
+                                                        },
                                                         onOpen: function() {
-                                                            bf_add_yearscroller( ' . json_encode($mdata['dbId']) . ' );
+                                                            bf_add_yearscroller( '.json_encode($mdata['dbId']).' );
                                                         },
                                                         onSet: function() {
-                                                            JQuery("#ff_elem' . $mdata['dbId'] . '").val(this.get("value"));
+                                                            JQuery("#ff_elem'.$mdata['dbId'].'").val(this.get("value"));
                                                         }
                                                     });
                                                 });
                                                 //-->
-                                                </script>' . "\n";
+                                                </script>'."\n";
 
 						$this->hasResponsiveDatePicker = true;
 
@@ -1955,14 +2145,96 @@ display:none;
 
 					case 'bfSignature':
 
-						echo '<div style="color:red;">Signature field available in Pro version, only!</div>';
+						$base = 'ba'.'se'.'64';
+
+						JFactory::getDocument()->addScript(Juri::root(true).'/components/com_breezingforms/libraries/js/signature.js');
+						JFactory::getDocument()->addScriptDeclaration('
+						var bf_signaturePad' . $mdata['dbId'] . ' = null;
+						var bf_canvas' . $mdata['dbId'] . ' = null;
+
+						function bf_resizeCanvas' . $mdata['dbId'] . 'Func() {
+
+							if(arguments[0] !== false){
+
+								var data = bf_signaturePad' . $mdata['dbId'] . '.toDataURL();
+
+							}
+
+						    var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+						    bf_canvas' . $mdata['dbId'] . '.width = bf_canvas' . $mdata['dbId'] . '.offsetWidth * ratio;
+						    bf_canvas' . $mdata['dbId'] . '.height = bf_canvas' . $mdata['dbId'] . '.offsetHeight * ratio;
+						    bf_canvas' . $mdata['dbId'] . '.getContext("2d").scale(ratio, ratio);
+
+						    if(arguments[0] !== false){
+
+						        bf_signaturePad' . $mdata['dbId'] . '.fromDataURL(data);
+						        JQuery("#ff_elem' . $mdata['dbId'] . '").val(data.replace("data:image/png;'.$base.',",""));
+						    }
+
+						    bf_signaturePad' . $mdata['dbId'] . ' = new SignaturePad(bf_canvas' . $mdata['dbId'] . ', {
+							    backgroundColor: "rgb(255,255,255)",
+							    penColor: "rgb(0,0,0)",
+							    onEnd: function(){
+							        var data = bf_signaturePad' . $mdata['dbId'] . '.toDataURL();
+							        JQuery("#ff_elem' . $mdata['dbId'] . '").val(data.replace("data:image/png;'.$base.',",""));
+							    }
+							});
+						}
+
+						function bf_Signature' . $mdata['dbId'] . 'Reset(sig) {
+							sig.clear();
+							JQuery("#ff_elem' . $mdata['dbId'] . '").val("");
+						}
+
+						JQuery(document).ready(function(){
+							bf_canvas' . $mdata['dbId'] . ' = document.querySelector("#bfSignature' . $mdata['dbId'] . ' canvas");
+
+							// trouble on mobile devices, thinks swiping is resize...
+							JQuery(window).on("resize", bf_resizeCanvas' . $mdata['dbId'] . 'Func);
+
+							bf_resizeCanvas' . $mdata['dbId'] . 'Func(false);
+
+							// make sure the canvas is resized if dimensions are zero
+							setInterval(function(){
+								if( bf_canvas' . $mdata['dbId'] . '.width == 0 && bf_canvas' . $mdata['dbId'] . '.height == 0 ){
+									bf_resizeCanvas' . $mdata['dbId'] . 'Func(false);
+								}
+							}, 500);
+
+						});
+						');
+
+						echo '<div class="bfSignature" id="bfSignature' . $mdata['dbId'] . '"><div class="bfSignatureCanvasBorder"><canvas></canvas></div>'."\n";
+						echo '<button onclick="bf_Signature' . $mdata['dbId'] . 'Reset(bf_signaturePad' . $mdata['dbId'] . ');" class="bfSignatureResetButton button"><span>'.JText::_('COM_BREEZINGFORMS_SIGNATURE_RESET_BUTTON').'</span></button>'."\n";
+						echo '<span class=\'bfSignature' . $mdata['bfName'] . '\'></span>';
+						echo '</div>';
 						echo '<input class="ff_elem" type="hidden" name="ff_nm_' . $mdata['bfName'] . '[]" value="" id="ff_elem' . $mdata['dbId'] . '"/>' . "\n";
 
 						break;
 
 					case 'bfStripe':
 
-						echo '<div style="color:red;">Stripe payments available in Pro version, only!</div>';
+						/* translatables */
+						if (isset($mdata['image_translation' . $this->language_tag]) && $mdata['image_translation' . $this->language_tag] != '') {
+							$mdata['image'] = $mdata['image_translation' . $this->language_tag];
+						}
+						/* translatables end */
+
+						$value = '';
+						$type = 'submit';
+						$src = '';
+						if ($mdata['image'] != '') {
+							$type = 'image';
+							$src = 'src="' . $mdata['image'] . '" ';
+						} else {
+							$value = 'value="PayPal" ';
+						}
+						if (isset($mdata['actionClick']) && $mdata['actionClick'] == 1) {
+							$onclick = 'onclick="document.getElementById(\'bfPaymentMethod\').value=\'Stripe\';' . $mdata['actionFunctionName'] . '(this,\'click\');" ';
+						} else {
+							$onclick = 'onclick="document.getElementById(\'bfPaymentMethod\').value=\'Stripe\';" ';
+						}
+						echo '<input class="ff_elem" ' . $value . $src . $tabIndex . $onclick . $onblur . $onchange . $onfocus . $onselect . $readonly . 'type="' . $type . '" name="ff_nm_' . $mdata['bfName'] . '[]" id="ff_elem' . $mdata['dbId'] . '"/>' . "\n";
 						break;
 
 					case 'bfPayPal':
@@ -1982,7 +2254,7 @@ display:none;
 						} else {
 							$value = 'value="PayPal" ';
 						}
-						if ($mdata['actionClick'] == 1) {
+						if (isset($mdata['actionClick']) && $mdata['actionClick'] == 1) {
 							$onclick = 'onclick="document.getElementById(\'bfPaymentMethod\').value=\'PayPal\';' . $mdata['actionFunctionName'] . '(this,\'click\');" ';
 						} else {
 							$onclick = 'onclick="document.getElementById(\'bfPaymentMethod\').value=\'PayPal\';" ';
@@ -2007,7 +2279,7 @@ display:none;
 						} else {
 							$value = 'value="Sofortueberweisung" ';
 						}
-						if ($mdata['actionClick'] == 1) {
+						if (isset($mdata['actionClick']) && $mdata['actionClick'] == 1) {
 							$onclick = 'onclick="document.getElementById(\'bfPaymentMethod\').value=\'Sofortueberweisung\';' . $mdata['actionFunctionName'] . '(this,\'click\');" ';
 						} else {
 							$onclick = 'onclick="document.getElementById(\'bfPaymentMethod\').value=\'Sofortueberweisung\';" ';
@@ -2157,7 +2429,7 @@ display:none;
 			$htmltextarea_out = '';
 			foreach ($this->htmltextareas As $htmltextarea) {
 				$htmltextarea_out .= 'JQuery("[name=\"' . $htmltextarea . '\"]").val(JQuery.trim(JQuery("[name=\"' . $htmltextarea . '\"]").val())+" ");' . "\n";
-				$htmltextarea_out .= 'bf_htmltextareas.push("' . rtrim(trim($editor->getContent($htmltextarea)), ';') . '")' . "\n";
+				$htmltextarea_out .= 'bf_htmltextareas.push("' . addslashes(rtrim(trim($editor->getContent($htmltextarea)), ';')) . '")' . "\n";
 				$htmltextarea_out .= 'bf_htmltextareanames.push("' . $htmltextarea . '")' . "\n";
 			}
 			echo '<script type="text/javascript">
@@ -2240,7 +2512,7 @@ display:none;
                                             JQuery("#bfSubmitMessage").css("display","block");
                                             JQuery("#bfSubmitMessage").css("z-index","999999");
                                         }
-                                        
+
 				}
 			}
 			');

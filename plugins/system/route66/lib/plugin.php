@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 class Route66Plugin extends JPlugin
 {
 	protected $rules = array();
@@ -14,7 +16,7 @@ class Route66Plugin extends JPlugin
 	{
 		$application = JFactory::getApplication();
 		$languages = JLanguageHelper::getLanguages('lang_code');
-		$languageFilter = $application->isSite() && $application->getLanguageFilter();
+		$languageFilter = $application->isClient('site') && $application->getLanguageFilter();
 
 		if ($languageFilter)
 		{
@@ -71,8 +73,8 @@ class Route66Plugin extends JPlugin
 					$prefix = $languages[$key]->prefix;
 				}
 
-				include_once JPATH_SITE . '/plugins/route66/' . $this->get('_name') . '/rules/' . $ruleName . '.php';
-				$className = 'Route66Rule' . ucfirst($this->get('_name')) . ucfirst($ruleName);
+				include_once JPATH_SITE . '/plugins/route66/' . $this->_name . '/rules/' . $ruleName . '.php';
+				$className = 'Route66Rule' . ucfirst($this->_name) . ucfirst($ruleName);
 				$rule = new $className($pattern, $prefix, $key);
 				$array[] = $rule;
 			}
@@ -88,10 +90,9 @@ class Route66Plugin extends JPlugin
 
 	public function onRoute66LoadExtensionForm(&$form, $formType)
 	{
-		jimport('joomla.filesystem.file');
-		$formFile = JPATH_SITE . '/plugins/route66/' . $this->get('_name') . '/forms/' . $formType . '.xml';
+		$formFile = JPATH_SITE . '/plugins/route66/' . $this->_name . '/forms/' . $formType . '.xml';
 
-		if ($this->onRoute66IsExtensionInstalled() && JFile::exists($formFile))
+		if ($this->onRoute66IsExtensionInstalled() && File::exists($formFile))
 		{
 			$form->loadFile($formFile);
 		}
@@ -100,7 +101,7 @@ class Route66Plugin extends JPlugin
 	public function onRoute66GetSitemapItems($feed, $extension, $offset, $limit)
 	{
 		$items = array();
-		$name = $this->get('_name');
+		$name = $this->_name;
 
 		if ($feed->sources->get($name) && $extension == $name && $this->onRoute66IsExtensionInstalled())
 		{
@@ -118,7 +119,7 @@ class Route66Plugin extends JPlugin
 	public function onRoute66CountSitemapItems($feed)
 	{
 		$count = 0;
-		$name = $this->get('_name');
+		$name = $this->_name;
 
 		if ($feed->sources->get($name) && $this->onRoute66IsExtensionInstalled())
 		{
@@ -135,15 +136,15 @@ class Route66Plugin extends JPlugin
 
 	protected function getModel()
 	{
-		JModelLegacy::addIncludePath(JPATH_SITE . '/plugins/route66/' . $this->get('_name') . '/models');
-
-		return JModelLegacy::getInstance(ucfirst($this->get('_name')), 'Route66Model', array('ignore_request' => true));
+		$name = ucfirst($this->_name);
+		JLoader::register('Route66Model'.$name, JPATH_SITE . '/plugins/route66/' . $this->_name . '/models/'.$this->_name.'.php');
+		return JModelLegacy::getInstance($name, 'Route66Model', array('ignore_request' => true));
 	}
 
 	public function onRoute66GetInstantArticles($feed)
 	{
 		$items = array();
-		$name = $this->get('_name');
+		$name = $this->_name;
 
 		if ($feed->sources->get($name) && $this->onRoute66IsExtensionInstalled())
 		{

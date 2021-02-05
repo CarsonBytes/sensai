@@ -62,7 +62,14 @@ class Route66ViewUrls extends JViewLegacy
 
 		if ($this->canEditPlugins)
 		{
-			$customButton = '<a class="btn btn-small" href="' . JRoute::_('index.php?option=com_plugins&filter[folder]=route66') . '"><i class="icon-power-cord plugin"></i>' . JText::_('COM_ROUTE66_ROUTE66_PLUGINS') . '</a>';
+			if(version_compare(JVERSION, '4.0', 'ge'))
+			{
+				$customButton = '<joomla-toolbar-button><a class="btn btn-small" href="' . JRoute::_('index.php?option=com_plugins&filter[folder]=route66') . '"><span class="fas fa-plug" aria-hidden="true"></span>' . JText::_('COM_ROUTE66_ROUTE66_PLUGINS') . '</a></joomla-toolbar-button>';
+			}
+			else
+			{
+				$customButton = '<a class="btn btn-small" href="' . JRoute::_('index.php?option=com_plugins&filter[folder]=route66') . '"><i class="icon-power-cord plugin"></i>' . JText::_('COM_ROUTE66_ROUTE66_PLUGINS') . '</a>';
+			}
 			$toolbar = JToolBar::getInstance('toolbar');
 			$toolbar->appendButton('Custom', $customButton);
 		}
@@ -78,7 +85,7 @@ class Route66ViewUrls extends JViewLegacy
 		}
 		else
 		{
-			Route66HelperExtension::checkPluginsOrdering();
+			Route66HelperExtension::fixPluginsOrdering();
 		}
 		$this->params = JComponentHelper::getParams('com_route66');
 

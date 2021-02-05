@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 class Route66ViewSitemap extends JViewLegacy
 {
 	protected $form;
@@ -29,17 +31,21 @@ class Route66ViewSitemap extends JViewLegacy
 		$this->loadHelper('html');
 
 		JToolBarHelper::title(JText::_('COM_ROUTE66_SITEMAP_TITLE'), 'tree-2');
-		JRequest::setVar('hidemainmenu', true);
-
+		Factory::getApplication()->input->set('hidemainmenu', true);
 		JToolBarHelper::apply('sitemap.apply');
 		JToolBarHelper::save('sitemap.save');
 		JToolbarHelper::save2copy('sitemap.save2copy');
 		JToolBarHelper::cancel('sitemap.cancel');
 
-		JHtml::_('behavior.tooltip');
-		JHtml::_('behavior.formvalidation');
+		JHtml::_('jquery.framework');
+		JHtml::_('behavior.formvalidator');
 		JHtml::_('behavior.keepalive');
-		JHtml::_('formbehavior.chosen', 'select');
+
+		if (version_compare(JVERSION, '4.0', 'lt'))
+		{
+			JHtml::_('behavior.tooltip');
+			JHtml::_('formbehavior.chosen', 'select');
+		}
 
 		parent::display($tpl);
 	}

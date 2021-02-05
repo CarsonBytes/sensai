@@ -1,9 +1,9 @@
 <?php
 /**
 * BreezingForms - A Joomla Forms Application
-* @version 1.7.3
+* @version 1.9
 * @package BreezingForms
-* @copyright (C) 2008-2011 by Markus Bopp
+* @copyright (C) 2008-2020 by Markus Bopp
 * @license Released under the terms of the GNU General Public License
 **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -26,6 +26,7 @@ class facileFormsConfig extends facileFormsConf {
 
 	function save($option, $caller, $pkg)
 	{
+
 		$this->bindRequest($_REQUEST);
 		$this->store();
 		if ($pkg != '') {
@@ -306,6 +307,8 @@ class facileFormsConfig extends facileFormsConf {
 				if ($form->emailntf != 1) $xml .= indent(2).'<emailntf>'.$form->emailntf.'</emailntf>'.nl();
 				if ($form->emaillog != 1) $xml .= indent(2).'<emaillog>'.$form->emaillog.'</emaillog>'.nl();
 				if ($form->emailxml != 0) $xml .= indent(2).'<emailxml>'.$form->emailxml.'</emailxml>'.nl();
+                if ($form->double_opt != 0) $xml .= indent(2).'<double_opt>'.$form->double_opt.'</double_opt>'.nl();
+                if ($form->opt_mail != '') $xml .= indent(2).'<opt_mail>'.$form->opt_mail.'</opt_mail>'.nl();
 				if ($form->emailntf == 2) {
 					$form->emailadr = expstring($form->emailadr);
 					if ($form->emailadr != '') $xml .= indent(2).'<emailadr>'.$form->emailadr.'</emailadr>'.nl();

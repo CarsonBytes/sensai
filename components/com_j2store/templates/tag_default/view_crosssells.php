@@ -44,8 +44,10 @@ $cross_image_width = $this->params->get('item_product_cross_image_width', '100')
 
 	      				?>
 		   				<?php if(isset($thumb_image) &&  JFile::exists(JPATH::clean(JPATH_SITE.'/'.$thumb_image))):?>
-		   					<img title="<?php echo $cross_product_name ;?>" alt="<?php echo $cross_sell_product_name ;?>" class="j2store-product-thumb-image-<?php echo $cross_sell_product->j2store_product_id; ?>"  src="<?php echo JUri::root().JPath::clean($thumb_image);?>" width="<?php echo intval ( $cross_image_width );?>" />
-					   	<?php endif; ?>
+		   					 <a href="<?php echo $cross_sell_product->product_link; ?>">
+                                 <img title="<?php echo $cross_product_name ;?>" alt="<?php echo $cross_product_name ;?>" class="j2store-product-thumb-image-<?php echo $cross_sell_product->j2store_product_id; ?>"  src="<?php echo JUri::root().JPath::clean($thumb_image);?>" width="<?php echo intval ( $cross_image_width );?>" />
+                             </a>
+                        <?php endif; ?>
 
 						</span>
 						<h3 class="cross-sell-product-title">

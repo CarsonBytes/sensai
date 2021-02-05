@@ -12,7 +12,8 @@ class JFormFieldRoute66SeoAnalysis extends JFormField
 
 	public function getInput()
 	{
-		$html = '<div id="route66-seo-analysis"></div>';
+		$className = version_compare(JVERSION, '4.0', 'ge') ? 'j4':'j3';
+		$html = '<div id="route66-seo-analysis" class="' . $className . '"></div>';
 
 		return $html;
 	}

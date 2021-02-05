@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   akeebabackup
- * @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2006-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -19,6 +19,7 @@ use DateTimeZone;
 use DirectoryIterator;
 use Exception;
 use FOF30\Date\Date;
+use FOF30\Factory\Exception\ModelNotFound;
 use FOF30\Model\Model;
 use FOF30\Timer\Timer;
 use JDatabaseDriver;
@@ -138,8 +139,15 @@ class Backup extends Model
 
 		// Rebase Off-site Folder Inclusion filters to use site path variables
 		/** @var \Akeeba\Backup\Admin\Model\IncludeFolders $incFoldersModel */
-		$incFoldersModel = $this->container->factory->model('IncludeFolders')->tmpInstance();
-		$incFoldersModel->rebaseFiltersToSiteDirs();
+		try
+		{
+			$incFoldersModel = $this->container->factory->model('IncludeFolders')->tmpInstance();
+			$incFoldersModel->rebaseFiltersToSiteDirs();
+		}
+		catch (ModelNotFound $e)
+		{
+			// Not a problem. This is expected to happen in the Core version.
+		}
 
 		// Should I apply any configuration overrides?
 		if (is_array($overrides) && !empty($overrides))

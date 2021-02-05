@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 require_once JPATH_SITE . '/plugins/system/route66pagespeed/lib/css.php';
 require_once JPATH_SITE . '/plugins/system/route66pagespeed/lib/minifier.php';
 
@@ -24,7 +26,7 @@ class plgSystemRoute66PageSpeed extends JPlugin
 		$user = JFactory::getUser();
 		$componentParams = JComponentHelper::getParams('com_route66');
 
-		if ($application->isAdmin() || $application->input->getMethod() != 'GET')
+		if ($application->isClient('administrator') || $application->input->getMethod() != 'GET')
 		{
 			return;
 		}
@@ -137,8 +139,7 @@ class plgSystemRoute66PageSpeed extends JPlugin
 					$date = JFactory::getDate();
 					$timestamp = $date->toUnix();
 					$this->cache->store($timestamp, $key . '_script_timestamp');
-					jimport('joomla.filesystem.file');
-					JFile::write(JPATH_SITE . '/media/route66/scripts/' . $key . '.js', $js);
+					File::write(JPATH_SITE . '/media/route66/scripts/' . $key . '.js', $js);
 				}
 				$head = $this->doc->getElementsByTagName('head')->item(0);
 				$script = $this->doc->createElement('script', ' ');

@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Helper;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;

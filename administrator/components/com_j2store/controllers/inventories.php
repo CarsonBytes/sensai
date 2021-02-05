@@ -47,6 +47,9 @@ class J2StoreControllerInventories extends F0FController
 		$availability = $app->input->getInt('availability');
 		$manage_stock = $app->input->getInt('manage_stock');
 		$variant_id = $app->input->getInt('variant_id');
+
+        $search = $app->input->getString('search','');
+        $inventry_stock = $app->input->getString('inventry_stock','');
 		$json = array();
 		if($variant_id > 0){
 			F0FTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_j2store/tables');
@@ -71,7 +74,7 @@ class J2StoreControllerInventories extends F0FController
 		}
 		if(!$json){
 
-			$json['success'] = 'index.php?option=com_j2store&view=inventories';
+			$json['success'] = 'index.php?option=com_j2store&view=inventories&search='.$search.'&inventry_stock='.$inventry_stock;
 		}
 		echo json_encode($json);
 		$app->close();

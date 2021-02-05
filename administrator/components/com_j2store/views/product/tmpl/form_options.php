@@ -7,6 +7,7 @@
 // No direct access
 defined('_JEXEC') or die;
 $key = 0;
+$base_path = rtrim(JUri::root(),'/').'/administrator';
 ?>
 
 <div class="j2store-product-options">
@@ -39,7 +40,7 @@ $key = 0;
 							<small>(<?php  echo $this->escape($poption->option_unique_name);?>)</small>
 							<small><?php JText::_('J2STORE_OPTION_TYPE');?><?php echo JText::_('J2STORE_'.JString::strtoupper($poption->type))?></small>
 							<?php if(isset($poption->type) && ($poption->type =='select' || $poption->type =='radio' || $poption->type =='checkbox')):?>
-							<?php echo J2StorePopup::popup("index.php?option=com_j2store&view=products&task=setproductoptionvalues&product_id=".$this->item->j2store_product_id."&productoption_id=".$poption->j2store_productoption_id."&layout=productoptionvalues&tmpl=component", JText::_( "J2STORE_OPTION_SET_VALUES" ), array());?>
+							<?php echo J2StorePopup::popup($base_path."/index.php?option=com_j2store&view=products&task=setproductoptionvalues&product_id=".$this->item->j2store_product_id."&productoption_id=".$poption->j2store_productoption_id."&layout=productoptionvalues&tmpl=component", JText::_( "J2STORE_OPTION_SET_VALUES" ), array());?>
 							<?php endif;?>
 						</td>
 						<td>
@@ -77,7 +78,7 @@ $key = 0;
 					<tfoot>
 						<tr>
 							<td colspan="4">
-								<?php echo J2StorePopup::popup("index.php?option=com_j2store&view=products&task=setpaimport&product_type=".$this->item->product_type."&product_id=".$this->item->j2store_product_id."&layout=paimport&tmpl=component", JText::_('J2STORE_IMPORT_PRODUCT_OPTIONS'), array('class'=>'btn btn-success','width'=>800 , 'height'=>500));?>
+								<?php echo J2StorePopup::popup($base_path."/index.php?option=com_j2store&view=products&task=setpaimport&product_type=".$this->item->product_type."&product_id=".$this->item->j2store_product_id."&layout=paimport&tmpl=component", JText::_('J2STORE_IMPORT_PRODUCT_OPTIONS'), array('class'=>'btn btn-success','width'=>800 , 'height'=>500));?>
 							</td>
 						</tr>
 					</tfoot>

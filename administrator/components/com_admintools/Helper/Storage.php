@@ -8,7 +8,7 @@
 namespace Akeeba\AdminTools\Admin\Helper;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 use Exception;
 use FOF30\Container\Container;

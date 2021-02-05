@@ -40,10 +40,13 @@ J2Store::plugin()->importCatalogPlugins();
 						<?php if(isset($related_product->product_source_id)):?>
 							<tr id="upSell-<?php echo $related_product->j2store_product_id;?>">
 									<td class="addedProductUpsell">
-
-											<a href="<?php echo $related_product->product_edit_url; ?>" target="_blank">
-												<?php echo isset($related_product->sku) && !empty($related_product->sku) ? $this->escape($related_product->product_name)."(".$this->escape($related_product->sku).")" : $related_product->product_name;?>
-											</a>
+                                        <?php if($app->isClient('site')):?>
+                                            <?php echo isset($related_product->sku) && !empty($related_product->sku) ? $this->escape($related_product->product_name)."(".$this->escape($related_product->sku).")" : $related_product->product_name;?>
+                                        <?php else: ?>
+                                            <a href="<?php echo $related_product->product_edit_url; ?>" target="_blank">
+                                                <?php echo isset($related_product->sku) && !empty($related_product->sku) ? $this->escape($related_product->product_name)."(".$this->escape($related_product->sku).")" : $related_product->product_name;?>
+                                            </a>
+                                        <?php endif; ?>
 										<input type="hidden" value="<?php echo $related_product->j2store_product_id;?>"  name="<?php echo $this->form_prefix.'[up_sells]' ;?>[<?php echo $related_product->j2store_product_id;?>]" />
 									</td>
 									<td>
@@ -91,9 +94,13 @@ J2Store::plugin()->importCatalogPlugins();
 								<?php if(isset($related_product->product_source_id)):?>
 								<tr id="crossSell-<?php echo $related_product->j2store_product_id;?>">
 										<td class="addedProductCrosssell">
-											<a href="index.php?option=com_content&task=article.edit&id=<?php echo $related_product->product_source_id;?>"  target="_blank">
-												<?php echo isset($related_product->sku) && !empty($related_product->sku) ? $this->escape($related_product->product_name)."(".$this->escape($related_product->sku).")" : $this->escape($related_product->product_name);?>
-											</a>
+                                            <?php if($app->isClient('site')):?>
+                                                <?php echo isset($related_product->sku) && !empty($related_product->sku) ? $this->escape($related_product->product_name)."(".$this->escape($related_product->sku).")" : $this->escape($related_product->product_name);?>
+                                            <?php else: ?>
+                                                <a href="index.php?option=com_content&task=article.edit&id=<?php echo $related_product->product_source_id;?>"  target="_blank">
+                                                    <?php echo isset($related_product->sku) && !empty($related_product->sku) ? $this->escape($related_product->product_name)."(".$this->escape($related_product->sku).")" : $this->escape($related_product->product_name);?>
+                                                </a>
+                                            <?php endif;?>
 											<input type="hidden" value="<?php echo $related_product->j2store_product_id;?>" name="<?php echo $this->form_prefix.'[cross_sells]' ;?>[<?php echo $related_product->j2store_product_id;?>]" />
 										</td>
 										<td>

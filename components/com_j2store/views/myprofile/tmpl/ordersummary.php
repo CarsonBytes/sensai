@@ -40,7 +40,7 @@ $currency = J2Store::currency();
 							</span>
 						<?php endif; ?>
 
-						<?php echo $this->order->get_formatted_lineitem_name($item);?>
+						<?php echo $this->order->get_formatted_lineitem_name($item,'admin');?>
 
 						<?php if($this->params->get('show_price_field', 1)): ?>
 

@@ -1,9 +1,9 @@
 <?php
 /**
  * BreezingForms - A Joomla Forms Application
- * @version 1.8
+ * @version 1.9
  * @package BreezingForms
- * @copyright (C) 2008-2012 by Markus Bopp
+ * @copyright (C) 2008-2020 by Markus Bopp
  * @license Released under the terms of the GNU General Public License
  **/
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -49,13 +49,13 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 		</td>
 	</tr>
 	<tr>
-		<td>
-			<strong><?php echo BFText::_('COM_BREEZINGFORMS_PROCESS_OPSYS') ?>:</strong>
-		</td>
-		<td>
-			<?php echo htmlentities($this->opsys, ENT_QUOTES, 'UTF-8');  ?>
-		</td>
-	</tr>
+        <td>
+            <strong><?php echo BFText::_('COM_BREEZINGFORMS_PROCESS_OPSYS') ?>:</strong>
+        </td>
+        <td>
+            <?php echo htmlentities($this->opsys, ENT_QUOTES, 'UTF-8');  ?>
+        </td>
+    </tr>
 	<tr>
 		<td colspan="2" bgcolor="#cccccc">
 			<strong><?php echo BFText::_('COM_BREEZINGFORMS_DATA') ?>:</strong>

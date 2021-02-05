@@ -11,7 +11,7 @@ use Joomla\CMS\Language\Text;
 /** @var $this Akeeba\AdminTools\Admin\View\MasterPassword\Html */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm" class="akeeba-form--horizontal">

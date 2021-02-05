@@ -122,7 +122,9 @@ class J2StoreSelectableBase {
 
 
 	function validate($formData, $area, $type='address') {
-
+        if(!in_array($area,array('billing','shipping','payment'))){
+            $area = 'billing';
+        }
 		$data = JArrayHelper::toObject($formData);
 		$fields = $this->getFields($area,$data,$type);
 		$json = array();

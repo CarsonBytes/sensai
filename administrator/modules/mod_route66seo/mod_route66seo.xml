@@ -2,12 +2,12 @@
 <extension type="module" version="3.8" client="administrator" method="upgrade">
 	<name>MOD_ROUTE66SEO</name>
 	<author>Lefteris Kavadas</author>
-	<creationDate>April 2020</creationDate>
+	<creationDate>October 2020</creationDate>
 	<copyright>Lefteris Kavadas / firecoders.com</copyright>
 	<license>GNU General Public License version 3 or later</license>
 	<authorEmail>info@firecoders.com</authorEmail>
 	<authorUrl>www.firecoders.com</authorUrl>
-	<version>1.7.2</version>
+	<version>1.8.0</version>
 	<description>MOD_ROUTE66SEO_DESC</description>
 	<files>
 		<filename module="mod_route66seo">mod_route66seo.php</filename>

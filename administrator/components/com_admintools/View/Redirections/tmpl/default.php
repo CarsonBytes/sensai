@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $js = FEFHtml::jsOrderingBackend($this->order);
 $this->getContainer()->template->addJSInline($js);
@@ -114,7 +114,7 @@ echo $this->loadAnyTemplate('admin:com_admintools/ControlPanel/plugin_warning');
 		</tr>
 		</tfoot>
 		<tbody>
-		<?php if (!count($this->items)): ?>
+		<?php if (!(is_array($this->items) || $this->items instanceof \Countable ? count($this->items) : 0)): ?>
 			<tr>
 				<td colspan="6">
 					<?php echo Text::_('COM_ADMINTOOLS_ERR_REDIRECTION_NOITEMS') ?>

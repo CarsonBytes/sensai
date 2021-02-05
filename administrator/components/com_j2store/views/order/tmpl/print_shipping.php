@@ -15,9 +15,9 @@ defined('_JEXEC') or die;
 				<div class="shipping-info">
 				<h4><?php echo JText::_('J2STORE_SHIPPING_ADDRESS');?> </h4>
 					<?php echo '<strong>'.$this->orderinfo->shipping_first_name." ".$this->orderinfo->shipping_last_name."</strong><br/>";
-								echo $this->orderinfo->shipping_address_1;
+								echo $this->orderinfo->shipping_address_1."<br/>";
 						?>
-						<?php echo $this->orderinfo->shipping_address_2 ? "<br/>".$this->orderinfo->shipping_address_2: "<br/>";
+						<?php echo $this->orderinfo->shipping_address_2 ? $this->orderinfo->shipping_address_2."<br/>": "";
 						echo $this->orderinfo->shipping_city.'<br/>';
 						echo $this->orderinfo->shipping_zone_name ? JText::_($this->orderinfo->shipping_zone_name).'<br/>' : "";
 						echo $this->orderinfo->shipping_zip."<br/>";

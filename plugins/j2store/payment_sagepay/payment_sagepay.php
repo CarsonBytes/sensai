@@ -458,9 +458,11 @@ class plgJ2StorePayment_sagepay extends J2StorePaymentPlugin
         	"DeliveryCountry"	=> $shipping_country,
             "CustomerEMail"             => $sage_useremail,
             "Basket"               		=> $basket,
-            "GiftAidPayment"            => "0",
-            "ClientIPAddress"           => $_SERVER['REMOTE_ADDR']
+            "GiftAidPayment"            => "0"
         );
+        if(filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            $sagepay_values['ClientIPAddress'] = $_SERVER['REMOTE_ADDR'];
+        }
         if(empty($sagepay_values['DeliverySurname'])){
             $sagepay_values['DeliverySurname'] = $sage_lname;
         }

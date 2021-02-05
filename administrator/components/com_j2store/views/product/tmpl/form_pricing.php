@@ -14,6 +14,7 @@ $pricing_calculator = J2Html::select()->clearState()
 ->value($this->variant->pricing_calculator)
 ->setPlaceHolders(J2Store::product()->getPricingCalculators())
 ->getHtml();
+$base_path = rtrim(JUri::root(),'/').'/administrator';
 ?>
 
 <div class="j2store-product-pricing">
@@ -24,7 +25,7 @@ $pricing_calculator = J2Html::select()->clearState()
 	<div class="control-group">
 		<?php echo J2Html::label(JText::_('J2STORE_PRODUCT_SET_ADVANCED_PRICING'), 'sale_price',array('class'=>'control-label')); ?>
 		<!-- Link to advanced pricing options. Opens as a popup. -->
-		<?php echo J2StorePopup::popup( "index.php?option=com_j2store&view=products&task=setproductprice&variant_id=".$this->variant->j2store_variant_id."&layout=productpricing&tmpl=component", JText::_( "J2STORE_PRODUCT_SET_PRICES" ), array('class'=>'btn btn-success'));?>
+		<?php echo J2StorePopup::popup( $base_path."/index.php?option=com_j2store&view=products&task=setproductprice&variant_id=".$this->variant->j2store_variant_id."&layout=productpricing&tmpl=component", JText::_( "J2STORE_PRODUCT_SET_PRICES" ), array('class'=>'btn btn-success'));?>
 	</div>
 	<div class="control-group">
 		<?php echo J2Html::label(JText::_('J2STORE_PRODUCT_PRICING_CALCULATOR'), 'price_calculator',array('class'=>'control-label')); ?>

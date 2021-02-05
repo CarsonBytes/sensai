@@ -2,7 +2,7 @@
 /**
  * @package     BreezingForms
  * @author      Markus Bopp
- * @link        http://www.crosstec.de
+ * @link        https://www.crosstec.org
  * @license     GNU/GPL
 */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -37,7 +37,7 @@ if(version_compare($version->getShortVersion(), '3.2', '>=')) {
 JFactory::getDocument()->addStyleSheet(JUri::root(true) .'/administrator/components/com_breezingforms/assets/font-awesome/css/font-awesome.css');
 
 if(version_compare($version->getShortVersion(), '3.0', '>=')){
-    
+
     $recs        = JRequest::getVar('act','') == 'managerecs' || JRequest::getVar('act','') == 'recordmanagement' || JRequest::getVar('act','') == '';
     $mgforms     = JRequest::getVar('act','') == 'manageforms' || JRequest::getVar('act','') == 'easymode' || JRequest::getVar('act','') == 'quickmode';
     $mgscripts   = JRequest::getVar('act','') == 'managescripts';
@@ -45,7 +45,7 @@ if(version_compare($version->getShortVersion(), '3.0', '>=')){
     $mgintegrate = JRequest::getVar('act','') == 'integrate';
     $mgmenus     = JRequest::getVar('act','') == 'managemenus';
     $mgconfig    = JRequest::getVar('act','') == 'configuration';
-    
+
     $add = '';
     if($recs) $add        = ': ' . JText::_('COM_BREEZINGFORMS_MANAGERECS');
     if($mgforms) $add     = ': ' . JText::_('COM_BREEZINGFORMS_MANAGEFORMS');
@@ -54,7 +54,7 @@ if(version_compare($version->getShortVersion(), '3.0', '>=')){
     if($mgintegrate) $add = ': ' . JText::_('COM_BREEZINGFORMS_INTEGRATOR');
     if($mgmenus) $add     = ': ' . JText::_('COM_BREEZINGFORMS_MANAGEMENUS');
     if($mgconfig) $add    = ': ' . JText::_('COM_BREEZINGFORMS_CONFIG');
-    
+
     $app = JFactory::getApplication();
     $app->JComponentTitle = "BreezingForms" . $add;
     if(version_compare($version->getShortVersion(), '3.2', '>=')){

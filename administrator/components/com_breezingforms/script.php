@@ -79,7 +79,63 @@ class com_breezingformsInstallerScript
 	 */
 	function update($parent) 
 	{
-        }
+		$db = JFactory::getDbo();
+		$tables = self::getTableFields( JFactory::getDBO()->getTableList() );
+
+		if(isset($tables[JFactory::getDBO()->getPrefix().'facileforms_records']))
+		{
+			if ( ! isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opted'] ) )
+			{
+				$db->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opted` TINYINT(1) NOT NULL DEFAULT '0' AFTER `paypal_download_tries`, ADD INDEX (`opted`)" );
+				$db->execute();
+			}
+		}
+
+		if(isset($tables[JFactory::getDBO()->getPrefix().'facileforms_records']))
+		{
+			if ( ! isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opt_ip'] ) )
+			{
+				$db->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opt_ip` VARCHAR(255) NOT NULL DEFAULT '' AFTER `opted`, ADD INDEX (`opt_ip`)" );
+				$db->execute();
+			}
+		}
+
+		if(isset($tables[JFactory::getDBO()->getPrefix().'facileforms_records']))
+		{
+			if ( ! isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opt_date'] ) )
+			{
+				$db->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opt_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `opt_ip`, ADD INDEX (`opt_date`)" );
+				$db->execute();
+			}
+		}
+
+		if(isset($tables[JFactory::getDBO()->getPrefix().'facileforms_records']))
+		{
+			if ( ! isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_records']['opt_token'] ) )
+			{
+				$db->setQuery( "ALTER TABLE `#__facileforms_records` ADD `opt_token` VARCHAR(255) NOT NULL DEFAULT '' AFTER `opt_date`, ADD INDEX (`opt_token`)" );
+				$db->execute();
+			}
+		}
+
+		if(isset($tables[JFactory::getDBO()->getPrefix().'facileforms_forms']))
+		{
+			if ( ! isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_forms']['double_opt'] ) )
+			{
+				$db->setQuery( "ALTER TABLE `#__facileforms_forms` ADD `double_opt` TINYINT(1) NOT NULL DEFAULT '0' AFTER `filter_state`, ADD INDEX (`double_opt`)" );
+				$db->execute();
+			}
+		}
+
+		if(isset($tables[JFactory::getDBO()->getPrefix().'facileforms_forms']))
+		{
+			if ( ! isset( $tables[JFactory::getDBO()->getPrefix() . 'facileforms_forms']['opt_mail'] ) )
+			{
+				$db->setQuery( "ALTER TABLE `#__facileforms_forms` ADD `opt_mail` VARCHAR(128) NOT NULL DEFAULT '' AFTER `double_opt`, ADD INDEX (`opt_mail`)" );
+				$db->execute();
+			}
+		}
+	}
  
 	/**
 	 * method to uninstall the component
@@ -90,13 +146,11 @@ class com_breezingformsInstallerScript
 	{
             
             jimport('joomla.filesystem.file');
+			jimport('joomla.version');
 
-    
-            jimport('joomla.version');
+			$db = JFactory::getDbo();
 
-            $db = JFactory::getDbo();
-
-            $plugins = $this->getPlugins();
+			$plugins = $this->getPlugins();
 
 			$installer = new JInstaller();
 
@@ -114,7 +168,6 @@ class com_breezingformsInstallerScript
 					}
 				}
 			}
-
 
             $version = new JVersion();
 
@@ -173,9 +226,7 @@ class com_breezingformsInstallerScript
 	{
             $db = JFactory::getDBO();
 
-
-
-	    $plugins = $this->getPlugins();
+		$plugins = $this->getPlugins();
 
 
 			$base_path = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_breezingforms' . DS . 'plugins';
@@ -195,7 +246,6 @@ class com_breezingformsInstallerScript
 				}
 			}
 
-            
             $db->setQuery("Select id From `#__menu` Where `alias` = 'root'");
             if(!$db->loadResult()){
                 $db->setQuery("INSERT INTO `#__menu` VALUES(1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, ( Select mlftrgt From (Select max(mlft.rgt)+1 As mlftrgt From #__menu As mlft) As tbone ), 0, '*', 0)");
@@ -216,11 +266,26 @@ class com_breezingformsInstallerScript
             }
 	}
 
-        function getPlugins(){
+	function getPlugins(){
 		$plugins = array();
 		$plugins['system'] = array();
 		$plugins['system'][] = 'sysbreezingforms';
 		return $plugins;
+	}
+
+	public static function getTableFields($tables, $typeOnly = true)
+	{
+
+		$results = array();
+
+		settype($tables, 'array');
+
+		foreach ($tables as $table)
+		{
+			$results[$table] = JFactory::getDbo()->getTableColumns($table, $typeOnly);
+		}
+
+		return $results;
 	}
 }
 

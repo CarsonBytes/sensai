@@ -39,7 +39,15 @@ class Route66ViewSitemaps extends JViewLegacy
 		$this->sidebar = Route66HelperHtml::getSidebar('sitemaps');
 		Route66HelperHtml::addOptionsButton();
 
-		JHtml::_('formbehavior.chosen', 'select');
+		if (version_compare(JVERSION, '4.0', 'lt'))
+		{
+			JHtml::_('formbehavior.chosen', 'select');
+		}
+		else
+		{
+			$document = JFactory::getDocument();
+			$document->addStyleDeclaration('body.com_route66.view-sitemaps a[target="_blank"]::before {content: "";}');
+		}
 
 		parent::display($tpl);
 	}

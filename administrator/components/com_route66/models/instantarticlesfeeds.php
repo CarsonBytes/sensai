@@ -6,6 +6,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
+
 class Route66ModelInstantArticlesFeeds extends JModelList
 {
 	public function __construct()
@@ -78,7 +80,7 @@ class Route66ModelInstantArticlesFeeds extends JModelList
 
 	public function getPreviewLink($route)
 	{
-		$site = JApplication::getInstance('site');
+		$site = CMSApplication::getInstance('site');
 		$router = $site->getRouter();
 		$uri = $router->build($route);
 		$link = $uri->toString(array('path', 'query', 'fragment'));

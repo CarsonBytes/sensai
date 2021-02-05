@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Controller;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Controller\Mixin\PredefinedTaskList;
 use Akeeba\AdminTools\Admin\Helper\ServerTechnology;
@@ -113,6 +113,7 @@ class ControlPanel extends Controller
 
 	public function unblockme()
 	{
+		$unblockIP = [];
 		$unblockIP[] = $this->input->getString('ip', '');
 
 		/** @var \Akeeba\AdminTools\Admin\Model\ControlPanel $model */
@@ -222,7 +223,7 @@ class ControlPanel extends Controller
 			$customURL = base64_decode($customURL);
 		}
 
-		$returnUrl = $customURL ? $customURL : 'index.php?option=com_admintools&view=ControlPanel';
+		$returnUrl = $customURL ?: 'index.php?option=com_admintools&view=ControlPanel';
 
 		$this->setRedirect($returnUrl, $msg);
 	}
@@ -248,7 +249,7 @@ class ControlPanel extends Controller
 			$customURL = base64_decode($customURL);
 		}
 
-		$returnUrl = $customURL ? $customURL : 'index.php?option=com_admintools&view=ControlPanel';
+		$returnUrl = $customURL ?: 'index.php?option=com_admintools&view=ControlPanel';
 
 		$this->setRedirect($returnUrl);
 	}

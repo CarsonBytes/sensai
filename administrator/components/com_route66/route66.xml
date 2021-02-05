@@ -2,12 +2,12 @@
 <extension type="component" version="3.6" method="upgrade">
 	<name>com_route66</name>
 	<author>Lefteris Kavadas</author>
-	<creationDate>April 2020</creationDate>
+	<creationDate>October 2020</creationDate>
 	<copyright>Lefteris Kavadas / firecoders.com</copyright>
 	<license>GNU General Public License version 3 or later</license>
 	<authorEmail>info@firecoders.com</authorEmail>
 	<authorUrl>www.firecoders.com</authorUrl>
-	<version>1.7.2</version>
+	<version>1.8.0</version>
 	<install>
 		<sql>
 			<file driver="mysqli" charset="utf8">sql/install.sql</file>

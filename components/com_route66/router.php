@@ -45,6 +45,11 @@ class Route66Router extends JComponentRouterBase
 			$vars['extension'] = $segments[2];
 		}
 
+		if (version_compare(JVERSION, '4', '>='))
+		{
+			$segments = array();
+		}
+
 		return $vars;
 	}
 }

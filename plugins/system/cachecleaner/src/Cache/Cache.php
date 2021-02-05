@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Cache Cleaner
- * @version         7.2.2
+ * @version         7.3.3
  * 
  * @author          Peter van Westen <info@regularlabs.com>
  * @link            http://www.regularlabs.com
@@ -162,7 +162,7 @@ class Cache
 
 	public static function getFolderSize($path)
 	{
-		if (JFile::exists($path))
+		if (is_file($path))
 		{
 			return @filesize($path);
 		}
@@ -198,14 +198,20 @@ class Cache
 			return false;
 		}
 
-		if (self::$size >= 1048576)
+		if (self::$size < 1024)
 		{
-			// Return in MBs
-			return (round(self::$size / 1048576 * 100) / 100) . 'MB';
+			// Return in Bs
+			return self::$size . ' bytes';
 		}
 
-		// Return in KBs
-		return (round(self::$size / 1024 * 100) / 100) . 'KB';
+		if (self::$size < (1024 * 1024))
+		{
+			// Return in KBs
+			return round(self::$size / 1024, 2) . ' KB';
+		}
+
+		// Return in MBs
+		return round(self::$size / (1024 * 1024), 2) . ' MB';
 	}
 
 	public static function getMessage()

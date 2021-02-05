@@ -179,14 +179,14 @@ Route66SeoAnalyzer = window.Route66SeoAnalyzer || {};
 }(Route66SeoAnalyzer, jQuery));
 
 
-jQuery(window).load(function() {
+window.addEventListener('load', function(event) {
   // Delay for JCE...
   window.setTimeout(function() {
     Route66SeoAnalyzer.start();
   }, 700);
 });
 
-jQuery(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function(event) {
   var body = jQuery('body');
   jQuery('#route66-seo-dropdown-button').on('click', function(event) {
     event.preventDefault();

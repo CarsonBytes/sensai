@@ -89,6 +89,8 @@ class Route66ModelSeo extends JModelList
 		$this->clean();
 		$items = parent::getItems();
 
+		$j4 = version_compare(JVERSION, '4.0', 'ge');
+
 		foreach ($items as $key => $item)
 		{
 			$item->editLink = JRoute::_($this->contextEditLink . $item->resourceId);
@@ -103,7 +105,7 @@ class Route66ModelSeo extends JModelList
 			}
 			else
 			{
-				$item->badgeClass = 'important';
+				$item->badgeClass = $j4 ? 'danger': 'important';
 			}
 		}
 
@@ -129,7 +131,7 @@ class Route66ModelSeo extends JModelList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->insert($db->qn('#__route66_seo'));
-		$values = array($db->q(''), $db->q($context), (int) $resourceId, $db->q($keyword), (int) $score);
+		$values = array($db->q('0'), $db->q($context), (int) $resourceId, $db->q($keyword), (int) $score);
 		$query->values(implode(',', $values));
 		$db->setQuery($query);
 		$db->execute();

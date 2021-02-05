@@ -27,7 +27,7 @@ class Route66ModelMetadata extends JModelList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->insert($db->qn('#__route66_metadata'));
-		$values = array($db->q(''), $db->q($context), (int) $resourceId, $db->q(json_encode($metadata)));
+		$values = array($db->q('0'), $db->q($context), (int) $resourceId, $db->q(json_encode($metadata)));
 		$query->values(implode(',', $values));
 		$db->setQuery($query);
 		$db->execute();

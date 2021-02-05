@@ -29,8 +29,10 @@ jimport( 'joomla.html.html.jgrid' );
 
 </td>
 <td>
-<?php echo J2StorePopup::popup(
-		"index.php?option=com_j2store&view=products&task=setvariant&variant_id=".$this->variant->j2store_variant_id."&layout=variant_form&tmpl=component",
+<?php
+$base_path = rtrim(JUri::root(),'/').'/administrator';
+echo J2StorePopup::popup(
+    $base_path."/index.php?option=com_j2store&view=products&task=setvariant&variant_id=".$this->variant->j2store_variant_id."&layout=variant_form&tmpl=component",
 		JText::_( "J2STORE_EDIT" ),
 		array('class'=>'btn btn-success')
 	);

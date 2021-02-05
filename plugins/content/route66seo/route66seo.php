@@ -6,8 +6,13 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+if (version_compare(JVERSION, '4', 'lt'))
+{
+	require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+}
 require_once JPATH_ADMINISTRATOR . '/components/com_route66/lib/seoanalyzer.php';
+
+JLoader::register('Route66ModelSeo', JPATH_ADMINISTRATOR . '/components/com_route66/models/seo.php');
 
 class PlgContentRoute66Seo extends JPlugin
 {
@@ -35,14 +40,12 @@ class PlgContentRoute66Seo extends JPlugin
 
 		if ($this->enabled && $name == 'com_content.article' && $application->input->getMethod() == 'GET')
 		{
-
-            // Cast to object
-			if (is_array($data))
+			// Add data
+			if (is_array($data) && !isset($data['route66seo']))
 			{
-				$data = (object) $data;
+				$data['route66seo'] = array();
 			}
-
-			if (!isset($data->route66seo))
+			elseif (is_object($data) && !isset($data->route66seo))
 			{
 				$data->route66seo = array();
 			}
@@ -90,7 +93,6 @@ class PlgContentRoute66Seo extends JPlugin
 				$keyword = $data['route66seo']['keyword'];
 				$resourceId = (int) $article->id;
 
-				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
 				$model = JModelLegacy::getInstance('Seo', 'Route66Model');
 				$model->delete($context, $article->id);
 				$model->save($context, $article->id, $keyword, $score);
@@ -109,7 +111,6 @@ class PlgContentRoute66Seo extends JPlugin
 
 		if ($id)
 		{
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
 			$model = JModelLegacy::getInstance('Seo', 'Route66Model');
 			$result = $model->fetch($context, $id);
 
@@ -130,7 +131,6 @@ class PlgContentRoute66Seo extends JPlugin
 	{
 		if ($this->enabled && $context == 'com_content.article')
 		{
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_route66/models');
 			$model = JModelLegacy::getInstance('Seo', 'Route66Model');
 			$model->delete($context, $data->id);
 		}

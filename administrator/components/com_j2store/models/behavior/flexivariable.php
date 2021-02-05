@@ -605,10 +605,14 @@ class J2StoreModelProductsBehaviorFlexiVariable extends F0FModelBehavior {
         $return['manage_stock'] = $variant->manage_stock;
         $return['allow_backorder'] = $variant->allow_backorder;
 
-        if($variant->availability) {
-            $return['stock_status'] = $product_helper->displayStock($variant, $params);
-        }else {
-            $return['stock_status'] = JText::_('J2STORE_OUT_OF_STOCK');
+        if($product_helper->managing_stock($variant)){
+            if($variant->availability) {
+                $return['stock_status'] = $product_helper->displayStock($variant, $params);
+            }else {
+                $return['stock_status'] = JText::_('J2STORE_OUT_OF_STOCK');
+            }
+        }else{
+            $return['stock_status'] = '';
         }
         //print_r($return);exit;
         $return['pricing'] = array();

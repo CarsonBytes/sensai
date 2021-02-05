@@ -9,7 +9,7 @@
 use Akeeba\AdminTools\Admin\Model\ControlPanel;
 use Joomla\CMS\Language\Text;
 
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 // IP Workarounds are available on Pro version only
 if (!defined('ADMINTOOLS_PRO') || !ADMINTOOLS_PRO)
@@ -20,7 +20,7 @@ if (!defined('ADMINTOOLS_PRO') || !ADMINTOOLS_PRO)
 // Let's check if we have to display the notice about IP Workarounds
 $display = false;
 // Prevent notices if we don't have any incoming return url
-$returnurl = isset($returnurl) ? $returnurl : '';
+$returnurl = $returnurl ?? '';
 
 /** @var ControlPanel $controlPanelModel */
 $controlPanelModel = $this->container->factory->model('ControlPanel')->tmpInstance();

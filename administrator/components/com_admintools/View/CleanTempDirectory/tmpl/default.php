@@ -10,7 +10,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var $this Akeeba\AdminTools\Admin\View\CleanTempDirectory\Html */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 if (version_compare(JVERSION, '3.999.999', 'lt'))
 {

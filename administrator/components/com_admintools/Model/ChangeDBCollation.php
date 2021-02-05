@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Model;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use FOF30\Model\Model;
 use JDatabaseQuery;

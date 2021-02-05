@@ -596,8 +596,6 @@ class F0FDatabaseDriverJoomla extends F0FDatabase implements F0FDatabaseInterfac
 			}
 			else
 			{
-				//deprecated fix for php 7.4
-				//$parts[] = $q{0} . $part . $q{1};
 				$parts[] = $q[0] . $part . $q[1];
 			}
 		}

@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\Controller\Mixin;
 
-defined('_JEXEC') or die();
+defined('_JEXEC') || die();
 
 /**
  * Force a Controller to allow access to specific tasks only, no matter which tasks are already defined in this

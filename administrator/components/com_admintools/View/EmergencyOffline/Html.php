@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\View\EmergencyOffline;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Model\EmergencyOffline;
 use FOF30\View\DataView\Html as BaseView;

@@ -7,7 +7,7 @@
 
 use FOF30\Utils\Ip;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 class AtsystemUtilFilter
 {

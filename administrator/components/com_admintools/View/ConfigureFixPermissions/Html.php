@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\View\ConfigureFixPermissions;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 use Akeeba\AdminTools\Admin\Helper\Storage;
 use Akeeba\AdminTools\Admin\Model\ConfigureFixPermissions;

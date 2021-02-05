@@ -5,15 +5,21 @@
  * @license     GNU General Public License version 3 or later
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+
+$tabs = version_compare(JVERSION, '4.0', 'ge') ? 'uitab' : 'bootstrap';
 ?>
 
 <script type="text/javascript">
-		Joomla.submitbutton = function(task)
-		{
-				if (task == 'instantarticlesfeed.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-						Joomla.submitform(task, document.getElementById('adminForm'));
-				}
+window.addEventListener('DOMContentLoaded', function(event) {
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'instantarticlesfeed.cancel' || document.formvalidator.isValid(document.getElementById('adminForm'))) {
+			Joomla.submitform(task, document.getElementById('adminForm'));
 		}
+	}
+});
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_route66&view=instantarticlesfeed&layout=edit&id='.$this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
@@ -22,9 +28,9 @@ defined('_JEXEC') or die;
 
 			<div class="span12">
 
-				 <?php echo JHtml::_('bootstrap.startTabSet', 'route66Tabs', array('active' => 'details')); ?>
+				 <?php echo HTMLHelper::_($tabs.'.startTabSet', 'route66Tabs', array('active' => 'details')); ?>
 
-				 <?php echo JHtml::_('bootstrap.addTab', 'route66Tabs', 'details', JText::_('COM_ROUTE66_DETAILS')); ?>
+				 <?php echo HTMLHelper::_($tabs.'.addTab', 'route66Tabs', 'details', JText::_('COM_ROUTE66_DETAILS')); ?>
 
 					<div class="control-group">
 						<div class="control-label"><?php echo $this->form->getLabel('title'); ?></div>
@@ -41,12 +47,12 @@ defined('_JEXEC') or die;
 					</div>
 
 					<?php foreach ($this->form->getGroup('sources') as $field) : ?>
-						<?php echo $field->getControlGroup(); ?>
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 
-					<?php echo JHtml::_('bootstrap.endTab'); ?>
+					<?php echo HTMLHelper::_($tabs.'.endTab'); ?>
 
-					<?php echo JHtml::_('bootstrap.addTab', 'route66Tabs', 'analytics', JText::_('COM_ROUTE66_GOOGLE_ANALYTICS')); ?>
+					<?php echo HTMLHelper::_($tabs.'.addTab', 'route66Tabs', 'analytics', JText::_('COM_ROUTE66_GOOGLE_ANALYTICS')); ?>
 					<div class="control-group">
 						<div class="control-label"><?php echo $this->form->getLabel('gaTrackingId', 'settings'); ?></div>
 						<div class="controls">
@@ -65,9 +71,9 @@ defined('_JEXEC') or die;
 							<?php echo $this->form->getInput('gaCampaignMedium', 'settings'); ?>
 						</div>
 					</div>
-					<?php echo JHtml::_('bootstrap.endTab'); ?>
+					<?php echo HTMLHelper::_($tabs.'.endTab'); ?>
 
-					<?php echo JHtml::_('bootstrap.addTab', 'route66Tabs', 'ads', JText::_('COM_ROUTE66_GOOGLE_DFP')); ?>
+					<?php echo HTMLHelper::_($tabs.'.addTab', 'route66Tabs', 'ads', JText::_('COM_ROUTE66_GOOGLE_DFP')); ?>
 					<div class="control-group">
 						<div class="control-label"><?php echo $this->form->getLabel('dfpNetwork', 'settings'); ?></div>
 						<div class="controls">
@@ -80,16 +86,16 @@ defined('_JEXEC') or die;
 							<?php echo $this->form->getInput('dfpSlots', 'settings'); ?>
 						</div>
 					</div>
-					<?php echo JHtml::_('bootstrap.endTab'); ?>
+					<?php echo HTMLHelper::_($tabs.'.endTab'); ?>
 
-					<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+					<?php echo HTMLHelper::_($tabs.'.endTabSet'); ?>
 
 			</div>
 
 	</div>
 
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 	<?php echo Route66HelperHtml::copyrights(); ?>
 
 </form>

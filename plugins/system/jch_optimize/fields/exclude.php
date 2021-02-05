@@ -1,20 +1,12 @@
 <?php
 
 /**
- * JCH Optimize - Joomla! plugin to aggregate and minify external resources for
- * optmized downloads
- * @author Samuel Marshall <sdmarshall73@gmail.com>
- * @copyright Copyright (c) 2010 Samuel Marshall
- * @license GNU/GPLv3, See LICENSE file
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * JCH Optimize - Performs several front-end optimizations for fast downloads
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * @package   jchoptimize/joomla-platform
+ * @author    Samuel Marshall <samuel@jch-optimize.net>
+ * @copyright Copyright (c) 2020 Samuel Marshall / JCH Optimize
+ * @license   GNU/GPLv3, or later. See LICENSE file
  *
  * If LICENSE file missing, see <http://www.gnu.org/licenses/>.
  */
@@ -103,7 +95,7 @@ abstract class JFormFieldExclude extends JchTextarea
          */
         protected function getInput()
         {
-                $attributes = 'class="inputbox chzn-custom-value input-xlarge" multiple="multiple" size="5" data-custom_group_text="Custom Position" data-no_results_text="Add custom item" data-jch_type="' . $this->filetype . '" data-jch_param="' . $this->fieldname . '" data-jch_group="' . $this->filegroup . '"';
+                $attributes = 'class="inputbox chzn-custom-value input-xlarge jch-exclude" multiple size="5" data-jch_type="' . $this->filetype . '" data-jch_param="' . $this->fieldname . '" data-jch_group="' . $this->filegroup . '"';
 		$options = array();
 
 		foreach($this->value as $excludevalue)

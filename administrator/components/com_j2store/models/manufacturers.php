@@ -60,6 +60,10 @@ class J2StoreModelManufacturers extends F0FModel {
             $query->order($db->qn('#__j2store_addresses').'.'.$db->qn($filter_order).' '.$filter_order_Dir);
 			//$query->order('#__j2store_addresses.'.$filter_order.' '.$filter_order_Dir);
 		}
+        $enabled = $this->getState('filter_enabled',null);
+        if(!is_null($enabled)){
+            $query->where('#__j2store_manufacturers.enabled = '.$db->q($enabled));
+        }
         if ($search){
             $query->where('#__j2store_addresses.company LIKE '.$db->q('%'.$search.'%'));
         }

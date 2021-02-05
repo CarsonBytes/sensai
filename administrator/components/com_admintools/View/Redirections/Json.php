@@ -7,7 +7,7 @@
 
 namespace Akeeba\AdminTools\Admin\View\Redirections;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 class Json extends \FOF30\View\DataView\Json
 {

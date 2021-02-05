@@ -60,7 +60,7 @@ class J2Email {
 
 		foreach ($mail_templates as &$template) {
 			// process each mail template ( process tags )
-			$template->mailer = $this->processTemplate($order, $template);
+			$template->mailer = $this->processTemplate($order, $template,$receiver_type);
 			//set a default in case none is set.
 			if(!isset($template->receiver_type) || empty($template->receiver_type)) $template->receiver_type = '*';
 
@@ -177,9 +177,10 @@ class J2Email {
 	 * //TODO: define charset and plain text versions
 	 * @param J2StoreOrder  $order 		J2Store order object
 	 * @param object 		$template 	mail template object
+     * @param string        $receiver_type Receiver type
 	 * @return JMailer 	Instance of JMailer with all information set in the mailer object
 	 * */
-	protected function processTemplate($order, $template){
+	protected function processTemplate($order, $template,$receiver_type = '*'){
 		if(!isset($order->order_id) || empty($order->order_id)) return false;
 		if(is_array ( $template )){
 			$template = ArrayHelper::toObject($template);
@@ -198,8 +199,8 @@ class J2Email {
 			$templateText = $template->body;
 		}
 
-		$templateText = $this->processTags($templateText, $order, $extras);
-		$subject = $this->processTags($template->subject, $order, $extras);
+		$templateText = $this->processTags($templateText, $order, $extras,$receiver_type);
+		$subject = $this->processTags($template->subject, $order, $extras,$receiver_type);
 
 		$baseURL = str_replace('/administrator', '', JURI::base());
 		//replace administrator string, if present
@@ -369,10 +370,11 @@ class J2Email {
 	 *
 	 * @param string $text Text to process
 	 * @param object $order TableOrder object
+     * @param string $receiver_type
 	 * @param array $extras an array containing extra tags to process
 	 */
 
-	public function processTags($text, $order, $extras=array()) {
+	public function processTags($text, $order, $extras=array(), $receiver_type = '*') {
 
 		$app = JFactory::getApplication();
 		$params = J2Store::config();
@@ -414,7 +416,7 @@ class J2Email {
 		$order_date = $date->format($params->get('date_format', JText::_('DATE_FORMAT_LC1')), true);
 
 		//items table
-		$items = $order_model->loadItemsTemplate($order);
+		$items = $order_model->loadItemsTemplate($order,$receiver_type);
 		$invoice_number = $order->getInvoiceNumber();
 		//now process tags
 		$orderinfo = $order->getOrderInformation();

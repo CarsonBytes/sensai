@@ -9,7 +9,7 @@ namespace Akeeba\AdminTools\Admin\Helper;
 
 use FOF30\Container\Container;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 class ServerTechnology
 {
