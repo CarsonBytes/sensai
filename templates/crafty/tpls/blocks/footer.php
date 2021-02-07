@@ -67,7 +67,6 @@ defined('_JEXEC') or die;
 </script>
 
 <!-- BACK TO TOP BUTTON -->
-
 <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.3.0,npm/jsrender@1.0.10"></script>
 <!-- Modal -->
 <script id="modal_dialog_tpl" type="text/x-jsrender">

@@ -55,15 +55,18 @@ if ($product_type == 'chart') {
 	/* GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
 	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,  */
 	bi.params as bundle_params,
-	GROUP_CONCAT( DISTINCT cp.params SEPARATOR '----') as charts_params
+	GROUP_CONCAT( DISTINCT cp.params SEPARATOR '----') as charts_params,
+	GROUP_CONCAT( DISTINCT c.title  SEPARATOR '----') as charts_titles
 	FROM h1232_contentitem_tag_map ctm
 	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
 	LEFT JOIN `bundle_params` bi ON bi.bundle_id = ctm.content_item_id
 	LEFT JOIN `bundles_charts` bc ON bc.bundle_id = bi.bundle_id
-	left JOIN `chart_params` cp ON cp.chart_id = bc.chart_id
+	LEFT JOIN `chart_params` cp ON cp.chart_id = bc.chart_id
+	LEFT JOIN `h1232_content` c ON cp.chart_id = c.id
 	where ctm.content_item_id = {$this->product->product_source_id}
 	and t.published = 1
 	group by ctm.content_item_id;";
+
 
 	$database->setQuery($query2);
 	$result = $database->loadAssoc();
@@ -80,6 +83,7 @@ if ($product_type == 'chart') {
 		foreach ($charts_params as $key => $value) {
 			$charts_params[$key] = json_decode($value);
 		}
+		$charts_titles = explode('----', $result['charts_titles']);
 	}
 }
 

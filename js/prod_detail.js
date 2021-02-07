@@ -316,9 +316,12 @@ jQuery(function ($) {
             var img_id = $(this).parents('.a-image-wrapper').find('img').data('id');
             var img_src = getImgSizeUrl($(this).parents('.a-image-wrapper').find('img').prop('src'), 'M');
 
-            showGalleryImg(img_id, img_src);
+            //$('#productGallery_m').modal();
+            
+            var htmlOutput = $.templates("#modal_gallery_m").render(gallery_modal_array);
+            $('.modal.dialog').prop('id', 'productGallery_m').html(htmlOutput).modal();
 
-            $('#productGallery_m').modal();
+            showGalleryImg(img_id, img_src);
 
         })
         .on('click', '#productGallery_m .image_wrapper', function (e) {

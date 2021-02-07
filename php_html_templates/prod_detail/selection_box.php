@@ -1,6 +1,20 @@
+<?php
+/* echo '<pre>';
+var_dump($charts_params);
+echo '</pre>';
+die(); */
+?>
 <div class="selection_text">
     <strong>Option:</strong>
-    <div data-option="with_chart" class="option_text selected">With our exclusive chart posters: <a href="#">Popular dog breeds</a></div>
+    <div data-option="with_chart" class="option_text selected">With our exclusive chart posters:
+        <?php $i = 0;
+        foreach ($charts_params as $charts_param) { ?>
+            <a target="_blank" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $charts_param->chart_j2_store_product_id); ?>">
+                <?php echo $charts_titles[$i] ?>
+            </a><?php if (count($charts_titles) > $i + 1) echo ', ' ?>
+        <?php $i++;
+        } ?>
+    </div>
     <div data-option="no_chart" class="option_text">Without our exclusive chart posters</div>
 </div>
 <style>
@@ -74,7 +88,9 @@
     var isSliderMD2Init = false;
     jQuery(function($) {
         $('.selection_box').on('click', function() {
-            var selected_option = $(this).find('img').data('option');
+            selected_option = $(this).find('img').data('option');
+            gallery_array.selected_option = selected_option;
+
             $('.selection_box').removeClass('selected');
             $(this).addClass('selected');
 
