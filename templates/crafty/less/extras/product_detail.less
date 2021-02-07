@@ -117,7 +117,7 @@ ul.col_source {
 
     .tabulator-cell {
         white-space: normal;
-        height: 48px;
+        height     : 48px;
     }
 
     .tabulator-headers,
@@ -712,6 +712,7 @@ body.modal-open {
         }
 
         .slider_md_wrapper {
+            visibility  : hidden; //to avoid image and page jumping
             padding-left: 1%;
             float       : left;
             width       : 100%;
@@ -759,6 +760,24 @@ body.modal-open {
                     max-height: 100%;
                     width     : auto;
                     height    : auto !important;
+                }
+            }
+        }
+
+        &.two_cols {
+            padding-left: 90px;
+
+            .slider_md_thumbnails_wrapper {
+                margin-left  : -90px;
+                padding-right: 10px;
+                width        : 90px;
+
+                ul {
+                    columns: 2;
+
+                    li {
+                        break-inside: avoid-column;
+                    }
                 }
             }
         }
@@ -1015,6 +1034,15 @@ body.modal-open {
                 line-height: 1.3;
             }
 
+            .btn_to_amazon {
+                width     : 45%;
+                margin-top: 10px;
+            }
+
+            .img_wrapper {
+                display: table-cell;
+            }
+
             .deco_bundle_wrapper {
                 .deco_bundle {
                     margin-left      : 200px;
@@ -1076,7 +1104,9 @@ body.modal-open {
 
                                 .img_wrapper {
                                     img {
-                                        max-width : calc(~"(100vw - 250px) / 11");
+                                        /*  max-width : calc(~"(100vw - 250px) / 11"); */
+                                        max-width : calc(~"(100vw - 250px) / 8");
+                                        max-height: calc(~"(100vw - 250px) / 8");
                                         height    : auto;
                                         overflow  : visible;
                                         box-shadow: 2px 3px 18px -8px rgba(0, 0, 0, 0.75);
@@ -1107,10 +1137,9 @@ body.modal-open {
                         }
 
                     }
-
-
                 }
             }
         }
     }
+
 }

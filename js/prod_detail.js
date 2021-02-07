@@ -186,6 +186,7 @@ jQuery(function ($) {
         $('#productGallery_m .enlarged_image img')
             .css('max-height', $('#productGallery_m .modal-content').height() - 68);
 
+        $('.slider_md_wrapper').css('visibility','inherit');
     }
 
     function showGalleryImg(img_id, img_src) {
@@ -243,53 +244,57 @@ jQuery(function ($) {
 
     initScreen();
 
-    $('body').on('click', '.my-slider1 .tns-slide-active img', function (e) {
+    $('body')
+        .on('click', '.my-slider1 .tns-slide-active img', function (e) {
 
-        main_scrollY = $(window).scrollTop();
+            main_scrollY = $(window).scrollTop();
 
-        //init modal size
-        $('#productGallery').modal();
+            //init modal size
+            $('#productGallery').modal();
 
-        slider1_info = slider1.getInfo();
+            slider1_info = slider1.getInfo();
 
-        //$('.my-slider2').hide();
-        if (!isSlider2Init) {
-            slider2 = tns({
-                container: '.my-slider2',
-                items: 1,
-                navAsThumbnails: true,
-                navContainer: '#customize-thumbnails',
-                controls: false,
-                center: true,
-                preventScrollOnTouch: 'auto',
-                gutter: 30,
-                animateIn: 'no_fade',
-                animateOut: 'no_fade',
-                loop: false
-                , lazyload: true
+            //$('.my-slider2').hide();
+            if (!isSlider2Init) {
+                slider2 = tns({
+                    container: '.my-slider2',
+                    items: 1,
+                    navAsThumbnails: true,
+                    navContainer: '#customize-thumbnails',
+                    controls: false,
+                    center: true,
+                    preventScrollOnTouch: 'auto',
+                    gutter: 30,
+                    animateIn: 'no_fade',
+                    animateOut: 'no_fade',
+                    loop: false
+                    , lazyload: true
+                });
+                $('.my-slider2').find('img').on('load', function () {
+                    slider2.updateSliderHeight();
+                });
+                isSlider2Init = true;
+            }
+            slider2.goTo(slider1_info.index);
+
+            // bind function to event
+            slider2.events.on('indexChanged', function () {
+                slider2_info = slider2.getInfo();
+
+                slider1.goTo(slider2_info.index);
             });
-            $('.my-slider2').find('img').on('load', function () {
-                slider2.updateSliderHeight();
-            });
-            isSlider2Init = true;
-        }
-        slider2.goTo(slider1_info.index);
 
-        // bind function to event
-        slider2.events.on('indexChanged', function () {
-            slider2_info = slider2.getInfo();
+            $('#productGallery .my-slider2, #productGallery .my-slider2 > .tns-item')
+                .css('height', $(window).height() - 50);
 
-            slider1.goTo(slider2_info.index);
-        });
+            $('.my-slider2').show();
 
-        $('#productGallery .my-slider2, #productGallery .my-slider2 > .tns-item')
-            .css('height', $(window).height() - 50);
-
-        $('.my-slider2').show();
-
-    })
+        })
         .on('mouseenter', '#slider_md_thumbnails li', function (e) {
             slider_md.goTo($(this).data('nav'));
+        })
+        .on('mouseenter', '#slider_md_thumbnails_2 li', function(e) {
+            slider_md_2.goTo($(this).data('nav'));
         })
         .on('mouseenter', '.slider_md_wrapper .tns-slide-active', function (e) {
             //hover and show image zoom
@@ -361,7 +366,7 @@ jQuery(function ($) {
         $("body").removeClass("modal-open")
     });
 
-    $.fancybox.defaults.buttons= [
+    $.fancybox.defaults.buttons = [
         "zoom",
         //"share",
         //"slideShow",
@@ -369,5 +374,5 @@ jQuery(function ($) {
         //"download",
         //"thumbs",
         "close"
-      ];
+    ];
 })

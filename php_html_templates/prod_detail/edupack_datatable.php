@@ -12,8 +12,7 @@ $document->addStyleSheet('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@
 $document->addStyleSheet('/css/mediaelementplayer.css');
 
 $document->addScript('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4,npm/image-map-resizer@1.0.10,npm/mediaelement@4/build/mediaelement-and-player.min.js');
-//$document->addScript('/js/edupack_datatable.js');
-$document->addScript('/js/edupack_datatable2.js');
+$document->addScript('/js/edupack_datatable.js');
 
 
 //if (!isset($sku)) $sku = 'P12004';

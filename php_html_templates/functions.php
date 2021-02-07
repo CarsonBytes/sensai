@@ -284,11 +284,11 @@ function getUserFileDownloadStatus($file_info)
 	}
 	
 	/**
-	 * TODO user has downloaded this file and there is no quota defined at all
+	 * TODO when status=2: user has downloaded this file and there is no quota defined at all
 	 */
 
 	/**
-	 * TODO 1 of the quota is reached but no alternative file is there
+	 * TODO when status=-4: 1 of the quota is reached but no alternative file is there
 	 */
 
 	/**

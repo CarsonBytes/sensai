@@ -116,7 +116,7 @@ $related_bundles = $database->loadAssocList();
 
 		<div class="col-sm-12 col-md-4 col-lg-4">
 
-			<?php include JPATH_SITE . '/php_html_templates/prod_detail/gallery.php'; ?>
+			<?php include JPATH_SITE . '/php_html_templates/prod_detail/galleries.php'; ?>
 
 		</div>
 
@@ -160,18 +160,6 @@ $related_bundles = $database->loadAssocList();
 			</div>
 			<div class="hidden-sm hidden-xs main_content">
 				<?php echo $this->loadTemplate('title'); ?>
-				<?php /*?><div class="product_tags">
-					<strong>Tags:</strong>
-					<?php $i = 0;
-					foreach ($tag_titles as $tag_title) {
-						if ($i > 0) {
-							echo ', ';
-						} ?><a target="_blank" href="<?php echo JUri::base() . 'tag/' . $tag_alias[$i]; ?>"><?php echo $tag_title; ?></a>
-					<?php
-						$i++;
-					}
-					?>
-				</div><?php */ ?>
 				<?php
 				if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs')) {
 					include JPATH_SITE . '/php_html_templates/prod_detail/selection_box.php';
@@ -191,7 +179,7 @@ $related_bundles = $database->loadAssocList();
 		<div class="col-xs-12">
 			<?php
 			if ($product_type == 'chart') {
-				include JPATH_SITE . '/php_html_templates/prod_detail/edupack_datatable2.php';
+				include JPATH_SITE . '/php_html_templates/prod_detail/edupack_datatable.php';
 			}  ?>
 		</div>
 
@@ -200,60 +188,8 @@ $related_bundles = $database->loadAssocList();
 		<?php endif; ?>
 	</div>
 </div>
-<style>
-	@media (min-width: 992px) {
-		.deco_bundles_wrapper .deco_bundles .deco_bundle_wrapper .deco_bundle .col_2 .deco_thumbs a.img_link .img_wrapper img {
-			max-width: calc((100vw - 250px) / 8);
-			max-height: calc((100vw - 250px) / 8);
-		}
 
-		.img_wrapper {
-			display: table-cell;
-		}
-
-		.deco_bundles .btn_to_amazon {
-			width: 45%;
-			margin-top: 10px;
-		}
-
-	}
-
-	.productGallery .modal-dialog .modal-content .modal-body .thumbnails li .image-wrapper .a-image-wrapper {
-		text-align: center;
-	}
-</style>
-
-<?php /* if ($product_type == 'bundle') { ?>
-
-	<div class="row">
-		<div class="col-xs-12 singles_wrapper">
-
-			<div class="singles">
-				<?php $i = 1;
-				foreach ($product_thumbs as $product_thumb) { ?>
-					<div class="single_wrapper">
-						<div class="single">
-							<a class="img_link" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>">
-								<div class="img_wrapper">
-									<img class="lazyload" data-src="/<?php echo $product_thumb['main_image']; ?>" />
-								</div>
-							</a>
-							<div class="list_content">
-								<a class="title" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $product_thumb['j2store_product_id']); ?>"><?php echo $product_thumb['title']; ?></a>
-								<?php echo $product_thumb['introtext']; ?>
-							</div>
-
-						</div>
-					</div>
-				<?php echo ($i % 2 == 0 ?  '<div class="clearfix"></div>' : '');
-					$i++;
-				} ?>
-			</div>
-
-		</div>
-	</div>
-<?php } */
-
+<?php
 include JPATH_SITE . '/php_html_templates/prod_detail/this_bundle.php';
 
 if (isset($related_bundles) && count($related_bundles) > 0) {

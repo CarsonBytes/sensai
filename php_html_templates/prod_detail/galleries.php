@@ -1,8 +1,6 @@
 <?php
 // No direct access
 
-use ParagonIE\Sodium\Core\Curve25519\Ge\P2;
-
 defined('_JEXEC') or die;
 
 $additional_images = json_decode($this->product->additional_images);
@@ -23,40 +21,6 @@ if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs'
     $gallery_images_1 = $additional_images;
 }
 ?>
-<style>
-    /** to avoid image and page jumping
- */
-    .slider_md_wrapper {
-        visibility: hidden;
-    }
-
-    .slider_md_whole_wrapper.two_cols {
-        padding-left: 90px;
-    }
-
-    .slider_md_whole_wrapper.two_cols .slider_md_thumbnails_wrapper {
-        margin-left: -90px;
-        padding-right: 10px;
-        width: 90px;
-    }
-
-    .slider_md_whole_wrapper.two_cols .slider_md_thumbnails_wrapper ul {
-        columns: 2;
-    }
-
-    .slider_md_whole_wrapper.two_cols .slider_md_thumbnails_wrapper ul li {
-        break-inside: avoid-column;
-    }
-</style>
-<script>
-    jQuery(function($) {
-        $('body').on('mouseenter', '#slider_md_thumbnails_2 li', function(e) {
-            slider_md_2.goTo($(this).data('nav'));
-        })
-
-        $('.slider_md_wrapper').css('visibility','inherit');
-    })
-</script>
 <div class="slider_sm_wrapper hidden-md hidden-lg">
     <div class="my-slider1">
 
