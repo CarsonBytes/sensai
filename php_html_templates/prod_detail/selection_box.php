@@ -89,7 +89,7 @@ die(); */
     jQuery(function($) {
         $('.selection_box').on('click', function() {
             selected_option = $(this).find('img').data('option');
-            gallery_array.selected_option = selected_option;
+            gallery_modal_array.selected_option = selected_option;
 
             $('.selection_box').removeClass('selected');
             $(this).addClass('selected');

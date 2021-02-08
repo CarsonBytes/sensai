@@ -30,108 +30,21 @@ if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs'
 }
 $gallery_modal_array['gallery_images_1'] = $gallery_images_1;
 
+$layout = new JLayoutFile('custom.prod_detail.slider');
+echo $layout->render(array(
+    'id' => 1,
+    'main_image' => $this->product->main_image,
+    'gallery_images' => $gallery_images_1,
+));
+
+if (!empty($gallery_images_2)) {
+    echo $layout->render(array(
+        'id' => 2,
+        'main_image' => $this->product->main_image,
+        'gallery_images' => $gallery_images_2,
+    ));
+}
 ?>
-<div class="slider_sm_wrapper hidden-md hidden-lg">
-    <div class="my-slider1">
-
-        <div><img class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($this->product->main_image, 'S') ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
-
-        <?php
-        $i = 0;
-        if ($additional_images[0] != '') {
-            foreach ($additional_images as $additional_image) { ?>
-                <div><img class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($additional_image, 'S') ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
-        <?php
-                $i++;
-            }
-        } ?>
-    </div>
-</div>
-
-<div class="slider_md_whole_wrapper hidden-sm hidden-xs slider_1 <?php echo count($gallery_images_1) > 10 ? 'two_cols' : '' ?>">
-    <div class="slider_md_thumbnails_wrapper">
-        <ul class="thumbnails" id="slider_md_thumbnails">
-            <?php $i = 0;
-            foreach ($gallery_images_1 as $gallery_image) { ?>
-                <li>
-                    <div class="image-wrapper">
-                        <div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($gallery_image, 'XS') ?>" alt="" /></div>
-                    </div>
-                </li>
-            <?php } ?>
-        </ul>
-    </div>
-    <div class="slider_md_wrapper">
-        <div class="my-slider-md">
-            <?php
-            $i = 0;
-            foreach ($gallery_images_1 as $gallery_image) {
-                if ($i == 0) { ?>
-                    <div class="image-wrapper">
-                        <div class="a-image-wrapper"><img data-id="main" class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="<?php /* echo $this->product->main_image_alt */ ?>" /></div>
-                    </div>
-                <?php } else { ?>
-                    <div class="image-wrapper">
-                        <div class="a-image-wrapper"><img data-id="<?php echo 'additional-' . $i ?>" src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="" /></div>
-                    </div>
-            <?php }
-                $i++;
-            } ?>
-        </div>
-
-        <div class="image_canvas_caption">
-            <div class="image_canvas_caption_wrapper">
-                <span class="default_caption" style="display:none;">画像にマウスを合わせると拡大されます</span>
-            </div>
-        </div>
-    </div>
-</div>
-<?php if (!empty($gallery_images_2)) { ?>
-    <div class="slider_md_whole_wrapper hidden-sm hidden-xs slider_2 <?php echo count($gallery_images_2) > 10 ? 'two_cols' : '' ?>" style="display:none;">
-        <div class="slider_md_thumbnails_wrapper">
-            <ul class="thumbnails" id="slider_md_thumbnails_2">
-
-                <?php $i = 0;
-                foreach ($gallery_images_2 as $gallery_image) { ?>
-                    <li>
-                        <div class="image-wrapper">
-                            <div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($gallery_image, 'XS') ?>" alt="<?php /* echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts);  */ ?>" /></div>
-                        </div>
-                    </li>
-                <?php
-                    $i++;
-                }
-                ?>
-            </ul>
-        </div>
-        <div class="slider_md_wrapper">
-            <div class="my-slider-md_2">
-                <?php
-                $i = 0;
-                foreach ($gallery_images_2 as $gallery_image) {
-                    if ($i == 0) { ?>
-                        <div class="image-wrapper">
-                            <div class="a-image-wrapper"><img data-id="main" class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="<?php /* echo $this->product->main_image_alt */ ?>" /></div>
-                        </div>
-                    <?php } else { ?>
-                        <div class="image-wrapper">
-                            <div class="a-image-wrapper"><img data-id="<?php echo 'additional-' . $i ?>" src="<?php echo getImgSizeUrl($gallery_image, 'M') ?>" alt="" /></div>
-                        </div>
-                <?php }
-                    $i++;
-                } ?>
-            </div>
-
-            <div class="image_canvas_caption">
-                <div class="image_canvas_caption_wrapper">
-                    <span class="default_caption" style="display:none;">画像にマウスを合わせると拡大されます</span>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php } ?>
-
-
 <script>
     var gallery_modal_array = <?php echo json_encode($gallery_modal_array) ?>;
     var selected_option = 'with_chart';
