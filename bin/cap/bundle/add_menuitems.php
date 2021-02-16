@@ -37,15 +37,15 @@ if (file_exists(FILE_PATH)) {
         if ($i == 0) {
             $cat1_index = array_search('cat1', $line[$i]);
             $cat2_index = array_search('cat2', $line[$i]);
-            $category_alias_to_replace_index = array_search('category alias to replace', $line[$i]);
+            /* $category_alias_to_replace_index = array_search('category alias to replace', $line[$i]); */
         } else {
             // all lines
             $cat_alias[0] = $line[$i][$cat1_index];
             $cat_alias[1] = $cat_alias[0] . '/' . $line[$i][$cat2_index];
-            if ($line[$i][$category_alias_to_replace_index] != '') {
+            /* if ($line[$i][$category_alias_to_replace_index] != '') {
                 $cat_alias[1] = $line[$i][$category_alias_to_replace_index];
                 $cat_alias[0] = explode('/', $cat_alias[1])[0];
-            }
+            } */
             $all_used_cat_aliases[] =  'categories/' . $cat_alias[0];
             $all_used_cat_aliases[] =  'categories/' . $cat_alias[1];
 

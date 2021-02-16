@@ -1,0 +1,47 @@
+,,must be unique,,,
+level,title,alias,cat1 alias to lookup,cat2 alias to lookup,cat alias to replace
+0,ROOT,root,,,
+1,Poster,poster,,,
+2,Animal,animal,,,
+3,Cat,cat,,,
+3,Dog,dog,,,
+3,Miscellaneous,miscellaneous,animal,misc,animal/animal-misc
+2,Educational,educational,,,
+3,Animal,animal,educational,animal,educational/educational-animal
+3,Scientific,scientific,,,
+3,Vocabulary,vocabulary,,,
+3,Plant,plant,educational,plant,educational/educational-plant
+3,Human,human,,,
+3,Miscellaneous,miscellaneous,educational,misc,educational/educational-misc
+2,Nature,nature,,,
+3,Water,water,,,
+3,Sea,sea,,,
+3,Material,material,,,
+3,Flower,flower,nature,flower,nature/nature-flower
+3,Miscellaneous,miscellaneous,,,
+2,Plant,plant,,,
+3,Flower,flower,plant,flower,plant/plant-flower
+3,Miscellaneous,miscellaneous,,,
+2,Architectural,architectural,,,
+3,Building,building,,,
+3,Castle,castle,,,
+3,Historical,historical,architectural,historical,architectural/architectural-historical
+3,Miscellaneous,miscellaneous,architectural,misc,architectural/architectural-misc
+2,Map,map,,,
+3,Historical,historical,map,historical,map/map-historical
+3,Contemporary,contemporary,,,
+3,Miscellaneous,miscellaneous,map,misc,map/map-misc
+2,Motivational,motivational,,,
+3,Text Oriented,text oriented,,,
+3,Image Oriented,image oriented,,,
+3,Miscellaneous,miscellaneous,motivational,misc,motivational/motivational-misc
+2,Painting,painting,,,
+3,Impressionism,impressionism,,,
+3,Abstract,abstract,,,
+3,Oriental,oriental,,,
+2,Image,image,,,
+3,Photographic,photographic,,,
+3,Illustration,illustration,,,
+3,Graphical,graphical,,,
+3,Sublimation,sublimation,,,
+3,Miscellaneous,miscellaneous,image,misc,image/image-misc

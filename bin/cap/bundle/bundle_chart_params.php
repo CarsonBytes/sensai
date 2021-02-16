@@ -71,7 +71,7 @@ if (file_exists(FILE_PATH)) {
                         'chart_id' => array()
                     );
 
-                    $query = "SELECT id, j2store_product_id FROM sensaiho_nya.h1232_content c
+                    $query = "SELECT id, j2store_product_id FROM h1232_content c
                     LEFT JOIN h1232_j2store_products jp on jp.product_source_id = c.id
                     LEFT JOIN h1232_j2store_variants jv on jv.product_id = jp.j2store_product_id
                     where jv.sku = {$db->quote($line[$i][$chart_sku_index])};";
@@ -105,7 +105,7 @@ if (file_exists(FILE_PATH)) {
                         'bundle_chart_thumb' => array($line[$i][$bundle_chart_thumb_index]),
                         'bundle_chart_imgs' => array($line[$i][$bundle_chart_imgs_index])
                     );
-                    $query = "SELECT id FROM sensaiho_nya.h1232_content c
+                    $query = "SELECT id FROM h1232_content c
                     LEFT JOIN h1232_j2store_products jp on jp.product_source_id = c.id
                     LEFT JOIN h1232_j2store_variants jv on jv.product_id = jp.j2store_product_id
                     where jv.sku = {$db->quote($line[$i][$chart_sku_index])};";

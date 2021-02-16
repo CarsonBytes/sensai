@@ -1,17 +1,22 @@
 <?php
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
+define('_JEXEC', 1);
+
 require_once(dirname(__DIR__) . DS . 'init.php');
 
-$filename = "calc data - categories.csv";
+$filename = "calc data - categories2.csv";
 
 defined('FILE_PATH') or define('FILE_PATH', __DIR__ . DS . $filename);
+
+define('POSTER_ROOT_ALIAS', 'poster');
 
 if (file_exists(FILE_PATH)) {
 
     $file = fopen($filename, "r");
     $i = 0;
     $level_ids = array(0 => 1); //root level => root id 
+    $level_alias = array();
 
     while (!feof($file)) {
         $line[$i] = fgetcsv($file);
@@ -24,21 +29,37 @@ if (file_exists(FILE_PATH)) {
             echo $line[$i][$title_index] . '<br />';
             echo $line[$i][$alias_index] . '<br />';
 
+            $transformed_alias = transformAlias($line[$i][$alias_index]);
+
             if ($line[$i][$level_index] == 0) { //it's root id = 1
                 continue;
             } else {
+                if ($line[$i][$level_index] == 1) { //this is poster root
+                    $level_alias = array(POSTER_ROOT_ALIAS);
+                }
+                $level_alias[$line[$i][$level_index] - 1] = $transformed_alias;
+                for ($j = $line[$i][$level_index]; $j < count($level_alias); $j++) {
+                    unset($level_alias[$j]);
+                }
+
                 $category_data['parent_id'] = $level_ids[(int)$line[$i][$level_index] - 1];
                 $category_data['title'] = $line[$i][$title_index];
-                $category_data['alias'] = $line[$i][$alias_index];
+                $category_data['alias'] = $transformed_alias;
+                $category_data['path'] = implode('/', $level_alias);
+                echo '<pre>';
+                var_dump($category_data['path']);
+                echo '</pre>';
+
+
                 $category_id = createCategory($category_data);
 
-                if ($category_id === false){
+                if ($category_id === false) {
                     echo "category {$category_data['title']} already existed!"  . '<br />';
                     $db = JFactory::getDBO();
-                    $query = "SELECT id from h1232_categories where published = 1 and alias = " . $db->quote($category_data['alias']);
+                    $query = "SELECT id from h1232_categories where published = 1 and path = " . $db->quote($category_data['path']);
                     $db->setQuery($query);
                     $level_ids[(int)$line[$i][$level_index]] = $db->loadResult();
-                }else{
+                } else {
                     echo "added new category {$category_data['title']}"  . '<br />';
                     $level_ids[(int)$line[$i][$level_index]] = $category_id;
                 }
@@ -80,4 +101,9 @@ function createCategory($data)
         $id = $category_model->getItem()->id;
         return $id;
     }
+}
+
+function transformAlias($alias)
+{
+    return str_replace(' ', '-', trim(strtolower($alias)));
 }

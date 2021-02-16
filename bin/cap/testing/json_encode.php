@@ -31,9 +31,8 @@ $db->setQuery($query);
 $result = $db->execute();
 
 dump($result);
-/*  */
 
-$query = "SELECT path, params FROM sensaiho_nya.filepath fp
+$query = "SELECT path, params FROM filepath fp
 where fp.code = {$db->quote('test')};";
 dump($query);
 $db->setQuery($query);

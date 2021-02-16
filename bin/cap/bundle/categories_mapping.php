@@ -21,7 +21,7 @@ if (file_exists(FILE_PATH)) {
             $alias_index = array_search('bundle alias', $line[$i]);
             $cat1_index = array_search('cat1', $line[$i]);
             $cat2_index = array_search('cat2', $line[$i]);
-            $category_alias_to_replace_index = array_search('category alias to replace', $line[$i]);
+            /* $category_alias_to_replace_index = array_search('category alias to replace', $line[$i]); */
         } else {
 
             if ($line[$i][$alias_index] != '') { // bundle line...
@@ -37,10 +37,10 @@ if (file_exists(FILE_PATH)) {
             // all lines
             $cat_alias[0] = $line[$i][$cat1_index];
             $cat_alias[1] = $cat_alias[0] . '/' . $line[$i][$cat2_index];
-            if ($line[$i][$category_alias_to_replace_index] != '') {
+            /* if ($line[$i][$category_alias_to_replace_index] != '') {
                 $cat_alias[1] = $line[$i][$category_alias_to_replace_index];
                 $cat_alias[0] = explode('/', $cat_alias[1])[0];
-            }
+            } */
 
             for ($j = 0; $j < 2; $j++) {
                 $query = "SELECT id from h1232_categories where path = 'poster/{$cat_alias[$j]}'";
