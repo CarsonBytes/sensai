@@ -97,7 +97,7 @@ $query2 = "SELECT distinct jp.j2store_product_id, c.id as content_id, c.title,
  GROUP_CONCAT( DISTINCT t.alias ) as matched_tag_alias, 
  GROUP_CONCAT( DISTINCT ctm.tag_id ) as matched_tag_ids,  */
 jpi.main_image as thumb_image, bi.params
-FROM sensaiho_nya.h1232_contentitem_tag_map ctm
+FROM h1232_contentitem_tag_map ctm
 left join h1232_tags t on t.id = ctm.tag_id
 left JOIN `h1232_content` c ON c.id = ctm.content_item_id
 LEFT JOIN `h1232_j2store_products` jp ON jp.product_source_id = c.id

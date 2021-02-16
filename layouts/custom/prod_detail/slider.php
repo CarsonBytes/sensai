@@ -4,7 +4,7 @@ defined('_JEXEC') or die;
 
 $id_suffix = $displayData['id'] > 1 ? '_'.$displayData['id'] : '';
 ?>
-<div class="slider_sm_wrapper hidden-md hidden-lg">
+<div class="slider_sm_wrapper hidden-md hidden-lg slider_<?php echo $displayData['id'];?>">
     <div class="my-slider1">
 
         <div><img class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($displayData['main_image'], 'S') ?>" alt="<?php echo $displayData['main_image']?>" /></div>

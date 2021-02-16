@@ -186,7 +186,7 @@ jQuery(function ($) {
         $('#productGallery_m .enlarged_image img')
             .css('max-height', $('#productGallery_m .modal-content').height() - 68);
 
-        $('.slider_md_wrapper').css('visibility','inherit');
+        $('.slider_md_wrapper').css('visibility', 'inherit');
     }
 
     function showGalleryImg(img_id, img_src) {
@@ -250,7 +250,13 @@ jQuery(function ($) {
             main_scrollY = $(window).scrollTop();
 
             //init modal size
-            $('#productGallery').modal();
+            var htmlOutput = $.templates("#modal_gallery_sm").render(gallery_modal_array);
+            $('.modal.dialog')
+                .addClass('modal dialog fade in')
+                .prop('id', 'productGallery')
+                .data('backdrop', false)
+                .html(htmlOutput)
+                .modal();
 
             slider1_info = slider1.getInfo();
 
@@ -293,7 +299,7 @@ jQuery(function ($) {
         .on('mouseenter', '#slider_md_thumbnails li', function (e) {
             slider_md.goTo($(this).data('nav'));
         })
-        .on('mouseenter', '#slider_md_thumbnails_2 li', function(e) {
+        .on('mouseenter', '#slider_md_thumbnails_2 li', function (e) {
             slider_md_2.goTo($(this).data('nav'));
         })
         .on('mouseenter', '.slider_md_wrapper .tns-slide-active', function (e) {
@@ -317,7 +323,7 @@ jQuery(function ($) {
             var img_src = getImgSizeUrl($(this).parents('.a-image-wrapper').find('img').prop('src'), 'M');
 
             //$('#productGallery_m').modal();
-            
+
             var htmlOutput = $.templates("#modal_gallery_m").render(gallery_modal_array);
             $('.modal.dialog').prop('id', 'productGallery_m').html(htmlOutput).modal();
 

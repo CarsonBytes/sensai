@@ -135,8 +135,8 @@ if (!empty($gallery_images_2)) {
         </div>
 </script>
 
-<!-- Modal -->
-<div class="modal" id="productGallery" tabindex="-1" role="dialog" aria-labelledby="productGalleryLabel" data-backdrop="false">
+
+<script id="modal_gallery_sm" type="text/x-jsrender">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -148,40 +148,60 @@ if (!empty($gallery_images_2)) {
                 </div>
 
                 <div class="my-slider2">
-                    <div><img class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($this->product->main_image, 'M') ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
-
-                    <?php
-                    $i = 0;
-                    if ($additional_images[0] != '') {
-                        foreach ($additional_images as $additional_image) { ?>
-                            <div><img class="tns-lazy-img" data-src="<?php echo getImgSizeUrl($additional_image, 'M') ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
-                    <?php
-                            $i++;
-                        }
-                    } ?>
+                    {{if selected_option == 'with_chart' }}
+                        {{for gallery_images_1 }}
+                            <div>
+                                {{if #getIndex() == 0  }}
+                                    <img data-id="main" class="tns-lazy-img" data-src="/{{getImgSizeUrl: size='M'}}" alt="" />
+                                {{else}}
+                                    <img data-id="additional-{{:#getIndex()}}" class="tns-lazy-img" data-src="/{{getImgSizeUrl: size='M'}}" alt="" />
+                                {{/if}}
+                            </div>
+                        {{/for}}
+                    {{else}}
+                        {{for gallery_images_2 }}
+                            <div>
+                                {{if #getIndex() == 0  }}
+                                    <img data-id="main" class="tns-lazy-img" data-src="/{{getImgSizeUrl: size='M'}}" alt="" />
+                                {{else}}
+                                    <img data-id="additional-{{:#getIndex()}}" class="tns-lazy-img" data-src="/{{getImgSizeUrl: size='M'}}" alt="" />
+                                {{/if}}
+                            </div>
+                        {{/for}}
+                    {{/if}}
                 </div>
                 <ul class="thumbnails" id="customize-thumbnails">
-                    <li>
-                        <div class="image-wrapper">
-                            <div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($this->product->main_image, 'XS') ?>" alt="<?php echo $this->product->main_image_alt ?>" /></div>
-                        </div>
-                    </li>
-
-                    <?php
-                    $i = 0;
-                    if ($additional_images[0] != '') {
-                        foreach ($additional_images as $additional_image) { ?>
+                    {{if selected_option == 'with_chart' }}
+                        {{for gallery_images_1 }}
                             <li>
                                 <div class="image-wrapper">
-                                    <div class="a-image-wrapper"><img src="<?php echo getImgSizeUrl($additional_image, 'XS') ?>" alt="<?php echo $i == 0 ? current($additional_images_alts) : next($additional_images_alts); ?>" /></div>
+                                    <div class="a-image-wrapper">
+                                        {{if #getIndex() == 0  }}
+                                            <img data-id="main" src="{{getImgSizeUrl: size='XS'}}" alt="" />
+                                        {{else}}
+                                            <img data-id="additional-{{:#getIndex()}}" src="{{getImgSizeUrl: size='XS'}}" alt="" />
+                                        {{/if}}
+                                    </div>
                                 </div>
                             </li>
-                    <?php
-                            $i++;
-                        }
-                    } ?>
+                        {{/for}}
+                    {{else}}
+                        {{for gallery_images_2 }}
+                            <li>
+                                <div class="image-wrapper">
+                                    <div class="a-image-wrapper">
+                                        {{if #getIndex() == 0  }}
+                                            <img data-id="main" src="{{getImgSizeUrl: size='XS'}}" alt="" />
+                                        {{else}}
+                                            <img data-id="additional-{{:#getIndex()}}" src="{{getImgSizeUrl: size='XS'}}" alt="" />
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </li>
+                        {{/for}}
+                    {{/if}}
                 </ul>
             </div>
         </div>
     </div>
-</div>
+</script>
