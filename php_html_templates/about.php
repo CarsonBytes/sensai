@@ -42,34 +42,43 @@ defined('_JEXEC') or die;
 
     p {
         text-align: justify;
+        font-size: 18px !important;
+    }
+
+    h3,
+    h4 {
+        margin-top: 25px;
+    }
+
+    html.static .t3-wrapper .t3-mainbody .t3-content .item-page .articlebody {
+        padding-top: 0;
+    }
+
+    strong {
+        color: red;
     }
 </style>
 
-<p>Sensaihonya is a small group of coworkers, endeavoured to
-    play a role in providing quality but affordable publications
+<p>Sensaihonya is a small group of coworkers, endeavoured to play a role in providing quality but affordable publications
     for decorative and educational purposes.</p>
-<p>We make every effort to ensure that we ONLY supply
-    products that are QUALITY yet available at VERY attainable
-    prices so that everyone could afford to <strong>buy without a second
-        thought</strong>.</p>
+<p>We make every effort to ensure that we <strong>ONLY</strong> supply products that are <strong>QUALITY</strong> yet available at <strong>VERY</strong> attainable
+    prices so that everyone could afford to <strong>buy without a second thought</strong>.</p>
 
-<p><strong>Our printed products will be
-        produced in leading countries by
-        premium printers.</strong></p>
+<p><strong>Our printed products will be produced in leading countries by premium printers.</strong></p>
 
 <div class="images_div">
     <img src="<?php echo JUri::base() . 'images/page/about/printed-inJap.jpg' ?>" />
     <img src="<?php echo JUri::base() . 'images/page/about/printed-in-de.jpg' ?>" />
     <img src="<?php echo JUri::base() . 'images/page/about/printed-in-uk.jpg' ?>" />
 </div>
-
+<br />
 <h3>What do we offer?</h3>
 <div class="blocks">
     <div class="block">
+        <img src="<?php echo JUri::base() . 'images/bundle/gallery/A02_bundle_thumb_277.jpg' ?>" />
         <a href="<?php echo JUri::base() . 'categories'; ?>">
             <h4>Sensai Decor Posters</h4>
         </a>
-        <img src="<?php echo JUri::base() . 'images/bundle/gallery/A02_bundle_thumb_277.jpg' ?>" />
         <p>Our designers have put together harmoniously coordinated
             images into a bundle set that you could arrange freely to
             cozy up your space.
@@ -79,13 +88,13 @@ defined('_JEXEC') or die;
         <div class="clearfix"></div>
     </div>
     <div class="block">
+        <img src="<?php echo JUri::base() . 'images/bundle/gallery/A08_bundle_thumb_277.jpg' ?>" />
         <a href="<?php echo JUri::base() . 'audio-posters'; ?>">
             <h4>Sensai Audio Posters</h4>
         </a>
-        <img src="<?php echo JUri::base() . 'images/bundle/gallery/A08_bundle_thumb_277.jpg' ?>" />
         <p>As the name suggest, Audio Posters are posters that you can
             listen to, with a mobile - a device nearly everyone has.
-            Our Audio Posters contain collection of image objects well
+            Our Audio Posters contain collection of objects well
             organized in groups, bursting with full-colour images.
             The subjects include dog breeds, cat breeds, birds, butterflies,
             ABC chart, dinosaurs, and many other subjects that you will
@@ -93,14 +102,14 @@ defined('_JEXEC') or die;
         <div class="clearfix"></div>
     </div>
     <div class="block">
-        <a href="<?php echo JUri::base() . 'promotions'; ?>">
+        <img src="<?php echo JUri::base() . 'images/page/about/pdf.jpg' ?>" />
+        <a href="<?php echo JUri::base() . 'free-eposters'; ?>">
             <h4>Sensai Audio ePosters</h4>
         </a>
-        <img src="<?php echo JUri::base() . 'images/page/about/pdf.jpg' ?>" />
-        <p>We also publish audio ePosters available for FREE downloads.</p>
+        <p>We also publish audio ePosters available for <strong>FREE</strong> downloads.</p>
         <div class="clearfix"></div>
-        <h5>Print it yourself - Quality A3 format</h5>
-        <img style="max-width: 100px;" src="<?php echo JUri::base() . 'images/page/about/printing.jpg' ?>" />
+        <img src="<?php echo JUri::base() . 'images/page/about/Printer1.jpg' ?>" />
+        <h4>Print it yourself - Quality A3 format</h4>
         <p>Embedded with quality jpegs, Sensai Audio ePosters are good enough for
             printing A3 format. With a quality home use A3 or A4
             printer, you could obtain crispy clear images.</p>
@@ -109,8 +118,8 @@ defined('_JEXEC') or die;
     </div>
 </div>
 <h3>How can customers get our products?</h3>
-<p>ePosters are available as <a href="<?php echo JUri::base() . 'promotions'; ?>">FREE downloads</a>.</p>
-
+<p>ePosters are available as <a href="<?php echo JUri::base() . 'free-eposters'; ?>">FREE downloads</a>.</p>
+<br />
 <p>Merchandise publications are available on Amazon: <br />
 <div class="images_div">
     <img class="amz_logo" src="<?php echo JUri::base() . 'images/page/about/amazon-co-jp-logo.jpg' ?>" />
@@ -118,7 +127,7 @@ defined('_JEXEC') or die;
     <img class="amz_logo" src="<?php echo JUri::base() . 'images/page/about/amazon-co-uk.jpg' ?>" />
 </div>
 </p>
-
+<br />
 <p>We don’t handle sales by ourselves.
     Most, if not all, of our products will be available
     as <a href="<?php echo JUri::base() . 'categories'; ?>">bundles</a>. Individual titles will not be on our

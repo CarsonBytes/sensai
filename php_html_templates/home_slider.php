@@ -61,7 +61,7 @@ defined('_JEXEC') or die;
     <div class="carousel-inner">
         <?php for ($i = 1; $i < 5; $i++) { ?>
             <div class="item <?php if ($i == 1) { ?>active<?php } ?>">
-                <img class="lazyload <?php if ($i == 1) { ?>carousel_1<?php } ?>" data-src="<?php echo JURI::root() ?>images/page/home/gallery/home_slider_<?php echo $i?>.jpg" alt="" />
+                <img class="lazyload <?php if ($i == 1) { ?>carousel_1<?php } ?>" data-src="<?php echo JURI::root() ?>images/page/home/gallery/08-gallery_eu0<?php echo $i?>.jpg" alt="" />
                 <?php /* <a href="#">
                     <div class="read_more">Read More</div>
                 </a>*/ ?>

@@ -50,17 +50,17 @@ defined('_JEXEC') or die;
 			</div>
 			<div class="col-lg-5 col-md-6 col-sm-3 col-xs-3 right-topbar">
 				<div class="right-topbar_inner">
-					<a class="promo_logo" href="#">
+					<?php /*<a class="promo_logo" href="#">
 						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/app_base.svg" alt="App" />
 						<img class="hover" src="<?php echo JURI::root() ?>images/page/common/header/app_over.svg" alt="App" />
 						<img class="active" src="<?php echo JURI::root() ?>images/page/common/header/app_highlight.svg" alt="App" />
 						<div>App</div>
-					</a>
+					</a>*/ ?>
 					<a class="promo_logo" href="#">
-						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/pdf_base.svg" alt="High Res PDF" />
-						<img class="hover" src="<?php echo JURI::root() ?>images/page/common/header/pdf_over.svg" alt="High Res PDF" />
-						<img class="active" src="<?php echo JURI::root() ?>images/page/common/header/pdf_highlight.svg" alt="High Res PDF" />
-						<div>High Res PDF</div>
+						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/pdf_base.svg" alt="PDF" />
+						<img class="hover" src="<?php echo JURI::root() ?>images/page/common/header/pdf_over.svg" alt="PDF" />
+						<img class="active" src="<?php echo JURI::root() ?>images/page/common/header/pdf_highlight.svg" alt="PDF" />
+						<div>PDF</div>
 					</a>
 					<a class="promo_logo" href="#">
 						<img class="base" src="<?php echo JURI::root() ?>images/page/common/header/QR-code_base.svg" alt="QR code" />

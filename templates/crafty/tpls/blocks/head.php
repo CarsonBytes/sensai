@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   T3 Blank
  * @copyright Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -9,8 +10,8 @@ defined('_JEXEC') or die;
 ?>
 
 <!-- META FOR IOS & HANDHELD -->
-<?php if ($this->getParam('responsive', 1)): ?>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<?php if ($this->getParam('responsive', 1)) : ?>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<style type="text/stylesheet">
 		@-webkit-viewport   { width: device-width; }
 		@-moz-viewport      { width: device-width; }
@@ -30,8 +31,8 @@ defined('_JEXEC') or die;
 		//]]>
 	</script>
 <?php endif ?>
-<meta name="HandheldFriendly" content="true"/>
-<meta name="apple-mobile-web-app-capable" content="YES"/>
+<meta name="HandheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="YES" />
 <!-- //META FOR IOS & HANDHELD -->
 
 <?php
@@ -60,6 +61,11 @@ if (is_file(T3_TEMPLATE_PATH . '/css/custom.css')) {
 <!-- You can add Google Analytics here or use T3 Injection feature -->
 <script type="text/javascript" src="<?php echo JURI::root() ?>js/script.js"></script>
 
-<?php //schoolbell in google font ?>
+<?php //schoolbell in google font 
+?>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+
+<?php /*(
+<!--[if (lt IE 9)]><script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.helper.ie8.js"></script><![endif]-->*/ ?>

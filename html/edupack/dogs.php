@@ -7,8 +7,6 @@ if (
     $type = 'edupack';
 
 ?>
-    <script>
-    </script>
     <ul class="pages">
         <?php $i = 1;
         foreach ($skus as $sku) {  ?>
