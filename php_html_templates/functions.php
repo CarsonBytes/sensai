@@ -8,10 +8,15 @@ define("IMG_M", 762);
 define("IMG_S", 277);
 define("IMG_XS", 50);
 define("BUNDLE_PATH", 'images/bundle/');
+define("user_24h_download_limit", 5);
+define("eposters_page_link", 'free-eposters');
 
-defined('JPATH_BASE') or define('JPATH_BASE', realpath(dirname(__FILE__) . '/../'));  
+defined('JPATH_BASE') or define('JPATH_BASE', realpath(dirname(__FILE__) . '/../'));
 require_once JPATH_BASE . '/includes/defines.php';
 require_once JPATH_BASE . '/includes/framework.php';
+
+/* Create the Application */
+$mainframe = JFactory::getApplication('site');
 
 JFactory::getLanguage()->load('custom', JPATH_SITE, JFactory::getLanguage()->getTag(), true);
 
@@ -149,11 +154,16 @@ function getFilePath($code)
 {
 	$db = JFactory::getDBO();
 
+	$user_clause = '';
+	if (JFactory::getUser()->id != 0) {
+		$user_clause = "WHERE user_id = {$db->quote(JFactory::getUser()->id)}";
+	}
+
 	$query = "SELECT fp.id, fp.code, fp.path, fp.params, 
     count(DISTINCT fd.id) AS total_download_cnt, count(DISTINCT fd2.id) AS user_download_cnt
-    FROM sensaiho_nya.filepath fp
+    FROM filepath fp
     LEFT JOIN files_downloaded fd ON fd.filepath_id = fp.id
-    LEFT JOIN (SELECT * FROM files_downloaded WHERE user_id = {$db->quote(JFactory::getUser()->id)} ) fd2 ON fd2.filepath_id = fp.id
+    LEFT JOIN (SELECT * FROM files_downloaded $user_clause ) fd2 ON fd2.filepath_id = fp.id
     WHERE fp.code = {$db->quote($code)}
     GROUP BY fp.id
     ORDER BY file_version_id desc
@@ -171,9 +181,23 @@ function getFilePath($code)
 
 function getFilePaths()
 {
-    $db = JFactory::getDBO();
+	$db = JFactory::getDBO();
 
-    $query = "SELECT fp.id, fp.file_id, fp.file_version_id, fp.code, fp.params,
+	$user_clause = '';
+	if (JFactory::getUser()->id != 0) {
+		$user_clause = "WHERE user_id = {$db->quote(JFactory::getUser()->id)}";
+	}
+
+	$query = "SELECT fp.id, fp.file_id, fp.file_version_id, fp.code, fp.path, title, thumb, introtext
+			FROM filepath fp
+			INNER JOIN (
+				SELECT MAX(id) id, file_id, MAX(file_version_id) rev
+				FROM filepath
+				GROUP BY file_id
+			) fp2 ON fp.id = fp2.id
+			GROUP BY fp.id
+			ORDER BY id";
+	/* $query = "SELECT fp.id, fp.file_id, fp.file_version_id, fp.code, fp.params,
 	count(DISTINCT fd.id) AS total_download_cnt, count(DISTINCT fd2.id) AS user_download_cnt
 	FROM filepath fp
 	INNER JOIN (
@@ -182,18 +206,18 @@ function getFilePaths()
 		GROUP BY file_id
 	) fp2 ON fp.id = fp2.id
 	LEFT JOIN files_downloaded fd ON fd.filepath_id = fp.id
-	LEFT JOIN (SELECT * FROM files_downloaded WHERE user_id = {$db->quote(JFactory::getUser()->id)} ) fd2 ON fd2.filepath_id = fp.id
+	LEFT JOIN (SELECT * FROM files_downloaded $user_clause ) fd2 ON fd2.filepath_id = fp.id
 	GROUP BY fp.id
-	ORDER BY file_id";
+	ORDER BY id"; */
 
-    //echo 'getFilePath';
-    //dump($query);
+	/* echo 'getFilePath';
+    dump($query); */
 
-    $db->setQuery($query);
-    $result = $db->loadObjectList();
+	$db->setQuery($query);
+	$result = $db->loadObjectList();
 
-    //dump($result);
-    return $result;
+	//dump($result);
+	return $result;
 }
 
 
@@ -225,6 +249,37 @@ function insertFilesDownloaded($user_id, $filepath_id, $filesize)
     dump($result); */
 }
 
+function getUser24hDownloadCnt($user_id)
+{
+	$db = JFactory::getDBO();
+
+	$query = "SELECT count(*) FROM files_downloaded 
+	WHERE user_id = {$db->quote($user_id)} AND 
+	created > ({$db->quote(date('Y-m-d H:i:s'))} - INTERVAL 24 HOUR);";
+
+	$db->setQuery($query);
+
+	$result = $db->loadResult();
+
+	//dump($result);
+	return $result;
+}
+
+function getThisFileUserDownloadCnt($filepath_id, $user_id)
+{
+	$db = JFactory::getDBO();
+
+	$query = "SELECT count(*) FROM files_downloaded 
+	where filepath_id = {$db->quote($filepath_id)} and user_id = {$db->quote($user_id)}";
+
+	$db->setQuery($query);
+
+	$result = $db->loadResult();
+
+	return $result;
+}
+
+
 /**
  * case of status:
  *  0: 	user never downloaded 
@@ -239,15 +294,15 @@ function insertFilesDownloaded($user_id, $filepath_id, $filesize)
  * 		=> prompt and ask whether redirection is desired , in case alternative file is there
  * -3: 	user does not login in
  * -4:	1 of the quotas is reached but no alternative file is there
+ * -5: user_24h_download_limit reaches
+ * 		=> just warn without any alternatives given
  * 
  * return:
  * array of status, prompt settings, etc.
  * 
  */
-function getUserFileDownloadStatus($file_info)
+function getUserFileDownloadStatus(/* $file_info */$filepath_id)
 {
-
-
 	$is_redownload = false;
 	if (!isLogin()) {
 		return array(
@@ -259,7 +314,7 @@ function getUserFileDownloadStatus($file_info)
 					array(
 						'name' => 'take_me_there',
 						'text' => JText::sprintf('PROMPT_YES_TAKE_ME_THERE'),
-						'link' => JUri::base() . 'login?return=' . urlencode(base64_encode(Uri::getInstance()->toString())),
+						'link' => JUri::base() . 'login?return=' . urlencode(base64_encode(JUri::base() . eposters_page_link)),
 						'target' => '_self'
 					),
 					array(
@@ -271,36 +326,40 @@ function getUserFileDownloadStatus($file_info)
 			'is_redownload' => $is_redownload
 		);
 	}
-	if ($file_info == null) {
+
+
+	/* if ($file_info == null) {
 		return false;
-	}
-	$file_params = json_decode($file_info->params);
+	} 
+	$file_params = json_decode($file_info->params);*/
 
 	/**
 	 * check if user has downloaded or not
 	 */
-	if ($file_info->user_download_cnt > 0) {
+	$user_this_file_dl_cnt = getThisFileUserDownloadCnt($filepath_id, JFactory::getUser()->id);
+	if ($user_this_file_dl_cnt > 0) {
 		$is_redownload = true;
 	}
-	
+
 	/**
-	 * TODO when status=2: user has downloaded this file and there is no quota defined at all
+	 * @deprecated when status=2: user has downloaded this file and there is no quota defined at all
 	 */
 
 	/**
-	 * TODO when status=-4: 1 of the quota is reached but no alternative file is there
+	 * @deprecated when status=-4: 1 of the quota is reached but no alternative file is there
 	 */
 
 	/**
-	 * check if local quota is reached 
+	 * @deprecated non commercial download should be unlimited
+	 * check if local quota is reached , or if total_download_limit_per_user is 0, skip checking
 	 */
-	if ($file_info->user_download_cnt >= $file_params->total_download_limit_per_user) {
+	/* if ($file_info->user_download_cnt >= $file_params->total_download_limit_per_user && $file_params->total_download_limit_per_user != 0) {
 
 		return array(
 			'status' => -1,
 			'prompt' => array(
 				'title' => JText::sprintf('PROMPT_NOTICE'),
-				'message' => JText::sprintf('PROMPT_LOCAL_REDIRECT', $file_info->user_download_cnt, $file_params->total_download_limit_per_user),
+				'message' => JText::sprintf('PROMPT_LOCAL_REDIRECT'),
 				'btns' => array(
 					array(
 						'name' => 'take_me_there',
@@ -316,16 +375,18 @@ function getUserFileDownloadStatus($file_info)
 			),
 			'is_redownload' => $is_redownload
 		);
-	}
+	} */
+
 	/**
-	 * check if global quota is reached 
+	 * @deprecated non commercial download should be unlimited
+	 * check if global quota is reached , or if total_download_limit is 0, skip checking
 	 */
-	if ($file_info->total_download_cnt >= $file_params->total_download_limit) {
+	/* if ($file_info->total_download_cnt >= $file_params->total_download_limit  && $file_params->total_download_limit != 0) {
 		return array(
 			'status' => -2,
 			'prompt' => array(
 				'title' => JText::sprintf('PROMPT_NOTICE'),
-				'message' => JText::sprintf('PROMPT_GLOBAL_REDIRECT', $file_info->user_download_cnt, $file_params->total_download_limit_per_user),
+				'message' => JText::sprintf('PROMPT_GLOBAL_REDIRECT'),
 				'btns' => array(
 					array(
 						'name' => 'take_me_there',
@@ -341,32 +402,53 @@ function getUserFileDownloadStatus($file_info)
 			),
 			'is_redownload' => $is_redownload
 		);
-	}
+	} */
 
 	/**
-	 * check if user has downloaded this file before 
+	 * check if user download quota over 24h reaches , or if user_24h_download_limit is 0, skip checking
 	 */
-	if ($file_info->user_download_cnt == 0) {
+	$user_24h_download_cnt = getUser24hDownloadCnt(JFactory::getUser()->id);
+	if ($user_24h_download_cnt >= user_24h_download_limit  && user_24h_download_limit != 0) {
 		return array(
-			'status' => 0,
-			'link' => JUri::base() . 'download-promo?d=1&c=' . $file_info->code,
+			'status' => -5,
+			'prompt' => array(
+				'title' => JText::sprintf('PROMPT_NOTICE'),
+				'message' => JText::sprintf('PROMPT_USER_24H_DL_REACHES'),
+				'btns' => array(
+					array(
+						'name' => 'cancel',
+						'text' => JText::sprintf('PROMPT_OK')
+					)
+				)
+			),
 			'is_redownload' => $is_redownload
 		);
 	}
 
 	/**
-	 * until here user has downloaded this file before and does not reach any quota yet
+	 * if user download quota over 24h == 0, proceed download right away
+	 */
+	if ($user_24h_download_cnt == 0) {
+		return array(
+			'status' => 0,
+			'link' => JUri::base() . 'download-promo?c=', //to be appended with code in frontend js
+			'is_redownload' => $is_redownload
+		);
+	}
+
+	/**
+	 * until here user download quota is over 24h > 0
 	 */
 	return array(
 		'status' => 1,
 		'prompt' => array(
 			'title' => JText::sprintf('PROMPT_NOTICE'),
-			'message' => JText::sprintf('PROMPT_REDOWNLOAD', $file_info->user_download_cnt, $file_params->total_download_limit_per_user),
+			'message' => JText::sprintf('PROMPT_REDOWNLOAD', $user_24h_download_cnt, user_24h_download_limit),
 			'btns' => array(
 				array(
-					'name' => 'dl_anyways',
-					'text' => JText::sprintf('PROMPT_DOWNLOAD_ANYWAYS'),
-					'link' => JUri::base() . 'download-promo?d=1&c=' . $file_info->code
+					'name' => 'dl_the_file',
+					'text' => JText::sprintf('PROMPT_DOWNLOAD_THIS_FILE'),
+					'link' => JUri::base() . 'download-promo?c=' //to be appended with code in frontend js
 				),
 				array(
 					'name' => 'cancel',
@@ -377,4 +459,3 @@ function getUserFileDownloadStatus($file_info)
 		'is_redownload' => $is_redownload
 	);
 }
-?>

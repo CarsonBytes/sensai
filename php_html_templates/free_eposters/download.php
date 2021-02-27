@@ -10,17 +10,22 @@ require_once(JPATH_SITE . '/php_html_templates/functions.php');
 
 $is_redownload = false;
 if (isset($_GET['c'])) {
-    // TODO: check in DB if file where code='test' exists
     $file_info = getFilePath($_GET['c']);
-    $status = getUserFileDownloadStatus(getFilePath($_GET['c']));
+    $status = getUserFileDownloadStatus($file_info->id)['status'];
     if ($status === false) die();
     $file_params = json_decode($file_info->params);
 } else {
     die();
 }
 
-if (isset($_GET["d"]) && $_GET["d"] == 1 && isLogin()) {
-    if ($status == -1 || $status == -2) die(); // if 1 of the quotas is reached, just die
+
+if (isset($_GET["d"]) && $_GET["d"] == 1) {
+    if ($status == -5) {
+        echo JText::sprintf('PROMPT_USER_24H_DL_REACHES');
+        die();
+    }
+
+    if ($status != 1 && $status != 0) die(); // if status is not right, just die
 
     $filepath = JPATH_ROOT . DS . $file_info->path;
 
@@ -36,7 +41,6 @@ if (isset($_GET["d"]) && $_GET["d"] == 1 && isLogin()) {
         header('Set-Cookie: fileLoading=true');
         flush(); // Flush system output buffer
         readfile($filepath);
-        //TODO insert files_downloaded record with user id and file_path id
         insertFilesDownloaded(JFactory::getUser()->id, $file_info->id, filesize($filepath));
         die();
     } else {
@@ -64,6 +68,7 @@ if (isset($_SESSION['msg']) && $_SESSION['msg'] != null) {
     JFactory::getApplication()->enqueueMessage($_SESSION['msg']);
     unset($_SESSION['msg']);
 }
+
 ?>
 <style>
     .view-article .t3-wrapper .t3-mainbody .t3-content .item-page .articlebody {
@@ -82,6 +87,14 @@ if (isset($_SESSION['msg']) && $_SESSION['msg'] != null) {
 
     .main_content img {
         opacity: 0.3;
+    }
+
+    .main_content img:hover {
+        opacity: 0.5;
+    }
+    .lang_chooser {
+        float: right;
+        margin-bottom: 10px;
     }
 </style>
 <?php if (isLogin()) { ?>
@@ -103,7 +116,12 @@ if (isset($_SESSION['msg']) && $_SESSION['msg'] != null) {
             <div class="col-xs-12 col-md-12 main_content_col">
                 <div class="main_content">
                     <h1 itemprop="name" class="product-title">Download Your <?php echo $file_params->title; ?></h1>
-                    <p>Click on the image below to download your free poster.</p>
+                    <p>Choose the language and click on the image below to download your free poster in the selected language.</p>
+                    <select class="lang_chooser" name="lang">
+                        <option value="en">English</option>
+                        <option value="jp">Japanese</option>
+                        <option value="de">German</option>
+                    </select>
                     <a href="<?php echo isLogin() ? JUri::base() . 'download-promo?c=' . $file_info->code . '&d=1' : JUri::base() . 'login?return=' . $redirectUrl; ?>"><img src="<?php echo JUri::base() . $file_params->thumb ?>" /></a>
                     <?php if ($redirectAfterDownloadUrl != '') { ?>
                         <input type="hidden" name="b_id" value="<?php echo $redirectAfterDownloadUrl; ?>" />

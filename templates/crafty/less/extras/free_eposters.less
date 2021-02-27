@@ -1,0 +1,21 @@
+html.free_eposters {
+    .item-page {
+        max-width: 1200px;
+
+        .free_items_wrapper {
+            display        : flex;
+            justify-content: space-between;
+            flex-wrap      : wrap;
+
+            .free_item {
+                width: 100%;
+            }
+
+            @media screen and (min-width: @screen-sm) {
+                .free_item {
+                    width: 48%;
+                }
+            }
+        }
+    }
+}
