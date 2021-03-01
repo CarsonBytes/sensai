@@ -159,11 +159,11 @@ function getFilePath($code)
 		$user_clause = "WHERE user_id = {$db->quote(JFactory::getUser()->id)}";
 	}
 
-	$query = "SELECT fp.id, fp.code, fp.path, fp.params, 
-    count(DISTINCT fd.id) AS total_download_cnt, count(DISTINCT fd2.id) AS user_download_cnt
+	$query = "SELECT fp.id, fp.code, fp.lang, fp.title, fp.path, fp.thumb, fp.introtext, fp.to_bundle_j2store_id_after_download
+    /* count(DISTINCT fd.id) AS total_download_cnt, count(DISTINCT fd2.id) AS user_download_cnt */
     FROM filepath fp
     LEFT JOIN files_downloaded fd ON fd.filepath_id = fp.id
-    LEFT JOIN (SELECT * FROM files_downloaded $user_clause ) fd2 ON fd2.filepath_id = fp.id
+    /* LEFT JOIN (SELECT * FROM files_downloaded $user_clause ) fd2 ON fd2.filepath_id = fp.id */
     WHERE fp.code = {$db->quote($code)}
     GROUP BY fp.id
     ORDER BY file_version_id desc

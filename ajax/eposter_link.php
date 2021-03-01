@@ -15,12 +15,4 @@ if (
     exit();
 }
 
-/* define('_JEXEC', 1);
-define('JPATH_BASE', dirname(__DIR__));
-require_once JPATH_BASE . '/php_html_templates/functions.php';
-use Joomla\CMS\Uri\Uri; */
-/* echo Uri::getInstance()->toString();
-die(); */
-/* echo JUri::base() .'free-eposters';
-die(); */
 die();
