@@ -22,30 +22,33 @@ $document->addScript('/js/prod_detail.js');
 $document->addScript('/js/sm_slider.js');
 
 
-$query = "SELECT note FROM `h1232_content` b WHERE b.id = " . $this->product->product_source_id;
-
 $database = JFactory::getDbo();
+
+$query = "SELECT count(*) FROM charts where chart_id = " . $this->product->product_source_id;
+
 $database->setQuery($query);
-$product_type = $database->loadResult();
+$product_type = ($database->loadResult() == 1) ? 'chart' : 'bundle';
 
 $params = json_decode($this->product->params);
 
 /**
  *  there should be no bundle type, as all products are bundle now 
  * */
+$tag_ids_string = '';
 if ($product_type == 'chart') {
 
-	$result = getChart($this->product->product_source_id);
+	$charts = getAudioPoster($this->product->product_source_id);
 	//dump($result);
+	if (isset($charts->tag_ids) && trim($charts->tag_ids) != '')
+		$tag_ids_string = $charts->tag_ids;
 
-	$tag_ids_string = $result->tag_ids;
+	if (trim($this->product->source->introtext) == '' && isset($charts->audio_posters_page_desc))
+		$this->product->source->introtext = $charts->audio_posters_page_desc;
+
 	/* $tag_titles = explode(',', $result->tag_titles);
 	$tag_alias = explode(',', $result->tag_alias); */
 
-	if (isset($result->chart_params)) {
-		$chart_params = json_decode($result->chart_params);
-		//dump($chart_params);
-	}
+	//dump($charts);
 } else if ($product_type == 'bundle') {
 
 	/**
@@ -61,7 +64,7 @@ if ($product_type == 'chart') {
 	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
 	LEFT JOIN `bundle_params` bi ON bi.bundle_id = ctm.content_item_id
 	LEFT JOIN `bundles_charts` bc ON bc.bundle_id = bi.bundle_id
-	LEFT JOIN `chart_params` cp ON cp.chart_id = bc.chart_id
+	LEFT JOIN `charts` cp ON cp.chart_id = bc.chart_id
 	LEFT JOIN `h1232_content` c ON cp.chart_id = c.id
 	where ctm.content_item_id = {$this->product->product_source_id}
 	and t.published = 1
@@ -71,8 +74,8 @@ if ($product_type == 'chart') {
 	$database->setQuery($query2);
 	$result = $database->loadAssoc();
 	//dump($result);
-	$tag_ids_string = $result['tag_ids'];
- 	/* $tag_titles = explode(',', $result['tag_titles']);
+	if (isset($result['tag_ids'])) $tag_ids_string = $result['tag_ids'];
+	/* $tag_titles = explode(',', $result['tag_titles']);
 	$tag_alias = explode(',', $result['tag_alias']); */
 
 	if (isset($result['bundle_params']))
@@ -92,6 +95,9 @@ if ($product_type == 'chart') {
 /**
  * related bundle query
  */
+if ($tag_ids_string != '') {
+	$tag_ids_string = "ctm.tag_id in ($tag_ids_string) AND ";
+}
 $query2 = "SELECT distinct jp.j2store_product_id, c.id as content_id, c.title, 
 /* GROUP_CONCAT( DISTINCT t.title ) as matched_tag_titles, 
  GROUP_CONCAT( DISTINCT t.alias ) as matched_tag_alias, 
@@ -103,11 +109,9 @@ left JOIN `h1232_content` c ON c.id = ctm.content_item_id
 LEFT JOIN `h1232_j2store_products` jp ON jp.product_source_id = c.id
 LEFT JOIN `h1232_j2store_productimages` jpi ON jp.j2store_product_id = jpi.product_id
 RIGHT JOIN `bundle_params` bi ON bi.bundle_id = c.id
-where ctm.tag_id in ({$tag_ids_string}) and c.id != {$this->product->product_source_id}
+where $tag_ids_string c.id != {$this->product->product_source_id}
 and c.state = 1  and t.published = 1
 group by jp.j2store_product_id;";
-
-//dump($query2);
 
 $database->setQuery($query2);
 $related_bundles = $database->loadAssocList();
@@ -194,7 +198,7 @@ $related_bundles = $database->loadAssocList();
 </div>
 
 <?php
-include JPATH_SITE . '/php_html_templates/prod_detail/this_bundle.php';
+	include JPATH_SITE . '/php_html_templates/prod_detail/this_bundle.php';
 
 if (isset($related_bundles) && count($related_bundles) > 0) {
 	include JPATH_SITE . '/php_html_templates/prod_detail/related_bundles.php';

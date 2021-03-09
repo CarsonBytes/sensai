@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated use bundle_chart_params instead
+ */
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
 require_once(dirname(__DIR__) . DS . 'init.php');

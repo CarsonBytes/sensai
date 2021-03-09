@@ -111,22 +111,33 @@ function isLogin()
 	return !JFactory::getUser()->guest;
 }
 
-function getChart($id)
+function getAudioPoster($id)
 {
 	$database = JFactory::getDbo();
 
 	/**
 	 * query for chart's tags and params
 	 */
-	$query = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids, 
+	/* $query = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids,  */
 	/* GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
 	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias, */
-	cp.params as chart_params
+	/* cp.params as charts
 	FROM h1232_contentitem_tag_map ctm
 	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
 	LEFT JOIN `chart_params` cp ON cp.chart_id = ctm.content_item_id
 	LEFT JOIN `h1232_content` c ON c.id = cp.chart_id
 	WHERE ctm.content_item_id = {$id} AND  t.published = 1 AND c.state = 1
+	group by ctm.content_item_id;"; */
+
+	$query = "SELECT GROUP_CONCAT( DISTINCT t.id ) as tag_ids,
+	cp.chart_id, cp.lang, cp.j2_store_product_id, cp.code, 
+	cp.audio_posters_page_title, cp.audio_posters_page_desc, 
+	cp.skus, cp.img_names
+	FROM `charts` cp
+	LEFT JOIN h1232_contentitem_tag_map ctm ON cp.chart_id = ctm.content_item_id
+	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
+	LEFT JOIN `h1232_content` c ON c.id = cp.chart_id
+	WHERE cp.chart_id = {$id} /* AND  t.published = 1 */ AND c.state = 1
 	group by ctm.content_item_id;";
 
 	$database->setQuery($query);
@@ -139,10 +150,9 @@ function getCharts()
 {
 	$database = JFactory::getDbo();
 
-	$query = "SELECT c.title, c.introtext, cp.params
-	FROM chart_params cp
-	LEFT JOIN `h1232_content` c ON c.id = cp.chart_id
-	WHERE  c.state = 1";
+	$query = "SELECT chart_id, lang, j2_store_product_id, code, 
+	audio_posters_page_title, audio_posters_page_desc, skus, img_names
+	FROM charts cp";
 
 	$database->setQuery($query);
 

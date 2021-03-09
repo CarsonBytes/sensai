@@ -1,9 +1,12 @@
 <?php
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
+define('_JEXEC', 1);
+
 require_once(dirname(__DIR__) . DS . 'init.php');
 
-$filename = "calc data - bundle+chart_params.csv";
+echo 'test';
+$filename = "calc data - chart_params2.csv";
 
 defined('FILE_PATH') or define('FILE_PATH', __DIR__ . DS . $filename);
 
@@ -56,9 +59,9 @@ if (file_exists(FILE_PATH)) {
 
                     insertParams($type, $main_id, $params);
 
-                    $query = "SELECT id from h1232_content where alias = '{$line[$i][$alias_index]}'";
-                    $db->setQuery($query);
-                    $main_id = $db->loadResult();
+                    /* $query = "SELECT id from h1232_content where alias = '{$line[$i][$alias_index]}'";
+                    $db->setQuery($query); 
+                    $main_id = $db->loadResult();*/
 
                     if ($main_id == null) {
                         print("chart id not found for alias {$line[$i][$alias_index]}. This chart will be skipped...");
@@ -78,7 +81,7 @@ if (file_exists(FILE_PATH)) {
                     $db->setQuery($query);
                     $result = $db->loadAssoc();
                     $params['chart_j2_store_product_id'] = $result['j2store_product_id'];
-                    $params['chart_id'] = $result['id'];
+                    $main_id = $result['id'];
                 }
 
                 // all chart lines
@@ -101,7 +104,7 @@ if (file_exists(FILE_PATH)) {
                     }
                     $params = array(
                         'img_names' => array(),
-                        'gallery_mapping'=> array(),
+                        'gallery_mapping' => array(),
                         'bundle_chart_thumb' => array($line[$i][$bundle_chart_thumb_index]),
                         'bundle_chart_imgs' => array($line[$i][$bundle_chart_imgs_index])
                     );
@@ -174,9 +177,26 @@ function insertChartParams($chart_id, $params)
     if ($chart_id == '' || $chart_id == null)
         $chart_id = 'null';
 
-    $query = "INSERT INTO chart_params(chart_id, params, created_on)
+    /* $query = "INSERT INTO chart_params(chart_id, params, created_on)
     VALUES({$chart_id}, {$db->quote($escaped)}, {$db->quote(date('Y-m-d H:i:s'))})
-    ON DUPLICATE KEY UPDATE params = {$db->quote($escaped)}, updated_on = {$db->quote(date('Y-m-d H:i:s'))}";
+    ON DUPLICATE KEY UPDATE params = {$db->quote($escaped)}, updated_on = {$db->quote(date('Y-m-d H:i:s'))}"; */
+    
+    //TODO insert lang, and code(sku) accordingly
+    $query = "INSERT INTO charts(chart_id, lang, img_names, skus, j2_store_product_id, created_on)
+    VALUES({$chart_id}, 
+    'en',
+    {$db->quote(json_encode($params['img_names']))},
+    {$db->quote(json_encode($params['chart_skus']))},
+    {$params['chart_j2_store_product_id']},
+    {$db->quote(date('Y-m-d H:i:s'))})
+    ON DUPLICATE KEY UPDATE 
+    chart_id = {$chart_id}, 
+    lang = 'en', 
+    img_names = {$db->quote(json_encode($params['img_names']))}, 
+    skus = {$db->quote(json_encode($params['chart_skus']))}, 
+    j2_store_product_id = {$params['chart_j2_store_product_id']}, 
+    chart_id = {$db->quote($chart_id)}, 
+    updated_on = {$db->quote(date('Y-m-d H:i:s'))}";
 
     echo 'insertChartParams';
     dump($query);

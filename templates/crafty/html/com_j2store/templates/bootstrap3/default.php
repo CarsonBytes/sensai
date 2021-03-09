@@ -27,7 +27,9 @@ LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
 LEFT JOIN `bundles_categories` bc ON bc.bundle_id = b.id
 LEFT JOIN `h1232_categories` c ON  c.id = bc.category_id
 WHERE c.alias = {$db->quote($this->active_menu->alias)} AND b.state = 1
-ORDER BY a.`j2store_product_id` DESC";
+GROUP BY a.j2store_product_id
+ORDER BY rand()
+/* ORDER BY a.`j2store_product_id` DESC */";
 
 $db->setQuery($query);
 

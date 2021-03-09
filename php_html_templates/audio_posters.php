@@ -37,9 +37,12 @@ include JPATH_SITE . '/php_html_templates/functions.php';
     }
 </style>
 <?php
-//$charts = getCharts();
-
-$charts = array();
+$charts = getCharts();
+/* echo '<pre>';
+var_dump($charts);
+echo '</pre>';
+die(); */
+/* $charts = array();
 $charts[] = (object) array(
     'params' => (object) array(
         'title' => 'Popular Cat Breeds (version 1)',
@@ -164,22 +167,21 @@ $charts[] = (object) array(
         </li>
         </ul>
         ')
-);
+); */
 ?>
 <div class="audio_posters">
     <div class="audio_posters_wrapper">
-        <?php /* $j = 0;
+        <?php $j = 0;
         foreach ($charts as $chart) {
-            $chart_params = json_decode($chart->params);
         ?>
             <div class="audio_poster">
                 <div class="main_content">
-                    <a href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart_params->chart_j2_store_product_id); ?>">
-                        <h3 itemprop="name" class="product-title"><?php echo $chart->title; ?></h3>
+                    <a href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart->j2_store_product_id); ?>">
+                        <h3 itemprop="name" class="product-title"><?php echo $chart->audio_posters_page_title; ?></h3>
                     </a>
-                    <img src="<?php echo $chart_params->img_names[0]; ?>" />
-                    <?php echo $chart->introtext; ?>
-                    <a href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart_params->chart_j2_store_product_id); ?>">
+                    <img src="<?php echo json_decode($chart->img_names)[0]; ?>" />
+                    <?php echo $chart->audio_posters_page_desc; ?>
+                    <a href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart->j2_store_product_id); ?>">
                         <div class="btn_to_amazon to_view">
                             <span class="a-button-inner">
                                 <img src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
@@ -196,11 +198,11 @@ $charts[] = (object) array(
             </div>
         <?php
             $j++;
-        } */
+        }
         ?>
 
         <?php
-        foreach ($charts as $chart) {
+        /* foreach ($charts as $chart) {
             $chart_params = $chart->params;
         ?>
             <div class="audio_poster">
@@ -226,7 +228,7 @@ $charts[] = (object) array(
                 <hr />
             </div>
         <?php
-        }
+        } */
         ?>
     </div>
 </div>

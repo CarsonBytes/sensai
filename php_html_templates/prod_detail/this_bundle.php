@@ -6,9 +6,11 @@ $this_bundle_img_names = array();
 $this_bundle_gallery_mapping = array();
 if ($product_type == 'chart') {
     //$this_bundle_img_names = $chart_params->img_names;
-} else if ($product_type == 'bundle') {
+} else if ($product_type == 'bundle' && isset($bundle_params)) {
     $this_bundle_img_names = $bundle_params->img_names;
     $this_bundle_gallery_mapping = $bundle_params->gallery_mapping;
+}else{
+    return;
 }
 ?>
 <style>

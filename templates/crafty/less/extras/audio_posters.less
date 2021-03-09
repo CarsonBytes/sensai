@@ -1,0 +1,21 @@
+html.audio_posters {
+    .item-page {
+        max-width: 1200px;
+
+        .audio_posters_wrapper {
+            display        : flex;
+            justify-content: space-between;
+            flex-wrap      : wrap;
+
+            .audio_poster {
+                width: 100%;
+            }
+
+            @media screen and (min-width: @screen-sm) {
+                .audio_poster {
+                    width: 48%;
+                }
+            }
+        }
+    }
+}

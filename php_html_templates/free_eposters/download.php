@@ -5,12 +5,11 @@
 defined('_JEXEC') or die;
 
 require_once(JPATH_SITE . '/php_html_templates/functions.php');
-//dump($_GET['c']);
-
 
 $is_redownload = false;
-if (isset($_GET['c'])) {
+if (isset($_GET['c']) && trim($_GET['c']) != '') {
     $file_info = getFilePath($_GET['c']);
+    if ($file_info == null) die();
     $status = getUserFileDownloadStatus($file_info->id)['status'];
     if ($status === false) die();
 } else {
@@ -86,6 +85,8 @@ if (isset($_SESSION['msg']) && $_SESSION['msg'] != null) {
 
     .main_content img.preview {
         opacity: 0.3;
+        width: 100%;
+        height: auto;
     }
 
     .main_content img.preview:hover {
@@ -100,7 +101,7 @@ if (isset($_SESSION['msg']) && $_SESSION['msg'] != null) {
     .btn_to_amazon.to_view {
         text-align: center;
         float: right;
-        margin-left:10px;
+        margin-left: 10px;
     }
 
     .btn_to_amazon .a-button-inner img {
@@ -143,19 +144,19 @@ if (isset($_SESSION['msg']) && $_SESSION['msg'] != null) {
                         <span class="a-button-inner">
                             <img class="icon_display" src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
                             <input title="View" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-                            <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">Phone <i class="fas fa-download"></i></span> 
+                            <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">Phone <i class="fas fa-download"></i></span>
                     </a>
                     <a href="<?php echo isLogin() ? JUri::base() . 'download-promo?c=' . $file_info->code . '&d=1' : JUri::base() . 'login?return=' . $redirectUrl; ?>" class="btn_to_amazon to_view">
                         <span class="a-button-inner">
                             <img class="icon_display" src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
                             <input title="View" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-                            <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">Tablet <i class="fas fa-download"></i></span> 
+                            <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">Tablet <i class="fas fa-download"></i></span>
                     </a>
                     <a href="<?php echo isLogin() ? JUri::base() . 'download-promo?c=' . $file_info->code . '&d=1' : JUri::base() . 'login?return=' . $redirectUrl; ?>" class="btn_to_amazon to_view">
                         <span class="a-button-inner">
                             <img class="icon_display" src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
                             <input title="View" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-                            <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">A3 <i class="fas fa-download"></i></span> 
+                            <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">A3 <i class="fas fa-download"></i></span>
                     </a>
                     <?php /* <a href="<?php echo isLogin() ? JUri::base() . 'download-promo?c=' . $file_info->code . '&d=1' : JUri::base() . 'login?return=' . $redirectUrl; ?>">*/ ?>
                     <img class="preview" src="<?php echo getImgSizeUrl($file_info->thumb, 'M'); ?>" />

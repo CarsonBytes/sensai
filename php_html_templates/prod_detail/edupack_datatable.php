@@ -15,28 +15,34 @@ $document->addScript('https://cdn.jsdelivr.net/combine/npm/tabulator-tables@4,np
 $document->addScript('/js/edupack_datatable.js');
 
 
-//if (!isset($sku)) $sku = 'P12004';
-switch ($chart_params->chart_skus[0]) {
-    case 'A0B_10630':
-        $sku = "P12001";
-        break;
-    case 'A0B_10610':
-        $sku = "P12003";
-        break;
-    default:
-        $sku = "P12001";
-        break;
+/**
+ * TODO tables for other audio posters
+ */
+$sku = 'P12001'; //default
+if (isset($charts->skus)) {
+    switch (json_decode($charts->skus)[0]) {
+        case 'A0B_10630':
+            $sku = "P12001";
+            break;
+        case 'A0B_10610':
+            $sku = "P12003";
+            break;
+    }
+
 }
 
-/**
- * TODO dynamic pdf code
- */
-$pdf_code = 'test';
-$download_status = getUserFileDownloadStatus(getFilePath($pdf_code));
-$is_pdf_prompt = isset($download_status['prompt']);
+if (isset($charts->skus)) {
+    /**
+     * TODO dynamic pdf code
+     */
+    $pdf_code = $charts->code;
+    $download_status = getUserFileDownloadStatus(getFilePath($pdf_code)->id);
+    $is_pdf_prompt = isset($download_status['prompt']);
+}
+
 ?>
 <script>
-	var locale = '<?php echo JFactory::getLanguage()->getTag();?>' ;
+    var locale = '<?php echo JFactory::getLanguage()->getTag(); ?>';
 </script>
 <style>
     .maptable {
@@ -113,7 +119,7 @@ $is_pdf_prompt = isset($download_status['prompt']);
     }
 </style>
 
-<?php if ($is_pdf_prompt) { ?>
+<?php if (isset($is_pdf_prompt) && $is_pdf_prompt) { ?>
     <script>
         var prompt = <?php echo json_encode($download_status['prompt']) ?>;
         jQuery(function($) {
@@ -123,7 +129,7 @@ $is_pdf_prompt = isset($download_status['prompt']);
                 $('.modal.dialog').html(htmlOutput).modal();
             }).on('click', '.dl_anyways, .take_me_there', function() {
                 $('.modal.dialog').modal('hide');
-                window.open($(this).data('link'),$(this).data('target')); 
+                window.open($(this).data('link'), $(this).data('target'));
             });
         });
     </script>
@@ -138,14 +144,17 @@ $is_pdf_prompt = isset($download_status['prompt']);
             </a>
         </span>
     </span>
-    <span>
+
+    <?php if (isset($is_pdf_prompt) && $is_pdf_prompt) { ?>
         <span>
-            <a href="<?php echo $is_pdf_prompt ? '#' : $download_status['link'] ?>" target="_blank" class="download_pdf">
-                <?php echo $download_status['is_redownload'] ? 'Re-' : ''; ?>Download PDF
-                &nbsp;<i class="fas fa-download"></i>
-            </a>
+            <span>
+                <a href="<?php echo $is_pdf_prompt ? '#' : $download_status['link'] . $pdf_code ?>" target="_blank" class="download_pdf">
+                    <?php echo $download_status['is_redownload'] ? 'Re-' : ''; ?>Download PDF
+                    &nbsp;<i class="fas fa-download"></i>
+                </a>
+            </span>
         </span>
-    </span>
+    <?php } ?>
 
     <?php /*<span>
         <span>

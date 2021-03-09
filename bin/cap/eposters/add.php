@@ -36,21 +36,21 @@ if (file_exists(FILE_PATH)) {
             $thumb = thumb_path .  $line[$i][$thumb_index] . '_277.jpg';
             $query = "
             INSERT INTO filepath(file_id, file_version_id, code, path, title, created, thumb, introtext)
-            VALUES({$line[$i][$file_id_index]},  
-            {$line[$i][$version_index]},
-            {$db->quote($line[$i][$sku_index])}, 
-            {$db->quote('files/handbooks/cats2.pdf')},
-            {$db->quote($line[$i][$Name_index])},
-            {$db->quote(date('Y-m-d H:i:s'))},
-            {$db->quote($thumb)},
-            {$db->quote($note)})
+                VALUES({$line[$i][$file_id_index]},  
+                {$line[$i][$version_index]},
+                {$db->quote($line[$i][$sku_index])}, 
+                {$db->quote('files/handbooks/cats2.pdf')},
+                {$db->quote($line[$i][$Name_index])},
+                {$db->quote(date('Y-m-d H:i:s'))},
+                {$db->quote($thumb)},
+                {$db->quote($note)})
             ON DUPLICATE KEY UPDATE 
-            code = {$db->quote($line[$i][$sku_index])}, 
-            path = {$db->quote('files/handbooks/cats2.pdf')},
-            title = {$db->quote($line[$i][$Name_index])},
-            thumb = {$db->quote($thumb)},
-            introtext = {$db->quote($note)},
-            updated = {$db->quote(date('Y-m-d H:i:s'))}
+                code = {$db->quote($line[$i][$sku_index])}, 
+                path = {$db->quote('files/handbooks/cats2.pdf')},
+                title = {$db->quote($line[$i][$Name_index])},
+                thumb = {$db->quote($thumb)},
+                introtext = {$db->quote($note)},
+                updated = {$db->quote(date('Y-m-d H:i:s'))}
             ";
             $db->setQuery($query);
             $result = $db->execute();
@@ -60,30 +60,4 @@ if (file_exists(FILE_PATH)) {
         }
         $i++;
     }
-}
-
-
-function insertFilePath($chart_id, $params)
-{
-    global $db;
-
-    if ($chart_id == '' || $chart_id == null)
-        $chart_id = 'null';
-
-    $query = "INSERT INTO chart_params(chart_id, params, created_on)
-    VALUES({$chart_id}, {$db->quote($escaped)}, {$db->quote(date('Y-m-d H:i:s'))})
-    ON DUPLICATE KEY UPDATE params = {$db->quote($escaped)}, updated_on = {$db->quote(date('Y-m-d H:i:s'))}";
-
-    /*  echo '<pre>';
-    var_dump('$query');
-    var_dump($query);
-    echo '</pre>';
-    return ob_get_clean(); */
-
-    $db->setQuery($query);
-    $result = $db->execute();
-    echo '<pre>';
-    var_dump('$result');
-    var_dump($result);
-    echo '</pre>';
 }
