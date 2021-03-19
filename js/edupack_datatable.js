@@ -128,20 +128,26 @@ jQuery(function ($) {
                 "ja-JP": {
                     "columns": {
                         "name": "名前 EN",
+                        "name_de": "名前 DE",
                         "name_jp": "名前 JP",
                         "audio": "オーディオ EN",
+                        "audio_de": "オーディオ DE",
                         "audio_jp": "オーディオ JP",
                         "source": "外部参照 EN",
+                        "source_de": "外部参照 DE",
                         "source_jp": "外部参照 JP",
                     }
                 },
                 "en-GB": {
                     "columns": {
                         "name": "Name EN",
+                        "name_de": "Name DE",
                         "name_jp": "Name JP",
                         "audio": "Audio EN",
+                        "audio_de": "Audio DE",
                         "audio_jp": "Audio JP",
                         "source": "Source EN",
+                        "source_de": "Source DE",
                         "source_jp": "Source JP",
                     }
                 },
@@ -150,11 +156,14 @@ jQuery(function ($) {
                 //{ field: "id", width: 20, headerSort: false },
                 /* { field: "handbook_page", width: 20, headerSort: false },
                 { field: "handbook_order", width: 20, headerSort: false }, */
+                { title: "Name DE", field: "name_de", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
                 { title: "Name JP", field: "name_jp", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
                 { title: "Name EN", field: "name", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
                 { title: "Audio EN", field: "audio", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
+                { title: "Audio DE", field: "audio_de", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
                 { title: "Audio JP", field: "audio_jp", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
                 { title: "Source EN", field: "source", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
+                { title: "Source DE", field: "source_de", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
                 { title: "Source JP", field: "source_jp", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false }
             ],
             renderComplete: function () {
@@ -211,6 +220,7 @@ jQuery(function ($) {
     var table_columns = {};
     table_columns['en-GB'] = ['name', 'audio', 'source'];
     table_columns['ja-JP'] = ['name_jp', 'name', 'audio_jp', 'source_jp'];
+    table_columns['de-DE'] = ['name_de', 'name', 'audio_de', 'source_de'];
 
     function switchLocale(locale = 'all') {
         if (locale == 'all') {

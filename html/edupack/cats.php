@@ -4,12 +4,18 @@ if (
     && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
 ) {
     $skus = ['P12001', 'P12002'];
+    
+    $currentSkuPage = $skus[0];
+    if (isset($_POST['sku']) && in_array($_POST['sku'], $skus)) {
+        $currentSkuPage = $_POST['sku'];
+    }
+
     $type = 'edupack';
 ?>
     <ul class="pages">
         <?php $i = 1;
         foreach ($skus as $sku) {  ?>
-            <li class="<?php echo $_POST['sku'] == $sku ? 'selected' : ''; ?>" data-type="<?= $type ?>" data-sku="<?php echo $sku ?>" data-page=""><a href="#"><?php echo $i; ?></a></li>
+            <li class="<?php echo $currentSkuPage == $sku ? 'selected' : ''; ?>" data-type="<?= $type ?>" data-sku="<?php echo $sku ?>" data-page=""><a href="#"><?php echo $i; ?></a></li>
         <?php $i++;
         } ?>
     </ul>

@@ -101,6 +101,8 @@ die(); */
                 $('.chart_toggle_in_title').hide();
                 $('.slider_md_whole_wrapper.slider_1').hide();
                 $('.slider_md_whole_wrapper.slider_2').show();
+                $('.standard_plus_bundle').hide();
+                $('.standard_bundle').show();
 
                 if (!isSliderMD2Init) {
                     slider_md_2 = tns({
@@ -133,6 +135,8 @@ die(); */
                 $('.chart_toggle_in_title').show();
                 $('.slider_md_whole_wrapper.slider_2').hide();
                 $('.slider_md_whole_wrapper.slider_1').show();
+                $('.standard_plus_bundle').show();
+                $('.standard_bundle').hide();
                 slider_md.updateSliderHeight();
                 slider_md.goTo('first');
                 $('.this_bundle .img_link.is_chart').fadeIn(500);

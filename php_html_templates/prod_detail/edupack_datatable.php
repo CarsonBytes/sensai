@@ -19,19 +19,19 @@ $document->addScript('/js/edupack_datatable.js');
  * TODO tables for other audio posters
  */
 $sku = 'P12001'; //default
-if (isset($charts->skus)) {
-    switch (json_decode($charts->skus)[0]) {
+if (isset($charts->code)) {
+    $sku = $charts->code;
+    /* switch (json_decode($charts->skus)[0]) {
         case 'A0B_10630':
             $sku = "P12001";
             break;
         case 'A0B_10610':
             $sku = "P12003";
             break;
-    }
+        default:
+            break;
+    }*/
 
-}
-
-if (isset($charts->skus)) {
     /**
      * TODO dynamic pdf code
      */

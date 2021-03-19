@@ -1,0 +1,227 @@
+[
+    {
+        "name": "Eyebrow",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u7709\u6bdb",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Augenbraue (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 1
+    },
+    {
+        "name": "Head",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u982d",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Kopf (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 2
+    },
+    {
+        "name": "Tooth",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u6b6f",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Zahn (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 3
+    },
+    {
+        "name": "Ear",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u8033",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Ohr (n)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 4
+    },
+    {
+        "name": "Hair",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u982d\u9aea",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Haar (n)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 5
+    },
+    {
+        "name": "Chin",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u984e",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Kinn (n)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 6
+    },
+    {
+        "name": "Eye",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u773c",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Auge (n)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 7
+    },
+    {
+        "name": "Shoulder",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u30b7\u30e7\u30eb\u30c0\u30fc",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Schulter (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 8
+    },
+    {
+        "name": "Nose",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u9f3b",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Nase (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 9
+    },
+    {
+        "name": "Lip",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u30ea\u30c3\u30d7",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Lippe (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 10
+    },
+    {
+        "name": "Back",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u30d0\u30c3\u30af",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "R\u00fccken (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 11
+    },
+    {
+        "name": "Elbow",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u8098",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Ellbogen (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 12
+    },
+    {
+        "name": "Mouth",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u53e3",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Mund (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 13
+    },
+    {
+        "name": "Arm",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u8155",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Arm (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 14
+    },
+    {
+        "name": "Tongue",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u820c",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Zunge (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 15
+    },
+    {
+        "name": "Knee",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u819d",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Knie (n)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 16
+    },
+    {
+        "name": "Buttocks",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u81c0\u90e8",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Ges\u00e4\u00df (n)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 17
+    },
+    {
+        "name": "Heel",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u30d2\u30fc\u30eb",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Ferse (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 18
+    },
+    {
+        "name": "Stomach",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u80c3",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Bauch (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 19
+    },
+    {
+        "name": "Foot",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u8db3",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Fu\u00df (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 20
+    },
+    {
+        "name": "Chest",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u80f8",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Brust (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 21
+    },
+    {
+        "name": "Finger",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u6307",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Finger (m)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 22
+    },
+    {
+        "name": "Hand",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u624b",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Hand (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 23
+    },
+    {
+        "name": "Leg",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u811a",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Bein (n)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 24
+    },
+    {
+        "name": "Toe",
+        "audio": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay en\"><\/audio>",
+        "name_jp": "\u3064\u307e\u5148",
+        "audio_jp": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "name_de": "Zehe (f)",
+        "audio_de": "<audio src=\"https:\/\/www.w3schools.com\/html\/horse.mp3\" class=\"audioplay jp\"><\/audio>",
+        "id": 25
+    }
+]
