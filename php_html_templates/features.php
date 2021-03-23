@@ -85,6 +85,13 @@ defined('_JEXEC') or die;
     h3 {
         font-family: 'Handlee', cursive;
         font-weight: bold;
+        font-size: 25px;
+    }
+
+    p{
+        font-weight: bold;
+        font-size: 17px;
+        margin: 10px 0;
     }
 
     /* strong {
@@ -109,13 +116,13 @@ defined('_JEXEC') or die;
 <h3>Learn on Any Device</h3>
 <img style="width:100%;height: auto;" src="<?php echo JUri::base() . 'images/page/features/02-any-device-txt-b2-01.svg' ?>" alt="Learn on Any Device anywhere anytime" />
 
-<h3>Or, </h3>
+<p>Or, </p>
 <img style="width:100%;height: auto;" src="<?php echo JUri::base() . 'images/page/features/03-scan-qr-code-txt-b2-01.svg' ?>" alt="Learn in front of the poster" />
 
-<h3>Or, </h3>
+<p>Or, </p>
 <img style="width:100%;height: auto;" src="<?php echo JUri::base() . 'images/page/features/02-b-web-page-b2.svg' ?>" alt="visit our webpages and learn" />
 
-<h3>Well Organised, Easy Navigation</h3>
+<h3>Well Organised</h3>
 <img style="width:100%;height: auto;" src="<?php echo JUri::base() . 'images/page/features/04-well-organized-b21b-01-01-01.svg' ?>" alt="Well Organised, Easy Navigation" />
 <h3>Easy Navigation</h3>
 <img style="width:100%;height: auto;" src="<?php echo JUri::base() . 'images/page/features/04-well-organized-b22-01-01-01.svg' ?>" alt="Easy Navigation" />

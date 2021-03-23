@@ -132,6 +132,13 @@ if (isset($_SESSION['msg']) && $_SESSION['msg'] != null) {
         <div class="download_promo">
             <div class="col-xs-12 col-md-12 main_content_col">
                 <div class="main_content">
+                    <a href="<?php echo JUri::base() . 'free-eposters'; ?>" class="btn_to_amazon to_view">
+                        <span class="a-button-inner">
+                            <img class="icon_display" src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
+                            <input title="View" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
+                            <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">Back to Free ePosters <i class="fas fa-arrow-circle-left"></i></span>
+                    </a>
+                    <div class="clearfix"></div>
                     <h1 itemprop="name" class="product-title">Download Your <?php echo $file_info->title; ?></h1>
                     <p>Please first choose the language and click to download.</p>
                     <select class="lang_chooser" name="lang">

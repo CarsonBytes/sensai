@@ -31,6 +31,7 @@ JHtml::_('behavior.formvalidator');
     .view-login .t3-wrapper .t3-mainbody .t3-content .login-wrap {
         padding: 0;
     }
+
     .login_title {
         border: none;
         background: none repeat scroll 0 0 #478203;
@@ -59,10 +60,11 @@ JHtml::_('behavior.formvalidator');
             padding-left: 80px;
         }
     }
-
 </style>
-<div class="login-wrap">
-    <div class="login_title">User Login</div>
+<div class="login-wrap item-page">
+    <div class="page-header">
+        <h2>User Login</h2>
+    </div>
     <div class="login<?php echo $this->pageclass_sfx; ?>">
         <?php if ($this->params->get('show_page_heading')) : ?>
             <div class="page-header">

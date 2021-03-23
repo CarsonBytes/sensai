@@ -57,7 +57,7 @@ $id_suffix = $displayData['id'] > 1 ? '_' . $displayData['id'] : '';
 
         <div class="image_canvas_caption">
             <div class="image_canvas_caption_wrapper">
-                <span class="default_caption" style="display:none;">画像にマウスを合わせると拡大されます</span>
+                <span class="default_caption" style="display:none;"><?php echo JText::sprintf('GALLERY_ZOOM') ?></span>
             </div>
         </div>
     </div>

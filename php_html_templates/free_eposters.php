@@ -98,7 +98,7 @@ $promos = getFilePaths();
             <div class="free_item">
                 <div class="main_content_col">
                     <div class="main_content">
-                        <h1 itemprop="name" class="product-title"><?php echo $promo->title; ?></h1>
+                        <h3 itemprop="name" class="product-title"><?php echo $promo->title; ?></h3>
                         <img src="<?php echo $promo->thumb; ?>" />
                         <?php echo $promo->introtext; ?>
                         <a data-code="<?php echo $promo->code; ?>" data-id="<?php echo $promo->id; ?>" href="#" class="btn_to_amazon to_view">

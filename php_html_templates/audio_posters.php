@@ -25,7 +25,7 @@ include JPATH_SITE . '/php_html_templates/functions.php';
         width: 150px;
         float: left;
         height: auto;
-        margin-right: 20px;
+        margin-right: 30px;
     }
 
     .main_content p {

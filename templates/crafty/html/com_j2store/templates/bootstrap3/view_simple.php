@@ -133,6 +133,14 @@ $related_bundles = $database->loadAssocList();
 	.product_delivery_intro td.field {
 		width: 70px;
 	}
+
+	.main_content li{
+		margin-bottom: 10px;
+	}
+
+	.tabulator-cell img{
+		margin-right:5px;
+	}
 </style>
 <div itemscope data-sku="<?= $this->product->variants->sku ?>" itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
 	<div class="row">

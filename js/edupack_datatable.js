@@ -5,6 +5,11 @@ var table;
 jQuery(function ($) {
     var selectedImageMap;
     var tableSKU = '';
+
+    var audioBtn = function (cell, formatterParams, onRendered) {
+        return '<i class="fas fa-volume-up"></i> '+ formatterParams.lang ;
+    }
+
     function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect();
         var elemTop = rect.top;
@@ -130,9 +135,9 @@ jQuery(function ($) {
                         "name": "名前 EN",
                         "name_de": "名前 DE",
                         "name_jp": "名前 JP",
-                        "audio": "オーディオ EN",
-                        "audio_de": "オーディオ DE",
-                        "audio_jp": "オーディオ JP",
+                        "audio": "EN",
+                        "audio_de": "DE",
+                        "audio_jp": "JP",
                         "source": "外部参照 EN",
                         "source_de": "外部参照 DE",
                         "source_jp": "外部参照 JP",
@@ -143,9 +148,9 @@ jQuery(function ($) {
                         "name": "Name EN",
                         "name_de": "Name DE",
                         "name_jp": "Name JP",
-                        "audio": "Audio EN",
-                        "audio_de": "Audio DE",
-                        "audio_jp": "Audio JP",
+                        "audio": "EN",
+                        "audio_de": "DE",
+                        "audio_jp": "JP",
                         "source": "Source EN",
                         "source_de": "Source DE",
                         "source_jp": "Source JP",
@@ -156,15 +161,15 @@ jQuery(function ($) {
                 //{ field: "id", width: 20, headerSort: false },
                 /* { field: "handbook_page", width: 20, headerSort: false },
                 { field: "handbook_order", width: 20, headerSort: false }, */
-                { title: "Name DE", field: "name_de", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
-                { title: "Name JP", field: "name_jp", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
-                { title: "Name EN", field: "name", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 1 },
-                { title: "Audio EN", field: "audio", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
-                { title: "Audio DE", field: "audio_de", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
-                { title: "Audio JP", field: "audio_jp", formatter: "html", width: 100, hozAlign: "center", headerSort: false },
-                { title: "Source EN", field: "source", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
-                { title: "Source DE", field: "source_de", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false },
-                { title: "Source JP", field: "source_jp", formatter: "html", /* variableHeight: true, */ widthGrow: 1, headerSort: false }
+                { title: "Name DE", field: "name_de", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 3 },
+                { title: "Name JP", field: "name_jp", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 2 },
+                { title: "Name EN", field: "name", formatter: "html", variableHeight: true, headerSort: false, widthGrow: 2 },
+                { title: "DE", field: "audio_de", formatter: "html", hozAlign: "center", titleFormatter: audioBtn, titleFormatterParams: { lang: 'DE' },widthGrow: 1, headerSort: false },
+                { title: "JP", field: "audio_jp", formatter: "html", hozAlign: "center", titleFormatter: audioBtn, titleFormatterParams: { lang: 'JP' },widthGrow: 1, headerSort: false },
+                { title: "EN", field: "audio", formatter: "html", hozAlign: "center", titleFormatter: audioBtn, titleFormatterParams: { lang: 'EN' }, widthGrow: 1, headerSort: false },
+                { title: "Source EN", field: "source", formatter: "html", /* variableHeight: true, */ widthGrow: 2, headerSort: false },
+                { title: "Source DE", field: "source_de", formatter: "html", /* variableHeight: true, */ widthGrow: 2, headerSort: false },
+                { title: "Source JP", field: "source_jp", formatter: "html", /* variableHeight: true, */ widthGrow: 2, headerSort: false }
             ],
             renderComplete: function () {
                 renderAudioBtn()

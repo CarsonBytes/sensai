@@ -9,13 +9,24 @@
 
 //}
 
+
+.page-header h2,
+.section-title h2 {
+    text-transform: none !important;
+    color         : #478203 !important;
+
+    :hover {
+        color: #478203 !important;
+    }
+}
+
 body {
-    font-family: 'Handlee', cursive;
+    font-family     : 'Handlee', cursive;
     //font-family   : "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Apple Legacy Chevron", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size     : 1.5em;
-    letter-spacing: 1px;
-    line-height   : 1.35;
-    color         : #111;
+    font-size       : 1.5em;
+    letter-spacing  : 1px;
+    line-height     : 1.35;
+    color           : #111;
 
     h1,
     h2,
@@ -925,10 +936,12 @@ body.modal-open {
     }
 }
 
-html.static {
+html.static,
+html.com_users {
     .item-page {
         max-width: 600px;
         margin   : 0 auto;
+        border   : 0 !important;
 
         .page-header h2 {
             font-size     : 18px;

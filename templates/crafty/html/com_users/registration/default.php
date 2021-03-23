@@ -34,6 +34,7 @@ JHtml::_('behavior.formvalidation');
         #member-registration {
             margin: 0 auto;
             max-width: 500px;
+            border: 0;
         }
 
         #member-registration .form-group.form-actions div {
@@ -45,17 +46,20 @@ JHtml::_('behavior.formvalidation');
             padding-right: 0;
         }
 
+        #member-registration legend {
+            background: none;
+            display: none;
+        }
+
         #member-registration .form-group.field-spacer {
             display: none;
         }
     }
 </style>
-<div class="registration<?php echo $this->pageclass_sfx ?>">
-    <?php if ($this->params->get('show_page_heading')) : ?>
-        <div class="page-header">
-            <h1 class="page-title"><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
-        </div>
-    <?php endif; ?>
+<div class="registration<?php echo $this->pageclass_sfx ?> item-page">
+    <div class="page-header">
+        <h2><?php echo $this->escape($this->params->get('page_heading')); ?></h2>
+    </div>
 
     <form id="member-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="form-validate form-horizontal">
         <?php  // Iterate through the form fieldsets and display each one. 

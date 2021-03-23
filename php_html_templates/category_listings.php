@@ -28,6 +28,7 @@ $result = $database->loadAssocList();
 
     <div class="right_listings_wrapper col-sm-12">
         <h1><?php echo JText::sprintf('MENU_CATEGORIES'); ?></h1>
+        <p style="margin-top: 10px;">The following is a random display of our products.</p>
         <div class="right_listings">
             <?php foreach ($result as $item) { ?>
                 <div class="list_item_wrapper" data-id="<?php echo $item['j2store_product_id']; ?>" data-source="<?php echo $item['id']; ?>">
