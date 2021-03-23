@@ -116,6 +116,24 @@ group by jp.j2store_product_id;";
 $database->setQuery($query2);
 $related_bundles = $database->loadAssocList();
 ?>
+<style>
+	.buy_box {
+		font-size: 12px;
+	}
+
+	.product_delivery_intro table {
+		margin-bottom: 0;
+	}
+
+	.product_delivery_intro table>tbody>tr>td {
+		border: 0;
+		padding: 0;
+	}
+
+	.product_delivery_intro td.field {
+		width: 70px;
+	}
+</style>
 <div itemscope data-sku="<?= $this->product->variants->sku ?>" itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
 	<div class="row">
 		<div class="col-sm-12 hidden-md hidden-lg">
@@ -131,17 +149,26 @@ $related_bundles = $database->loadAssocList();
 		<div class="col-xs-12 col-md-8 main_content_col">
 			<div class="buy_box pull-right">
 				<div class="buy_box_inner">
-					<div class="price_delivery_intro">
-						<p class="price_inside_buybox">￥2,800</p>
-						<p><span class="a-text-bold">通常配送無料</span> <a href="https://www.amazon.co.jp/gp/help/customer/display.html?ie=UTF8&amp;pop-up=1&amp;nodeId=642982" target="AmazonHelp" onclick="return amz_js_PopWin(this.href,'AmazonHelp','width=550,height=550,resizable=1,scrollbars=1,toolbar=0,status=0');">詳細</a></p>
-						<p id="ddmDeliveryMessage" class="a-section a-spacing-mini">注文確定時に<span class="a-text-bold">通常配送</span> を選択した場合、最短で<span class="a-text-bold">1月24日 明日 ~ 1月25日 土曜日</span>にお届け予定です。</p>
-					</div>
+					<p><a href="#">Simplified Pixabay License</a><br />
+						Our license empowers creators and protects our community.
+						We want to keep it as simple as possible.
+						Here is an overview of what Pixabay content can and can't be used for.</p>
 					<div class="btn_to_amazon to_single">
 						<span class="a-button-inner">
 							<i class="a-icon a-icon-buynow"></i>
 							<input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
 							<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
-								アマゾンでこれを買う
+								Browse our Amazon Store
+							</span>
+						</span>
+					</div>
+
+					<div class="btn_to_amazon to_single">
+						<span class="a-button-inner">
+							<i class="a-icon a-icon-buynow"></i>
+							<input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
+							<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
+								Buy Standard bundle at Amazon
 							</span>
 						</span>
 					</div>
@@ -151,20 +178,49 @@ $related_bundles = $database->loadAssocList();
 							<i class="a-icon a-icon-buynow"></i>
 							<input title="カートに入れる" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
 							<span class="a-button-text" aria-hidden="true" id="a-autoid-1-announce">
-								アマゾンでバンドルを買う
+								Buy Standard+ bundle at Amazon
 							</span>
 						</span>
 					</div>
 					<div class="product_delivery_intro">
-						<p>この商品は、<a href="#">精彩本屋</a>が販売し、Amazon.co.jp が発送します。</p>
-						<p style="margin-bottom: 0;">この出品商品にはコンビニ・ATM・ネットバンキング・電子マネー払いが利用できます。</p>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td class="field">
+										<span class=""><span class="">Ship from</span></span></span>
+									</td>
+									<td class="">
+										<span class=""><span class="">Amazon</span></span></span>
+
+									</td>
+								</tr>
+
+								<tr>
+									<td class="field">
+										<span class=""><span class="">Sold by</span></span></span>
+									</td>
+									<td class="">
+										<span class=""><span class="">Sensaihonya</span></span></span>
+
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 			<div class="clearfix hidden-md hidden-lg"></div>
 			<div class="main_content_md hidden-md hidden-lg">
 				<h3>この商品について</h3>
-				<?php echo $this->product->source->introtext; ?>
+				<?php
+				$html_audio_poster_link =
+					'<a target="_blank" href="' .
+					JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' .
+						$charts_params[0]->chart_j2_store_product_id) . '">' .
+					$charts_titles[0] .
+					'</a>';
+
+				echo str_replace("{audio_poster}", $html_audio_poster_link, $this->product->source->introtext); ?>
 			</div>
 			<div class="hidden-sm hidden-xs main_content">
 				<?php echo $this->loadTemplate('title'); ?>
@@ -172,7 +228,8 @@ $related_bundles = $database->loadAssocList();
 				if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs')) {
 					include JPATH_SITE . '/php_html_templates/prod_detail/selection_box.php';
 				} ?>
-				<?php echo $this->product->source->introtext; ?>
+				<?php
+				echo str_replace("{audio_poster}", $html_audio_poster_link, $this->product->source->introtext); ?>
 			</div>
 			<div class="image_zoom_preview">
 				<div class="loader_wrapper">
@@ -198,7 +255,7 @@ $related_bundles = $database->loadAssocList();
 </div>
 
 <?php
-	include JPATH_SITE . '/php_html_templates/prod_detail/this_bundle.php';
+include JPATH_SITE . '/php_html_templates/prod_detail/this_bundle.php';
 
 if (isset($related_bundles) && count($related_bundles) > 0) {
 	include JPATH_SITE . '/php_html_templates/prod_detail/related_bundles.php';
