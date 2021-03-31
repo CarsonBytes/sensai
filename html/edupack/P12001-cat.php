@@ -35,7 +35,7 @@ if (
         <div class="col-sm-6">
             <div class="image-map-container">
                 <?php foreach ($skus as $sku) {  ?>
-                    <img class="lazyload <?= $type . $sku ?>" data-src="/images/audio_poster/<?= $sku . $sku_alias ?>-en1_1500.jpg" usemap="#image-map<?= $type . $sku ?>" />
+                    <img class="lazyload <?= $type . $sku ?>" data-src="/images/audio_poster/<?= $sku . $sku_alias ?>-de1-borderx.jpg" usemap="#image-map<?= $type . $sku ?>" />
                 <?php } ?>
                 <div class="map-selector">&nbsp;</div>
             </div>
