@@ -58,8 +58,10 @@ if ($product_type == 'chart') {
 	/* GROUP_CONCAT( DISTINCT t.title ) as tag_titles,  
 	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,  */
 	bi.params as bundle_params,
-	GROUP_CONCAT( DISTINCT cp.params SEPARATOR '----') as charts_params,
-	GROUP_CONCAT( DISTINCT c.title  SEPARATOR '----') as charts_titles
+	/* GROUP_CONCAT( DISTINCT cp.params SEPARATOR '----') as charts_params,  */
+	GROUP_CONCAT( DISTINCT c.title  SEPARATOR '----') as charts_titles,
+	GROUP_CONCAT( DISTINCT cp.img_names SEPARATOR '----') as charts_img_names,
+	GROUP_CONCAT( DISTINCT cp.j2_store_product_id  SEPARATOR '----') as charts_j2_store_product_ids
 	FROM h1232_contentitem_tag_map ctm
 	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
 	LEFT JOIN `bundle_params` bi ON bi.bundle_id = ctm.content_item_id
@@ -73,7 +75,7 @@ if ($product_type == 'chart') {
 
 	$database->setQuery($query2);
 	$result = $database->loadAssoc();
-	//dump($result);
+
 	if (isset($result['tag_ids'])) $tag_ids_string = $result['tag_ids'];
 	/* $tag_titles = explode(',', $result['tag_titles']);
 	$tag_alias = explode(',', $result['tag_alias']); */
@@ -81,11 +83,16 @@ if ($product_type == 'chart') {
 	if (isset($result['bundle_params']))
 		$bundle_params = json_decode($result['bundle_params']);
 
-	if (isset($result['charts_params'])) {
-		$charts_params = explode('----', $result['charts_params']);
+	if (isset($result['charts_j2_store_product_ids'])) {
+		/* $charts_params = explode('----', $result['charts_params']);
 		foreach ($charts_params as $key => $value) {
 			$charts_params[$key] = json_decode($value);
+		} */
+		$charts_img_names = explode('----', $result['charts_img_names']);
+		foreach ($charts_img_names as $key => $value) {
+			$charts_img_names[$key] = json_decode($value);
 		}
+		$charts_j2_store_product_ids = explode('----', $result['charts_j2_store_product_ids']);
 		$charts_titles = explode('----', $result['charts_titles']);
 	}
 }
@@ -134,12 +141,12 @@ $related_bundles = $database->loadAssocList();
 		width: 70px;
 	}
 
-	.main_content li{
+	.main_content li {
 		margin-bottom: 10px;
 	}
 
-	.tabulator-cell img{
-		margin-right:5px;
+	.tabulator-cell img {
+		margin-right: 5px;
 	}
 </style>
 <div itemscope data-sku="<?= $this->product->variants->sku ?>" itemtype="http://schema.org/Product" class="product-<?php echo $this->product->j2store_product_id; ?> <?php echo $this->product->product_type; ?>-product">
@@ -219,8 +226,8 @@ $related_bundles = $database->loadAssocList();
 			</div>
 			<div class="clearfix hidden-md hidden-lg"></div>
 			<div class="main_content_md hidden-md hidden-lg">
-				<h3>この商品について</h3>
-				<?php
+				<h3>About this product</h3>
+				<?php //TODO situation for multiple audio posters needs to be handled
 				$html_audio_poster_link =
 					'<a target="_blank" href="' .
 					JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' .

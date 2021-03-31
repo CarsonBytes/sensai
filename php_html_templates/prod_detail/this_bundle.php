@@ -9,7 +9,7 @@ if ($product_type == 'chart') {
 } else if ($product_type == 'bundle' && isset($bundle_params)) {
     $this_bundle_img_names = $bundle_params->img_names;
     $this_bundle_gallery_mapping = $bundle_params->gallery_mapping;
-}else{
+} else {
     return;
 }
 ?>
@@ -79,56 +79,59 @@ if ($product_type == 'chart') {
         })
     })
 </script>
-<?php if (!empty($this_bundle_img_names)){ ?>
-<div class="row this_bundle">
-    <div class="col-xs-12 deco_bundles_wrapper">
-        <div class="deco_bundles">
-            <h2>This Bundle</h2>
-            <div class="deco_bundle_wrapper">
-                <div class="deco_bundle hidden-sm hidden-xs">
-                    <div class="col_2 hidden-sm hidden-xs">
-                        <div class="deco_thumbs <?php echo $product_type; ?>">
-                            <?php if (isset($charts_params)) { //charts in a bundle first
-                                foreach ($charts_params as $charts_param) {
-                                    foreach ($charts_param->img_names as $img_name) {
-                            ?>
-                                        <div class="img_link is_chart">
-                                            <div class="img_wrapper">
-                                                <i class="fas fa-volume-up"></i>
-                                                <a target="_blank" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $charts_param->chart_j2_store_product_id); ?>">
-                                                    <img class="lazyload" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" />
-                                                </a>
+<?php if (!empty($this_bundle_img_names)) { ?>
+    <div class="row this_bundle">
+        <div class="col-xs-12 deco_bundles_wrapper">
+            <div class="deco_bundles">
+                <h2>This Bundle</h2>
+                <div class="deco_bundle_wrapper">
+                    <div class="deco_bundle hidden-sm hidden-xs">
+                        <div class="col_2 hidden-sm hidden-xs">
+                            <div class="deco_thumbs <?php echo $product_type; ?>">
+                                <?php if (isset($charts_img_names)) { //charts in a bundle first
+                                    //TODO multiple audio poster sets
+                                    foreach ($charts_img_names as $chart_img_names) {
+                                        $i = 0;
+                                        foreach ($chart_img_names as $img_name) {
+                                ?>
+                                            <div class="img_link is_chart">
+                                                <div class="img_wrapper">
+                                                    <i class="fas fa-volume-up"></i>
+                                                    <a target="_blank" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $charts_j2_store_product_ids[$i]); ?>">
+                                                        <img class="lazyload" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" />
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
-                            <?php
+                                <?php
+                                        }
+                                        $i++;
                                     }
                                 }
-                            }
-                            ?>
+                                ?>
 
-                            <?php
-                            $i = 0;
-                            foreach ($this_bundle_img_names as $img_name) {  //regular items in a bundle / chart 
-                            ?>
-                                <div class="img_link <?php echo isset($chart_params) ? 'is_chart' : 'in_bundle'; ?>">
-                                    <div class="img_wrapper">
-                                        <i class="fas fa-volume-up"></i>
-                                        <a target="<?php echo isset($chart_params) ? '_blank' : '_self'; ?>" href="<?php echo isset($chart_params) ? JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart_params->chart_j2_store_product_id) : '#'; ?>" data-gallery="<?php echo isset($this_bundle_gallery_mapping[$i]) ? $this_bundle_gallery_mapping[$i] : ''; ?>">
-                                            <img class="lazyload" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" />
-                                        </a>
+                                <?php
+                                $i = 0;
+                                foreach ($this_bundle_img_names as $img_name) {  //regular items in a bundle / chart 
+                                ?>
+                                    <div class="img_link <?php echo isset($chart_params) ? 'is_chart' : 'in_bundle'; ?>">
+                                        <div class="img_wrapper">
+                                            <i class="fas fa-volume-up"></i>
+                                            <a target="<?php echo isset($chart_params) ? '_blank' : '_self'; ?>" href="<?php echo isset($chart_params) ? JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $chart_params->chart_j2_store_product_id) : '#'; ?>" data-gallery="<?php echo isset($this_bundle_gallery_mapping[$i]) ? $this_bundle_gallery_mapping[$i] : ''; ?>">
+                                                <img class="lazyload" data-src="<?php echo getImgSizeUrl($img_name, 'S') ?>" />
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php
-                                $i++;
-                            }
-                            ?>
+                                <?php
+                                    $i++;
+                                }
+                                ?>
+                            </div>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </div>
     </div>
-</div>
 <?php } ?>

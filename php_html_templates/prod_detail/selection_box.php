@@ -1,20 +1,13 @@
-<?php
-/* echo '<pre>';
-var_dump($charts_params);
-echo '</pre>';
-die(); */
-
-?>
 <div class="selection_text">
     <strong>Option:</strong>
-    <div data-option="with_chart" class="option_text selected">Standard+ Bundle<!-- :
-        <?php $i = 0;
-        foreach ($charts_params as $charts_param) { ?>
-            <a target="_blank" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $charts_param->chart_j2_store_product_id); ?>">
+    <div data-option="with_chart" class="option_text selected">Standard+ Bundle
+        <?php /* $i = 0;
+        foreach ($charts_j2_store_product_ids as $charts_j2_store_product_id) { ?>
+            <a target="_blank" href="<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $charts_j2_store_product_id); ?>">
                 <?php echo $charts_titles[$i] ?>
             </a><?php if (count($charts_titles) > $i + 1) echo ', ' ?>
         <?php $i++;
-        } ?> -->
+        }  */ ?> 
     </div>
     <div data-option="no_chart" class="option_text">Standard Bundle</div>
 </div>
