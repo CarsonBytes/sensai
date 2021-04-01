@@ -138,9 +138,10 @@ if (isset($charts->code)) {
 <div class="edupack_button" style="display:none;">
     <span>
         <span>
+
             <a href="#" class="toggle_interactive_table" data-state="0" data-type="edupack" data-sku="<?php echo $sku; ?>" data-page="">
-                Toggle interactive posters
-                &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-down" style="display:none;"></i>
+                <div style="margin: 10px auto;font-size: 3px;display:none;" class="ajax_loader">Loading...</div>
+                <span>Toggle interactive posters <i class="fas fa-caret-right"></i><i class="fas fa-caret-down" style="display:none;"></i></span>
             </a>
         </span>
     </span>

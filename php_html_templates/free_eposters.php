@@ -51,7 +51,7 @@ include JPATH_SITE . '/php_html_templates/functions.php';
                 e.preventDefault();
                 var id = $(this).data('id');
                 var code = $(this).data('code');
-                var loader = $(this).find('.loader');
+                var loader = $(this).find('.ajax_loader');
                 var icon_display = $(this).find('.icon_display');
                 if (loader.is(':visible')) return false;
                 $.ajax({
@@ -93,7 +93,7 @@ $promos = getFilePaths();
     <div class="free_items_wrapper">
         <?php $j = 0;
         foreach ($promos as $promo) {
-            if (!isset($promo->title) && $promo->title=='') continue;
+            if (!isset($promo->title) && $promo->title == '') continue;
         ?>
             <div class="free_item">
                 <div class="main_content_col">
@@ -105,7 +105,7 @@ $promos = getFilePaths();
                             <span class="a-button-inner">
                                 <img class="icon_display" src="<?php echo JUri::base() . 'images/icon/sensai_more.svg' ?>" />
                                 <input title="View" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">
-                                <div style="margin: 10px auto;font-size: 3px;display:none;" class="loader">Loading...</div>
+                                <div style="margin: 10px auto;font-size: 3px;display:none;" class="ajax_loader">Loading...</div>
                                 <span class="a-button-text icon_display" aria-hidden="true" id="a-autoid-1-announce">
                                     GET IT NOW
                                 </span>

@@ -535,9 +535,9 @@ body:lang(ja-jp) {
     }
 }
 
-.loader,
-.loader:before,
-.loader:after {
+.ajax_loader,
+.ajax_loader:before,
+.ajax_loader:after {
     background       : #242424;
     -webkit-animation: load1 1s infinite ease-in-out;
     animation        : load1 1s infinite ease-in-out;
@@ -545,7 +545,7 @@ body:lang(ja-jp) {
     height           : 4em;
 }
 
-.loader {
+.ajax_loader {
     color                  : #242424;
     text-indent            : -9999em;
     margin                 : 88px auto;
@@ -558,20 +558,20 @@ body:lang(ja-jp) {
     animation-delay        : -0.16s;
 }
 
-.loader:before,
-.loader:after {
+.ajax_loader:before,
+.ajax_loader:after {
     position: absolute;
     top     : 0;
     content : '';
 }
 
-.loader:before {
+.ajax_loader:before {
     left                   : -1.5em;
     -webkit-animation-delay: -0.32s;
     animation-delay        : -0.32s;
 }
 
-.loader:after {
+.ajax_loader:after {
     left: 1.5em;
 }
 

@@ -266,10 +266,13 @@ jQuery(function ($) {
     var isAjaxLoaded = false;
     $('body').on('click', 'a.toggle_interactive_table', function (e) {
         e.preventDefault();
+        var loader = $(this).find('.ajax_loader');
+        var span = $(this).find('span');
         var thiselemnt = $(this);
         selectedSKU = thiselemnt.data('sku');
         selectedPage = thiselemnt.data('page');
         selectedType = thiselemnt.data('type');
+        if (loader.is(':visible')) return false;
         if ($(this).data('state') == 0) {
             /* if (!isAjaxLoaded) { */
             $.ajax({
@@ -279,8 +282,13 @@ jQuery(function ($) {
                     type: selectedType,
                     sku: selectedSKU,
                     page: selectedPage
+                },
+                beforeSend: function() {
+                    loader.show();
+                    span.css('visibility', 'hidden');
                 }
-            }).done(function (html) {
+            })
+            .done(function (html) {
                 $('.imageMapWrapper').html(html);
                 //isAjaxLoaded = true;
                 toggleInteractiveTable(1, thiselemnt)
@@ -290,6 +298,8 @@ jQuery(function ($) {
                     bindPageClick($(this));
                     return false;
                 })
+                loader.hide();
+                span.css('visibility', 'visible');
             })
             /* } else {
                 toggleInteractiveTable(1, thiselemnt)
