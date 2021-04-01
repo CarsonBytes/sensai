@@ -3,11 +3,11 @@ if (
     isset($_SERVER['HTTP_X_REQUESTED_WITH'])
     && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
 ) {
-    $skus = ['A08_10580'];
+    $skus = [$_POST['sku']];
     /**
      * TODO alias inside sku code 
      */
-    $sku_alias = '-Ed_veggie';
+    $sku_alias = 'A08_10580-Ed_veggie-de1-borderx.jpg';
     $type = 'edupack';
 ?>
     <ul class="pages">
@@ -28,7 +28,7 @@ if (
         <div class="col-sm-6">
             <div class="image-map-container">
                 <?php foreach ($skus as $sku) {  ?>
-                    <img class="lazyload <?= $type . $sku ?>" data-src="/images/audio_poster/<?= $sku . $sku_alias ?>-de1-borderx.jpg" usemap="#image-map<?= $type . $sku ?>" />
+                    <img class="lazyload <?= $type . $sku ?>" data-src="/images/audio_poster/<?= $sku_alias ?>" usemap="#image-map<?= $type . $sku ?>" />
                 <?php } ?>
                 <div class="map-selector">&nbsp;</div>
             </div>

@@ -5,16 +5,19 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 require_once JPATH_SITE . '/php_html_templates/functions.php';
 
-$query = "SELECT b.id, a.j2store_product_id, b.title, e.thumb_image /*, b.note, d.title, b.title as tag_title, b.catid, b.introtext, b.fulltext,*/ FROM `h1232_j2store_products` a 
-INNER JOIN `h1232_content` b ON a.product_source_id = b.id
-/*LEFT JOIN `h1232_contentitem_tag_map` c ON a.product_source_id = c.content_item_id
- LEFT JOIN `h1232_tags` d ON c.tag_id = d.id
+$query = "SELECT c.id, a.j2store_product_id, c.title, e.thumb_image 
+/*, b.note, d.title, b.title as tag_title, b.catid, b.introtext, b.fulltext,*/ 
+FROM `#__j2store_products` a 
+INNER JOIN `#__content` c ON a.product_source_id = c.id
+LEFT JOIN `#__j2store_productimages` e ON a.j2store_product_id = e.product_id
+LEFT JOIN `#__j2store_variants` v ON a.j2store_product_id = v.product_id
+RIGHT JOIN `bundle_params` bi ON bi.bundle_id = c.id
+/*LEFT JOIN `#__contentitem_tag_map` c ON a.product_source_id = c.content_item_id
+ LEFT JOIN `#__tags` d ON c.tag_id = d.id
  */
- LEFT JOIN `h1232_j2store_productimages` e ON a.j2store_product_id = e.product_id
- LEFT JOIN `h1232_j2store_variants` v ON a.j2store_product_id = v.product_id
- WHERE b.state = 1
+ WHERE c.state = 1
 /* WHERE (b.note = 'deco' OR b.note = 'image' OR b.note = 'painting') AND b.state = 1 */
-group by b.id
+group by c.id
 ORDER BY RAND()";
 
 $database = JFactory::getDbo();
