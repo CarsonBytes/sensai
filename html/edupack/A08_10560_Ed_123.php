@@ -34,16 +34,16 @@ if (
             </div>
             <p>
                 <map style="<?php echo $_POST['sku'] == $skus[0] ? '' : 'display:none;'; ?>" id="image-map<?= $type . $skus[0] ?>" name="image-map<?= $type . $skus[0] ?>">
-                    <area shape="rect" coords="51, 160, 297, 538" />
-                    <area shape="rect" coords="319, 162, 514, 521" />
-                    <area shape="rect" coords="529, 140, 756, 514" />
-                    <area shape="rect" coords="778, 180, 1026, 522" />
-                    <area shape="rect" coords="77, 558, 406, 983" />
-                    <area shape="rect" coords="412, 565, 698, 981" />
-                    <area shape="rect" coords="726, 570, 1015, 982" />
-                    <area shape="rect" coords="48, 1035, 369, 1422" />
-                    <area shape="rect" coords="375, 1018, 676, 1421" />
-                    <area shape="rect" coords="693, 1006, 1045, 1416" />
+                    <area shape="rect" coords="46, 167, 320, 567" />
+                    <area shape="rect" coords="326, 166, 554, 552" />
+                    <area shape="rect" coords="558, 157, 814, 546" />
+                    <area shape="rect" coords="818, 173, 1116, 565" />
+                    <area shape="rect" coords="76, 638, 441, 1092" />
+                    <area shape="rect" coords="449, 632, 758, 1091" />
+                    <area shape="rect" coords="784, 651, 1109, 1128" />
+                    <area shape="rect" coords="59, 1163, 396, 1583" />
+                    <area shape="rect" coords="406, 1161, 719, 1570" />
+                    <area shape="rect" coords="741, 1150, 1121, 1582" />
                 </map>
             </p>
         </div>

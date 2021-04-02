@@ -37,7 +37,15 @@ foreach ($values as $row) {
                 $j++;
                 continue;
             }
-            $index[$field] = $j++;
+            if (isset($index[$field])) {
+                if (is_array($index[$field])) {
+                    $index[$field][] = $j++;
+                } else {
+                    $index[$field] = array($index[$field], $j++);
+                }
+            } else {
+                $index[$field] = $j++;
+            }
         }
         dump($index);
     } elseif ($i >= 2) {
@@ -58,4 +66,23 @@ foreach ($values as $row) {
         echo '</pre>';
     }
     $i++;
+}
+
+
+function getDataArray($key)
+{
+    global $tempRow, $index;
+    $temp = array();
+    foreach ($index[$key] as $value) {
+        if (isset($tempRow[$value]))
+            $temp[] = $tempRow[$value];
+    }
+    /**
+     * need to do some preprocessing:
+     */
+    /* if (!empty($temp)) {
+        $temp = convertSources($temp);
+    } */
+    
+    return $temp;
 }

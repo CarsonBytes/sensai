@@ -34,32 +34,32 @@ if (
             </div>
             <p>
                 <map style="<?php echo $_POST['sku'] == $skus[0] ? '' : 'display:none;'; ?>" id="image-map<?= $type . $skus[0] ?>" name="image-map<?= $type . $skus[0] ?>">
-                    <area shape="rect" coords="26, 123, 191, 378" />
-                    <area shape="rect" coords="193, 194, 386, 361" />
-                    <area shape="rect" coords="402, 183, 697, 363" />
-                    <area shape="rect" coords="700, 157, 854, 348" />
-                    <area shape="rect" coords="858, 131, 1016, 362" />
-                    <area shape="rect" coords="35, 421, 248, 610" />
-                    <area shape="rect" coords="286, 367, 468, 586" />
-                    <area shape="rect" coords="558, 430, 719, 592" />
-                    <area shape="rect" coords="771, 389, 1002, 617" />
-                    <area shape="rect" coords="75, 614, 274, 813" />
-                    <area shape="rect" coords="285, 598, 452, 811" />
-                    <area shape="rect" coords="496, 639, 645, 815" />
-                    <area shape="rect" coords="649, 625, 831, 808" />
-                    <area shape="rect" coords="846, 624, 1014, 809" />
-                    <area shape="rect" coords="50, 832, 195, 1032" />
-                    <area shape="rect" coords="239, 840, 533, 1031" />
-                    <area shape="rect" coords="545, 828, 789, 1037" />
-                    <area shape="rect" coords="262, 1039, 461, 1263" />
-                    <area shape="rect" coords="834, 845, 1021, 1034" />
-                    <area shape="rect" coords="46, 1058, 194, 1258" />
-                    <area shape="rect" coords="332, 1276, 530, 1436" />
-                    <area shape="rect" coords="505, 1055, 718, 1271" />
-                    <area shape="rect" coords="774, 1047, 1024, 1262" />
-                    <area shape="rect" coords="32, 1273, 326, 1450" />
-                    <area shape="rect" coords="529, 1277, 717, 1436" />
-                    <area shape="rect" coords="771, 1270, 1021, 1427" />
+                    <area shape="rect" coords="45, 173, 169, 436" />
+                    <area shape="rect" coords="196, 226, 386, 452" />
+                    <area shape="rect" coords="424, 195, 766, 422" />
+                    <area shape="rect" coords="776, 193, 935, 355" />
+                    <area shape="rect" coords="939, 160, 1098, 362" />
+                    <area shape="rect" coords="39, 471, 181, 695" />
+                    <area shape="rect" coords="295, 427, 513, 626" />
+                    <area shape="rect" coords="630, 486, 754, 617" />
+                    <area shape="rect" coords="838, 433, 1070, 656" />
+                    <area shape="rect" coords="86, 697, 280, 888" />
+                    <area shape="rect" coords="306, 673, 494, 868" />
+                    <area shape="rect" coords="533, 745, 696, 862" />
+                    <area shape="rect" coords="711, 716, 889, 860" />
+                    <area shape="rect" coords="920, 707, 1073, 868" />
+                    <area shape="rect" coords="55, 920, 233, 1098" />
+                    <area shape="rect" coords="275, 920, 463, 1145" />
+                    <area shape="rect" coords="574, 902, 766, 1147" />
+                    <area shape="rect" coords="290, 1150, 490, 1398" />
+                    <area shape="rect" coords="929, 946, 1041, 1100" />
+                    <area shape="rect" coords="53, 1171, 215, 1351" />
+                    <area shape="rect" coords="338, 1406, 516, 1563" />
+                    <area shape="rect" coords="545, 1168, 765, 1343" />
+                    <area shape="rect" coords="820, 1132, 1119, 1357" />
+                    <area shape="rect" coords="40, 1388, 238, 1585" />
+                    <area shape="rect" coords="618, 1392, 818, 1541" />
+                    <area shape="rect" coords="840, 1416, 1113, 1548" />
                 </map>
             </p>
         </div>

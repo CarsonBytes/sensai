@@ -104,7 +104,7 @@ jQuery(function ($) {
             if (!$('.navbar').is(':visible') || currentRowID > table.getRows().length - 2)
                 scrollElement = $("#imageMapTable");
             else
-                scrollElement = $(".edupack_button");
+                scrollElement = $("#imageMapTable"); //$(".edupack_button");
 
             $("html, body").animate(
                 { scrollTop: scrollElement.offset().top },
