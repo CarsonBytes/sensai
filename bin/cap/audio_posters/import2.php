@@ -22,7 +22,8 @@ $service = new Google_Service_Sheets($client);
 // https://docs.google.com/spreadsheets/d/1mNav-_gMTzBZzM56IwjHpsa8ourOeVMYvb1SX5NWlGE/edit //A08_10590_Ed_farm
 // https://docs.google.com/spreadsheets/d/1uVdy_JV2FKoUZPmDcVu3tSfHTVgzno-bH21g5O1pKQg/edit //A08_10600_Ed_animal
 // https://docs.google.com/spreadsheets/d/1yhmokyedeptAi9lMUjZvDdVTxseI3zZCpXmLXUhw2zk/edit //A08_10610_body
-$spreadsheetId = '1yhmokyedeptAi9lMUjZvDdVTxseI3zZCpXmLXUhw2zk';
+// https://docs.google.com/spreadsheets/d/1MkJ73CSl5FnKSnTohHGaQW2Pn8E8METMS1D5C24G4jo/edit //A0A_10630_cat_2
+$spreadsheetId = '1MkJ73CSl5FnKSnTohHGaQW2Pn8E8METMS1D5C24G4jo';
 $range = 'calc-table-poster!A1:AC';
 $response = $service->spreadsheets_values->get($spreadsheetId, $range);
 $values = $response->getValues();
@@ -72,15 +73,15 @@ foreach ($values as $row) {
             }
             $tempRow[$j++] = $field;
         }
+
+        if (trim($tempRow[$index['order']]) == '') {
+            $i++;
+            continue;
+        }
         echo '<pre>';
         var_dump('$tempRow');
         var_dump($tempRow);
         echo '</pre>';
-
-        if (trim($tempRow[$index['source']]) == '' && trim($tempRow[$index['source_de']]) == '' && trim($tempRow[$index['source_jp']]) == '' && trim($tempRow[$index['order']]) == '') {
-            $i++;
-            continue;
-        }
         /**
          * order is needed because there are too many variations in spreadsheets
          */
@@ -113,6 +114,14 @@ foreach ($values as $row) {
         $data['source'] = getDataArray('source');
         $data['source_jp'] = getDataArray('source_jp');
         $data['source_de'] = getDataArray('source_de');
+
+        /** no source, then skip */
+        /*  if (trim($data['source']) == '' 
+        && trim($data['source_jp']) == '' 
+        && trim($data['source_de']) == '') {
+            $i++;
+            continue;
+        }*/
 
         echo '<pre>';
         var_dump($data);
