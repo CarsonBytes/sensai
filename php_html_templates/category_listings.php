@@ -31,7 +31,14 @@ $result = $database->loadAssocList();
 
     <div class="right_listings_wrapper col-sm-12">
         <h1><?php echo JText::sprintf('MENU_CATEGORIES'); ?></h1>
-        <p style="margin-top: 10px;">The following is a random display of our products.</p>
+        <p style="margin-top: 10px;font-size:15px;">The following is a random display of our bundle merchandise.</p>
+        <p style="font-size:15px;">Please note :</p>
+        <ul>
+            <li>We have printed merchandise and digital products. For certain items, they are available in both formats.</li>
+            <li>The bundles listed here include only printed publications.</li>
+            <li>For each item, there will be 2 options, <b>bundle</b> and <b>bundle plus</b>. </li>
+            <li>For digital products, please visit our <a href="<?php echo JUri::base() . 'audio-posters' ?>">Audio Poster</a> or <a href="<?php echo JUri::base() . 'free-eposters' ?>">Free ePoster</a> pages.</li>
+        </ul>
         <div class="right_listings">
             <?php foreach ($result as $item) { ?>
                 <div class="list_item_wrapper" data-id="<?php echo $item['j2store_product_id']; ?>" data-source="<?php echo $item['id']; ?>">

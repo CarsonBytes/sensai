@@ -64,8 +64,13 @@ if (is_file(T3_TEMPLATE_PATH . '/css/custom.css')) {
 <?php //schoolbell in google font 
 ?>
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
+/*
 <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
-
+*/
+<link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+</style>
 <?php /*(
 <!--[if (lt IE 9)]><script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.helper.ie8.js"></script><![endif]-->*/ ?>

@@ -21,20 +21,35 @@
 }
 
 body {
-    font-family     : 'Handlee', cursive;
+    /* font-family     : 'Handlee', cursive; */
     //font-family   : "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Apple Legacy Chevron", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size       : 1.5em;
-    letter-spacing  : 1px;
-    line-height     : 1.35;
-    color           : #111;
+    font-family   : 'Source Sans Pro', sans-serif;
+    font-size     : 18px;
+    letter-spacing: 1px;
+    line-height   : 1.35;
+    color         : #111;
 
     h1,
     h2,
     h3,
-    p {
-        font-family: 'Handlee', cursive;
+    p,
+    li {
+        /* font-family: 'Handlee', cursive; */
+        font-family: 'Source Sans Pro', sans-serif;
     }
 
+    p,
+    li {
+        font-size: 18px !important;
+    }
+
+
+    .page-header h2 {
+        text-align : center !important;
+        font-weight: bold !important;
+        color      : #478203 !important;
+        font-size  : 25px !important;
+    }
 
     h1,
     h2,
@@ -943,16 +958,12 @@ html.com_users {
         margin   : 0 auto;
         border   : 0 !important;
 
-        .page-header h2 {
-            font-size     : 18px;
-            text-transform: uppercase;
-            text-align    : center;
-            font-weight   : bold;
-            color         : #478203;
-        }
-
         .articlebody {
-            padding: 0;
+            padding-top: 0 !important;
+
+            h3 {
+                font-size: 25px !important;
+            }
         }
     }
 }

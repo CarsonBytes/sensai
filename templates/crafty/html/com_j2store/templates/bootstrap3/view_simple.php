@@ -164,10 +164,9 @@ $related_bundles = $database->loadAssocList();
 		<div class="col-xs-12 col-md-8 main_content_col">
 			<div class="buy_box pull-right">
 				<div class="buy_box_inner">
-					<p><a href="#">Simplified Pixabay License</a><br />
-						Our license empowers creators and protects our community.
-						We want to keep it as simple as possible.
-						Here is an overview of what Pixabay content can and can't be used for.</p>
+					<p><a href="<?php echo JUri::base() . 'copyright-and-disclaimer-notice' ?>">© Sensaihonya.jp. All Rights Reserved.</a><br />
+						All contents (Sensai Products), including all software and image products, contained on the Sensaihonya.jp website is the property of Sensaihonya.jp or the respective content providers and are protected by copyright law. Unauthorized reproduction of information and images provided through this website is prohibited.
+					</p>
 					<div class="btn_to_amazon to_single">
 						<span class="a-button-inner">
 							<i class="a-icon a-icon-buynow"></i>
