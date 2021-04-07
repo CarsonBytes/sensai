@@ -151,7 +151,7 @@ function getCharts()
 	$database = JFactory::getDbo();
 
 	$query = "SELECT chart_id, lang, j2_store_product_id, code, 
-	audio_posters_page_title, audio_posters_page_desc, skus, img_names
+	audio_posters_page_title, audio_posters_page_desc, skus, img_names, set_img
 	FROM charts cp";
 
 	$database->setQuery($query);

@@ -59,9 +59,9 @@ if ($product_type == 'chart') {
 	GROUP_CONCAT( DISTINCT t.alias ) as tag_alias,  */
 	bi.params as bundle_params,
 	/* GROUP_CONCAT( DISTINCT cp.params SEPARATOR '----') as charts_params,  */
-	GROUP_CONCAT( DISTINCT c.title  SEPARATOR '----') as charts_titles,
-	GROUP_CONCAT( DISTINCT cp.img_names SEPARATOR '----') as charts_img_names,
-	GROUP_CONCAT( DISTINCT cp.j2_store_product_id  SEPARATOR '----') as charts_j2_store_product_ids
+	GROUP_CONCAT( DISTINCT c.title ORDER BY cp.chart_id SEPARATOR '----') as charts_titles,
+	GROUP_CONCAT( DISTINCT cp.img_names ORDER BY cp.chart_id SEPARATOR '----') as charts_img_names,
+	GROUP_CONCAT( DISTINCT cp.j2_store_product_id ORDER BY cp.chart_id SEPARATOR '----') as charts_j2_store_product_ids
 	FROM h1232_contentitem_tag_map ctm
 	LEFT JOIN h1232_tags t on t.id = ctm.tag_id
 	LEFT JOIN `bundle_params` bi ON bi.bundle_id = ctm.content_item_id
@@ -71,6 +71,18 @@ if ($product_type == 'chart') {
 	where ctm.content_item_id = {$this->product->product_source_id}
 	and t.published = 1
 	group by ctm.content_item_id;";
+
+	/* $query2 = "SELECT 
+	bi.params as bundle_params,
+	GROUP_CONCAT( DISTINCT c.title  SEPARATOR '----') as charts_titles,
+	GROUP_CONCAT( DISTINCT cp.img_names SEPARATOR '----') as charts_img_names,
+	GROUP_CONCAT( DISTINCT cp.j2_store_product_id  SEPARATOR '----') as charts_j2_store_product_ids
+	FROM `charts` cp 
+	LEFT JOIN `bundles_charts` bc ON cp.chart_id = bc.chart_id
+	LEFT JOIN `bundle_params` bi ON bi.bundle_id = bc.bundle_id
+	LEFT JOIN `h1232_content` c ON cp.chart_id = c.id
+    WHERE bi.bundle_id = {$this->product->product_source_id}
+    group by cp.chart_id;"; */
 
 
 	$database->setQuery($query2);

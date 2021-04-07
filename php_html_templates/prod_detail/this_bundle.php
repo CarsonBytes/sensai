@@ -89,9 +89,8 @@ if ($product_type == 'chart') {
                         <div class="col_2 hidden-sm hidden-xs">
                             <div class="deco_thumbs <?php echo $product_type; ?>">
                                 <?php if (isset($charts_img_names)) { //charts in a bundle first
-                                    //TODO multiple audio poster sets
+                                    $i = 0;
                                     foreach ($charts_img_names as $chart_img_names) {
-                                        $i = 0;
                                         foreach ($chart_img_names as $img_name) {
                                 ?>
                                             <div class="img_link is_chart">
