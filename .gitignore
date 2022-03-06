@@ -244,5 +244,8 @@ RoboFile.ini
 
 #credentials 
 /configuration.php
-#TODO: this smtp defined in below file should be sync with the ones defined in configuration.php, temp git ignored
+#TODO: the following files have credentials defined. They should be defined and sync in configuration.php, temp git ignored
 ajax/email_downloadable_hash.php
+quickstart2.php
+bin/cap/init.php
+bin/cap/bundle/client_secret_451583457139-5rmuni8rscp1p4p0ubgpjnqms15bqda0.apps.googleusercontent.com.json
