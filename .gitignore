@@ -22,7 +22,6 @@ token.json
 /installation/sessions
 /libraries/autoload_psr4.php
 /tmp
-/configuration.php
 /.htaccess
 /web.config
 /.php_cs.cache
@@ -242,3 +241,8 @@ composer.phar
 
 # Build related
 RoboFile.ini
+
+#credentials 
+/configuration.php
+#TODO: this should be the same as configuration.php soon
+ajax/email_downloadable_hash.php
