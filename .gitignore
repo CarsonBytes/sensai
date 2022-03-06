@@ -244,5 +244,5 @@ RoboFile.ini
 
 #credentials 
 /configuration.php
-#TODO: this should be the same as configuration.php soon
+#TODO: this smtp defined in below file should be sync with the ones defined in configuration.php, temp git ignored
 ajax/email_downloadable_hash.php
