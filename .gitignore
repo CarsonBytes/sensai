@@ -236,6 +236,11 @@ tests/codeception/cache
 tests/codeception/_output
 tests/codeception/vendor
 composer.phar
+vendor/
+composer.lock
 
 # Build related
 RoboFile.ini
+
+# Code editor
+*.code-workspace
