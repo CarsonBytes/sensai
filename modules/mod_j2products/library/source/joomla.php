@@ -32,7 +32,7 @@ class ProductSourceJoomla {
 			$query->where( 'a.state=1' );
 			if(!in_array('*', $cat_ids)) {
 				$categoryEquals  = 'a.catid IN ( ' . implode(',', $cat_ids).' )'  ;
-				$cat_ids_regexp = '[[:<:]]'. implode('[[:>:]]|[[:<:]]', $cat_ids) .'[[:>:]]';
+				$cat_ids_regexp = '\\\\b('. implode('[[:>:]]|[[:<:]]', $cat_ids) .')\\\\b';
 				$categoryEquals = 'a.catid REGEXP BINARY '. $db->q($cat_ids_regexp) ;
 
 				if ($include_subcats)
