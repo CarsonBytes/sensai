@@ -78,7 +78,7 @@ defined('_JEXEC') or die;
                         <div class="bundle_thumb">
                             <a class="img_link" data-fancybox="gallery" href="<?php echo getImgSizeUrl($bundle['thumb_image'], 'XL'); ?>">
                                 <div class="img_wrapper">
-                                    <img class="lazyload" src="https://placehold.it/183x205/FFFFFF/FFFFFF" data-src="/<?php echo $bundle['thumb_image']; ?>" />
+                                    <img class="lazyload" src="https://via.placeholder.com/183x205/FFFFFF/FFFFFF" data-src="/<?php echo $bundle['thumb_image']; ?>" />
                                 </div>
                             </a>
                             <div class="btn_to_amazon to_view" onclick="window.location ='<?php echo JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' . $bundle['j2store_product_id']); ?>';">
