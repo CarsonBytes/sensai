@@ -63,7 +63,7 @@ defined('_JEXEC') or die;
                             <?php } ?>
                         </div>
 
-                        <div class="btn_to_amazon to_single">
+                        <div class="btn_to_amazon to_single hidden-xs hidden-sm">
                             <?php /*<span class="a-button-inner">
                                 <i class="a-icon a-icon-buynow"></i>
                                 <input title="これを買おう" class="a-button-input" type="button" aria-labelledby="a-autoid-1-announce">

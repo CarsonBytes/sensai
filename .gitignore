@@ -23,6 +23,7 @@ token.json
 /libraries/autoload_psr4.php
 /tmp
 /.htaccess
+/.htpasswd
 /web.config
 /.php_cs.cache
 /media/plg_jchoptimize/cache

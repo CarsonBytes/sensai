@@ -91,10 +91,13 @@
             $('.option_text').removeClass('selected');
             $('.option_text[data-option="' + selected_option + '"]').addClass('selected');
 
+            console.log(selected_option);
             if (selected_option == 'no_chart') {
                 $('.chart_toggle_in_title').hide();
                 $('.slider_md_whole_wrapper.slider_1').hide();
+                $('.slider_sm_wrapper.slider_1').show(); //TODO sm slider 2 not yet done...
                 $('.slider_md_whole_wrapper.slider_2').show();
+                $('.slider_sm_wrapper.slider_2').hide(); //TODO sm slider 2 not yet done...
                 $('.standard_plus_bundle').hide();
                 $('.standard_bundle').show();
 
@@ -128,7 +131,9 @@
             } else {
                 $('.chart_toggle_in_title').show();
                 $('.slider_md_whole_wrapper.slider_2').hide();
+                $('.slider_sm_wrapper.slider_2').hide();
                 $('.slider_md_whole_wrapper.slider_1').show();
+                $('.slider_sm_wrapper.slider_1').show();
                 $('.standard_plus_bundle').show();
                 $('.standard_bundle').hide();
                 slider_md.updateSliderHeight();

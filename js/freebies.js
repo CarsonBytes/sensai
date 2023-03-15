@@ -97,6 +97,11 @@ jQuery(function ($) {
             ,lazyload: true
         });
     });
+    $('.sm_slider').find('img').on('load', function () {
+        $('.sm_slider').each(function (index) {
+            sm_sliders[index].updateSliderHeight();
+        })
+    });
 
     $('.md_slider').each(function (index) {
         md_sliders[index] = tns({

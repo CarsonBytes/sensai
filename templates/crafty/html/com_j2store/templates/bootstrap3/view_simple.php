@@ -239,6 +239,7 @@ $related_bundles = $database->loadAssocList();
 			<div class="main_content_md hidden-md hidden-lg">
 				<h3>About this product</h3>
 				<?php //TODO situation for multiple audio posters needs to be handled
+				/* 
 				$html_audio_poster_link =
 					'<a target="_blank" href="' .
 					JRoute::_('index.php?option=com_j2store&view=products&task=view&&id=' .
@@ -246,16 +247,16 @@ $related_bundles = $database->loadAssocList();
 					$charts_titles[0] .
 					'</a>';
 
-				echo str_replace("{audio_poster}", $html_audio_poster_link, $this->product->source->introtext); ?>
+				echo str_replace("{audio_poster}", $html_audio_poster_link, $this->product->source->introtext); */ ?>
 			</div>
 			<div class="hidden-sm hidden-xs main_content">
 				<?php echo $this->loadTemplate('title'); ?>
-				<?php
+				<?php 
 				if (isset($bundle_params) && property_exists($bundle_params, 'bundle_chart_imgs')) {
 					include JPATH_SITE . '/php_html_templates/prod_detail/selection_box.php';
 				} ?>
-				<?php
-				echo str_replace("{audio_poster}", $html_audio_poster_link, $this->product->source->introtext); ?>
+				<?php /* 
+				echo str_replace("{audio_poster}", $html_audio_poster_link, $this->product->source->introtext);  */?>
 			</div>
 			<div class="image_zoom_preview">
 				<div class="loader_wrapper">
